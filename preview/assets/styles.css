@@ -5460,39 +5460,7 @@ html[data-theme="dark"] .nav { background: rgba(15, 15, 18, 0.85); }
 .b-card .b-visual .v-fill-soft { fill: currentColor; opacity: 0.15; }
 .b-card .b-visual .v-accent { fill: var(--zop-orange); }
 .b-card .b-visual .v-accent-stroke { fill: none; stroke: var(--zop-orange); stroke-width: 2; }
-.b-card .b-visual .v-accent-text { fill: var(--zop-orange); }
 .b-card .b-visual .v-dot { fill: currentColor; opacity: 0.65; }
-
-/* ISOMETRIC visual tokens — richer scenes with floating panels.
-   Panels need a subtle filled background that reads against the dark
-   card surface; "card" sits darker than the card itself so it floats. */
-.b-card .b-visual .v-fill-card        { fill: rgba(255, 255, 255, 0.04); }
-.b-card .b-visual .v-fill-card-strong { fill: rgba(255, 255, 255, 0.07); }
-.b-card .b-visual .v-fill-card-soft   { fill: rgba(255, 255, 255, 0.02); }
-.b-card .b-visual .v-fill-card-dot    { fill: rgba(240, 235, 219, 0.35); }
-.b-card .b-visual .v-dot-soft         { fill: currentColor; opacity: 0.22; }
-.b-card .b-visual .v-on-accent        { fill: var(--ink); }
-
-/* Tiny labels and numerals inside floating UI panels — readable but small */
-.b-card .b-visual .v-tiny-label {
-  font-family: var(--mono);
-  font-size: 5.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  fill: currentColor;
-  opacity: 0.7;
-}
-.b-card .b-visual .v-tiny-num {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0;
-  fill: currentColor;
-  opacity: 0.85;
-}
-
-/* Featured card scale — bigger label scale for the wider scene */
-.b-feat .b-visual .v-tiny-label { font-size: 7px; }
-.b-feat .b-visual .v-tiny-num   { font-size: 11px; }
 
 /* Hero 2-col grid (text LEFT, motion-rich instrument RIGHT) */
 .hero-grid {

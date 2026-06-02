@@ -3052,6 +3052,26 @@ writeFile(path.join(SITE_DIR, '404.html'), render404());
 pageCount++;
 
 // =============================================================
+// HOMEPAGE OVERRIDE — port the hand-authored bento+isometric homepage
+// from preview/index.html over the build-generated site/index.html so
+// Vercel deploys it as `/`. Path rewrites:
+//   - assets/styles.css       → /assets/styles.css   (relative → absolute)
+//   - lesson-t3-m3-1-l1.html  → /architect/rbac/policy-table/  (real lesson path)
+// =============================================================
+{
+  const previewIndexPath = path.join(ROOT, 'preview', 'index.html');
+  if (fs.existsSync(previewIndexPath)) {
+    let html = fs.readFileSync(previewIndexPath, 'utf8');
+    html = html.replace(/href="assets\/styles\.css"/g, 'href="/assets/styles.css"');
+    html = html.replace(/href="lesson-t3-m3-1-l1\.html"/g, 'href="/architect/rbac/policy-table/"');
+    writeFile(path.join(SITE_DIR, 'index.html'), html);
+    console.log('✅ Homepage replaced with preview/index.html (bento + isometric)');
+  } else {
+    console.warn('⚠️  preview/index.html not found — site/index.html is the build-generated landing');
+  }
+}
+
+// =============================================================
 // SITEMAP
 // =============================================================
 const urls = [
