@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-account anti-patterns / ZopNight Architect / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to **recognize** the five most common multi-account anti-patterns, **diagnose** them in your own org, **and outline** a remediation path for each.">
+<link rel="canonical" href="https://zop.dev/resources/university/architect/multi-account/antipatterns/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopDev University">
+<meta property="og:title" content="Multi-account anti-patterns / ZopNight Architect / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to **recognize** the five most common multi-account anti-patterns, **diagnose** them in your own org, **and outline** a remediation path for each.">
+<meta property="og:url" content="https://zop.dev/resources/university/architect/multi-account/antipatterns/">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="Multi-account anti-patterns / ZopNight Architect / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **recognize** the five most common multi-account anti-patterns, **diagnose** them in your own org, **and outline** a remediation path for each.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Multi-account anti-patterns",
+  "description": "By the end of this lesson, you will be able to **recognize** the five most common multi-account anti-patterns, **diagnose** them in your own org, **and outline** a remediation path for each.",
+  "url": "https://zop.dev/resources/university/architect/multi-account/antipatterns/",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Architect",
+  "timeRequired": "PT9M",
+  "inLanguage": "en-US",
+  "isPartOf": {
+    "@type": "Course",
+    "name": "ZopNight Architect",
+    "url": "https://zop.dev/resources/university/architect/"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopDev"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ZopDev",
+      "item": "https://zop.dev/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Resources",
+      "item": "https://zop.dev/resources/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "University",
+      "item": "https://zop.dev/resources/university/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "ZopNight Architect",
+      "item": "https://zop.dev/resources/university/architect/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Multi Account",
+      "item": "https://zop.dev/resources/university/architect/multi-account/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Multi-account anti-patterns",
+      "item": "https://zop.dev/resources/university/architect/multi-account/antipatterns/"
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Site is dark-mode-only — lock the theme attribute before paint.
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</head>
+<body class="">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+     per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
+     in nav, footer, or content resolves correctly. -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
+      <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<nav class="nav" aria-label="Primary navigation">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/product/">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/resources/" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/company/">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/community/">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="/playground/" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+        <div class="nav-pg-menu" role="menu" aria-label="Playground options">
+          <a class="nav-pg-card nav-pg-card--night" href="/playground/#zopnight" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopnight"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopNight playground</span>
+                <span class="nav-pg-desc">Cost loop &middot; idle, schedules, anomalies</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+          <a class="nav-pg-card nav-pg-card--day" href="/playground/#zopday" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopday"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopDay playground</span>
+                <span class="nav-pg-desc">Deploy loop &middot; clusters, datastores, push</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a class="sign" href="/signin/">Sign In</a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+  </div>
+</nav>
+<div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-links">
+    <a href="/product/">Product</a>
+    <a href="/resources/">Resources</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/company/">Company</a>
+    <a href="/community/">Community</a>
+    <a href="/playground/">Playground</a>
+  </div>
+  <div class="nav-drawer-cta">
+    <a href="/signin/" class="sign">Sign in</a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+  </div>
+</div>
+<script>
+(function(){
+  var t = document.querySelector('.nav-mobile-toggle');
+  var d = document.getElementById('nav-drawer');
+  if (!t || !d) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    d.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('drawer-open', !open);
+  });
+  d.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') {
+      t.setAttribute('aria-expanded', 'false');
+      d.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+  });
+})();
+</script>
+
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="/" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button"
+                aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link ">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 237 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+        <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
+      </form>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  var dds = document.querySelectorAll('[data-uni-dropdown]');
+  if (!dds.length) return;
+  function closeAll(){
+    dds.forEach(function(d){
+      d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+      d.classList.remove('open');
+    });
+  }
+  dds.forEach(function(dd){
+    var btn = dd.querySelector('.uni-dropdown-toggle');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        dd.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e){
+    var inside = false;
+    dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+    if (!inside) closeAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
+(function(){
+  var input = document.querySelector('.uni-search-input');
+  var panel = document.getElementById('uni-search-panel');
+  if (!input || !panel) return;
+  var idx = null;
+  function load(){
+    if (idx) return Promise.resolve(idx);
+    return fetch('/assets/lessons.json').then(function(r){ return r.json(); }).then(function(j){ idx = j; return j; }).catch(function(){ idx = []; return []; });
+  }
+  function close(){ panel.hidden = true; panel.innerHTML = ''; }
+  function render(matches, q){
+    if (!matches.length) {
+      panel.innerHTML = '<div class="uni-search-empty">No lessons match <strong>' + escapeText(q) + '</strong></div>';
+      panel.hidden = false;
+      return;
+    }
+    panel.innerHTML = matches.slice(0, 8).map(function(m){
+      return '<a class="uni-search-hit" href="' + m.url + '">' +
+        '<span class="uni-search-hit-code">' + escapeText(m.code || '') + '</span>' +
+        '<span class="uni-search-hit-title">' + highlight(m.title, q) + '</span>' +
+        (m.track ? '<span class="uni-search-hit-meta">' + escapeText(m.track) + '</span>' : '') +
+        '</a>';
+    }).join('');
+    panel.hidden = false;
+  }
+  function escapeText(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function highlight(s, q){
+    var safe = escapeText(s);
+    if (!q) return safe;
+    var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(rx, '<mark>$1</mark>');
+  }
+  function match(q, items){
+    var ql = q.toLowerCase();
+    return items.filter(function(i){
+      return (i.title && i.title.toLowerCase().indexOf(ql) !== -1) || (i.body && i.body.toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+  input.addEventListener('focus', function(){ load(); });
+  input.addEventListener('input', function(){
+    var q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    load().then(function(items){ render(match(q, items), q); });
+  });
+  input.addEventListener('blur', function(){ setTimeout(close, 180); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+      e.preventDefault(); input.focus();
+    }
+    if (e.key === 'Escape') { input.blur(); close(); }
+  });
+})();
+</script>
+<main id="main">
+
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <a href="/architect/">Architect</a><span class="sep">›</span>
+    <a href="/architect/multi-account/">Multi Account</a><span class="sep">›</span>
+    <span class="current">Multi-account anti-patterns</span>
+  </div>
+</section>
+
+<div class="container">
+  <div class="lesson-layout">
+    <aside class="lesson-sidebar" aria-label="Module navigation">
+      <h4>Multi Account</h4>
+      <nav>
+<a href="/architect/multi-account/why-multi/" class="">
+  <span class="num">L1</span>
+  <span>Why multi-account</span>
+</a>
+<a href="/architect/multi-account/org-structures/" class="">
+  <span class="num">L2</span>
+  <span>AWS Organizations, GCP Folders, Azure …</span>
+</a>
+<a href="/architect/multi-account/cross-account-discovery/" class="">
+  <span class="num">L3</span>
+  <span>Cross-account discovery in ZopNight</span>
+</a>
+<a href="/architect/multi-account/rollup-vs-isolation/" class="">
+  <span class="num">L4</span>
+  <span>Cost rollup vs cost isolation</span>
+</a>
+<a href="/architect/multi-account/antipatterns/" class="current">
+  <span class="num">L5</span>
+  <span>Multi-account anti-patterns</span>
+</a></nav>
+    </aside>
+
+    <article class="lesson-content">
+      <header class="lesson-header">
+        <div class="lesson-id">
+          <span>T3 / M3.4 / L5 of 5 / Architect tier / 8 min</span>
+        </div>
+        <h1>Multi-account anti-patterns</h1>
+      </header>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>recognize</strong> the five most common multi-account anti-patterns, <strong>diagnose</strong> them in your own org, <strong>and outline</strong> a remediation path for each.</p></div>
+      <div class="lesson-metabox"><dl>
+<dt>Tier</dt>
+<dd>Architect</dd>
+<dt>JTBD</dt>
+<dd>&quot;Catch the structural mistakes that compound silently into the next architectural rewrite.&quot;</dd>
+<dt>Personas</dt>
+<dd>Platform Engineer / Cloud Architect / Engineering Leader</dd>
+<dt>Prerequisites</dt>
+<dd>M3.4.L1-L4 (multi-account fundamentals)</dd>
+<dt>Time</dt>
+<dd>8 minutes</dd>
+<dt>Bloom verb</dt>
+<dd>Recognize (Remember), Diagnose (Analyze), Outline (Apply)</dd></dl></div>
+      <h2 id="1-concept">1. Concept</h2>
+<p>Five anti-patterns recur across customers. Each is the result of an early shortcut that compounds into structural debt. Recognizing them in your own org is the precondition to fixing them.</p>
+<pre><code>ANTI-PATTERN 1   One account for everything
+ANTI-PATTERN 2   Per-engineer accounts
+ANTI-PATTERN 3   Per-microservice accounts
+ANTI-PATTERN 4   Prod and non-prod mixed in same account
+ANTI-PATTERN 5   No shared services account</code></pre>
+<h3 id="anti-pattern-1-one-account-for-everything">Anti-pattern 1 — One account for everything</h3>
+<p>The most common historical pattern. The company started small, opened one cloud account, and never split it. It works at first; it fails at scale.</p>
+<pre><code>SYMPTOMS:
+  - One IAM blast radius for the entire org
+  - Hard to apply different policies per workload
+  - Quotas hit harder than they should
+  - Billing all rolled up; per-team attribution requires tags
+    that are never quite right
+  - One tag-misconfigured Terraform run can affect prod
+  
+PROBLEM SCALE:
+  Each of these issues gets worse with team size. By the time
+  you notice, you have months of debt to unwind.
+
+FIX:
+  Phase 1 (most critical): separate prod from non-prod
+    Two accounts; mandatory minimum
+  
+  Phase 2: separate dev/test/staging
+    3-4 accounts; environment isolation
+  
+  Phase 3: per-team accounts within each env
+    15+ accounts for a mid-size org; team accountability
+  
+  Phase 4: shared services + security + audit
+    ~20 accounts; well-architected steady state</code></pre>
+<p>Each phase delivers value standalone — don't wait until you have time to do all four. Start with prod/non-prod and earn the credibility to keep going.</p>
+<h3 id="anti-pattern-2-per-engineer-accounts">Anti-pattern 2 — Per-engineer accounts</h3>
+<p>The opposite extreme: a well-meaning attempt at isolation that overshoots. "Each engineer gets their own AWS account" sounds clean and quickly becomes operational misery.</p>
+<pre><code>HISTORICAL CONTEXT:
+  Often emerges from a single hard incident (a junior engineer&#39;s
+  experiment took down prod). The reaction is: never let anyone
+  share an account. Per-engineer accounts feel like maximum safety.
+
+SYMPTOMS:
+  - 30+ accounts for a 30-engineer team
+  - Engineers can&#39;t collaborate on shared resources easily
+  - Cross-team services impossible
+  - Operational overhead enormous (IAM, networking, billing,
+    monitoring all multiply by 30)
+  - Lock-in to specific engineers (when they leave, their account
+    becomes a graveyard)
+
+FIX:
+  Per-team accounts, typically 5-12 for a mid-size org. Engineers
+  are users within their team&#39;s account, sharing infrastructure
+  with collaborators. The original incident (a junior breaking
+  prod) is fixed by RBAC + production-account access controls,
+  not by account proliferation.</code></pre>
+<p>If you find yourself with per-engineer accounts, the consolidation is multi-quarter work but the operational reduction is significant.</p>
+<h3 id="anti-pattern-3-per-microservice-accounts">Anti-pattern 3 — Per-microservice accounts</h3>
+<p>A similar overreach but at the service granularity. "Microservices = isolation = each service gets an account."</p>
+<pre><code>SYMPTOMS:
+  - 100+ accounts for an estate of 100 microservices
+  - Cross-service networking becomes a major project
+  - IAM policies multiply: each service needs to access
+    shared resources (S3 buckets, secrets, monitoring)
+  - Cost: per-cross-account API call, per-cross-account
+    networking, per-account standing infrastructure
+  - Engineering velocity drops sharply
+
+FIX:
+  Group microservices by team OR by environment. A team&#39;s
+  10-20 microservices share an account. Within the account,
+  each service has its own IAM roles, security groups, etc.,
+  but they share the account&#39;s networking and observability.
+  
+  Per-env (dev/staging/prod) within per-team is usually the
+  right granularity.</code></pre>
+<p>The microservices-equals-account fallacy comes from confusing two kinds of isolation: service-level (which IAM, security groups, and namespaces provide cheaply) and account-level (which provides blast-radius isolation at much higher operational cost).</p>
+<h3 id="anti-pattern-4-prod-and-non-prod-mixed">Anti-pattern 4 — Prod and non-prod mixed</h3>
+<p>The "we'll separate them eventually" temporary measure that becomes permanent.</p>
+<pre><code>SYMPTOMS:
+  - Same IAM policies apply to dev and prod resources
+  - Test workloads can accidentally affect prod resources
+    (shared VPCs, shared databases, shared S3)
+  - Different security postures impossible (prod needs more
+    rigorous, dev needs less)
+  - Compliance: prod data and non-prod data mingle —
+    SOC 2 / ISO findings inevitable
+  - Cost-management approaches contradict (schedule non-prod
+    aggressively vs leave prod alone — but they&#39;re the same
+    instances?)
+
+FIX:
+  Mandatory split: prod and non-prod ALWAYS in separate
+  accounts. This is the minimum-viable multi-account
+  structure. Even single-team orgs should do this.
+  
+  Migration is tractable:
+    - Stand up new prod account
+    - Migrate prod workloads in waves (DNS cutover per service)
+    - Lock down the original account; let non-prod live there
+    - Optionally: split non-prod further later</code></pre>
+<p>This is the single highest-impact split. If you do nothing else, do this.</p>
+<h3 id="anti-pattern-5-no-shared-services-account">Anti-pattern 5 — No shared services account</h3>
+<p>Every account runs its own DNS, monitoring, logging, security tools, CI/CD agents. Looks decentralized; is actually wasteful and inconsistent.</p>
+<pre><code>SYMPTOMS:
+  - DNS records duplicated across accounts (drift inevitable)
+  - Monitoring tools running in every account (cost multiplied)
+  - Security tools redundant (Cloudtrail in every account,
+    paid per-account, but mostly empty)
+  - Log aggregation incomplete (no single pane of glass)
+  - Engineers maintaining N copies of common infrastructure
+
+FIX:
+  Stand up a dedicated shared-services account
+  Move there:
+    - DNS (Route 53 hosted zones)
+    - Monitoring (CloudWatch dashboards, alarms)
+    - Log aggregation (CloudWatch Logs destination, S3 archive)
+    - Security tools (GuardDuty master, Security Hub)
+    - CI/CD runners (shared GitHub Actions runners, etc.)
+    - Container registries (shared ECR / Artifact Registry)
+  
+  Cross-account access from workload accounts to shared
+  services via cross-account IAM (well-understood pattern).</code></pre>
+<p>The shared-services account is usually the second account a customer stands up after the prod/non-prod split. The cost savings from deduplication are real; the consistency benefits are larger.</p>
+<h3 id="diagnostic-checklist">Diagnostic checklist</h3>
+<p>A 5-minute diagnostic to identify which anti-patterns apply to your org:</p>
+<pre><code>QUESTION                                                YOUR ANSWER
+──────────────────────────────────────────────────────────────────
+1. Do prod and non-prod live in different accounts?      Y / N
+
+2. Account count vs employee count ratio?                _____ : _____
+   (per-engineer is ~1:1; per-team is ~1:10-20)
+
+3. Is there a dedicated shared-services account?          Y / N
+
+4. Do microservices have their own accounts?              Y / N
+
+5. Does any one account hold &gt; $500K/mo of spend?         Y / N
+   (concentrated risk if yes)
+
+6. Can a single IAM role mutation affect both prod and    Y / N
+   non-prod simultaneously?
+   (yes = anti-pattern 1 or 4)</code></pre>
+<p>Most orgs find one or two anti-patterns in their answers. The fix is rarely all-at-once; phased migration is the norm.</p>
+<h3 id="how-zopnight-surfaces-these">How ZopNight surfaces these</h3>
+<p>Indirectly, ZopNight surfaces structural issues through reports:</p>
+<pre><code>SYMPTOM IN ZOPNIGHT                          UNDERLYING ANTI-PATTERN
+──────────────────────────────────────────────────────────────────
+One cloud-account holds 80%+ of spend         AP1 or AP4
+                                              (everything-in-one)
+                                              
+&quot;Unallocated&quot; tag-based spend &gt; 15%           AP1 (no account-level
+                                              billing separation)
+                                              
+30+ small cloud-accounts (&lt; $1K each)         AP2 or AP3 (over-isolation)
+                                              
+Same tags appearing in prod and dev           AP4 (mixed-environment)
+                                              accounts → audit risk
+                                              
+Discovery sees no shared-services account     AP5 (no dedup)</code></pre>
+<p>For customers running into these patterns, ZopNight's solution architects can advise on phased migration.</p>
+<hr>
+<h2 id="2-demo">2. Demo</h2>
+<p>A mid-size company at the inflection point:</p>
+<pre><code>COMPANY:  ~150 employees, ~70 engineers
+CURRENT:  3 AWS accounts (acme-main, acme-test, acme-personal-sandbox)
+SPEND:    $2.0M/mo (mostly in acme-main)
+
+DIAGNOSTIC:
+  Q1: prod/non-prod separation? Partial (test ≠ main, but main has
+      both prod and &quot;developer convenience&quot; workloads)
+  Q2: account-to-employee ratio? 3:150 (heavily under-isolated)
+  Q3: shared services? None — DNS, monitoring all in acme-main
+  Q4: microservice accounts? No (good)
+  Q5: concentrated risk? Yes (acme-main holds $1.8M/mo)
+  Q6: single IAM role can affect both prod and convenience workloads? Yes
+  
+  PRIMARY ANTI-PATTERNS: AP1 (one account for everything) +
+                         AP4 (prod and non-prod mixed) +
+                         AP5 (no shared services)
+
+REMEDIATION PLAN (target state, 4 quarters):
+  Q1: Stand up acme-management, acme-security, acme-shared-services
+      Migrate DNS, monitoring, security tools to shared services
+      
+  Q2: Stand up acme-prod, acme-staging
+      Migrate prod workloads from acme-main to acme-prod
+      Decommission convenience workloads in acme-main
+      
+  Q3: Stand up per-team accounts (5-7 teams)
+      Migrate team-specific workloads
+      
+  Q4: Steady state: ~12 accounts, well-architected
+      Decommission acme-main
+      
+TARGET STRUCTURE (12 accounts):
+  acme-management            
+  acme-security              
+  acme-shared-services       
+  acme-prod
+  acme-staging
+  acme-dev-shared
+  acme-platform-team
+  acme-product-team
+  acme-data-team
+  acme-ops-team
+  acme-experiments
+  acme-sandbox
+
+EFFORT: ~2 engineers part-time across 4 quarters.
+PAYOFF: blast radius dropped 10×; per-team accountability;
+        compliance-ready structure.</code></pre>
+<hr>
+<h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
+<p>Audit your own structure:</p>
+<pre><code>CURRENT ACCOUNT COUNT:    _____
+EMPLOYEE COUNT:           _____
+RATIO (accounts:employees): _____
+
+DIAGNOSTIC CHECKLIST (✓ / ✗):
+  □ prod and non-prod in different accounts
+  □ at least one dedicated shared-services account
+  □ at least one security/audit account
+  □ no microservice-per-account structure
+  □ no account holds &gt;50% of total spend
+  □ tagging discipline &gt; 90% (low if structurally needed)
+
+ANTI-PATTERNS IDENTIFIED:
+  □ AP1 (single account)
+  □ AP2 (per-engineer)
+  □ AP3 (per-microservice)
+  □ AP4 (prod + non-prod mixed)
+  □ AP5 (no shared services)
+
+REMEDIATION PRIORITY (rank by impact):
+  1. __________
+  2. __________
+  3. __________
+
+NEXT QUARTER TARGET:    __________</code></pre>
+<p>If no anti-patterns surface, that's a healthy multi-account posture — confirm with the rest of the checklist before declaring victory.</p>
+<hr>
+<h2 id="4-knowledge-check">4. Knowledge check</h2>
+<h3 id="q1">Q1</h3>
+<p>"30 per-engineer accounts" is:</p>
+<p>A. Best practice — maximum isolation B. Anti-pattern. Per-engineer isolation defeats collaboration, multiplies operational overhead, and creates engineer-specific lock-in. Per-team accounts (5-12 typical for mid-size) is the right balance. The original safety concern is addressed by RBAC, not by account proliferation. C. Required for compliance D. Random</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Per-engineer is too granular. RBAC handles the safety concern with much less operational cost.</p>
+</details>
+<h3 id="q2">Q2</h3>
+<p>A company has 1 AWS account for everything. The right first step:</p>
+<p>A. Stay single-account; tags will solve attribution B. Split prod from non-prod. This is the highest-impact single change — addresses the biggest compliance risk (prod and non-prod mingling) and the biggest blast-radius concern. Then per-team accounts. Then shared services. Phased over multiple quarters. C. Stand up 50 accounts immediately D. Random</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Phased migration starting with prod/non-prod. The other splits earn their value once the foundation is right.</p>
+</details>
+<h3 id="q3">Q3</h3>
+<p>A microservices estate with 100+ services. Per-service accounts:</p>
+<p>A. Optimal isolation B. Anti-pattern. The operational cost (per-account networking, IAM, observability) exceeds the isolation benefit, which IAM and namespaces provide at much lower cost. Group services by team or by environment. C. Required for microservice purity D. Random</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Per-service is too granular; per-team-per-env is usually right. Service-level isolation lives in IAM, not in account boundaries.</p>
+</details>
+<hr>
+<h2 id="5-apply">5. Apply</h2>
+<p>Audit your structure annually. The anti-patterns crystallize over time — what was a small workaround becomes a structural problem. The ZopNight Solution Architects can review the structure as part of onboarding or quarterly reviews.</p>
+<p>For new orgs, start with the canonical 3-account split (management / security / workloads); expand to the 12-account well-architected pattern as the org grows past 50 employees.</p>
+<hr>
+<h2 id="related-lessons">Related lessons</h2>
+<ul>
+<li><a href="L1_why_multi.md">L1 — Why multi-account</a></li>
+<li><a href="L2_org_structures.md">L2 — Cloud-provider hierarchies</a></li>
+<li><a href="L3_cross_account_discovery.md">L3 — Cross-account discovery</a></li>
+<li><a href="L4_rollup_vs_isolation.md">L4 — Rollup vs isolation</a></li>
+<li><a href="../M3.5_showback/L1_pick_dimension.md">T3.M3.5.L1 — Pick your showback dimension</a></li>
+</ul>
+<h2 id="glossary-terms-touched">Glossary terms touched</h2>
+<p><a href="/glossary/anti-pattern/">Anti-pattern</a> · <a href="/glossary/account-proliferation/">Account proliferation</a> · <a href="/glossary/shared-services-account/">Shared services account</a> · <a href="/glossary/well-architected/">Well-architected framework</a></p>
+<hr>
+<h2 id="module-quiz">Module quiz</h2>
+<p>Complete M3.4 → 10-question module quiz unlocks the <strong>Multi-Account-Architect</strong> chip.</p>
+<hr>
+<p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-20 · Lesson ID: T3.M3.4.L5</p>
+
+
+      <nav class="lesson-nav" aria-label="Lesson navigation">
+        <a href="/architect/multi-account/rollup-vs-isolation/" class="lesson-nav-link">
+  <div class="nav-dir">← Previous</div>
+  <div class="nav-title">Cost rollup vs cost isolation</div>
+</a>
+        <a href="/architect/showback/pick-dimension/" class="lesson-nav-link lesson-nav-next">
+  <div class="nav-dir">Next</div>
+  <div class="nav-title">Organisation, Teams, Tags — pick the dimension</div>
+</a>
+      </nav>
+    </article>
+
+    <aside class="lesson-toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul id="lesson-toc-list"></ul>
+    </aside>
+  </div>
+</div>
+
+<script>
+// Generate TOC from rendered h2s
+document.addEventListener('DOMContentLoaded', function() {
+  const tocList = document.getElementById('lesson-toc-list');
+  if (!tocList) return;
+  const headings = document.querySelectorAll('.lesson-content h2');
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+});
+</script>
+</main>
+
+
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/zopnight/">ZopNight</a></li>
+        <li><a href="/zopday/">ZopDay</a></li>
+        <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+        <li><a href="/zopcloud/">ZopCloud</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/resources/blog/">Blog</a></li>
+        <li><a href="/resources/ebooks/">Ebooks</a></li>
+        <li><a href="/resources/customers/">Case studies</a></li>
+        <li><a href="/resources/changelog/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/company/about/">About</a></li>
+        <li><a href="/company/careers/">Careers</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/community/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right"></div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ABSORB the old footer markup below so it remains valid HTML. We render
+     the canonical OG markup above, then close with a hidden placeholder so
+     legacy classes still parse without showing anything. -->
+<div style="display:none">
+  <div class="footer-brand-col" aria-hidden="true">
+    <a href="/" class="logo-lockup md footer-brand-lockup">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <p class="footer-tag"></p>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/zopnight/">ZopNight</a></li>
+          <li><a href="/zopday/">ZopDay</a></li>
+          <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+          <li><a href="/zopcloud/">ZopCloud</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/">University</a></li>
+          <li><a href="/resources/blog/">Blog</a></li>
+          <li><a href="/resources/ebooks/">Ebooks</a></li>
+          <li><a href="/resources/case-studies/">Case studies</a></li>
+          <li><a href="/resources/docs/">Documentation</a></li>
+          <li><a href="/resources/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="/foundations/">Foundations</a></li>
+          <li><a href="/operator/">Operator</a></li>
+          <li><a href="/engineer/">Engineer</a></li>
+          <li><a href="/architect/">Architect</a></li>
+          <li><a href="/certifications/">Certifications</a></li>
+          <li><a href="/certifications/verify/">Verify a credential</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/search/">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/about/">About</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/trust/">Trust</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/community/">Slack</a></li>
+          <li><a href="https://twitter.com/zopdev" target="_blank" rel="noopener">Twitter</a></li>
+          <li><a href="https://github.com/zopdev" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/company/zopdev" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ZopDev / All rights reserved</div>
+      <div class="footer-bottom-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

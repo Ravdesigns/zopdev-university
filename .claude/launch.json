@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "university",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["preview/serve.js"],
+      "port": 5174
+    },
+    {
+      "name": "site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["site/serve.js"],
+      "port": 5176
+    }
+  ]
+}

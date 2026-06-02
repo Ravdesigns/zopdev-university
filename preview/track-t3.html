@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Primary SEO -->
+<title>ZopNight Architect Track · T3 · ZopNight University</title>
+<meta name="description" content="Eight modules covering RBAC, SSO, audit logging, multi-account topology, showback design, budget governance, dashboards, and cost-flow Sankey. The senior FinOps and platform engineer track. 38 lessons, ~7 hours.">
+<link rel="canonical" href="https://zopnight.com/university/tracks/architect">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopNight University">
+<meta property="og:title" content="ZopNight Architect Track · T3">
+<meta property="og:description" content="Design decisions that survive scale. RBAC, multi-account, showback, budgets, dashboards. 38 lessons, ~7 hours.">
+<meta property="og:url" content="https://zopnight.com/university/tracks/architect">
+<meta property="og:image" content="https://zopnight.com/university/og/t3-architect.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ZopNight Architect Track · T3">
+<meta name="twitter:description" content="Design decisions that survive scale. 38 lessons across RBAC, multi-account, showback, budgets, dashboards.">
+<meta name="twitter:image" content="https://zopnight.com/university/og/t3-architect.png">
+
+<!-- GEO — JSON-LD Course + Breadcrumbs -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "ZopNight Architect — Track T3",
+  "description": "RBAC topology, multi-account credential strategy, showback dimensions, budget pyramids, dashboard governance, cost-flow Sankey. Design decisions that survive scale.",
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopNight University",
+    "url": "https://zopnight.com/university",
+    "sameAs": ["https://zopnight.com", "https://zop.dev"]
+  },
+  "educationalLevel": "Architect",
+  "inLanguage": "en-US",
+  "courseCode": "T3",
+  "numberOfCredits": 38,
+  "timeRequired": "PT7H",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Platform Engineers, Security/Compliance, FinOps Leads"
+  },
+  "coursePrerequisites": "T0 — Foundations · T1 — ZopNight Operator",
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "courseWorkload": "PT7H"
+  },
+  "hasPart": [
+    {"@type": "Course", "name": "M3.1 — RBAC and the 15-entity policy table", "courseCode": "T3.M3.1", "timeRequired": "PT55M"},
+    {"@type": "Course", "name": "M3.2 — SSO: pick, configure, diagnose", "courseCode": "T3.M3.2", "timeRequired": "PT38M"},
+    {"@type": "Course", "name": "M3.3 — Audit logging", "courseCode": "T3.M3.3", "timeRequired": "PT38M"},
+    {"@type": "Course", "name": "M3.4 — Multi-account topology", "courseCode": "T3.M3.4", "timeRequired": "PT47M"},
+    {"@type": "Course", "name": "M3.5 — Showback design", "courseCode": "T3.M3.5", "timeRequired": "PT55M"},
+    {"@type": "Course", "name": "M3.6 — Budget governance", "courseCode": "T3.M3.6", "timeRequired": "PT47M"},
+    {"@type": "Course", "name": "M3.7 — Dashboards", "courseCode": "T3.M3.7", "timeRequired": "PT38M"},
+    {"@type": "Course", "name": "M3.8 — Cost flow Sankey", "courseCode": "T3.M3.8", "timeRequired": "PT38M"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "ZopNight", "item": "https://zopnight.com"},
+    {"@type": "ListItem", "position": 2, "name": "University", "item": "https://zopnight.com/university"},
+    {"@type": "ListItem", "position": 3, "name": "T3 · Architect", "item": "https://zopnight.com/university/tracks/architect"}
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<a href="#main" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.cssText=''">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-brand">
+      <span class="mark" aria-hidden="true"></span>
+      ZopNight
+    </a>
+    <div class="nav-links">
+      <a href="#">Product</a>
+      <a href="#">Solutions</a>
+      <a href="#">Resources</a>
+      <a href="index.html" class="active">University</a>
+      <a href="#">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="link-inline">Sign in</a>
+      <a href="#" class="btn btn-primary">Start free <span class="arrow">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- Header with breadcrumb -->
+<section class="lesson-head">
+  <div class="container">
+    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">University</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="index.html#tracks">Tracks</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <span aria-current="page">T3 · Architect</span>
+    </nav>
+    <h1>ZopNight Architect.<br/>Design decisions<br/>that survive scale.</h1>
+    <div class="lesson-meta-row">
+      <span>Tier · <strong>Architect</strong></span>
+      <span>Modules · <strong>8</strong></span>
+      <span>Lessons · <strong>38</strong></span>
+      <span>Time · <strong>~7 hours</strong></span>
+      <span>Prereq · <strong>T0 + T1</strong></span>
+      <span>Status · <strong style="color: var(--zop-green-deep);">Fully expanded</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- TL;DR — GEO-friendly summary block -->
+<section class="section" id="overview">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">§ · who this is for</div>
+      <div>
+        <h2>Architects and platform leads<br/>making decisions<br/>they'll live with for years.</h2>
+        <p class="sub">RBAC topology, multi-account credential strategy, showback dimensions, budget pyramids, dashboard governance. The choices a year-1 customer will still respect at year five.</p>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 64px; align-items: start;">
+      <div>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--g-700); margin-bottom: 16px;">
+          The Architect track is the deepest in the University. It is written for the engineers and FinOps leads who design ZopNight's deployment for their org. Every lesson teaches the trade-off, the alternatives considered, and the reasoning behind ZopNight's choice. No vendor-marketing answers.
+        </p>
+        <p style="font-size: 17px; line-height: 1.65; color: var(--g-700);">
+          You will learn how to design a role model that lets engineers do their jobs without granting more than they need, wire SSO so that diagnosing failures takes under five minutes, walk into a SOC 2 audit with reproducible queries, set up multi-account discovery without managing per-account credentials by hand, build a budget pyramid with proper escalation chains, and design a Sankey investigation that goes from cost question to specific resource in under sixty seconds.
+        </p>
+      </div>
+      <aside style="background: var(--g-50); border: 1px solid var(--line); padding: 24px;">
+        <div style="font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--g-600); margin-bottom: 12px;">At a glance</div>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; color: var(--g-700);">
+          <li style="padding: 8px 0; border-bottom: 1px dashed var(--line); display: flex; justify-content: space-between;"><span>Modules</span><strong style="color: var(--ink); font-variant-numeric: tabular-nums;">8</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px dashed var(--line); display: flex; justify-content: space-between;"><span>Lessons</span><strong style="color: var(--ink); font-variant-numeric: tabular-nums;">38</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px dashed var(--line); display: flex; justify-content: space-between;"><span>Total words</span><strong style="color: var(--ink); font-variant-numeric: tabular-nums;">63,660</strong></li>
+          <li style="padding: 8px 0; border-bottom: 1px dashed var(--line); display: flex; justify-content: space-between;"><span>Avg lesson</span><strong style="color: var(--ink); font-variant-numeric: tabular-nums;">~1,675 w</strong></li>
+          <li style="padding: 8px 0; display: flex; justify-content: space-between;"><span>Reading time</span><strong style="color: var(--ink); font-variant-numeric: tabular-nums;">~7 hr</strong></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- BENTO: 8 modules in asymmetric layout. -->
+<section class="section" id="modules">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">§01 · modules</div>
+      <div>
+        <h2>Eight modules,<br/>thirty-eight lessons.</h2>
+        <p class="sub">Each module is ~4–6 lessons of ~1,500 words. Lessons are paired with hands-on exercises and knowledge checks.</p>
+      </div>
+    </div>
+
+    <div class="bento">
+
+      <!-- Featured: M3.1 RBAC (the demo module) -->
+      <a href="lesson-t3-m3-1-l1.html" class="b-card b-feat">
+        <div class="meta-strong">Featured module · §M3.1 · 6 lessons</div>
+        <h3>RBAC and the 15-entity policy table.</h3>
+        <p>Policy table, system roles (Viewer / Editor / Admin), custom roles, team scoping, three-state scope model (nil / empty / list), frontend gating with usePermission(). The model that makes every other architectural choice tractable.</p>
+        <div class="feat-modules">
+          <div class="fm"><span class="id">L1</span><span>The 15-entity policy table</span></div>
+          <div class="fm"><span class="id">L2</span><span>System roles: Viewer / Editor / Admin</span></div>
+          <div class="fm"><span class="id">L3</span><span>Custom roles</span></div>
+          <div class="fm"><span class="id">L4</span><span>Team-scoped access</span></div>
+          <div class="fm"><span class="id">L5</span><span>Three-state scope model</span></div>
+          <div class="fm"><span class="id">L6</span><span>Frontend gating with usePermission</span></div>
+        </div>
+        <div class="feat-cta">
+          <span class="link-inline">Open M3.1 / L1 →</span>
+          <span style="font-family: var(--mono); font-size: 11px; color: var(--g-500); text-transform: uppercase; letter-spacing: 0.1em;">6 lessons · ~55 min</span>
+        </div>
+      </a>
+
+      <!-- M3.2 SSO -->
+      <a href="#" class="b-card b-md">
+        <div class="meta architect"><span class="dot" aria-hidden="true"></span><span class="num">§M3.2</span> · 4 lessons</div>
+        <h3>SSO — pick, configure, diagnose</h3>
+        <p>SAML vs OAuth, per-domain SAML config, Google + GitHub OAuth, diagnosing SSO failures by category (cert, metadata, clock, user-side).</p>
+        <div class="foot"><span><strong>4</strong> lessons · ~38 min</span><span class="arr" aria-hidden="true">→</span></div>
+      </a>
+
+      <!-- M3.3 Audit -->
+      <a href="#" class="b-card b-md">
+        <div class="meta architect"><span class="dot" aria-hidden="true"></span><span class="num">§M3.3</span> · 4 lessons</div>
+        <h3>Audit logging</h3>
+        <p>What gets logged (mutations only), body capture and redaction, filtering and SIEM export, audit log as SOC 2 / ISO 27001 compliance evidence.</p>
+        <div class="foot"><span><strong>4</strong> lessons · ~38 min</span><span class="arr" aria-hidden="true">→</span></div>
+      </a>
+
+      <!-- M3.4 Multi-account (wide) -->
+      <a href="#" class="b-card b-lg">
+        <div class="meta architect"><span class="dot" aria-hidden="true"></span><span class="num">§M3.4</span> · 5 lessons</div>
+        <h3>Multi-account topology — five anti-patterns and the fixes.</h3>
+        <p>Why multi-account, AWS Organizations / GCP Folders / Azure Management Groups, cross-account credentials, rollup vs isolation, the five anti-patterns mid-size orgs hit.</p>
+        <div class="foot"><span><strong>5</strong> lessons · ~47 min</span><span class="arr" aria-hidden="true">→</span></div>
+      </a>
+
+      <!-- M3.5 Showback (wide) -->
+      <a href="#" class="b-card b-lg">
+        <div class="meta architect"><span class="dot" aria-hidden="true"></span><span class="num">§M3.5</span> · 6 lessons</div>
+        <h3>Showback design — picking the right dimension.</h3>
+        <p>Organisation / Teams / Tags, shared-resource attribution, tag attribution, tag coverage, unit economics, ingest paths (Push / Pull / CSV) with the SSRF guard explained.</p>
+        <div class="foot"><span><strong>6</strong> lessons · ~55 min</span><span class="arr" aria-hidden="true">→</span></div>
+      </a>
+
+      <!-- M3.6 Budget -->
+      <a href="#" class="b-card b-sm">
+        <div class="meta architect"><span class="dot" aria-hidden="true"></span><span class="num">§M3.6</span> · 5 lessons</div>
+        <h3>Budget governance</h3>
+        <p>Budget vs forecast vs alert, scopes, threshold escalation, green/yellow/red signals, live-computed spend.</p>
+        <div class="foot"><span><strong>5</strong> lessons · ~47 min</span><span class="arr" aria-hidden="true">→</span></div>
+      </a>
+
+      <!-- M3.7 Dashboards -->
+      <a href="#" class="b-card b-sm">
+        <div class="meta architect"><span class="dot" aria-hidden="true"></span><span class="num">§M3.7</span> · 4 lessons</div>
+        <h3>Dashboards</h3>
+        <p>Four presets, cloning and customization, per-widget RBAC with the placeholder pattern, default dashboard governance.</p>
+        <div class="foot"><span><strong>4</strong> lessons · ~38 min</span><span class="arr" aria-hidden="true">→</span></div>
+      </a>
+
+      <!-- M3.8 Cost flow -->
+      <a href="#" class="b-card b-xs">
+        <div class="meta architect"><span class="dot" aria-hidden="true"></span><span class="num">§M3.8</span> · 4 lessons</div>
+        <h3>Cost flow Sankey</h3>
+        <p>When to switch from Trend to Flow, five layout dimensions, drill / breadcrumb / back-out, savings overlay with deep-link.</p>
+        <div class="foot"><span><strong>4</strong> · ~38 min</span><span class="arr" aria-hidden="true">→</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Learning outcomes — semantic + GEO friendly -->
+<section class="section" id="outcomes">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">§02 · what you learn</div>
+      <div>
+        <h2>By the end of T3,<br/>you can defend<br/>every design decision.</h2>
+        <p class="sub">No vendor-marketing answers. Each lesson teaches the trade-off, the alternatives considered, and the reasoning behind ZopNight's choice.</p>
+      </div>
+    </div>
+    <ul style="list-style: none; padding: 0; max-width: 880px;">
+      <li style="padding: 16px 0; border-bottom: 1px solid var(--line); display: flex; gap: 16px;">
+        <span style="font-family: var(--mono); color: var(--zop-orange); flex-shrink: 0;" aria-hidden="true">→</span>
+        <span><strong style="color: var(--ink);">Design a role model</strong> that lets engineers do their jobs without granting more than they need.</span>
+      </li>
+      <li style="padding: 16px 0; border-bottom: 1px solid var(--line); display: flex; gap: 16px;">
+        <span style="font-family: var(--mono); color: var(--zop-orange); flex-shrink: 0;" aria-hidden="true">→</span>
+        <span><strong style="color: var(--ink);">Wire up SSO</strong> for the right method (SAML vs OAuth) and diagnose failures in under five minutes.</span>
+      </li>
+      <li style="padding: 16px 0; border-bottom: 1px solid var(--line); display: flex; gap: 16px;">
+        <span style="font-family: var(--mono); color: var(--zop-orange); flex-shrink: 0;" aria-hidden="true">→</span>
+        <span><strong style="color: var(--ink);">Walk into a SOC 2 audit</strong> with reproducible queries that satisfy the auditor in one sitting.</span>
+      </li>
+      <li style="padding: 16px 0; border-bottom: 1px solid var(--line); display: flex; gap: 16px;">
+        <span style="font-family: var(--mono); color: var(--zop-orange); flex-shrink: 0;" aria-hidden="true">→</span>
+        <span><strong style="color: var(--ink);">Set up multi-account discovery</strong> for AWS, GCP, and Azure without managing per-account credentials by hand.</span>
+      </li>
+      <li style="padding: 16px 0; border-bottom: 1px solid var(--line); display: flex; gap: 16px;">
+        <span style="font-family: var(--mono); color: var(--zop-orange); flex-shrink: 0;" aria-hidden="true">→</span>
+        <span><strong style="color: var(--ink);">Build a budget pyramid</strong> with escalation chains that surface overruns at the right audience.</span>
+      </li>
+      <li style="padding: 16px 0; display: flex; gap: 16px;">
+        <span style="font-family: var(--mono); color: var(--zop-orange); flex-shrink: 0;" aria-hidden="true">→</span>
+        <span><strong style="color: var(--ink);">Design a Sankey investigation</strong> that goes from cost question to specific resource in under sixty seconds.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Next track / cross-link -->
+<section class="section" id="next">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">§03 · next step</div>
+      <div>
+        <h2>After T3,<br/>the Architect cert<br/>or T6 AI ops.</h2>
+        <p class="sub">T3 is a prerequisite for the Architect certification. Most architects pair T3 with T6 (AI-Powered Cloud Ops) for the full senior practitioner profile.</p>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line);">
+      <a href="index.html#certs" class="b-card" style="padding: 32px;">
+        <div class="meta-strong" style="color: var(--zop-orange); margin-bottom: 16px;">Apply for Architect cert</div>
+        <h3 style="font-size: 24px; margin-bottom: 12px;">Architect certification</h3>
+        <p>Application plus 14-day take-home. T3 plus T6. Committee-reviewed by a senior FinOps panel.</p>
+        <div class="foot"><span>Application-only</span><span class="arr">→</span></div>
+      </a>
+      <a href="index.html#tracks" class="b-card" style="padding: 32px;">
+        <div class="meta engineer" style="margin-bottom: 16px;"><span class="dot" aria-hidden="true"></span><span class="num">§T6</span> · engineer</div>
+        <h3 style="font-size: 24px; margin-bottom: 12px;">AI-Powered Cloud Ops</h3>
+        <p>MCP from first principles. Read-only by design. 15 recipes. Pair with T3 for senior practitioner profile.</p>
+        <div class="foot"><span><strong>19</strong> lessons + <strong>15</strong> recipes</span><span class="arr">→</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-brand">
+          <span class="mark" aria-hidden="true"></span>
+          ZopNight
+        </a>
+        <p>Continuous Detect, Continuous Remediate for cloud cost. ZopNight University is the same content we use to onboard customer engineering teams.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Schedules</a></li>
+          <li><a href="#">Recommendations</a></li>
+          <li><a href="#">Audit log</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="index.html#tracks">Tracks</a></li>
+          <li><a href="index.html#certs">Certifications</a></li>
+          <li><a href="index.html#path">Learning paths</a></li>
+          <li><a href="lesson-t3-m3-1-l1.html">Sample lesson</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Customers</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="mailto:hello@zop.dev">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>§ · T3 · ZopNight Architect · last reviewed 2026-05-20</span>
+      <span>© 2026 ZopDev · hello@zop.dev</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

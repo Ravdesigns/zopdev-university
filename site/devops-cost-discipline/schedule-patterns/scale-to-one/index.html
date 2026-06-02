@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scale-to-one weekend pattern / DevOps Cost Discipline / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to **apply** the scale-to-one pattern for weekend cost reduction without full shutdown, **choose** between scale-to-zero, scale-to-one, and always-on, **and handle** the edge cases (quorum, sharding, health checks).">
+<link rel="canonical" href="https://zop.dev/resources/university/devops-cost-discipline/schedule-patterns/scale-to-one/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopDev University">
+<meta property="og:title" content="Scale-to-one weekend pattern / DevOps Cost Discipline / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to **apply** the scale-to-one pattern for weekend cost reduction without full shutdown, **choose** between scale-to-zero, scale-to-one, and always-on, **and handle** the edge cases (quorum, sharding, health checks).">
+<meta property="og:url" content="https://zop.dev/resources/university/devops-cost-discipline/schedule-patterns/scale-to-one/">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="Scale-to-one weekend pattern / DevOps Cost Discipline / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **apply** the scale-to-one pattern for weekend cost reduction without full shutdown, **choose** between scale-to-zero, scale-to-one, and always-on, **and handle** the edge cases (quorum, sharding, health checks).">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Scale-to-one weekend pattern",
+  "description": "By the end of this lesson, you will be able to **apply** the scale-to-one pattern for weekend cost reduction without full shutdown, **choose** between scale-to-zero, scale-to-one, and always-on, **and handle** the edge cases (quorum, sharding, health checks).",
+  "url": "https://zop.dev/resources/university/devops-cost-discipline/schedule-patterns/scale-to-one/",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Engineer",
+  "timeRequired": "PT9M",
+  "inLanguage": "en-US",
+  "isPartOf": {
+    "@type": "Course",
+    "name": "DevOps Cost Discipline",
+    "url": "https://zop.dev/resources/university/devops-cost-discipline/"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopDev"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ZopDev",
+      "item": "https://zop.dev/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Resources",
+      "item": "https://zop.dev/resources/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "University",
+      "item": "https://zop.dev/resources/university/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "DevOps Cost Discipline",
+      "item": "https://zop.dev/resources/university/devops-cost-discipline/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Schedule Patterns",
+      "item": "https://zop.dev/resources/university/devops-cost-discipline/schedule-patterns/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Scale-to-one weekend pattern",
+      "item": "https://zop.dev/resources/university/devops-cost-discipline/schedule-patterns/scale-to-one/"
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Site is dark-mode-only — lock the theme attribute before paint.
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</head>
+<body class="">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+     per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
+     in nav, footer, or content resolves correctly. -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
+      <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<nav class="nav" aria-label="Primary navigation">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/product/">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/resources/" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/company/">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/community/">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="/playground/" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+        <div class="nav-pg-menu" role="menu" aria-label="Playground options">
+          <a class="nav-pg-card nav-pg-card--night" href="/playground/#zopnight" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopnight"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopNight playground</span>
+                <span class="nav-pg-desc">Cost loop &middot; idle, schedules, anomalies</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+          <a class="nav-pg-card nav-pg-card--day" href="/playground/#zopday" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopday"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopDay playground</span>
+                <span class="nav-pg-desc">Deploy loop &middot; clusters, datastores, push</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a class="sign" href="/signin/">Sign In</a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+  </div>
+</nav>
+<div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-links">
+    <a href="/product/">Product</a>
+    <a href="/resources/">Resources</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/company/">Company</a>
+    <a href="/community/">Community</a>
+    <a href="/playground/">Playground</a>
+  </div>
+  <div class="nav-drawer-cta">
+    <a href="/signin/" class="sign">Sign in</a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+  </div>
+</div>
+<script>
+(function(){
+  var t = document.querySelector('.nav-mobile-toggle');
+  var d = document.getElementById('nav-drawer');
+  if (!t || !d) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    d.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('drawer-open', !open);
+  });
+  d.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') {
+      t.setAttribute('aria-expanded', 'false');
+      d.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+  });
+})();
+</script>
+
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="/" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button"
+                aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link ">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 237 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+        <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
+      </form>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  var dds = document.querySelectorAll('[data-uni-dropdown]');
+  if (!dds.length) return;
+  function closeAll(){
+    dds.forEach(function(d){
+      d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+      d.classList.remove('open');
+    });
+  }
+  dds.forEach(function(dd){
+    var btn = dd.querySelector('.uni-dropdown-toggle');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        dd.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e){
+    var inside = false;
+    dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+    if (!inside) closeAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
+(function(){
+  var input = document.querySelector('.uni-search-input');
+  var panel = document.getElementById('uni-search-panel');
+  if (!input || !panel) return;
+  var idx = null;
+  function load(){
+    if (idx) return Promise.resolve(idx);
+    return fetch('/assets/lessons.json').then(function(r){ return r.json(); }).then(function(j){ idx = j; return j; }).catch(function(){ idx = []; return []; });
+  }
+  function close(){ panel.hidden = true; panel.innerHTML = ''; }
+  function render(matches, q){
+    if (!matches.length) {
+      panel.innerHTML = '<div class="uni-search-empty">No lessons match <strong>' + escapeText(q) + '</strong></div>';
+      panel.hidden = false;
+      return;
+    }
+    panel.innerHTML = matches.slice(0, 8).map(function(m){
+      return '<a class="uni-search-hit" href="' + m.url + '">' +
+        '<span class="uni-search-hit-code">' + escapeText(m.code || '') + '</span>' +
+        '<span class="uni-search-hit-title">' + highlight(m.title, q) + '</span>' +
+        (m.track ? '<span class="uni-search-hit-meta">' + escapeText(m.track) + '</span>' : '') +
+        '</a>';
+    }).join('');
+    panel.hidden = false;
+  }
+  function escapeText(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function highlight(s, q){
+    var safe = escapeText(s);
+    if (!q) return safe;
+    var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(rx, '<mark>$1</mark>');
+  }
+  function match(q, items){
+    var ql = q.toLowerCase();
+    return items.filter(function(i){
+      return (i.title && i.title.toLowerCase().indexOf(ql) !== -1) || (i.body && i.body.toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+  input.addEventListener('focus', function(){ load(); });
+  input.addEventListener('input', function(){
+    var q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    load().then(function(items){ render(match(q, items), q); });
+  });
+  input.addEventListener('blur', function(){ setTimeout(close, 180); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+      e.preventDefault(); input.focus();
+    }
+    if (e.key === 'Escape') { input.blur(); close(); }
+  });
+})();
+</script>
+<main id="main">
+
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <a href="/devops-cost-discipline/">DevOps Cost</a><span class="sep">›</span>
+    <a href="/devops-cost-discipline/schedule-patterns/">Schedule Patterns</a><span class="sep">›</span>
+    <span class="current">Scale-to-one weekend pattern</span>
+  </div>
+</section>
+
+<div class="container">
+  <div class="lesson-layout">
+    <aside class="lesson-sidebar" aria-label="Module navigation">
+      <h4>Schedule Patterns</h4>
+      <nav>
+<a href="/devops-cost-discipline/schedule-patterns/four-envs/" class="">
+  <span class="num">L1</span>
+  <span>Four envs — dev / test / stage / prod</span>
+</a>
+<a href="/devops-cost-discipline/schedule-patterns/scale-to-one/" class="current">
+  <span class="num">L2</span>
+  <span>Scale-to-one weekend pattern</span>
+</a>
+<a href="/devops-cost-discipline/schedule-patterns/rolling-test/" class="">
+  <span class="num">L3</span>
+  <span>Rolling test environment</span>
+</a>
+<a href="/devops-cost-discipline/schedule-patterns/freeze/" class="">
+  <span class="num">L4</span>
+  <span>Freeze windows</span>
+</a>
+<a href="/devops-cost-discipline/schedule-patterns/demo-prod/" class="">
+  <span class="num">L5</span>
+  <span>Demo / prod-like environments</span>
+</a></nav>
+    </aside>
+
+    <article class="lesson-content">
+      <header class="lesson-header">
+        <div class="lesson-id">
+          <span>T5 / M5.2 / L2 of 5 / Engineer tier / 9 min</span>
+        </div>
+        <h1>Scale-to-one weekend pattern</h1>
+      </header>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>apply</strong> the scale-to-one pattern for weekend cost reduction without full shutdown, <strong>choose</strong> between scale-to-zero, scale-to-one, and always-on, <strong>and handle</strong> the edge cases (quorum, sharding, health checks).</p></div>
+      <div class="lesson-metabox"><dl>
+<dt>Tier</dt>
+<dd>Engineer</dd>
+<dt>JTBD</dt>
+<dd>&quot;Cut weekend costs on workloads that can&#39;t fully stop but can run lean — keep 1 replica warm; restore on Monday.&quot;</dd>
+<dt>Personas</dt>
+<dd>Platform Engineer / DevOps Engineer / SRE</dd>
+<dt>Prerequisites</dt>
+<dd>M5.2.L1 (four envs) / T1.M1.3 (schedules)</dd>
+<dt>Time</dt>
+<dd>9 minutes</dd>
+<dt>Bloom verb</dt>
+<dd>Apply (Apply), Choose (Evaluate), Handle (Apply)</dd></dl></div>
+      <h2 id="1-concept">1. Concept</h2>
+<p>For workloads that can't fully stop (have weekend traffic, stateful caches, quorum constraints), but can run lean: scale-to-one. Keep one minimal instance running on weekends; scale up to working capacity on Monday.</p>
+<pre><code>WORKLOAD                              SCALE-TO-ONE FITS?
+─────────────────────────────────────────────────────────────────
+Stateful services with caches         Often yes (cache stays warm)
+Worker pools (background jobs)        Yes (one worker continues
+                                       processing at slow rate)
+Distributed systems (Kafka, Redis)    Carefully (check quorum)
+Stateless web tier                    Yes (one replica handles
+                                       weekend traffic)
+Database with replicas                Usually no (HA matters)
+ML inference pools                    Yes if weekend traffic minimal</code></pre>
+<p>The pattern: maintain a skeleton; scale up during business hours.</p>
+<h3 id="the-pattern-in-numbers">The pattern in numbers</h3>
+<pre><code>WEEKDAY (Mon-Fri 24h):     6 instances (working capacity)
+WEEKEND (Sat-Sun):          1 instance  (skeleton)
+
+WEEKLY INSTANCE-HOURS:
+  Weekday:  6 × 24 × 5 = 720 instance-hours
+  Weekend:  1 × 24 × 2 = 48 instance-hours
+  Total:    768 instance-hours
+  
+COMPARE TO ALWAYS-ON:
+  Always-on:  6 × 168 = 1,008 instance-hours
+  
+SAVINGS: (1,008 - 768) / 1,008 = 24% reduction
+
+NOT AS BIG as scale-to-zero off weekends (which would save 28%),
+BUT scale-to-one preserves:
+  - Warm cache (no cold-start)
+  - Continuous availability for weekend traffic
+  - Health-check stability
+  - Quorum (where 1 is enough)</code></pre>
+<p>For workloads with any weekend activity, the 24% savings + zero cold-start is the right trade.</p>
+<h3 id="comparing-three-options">Comparing three options</h3>
+<pre><code>                ALWAYS-ON    SCALE-TO-ZERO   SCALE-TO-ONE
+                            (weekends)       (weekends)
+──────────────────────────────────────────────────────────────────
+Instance-hours  1,008        720             768
+Savings         0%           28%             24%
+Cold-start      None         Monday morning   None
+Weekend traffic Handled      Dropped/queued   Handled (lean)
+Cache state     Warm         Cold Monday      Warm
+Quorum          Maintained   Lost weekends    Lost if N&gt;1 needed
+Monitoring      Normal       Off weekends     Normal (single rep)
+
+USE CASE:
+  ALWAYS-ON:      Prod, high-traffic, no schedule possible
+  SCALE-TO-ZERO:  Dev, no weekend traffic, restart latency OK
+  SCALE-TO-ONE:   Workloads with light weekend activity or
+                   warm-cache requirements</code></pre>
+<p>Pick based on actual weekend usage, not assumptions. Audit a few weeks of traffic before deciding.</p>
+<h3 id="how-to-implement-in-zopnight">How to implement in ZopNight</h3>
+<pre><code>SCHEDULE definition:
+  Name: order-processor-weekend-lean
+  
+  Cron (scale down): &quot;0 0 * * 6&quot;    (Saturday 00:00)
+  Action: scale replicas to 1
+  
+  Cron (scale up):   &quot;0 8 * * 1&quot;    (Monday 08:00)
+  Action: scale replicas to 6
+  
+  Applies to: kubernetes deployment &quot;order-processor&quot;
+            OR: Auto-scaling group &quot;order-asg&quot;
+            OR: ECS service &quot;order-processor&quot;
+
+EFFECT:
+  Friday 23:59:  6 replicas running
+  Saturday 00:00 onwards: 1 replica
+  Monday 08:00 onwards: 6 replicas back
+  Tuesday-Friday: 6 replicas (no schedule action)</code></pre>
+<p>The schedule is just a cron + action; ZopNight applies it to the configured target.</p>
+<h3 id="edge-cases-handling-correctly">Edge cases — handling correctly</h3>
+<pre><code>EDGE 1: WORKLOAD HAS MESSAGE QUEUE
+  Scale-to-one = 1 worker processing slowly
+  Queue depth may grow on weekends
+  
+  MITIGATION:
+    Queue-depth-based auto-scaling on top of schedule
+    Schedule sets MINIMUM (1); autoscaler can scale up if queue grows
+    e.g., HPA scales to 1-10 based on queue depth
+          Schedule sets min=1 weekday, min=6 weekday
+    
+EDGE 2: WORKLOAD STATEFUL WITH SHARDING
+  Scaling to 1 may lose shard distribution
+  Some systems (Cassandra, Elasticsearch) need N&gt;1 for sharding
+  
+  MITIGATION:
+    Check: does workload function with 1 replica?
+    If no: scale to MINIMUM safe count (3 for quorum, 2 for HA)
+    Document the minimum in the schedule
+
+EDGE 3: HEALTH CHECKS / ALARMS
+  Single replica triggers HA-loss alarms (resilience reduced)
+  
+  MITIGATION:
+    Suppress non-critical alarms during scaled-down period
+    Or: alarm threshold reflects the schedule (don&#39;t alarm on
+        &quot;&lt;2 replicas&quot; during scheduled scale-down)
+    
+EDGE 4: ROLLING DEPLOYMENTS
+  Single replica + deployment update = brief downtime
+  
+  MITIGATION:
+    Schedule scale-down for AFTER deploy windows
+    Or: deploy during weekdays only (best practice anyway)
+
+EDGE 5: DEPENDENT WORKLOADS
+  Workload-A scales to 1; Workload-B depends on Workload-A
+  If A can&#39;t handle B&#39;s weekend load: cascading issue
+  
+  MITIGATION:
+    Map dependencies; scale consistently
+    Or: skip schedule on critical-path workloads</code></pre>
+<p>Most edge cases have known mitigations. The audit pre-rollout catches them.</p>
+<h3 id="variations-of-the-pattern">Variations of the pattern</h3>
+<pre><code>SCALE-TO-MINIMUM (instead of 1):
+  Some workloads need 2 or 3 for quorum (etcd, Kafka, ZooKeeper)
+  Schedule scales to MINIMUM SAFE COUNT, not 1
+  
+  Example for etcd: scale to 3 (minimum quorum); not to 1
+
+PARTIAL SCALE (not just weekends):
+  Off-hours weeknights: 3 replicas (half of working capacity)
+  Weekends: 1 replica
+  Mon-Fri 8 AM - 8 PM: 6 replicas
+  
+  Three-tier schedule; more savings than weekends-only
+
+DYNAMIC (autoscale + schedule):
+  Schedule sets LOWER BOUND
+  Autoscaler can scale UP if demand spikes
+  
+  e.g., HPA min=1 weekend, min=6 weekday, max=20 always
+  Weekend traffic spike: autoscale to 5; off-spike: back to 1
+  Best of both: cost savings + spike handling
+
+SEASONAL (longer windows):
+  Some teams have annual cycles (e.g., e-commerce Q4 surge)
+  Schedule can have seasonal patterns
+  
+  Pre-Q4: 6 replicas baseline; Q4: 12 replicas baseline</code></pre>
+<p>The variations are tools — combine as needed for the workload's actual pattern.</p>
+<h3 id="choosing-scale-to-zero-vs-scale-to-one">Choosing scale-to-zero vs scale-to-one</h3>
+<pre><code>SCALE-TO-ZERO IS BETTER WHEN:
+  ✓ Workload TRULY idle outside scheduled hours
+  ✓ No incoming traffic / queue activity
+  ✓ Restart latency acceptable (no SLA pressure)
+  ✓ Cache cold-start tolerable
+  ✓ Simpler operational model preferred
+
+SCALE-TO-ONE IS BETTER WHEN:
+  ✓ Some incoming traffic during off-hours
+  ✓ Warm cache needed (cold-start would hurt)
+  ✓ Quorum constraints (need at least 1)
+  ✓ Health checks need replica continuity
+  ✓ Slightly faster monday morning
+
+DECISION FRAMEWORK:
+  IF no weekend traffic AND no warm-state needed
+    → scale-to-zero (max savings)
+  ELSE
+    → scale-to-one (slight savings sacrifice, much safer)</code></pre>
+<p>A 5-minute review of weekend traffic patterns settles the choice.</p>
+<h3 id="real-world-impact">Real-world impact</h3>
+<p>For a mid-size SaaS company:</p>
+<pre><code>WORKLOAD INVENTORY:
+  Stateless web tier: scale-to-zero weekends → -28% on these
+  Worker pools:       scale-to-one weekends → -24% on these
+  Cache services:     scale-to-one weekends → -24% on these
+  Databases:          always-on (HA matters)
+  ML inference:       scale-to-zero (no weekend inference) → -28%
+
+OVERALL non-prod compute savings: ~$32K/mo recurring
+
+PILOT (first 4 weeks):
+  3 workloads piloted with scale-to-one
+  2 needed minor tuning (queue-based autoscale added)
+  All within expected behavior after week 2
+  Zero customer-impact incidents
+  
+ROLLOUT (next 4 weeks):
+  18 additional workloads moved to scale-to-one or scale-to-zero
+  Monthly savings reached $32K/mo</code></pre>
+<p>The pattern compounds — every applicable workload contributes.</p>
+<hr>
+<h2 id="2-demo">2. Demo</h2>
+<p>A K8s deployment migrating to scale-to-one:</p>
+<pre><code>TEAM CASE: K8s deployment &quot;order-processor&quot;
+
+USAGE AUDIT (2 weeks of data):
+  Weekdays:  high traffic, 6 replicas needed at peak
+              Average CPU: 60-75%
+              p99 latency: 200ms
+              
+  Weekends:  light traffic, 1 replica handles 95% of load
+              Average CPU: 20-30%
+              p99 latency: 280ms (acceptable for non-peak)
+
+DECISION: scale-to-one weekend
+  Reasoning:
+    - Weekend traffic is real but light (1 rep handles it)
+    - Cache stays warm (avoids Monday cold-start)
+    - p99 latency 280ms acceptable for weekends (non-peak)
+
+SCHEDULE CONFIGURED:
+  Schedule name: order-processor-weekend-lean
+  Cron scale-down: &quot;0 0 * * 6&quot;       (Saturday 00:00)
+  Cron scale-up:   &quot;0 8 * * 1&quot;       (Monday 08:00)
+  Target replicas down: 1
+  Target replicas up: 6
+
+VERIFICATION (after first week):
+  Saturday throughput: 1 replica handled all traffic
+  Monday cold-start: NONE (warm cache from continuous run)
+  Latency on rare peak: brief 320ms (acceptable for weekend)
+  No incidents
+  No queue backlog
+
+COST IMPACT:
+  Before:    6 replicas × $0.10/hr × 168 hr/wk = $100.80/wk = $437/mo
+  After:     6 × 0.10 × 120 hr + 1 × 0.10 × 48 hr = $72 + $4.80 = $77/wk
+                                                                  = $333/mo
+  Savings:   $437 - $333 = $104/mo per deployment
+            ~24% reduction
+
+DECISION: keep pattern; consider expanding to weeknight scaling too
+          (off-hours min=3 weeknights, max=6 working hours)</code></pre>
+<p>The 24% savings on this single workload = ~$1,300/year. Across 20 similar workloads = $26K/year.</p>
+<hr>
+<h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
+<p>Identify scale-to-one candidates in your estate:</p>
+<pre><code>□ STEP 1: List workloads with weekend traffic
+  Workload 1: __________   Weekend traffic: __________ (high/low/none)
+  Workload 2: __________   Weekend traffic: __________
+  Workload 3: __________   Weekend traffic: __________
+
+□ STEP 2: Classify each
+  None (truly idle):       → scale-to-zero candidate
+  Light (1 replica works): → scale-to-one candidate
+  Heavy (need full):       → always-on
+
+□ STEP 3: Pick top 3 candidates
+  1. __________   Pattern: scale-to-___   Est savings: $_____/mo
+  2. __________   Pattern: scale-to-___   Est savings: $_____/mo
+  3. __________   Pattern: scale-to-___   Est savings: $_____/mo
+
+□ STEP 4: Edge case check
+  Quorum needed?      __________
+  Sharding involved?  __________
+  Health-check alarms? __________
+
+□ STEP 5: Pilot 1, observe 2 weeks
+  Owner: __________
+  Start date: __________</code></pre>
+<p>A 30-minute audit identifies the candidates. Pilot one, then roll out.</p>
+<hr>
+<h2 id="4-knowledge-check">4. Knowledge check</h2>
+<h3 id="q1">Q1</h3>
+<p>Scale-to-one vs scale-to-zero:</p>
+<p>A. Same thing B. Different. Scale-to-one keeps a warm instance for continued off-hours activity (cache, light traffic, quorum). Scale-to-zero fully stops (max savings, Monday cold-start). Pick scale-to-one when ANY weekend activity exists or warm cache matters. C. Random D. Scale-to-zero always better</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Different patterns; each fits different workloads.</p>
+</details>
+<h3 id="q2">Q2</h3>
+<p>A workload requires 3 replicas for quorum. Scale-to-one:</p>
+<p>A. OK B. Risky — quorum requires 3 minimum. Scale to MINIMUM SAFE COUNT (3), not 1. The pattern is "scale-to-minimum" for these workloads. Some systems like etcd, Kafka, ZooKeeper need N for safety. C. Random D. Required</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Respect quorum minimum. Scale to safe minimum, not 1.</p>
+</details>
+<h3 id="q3">Q3</h3>
+<p>A workload has occasional but real weekend traffic:</p>
+<p>A. Always-on B. Scale-to-one fits — handles the occasional traffic while reducing cost from always-6 to 1-replica-baseline. Better than scale-to-zero (which would drop or queue the traffic). Better than always-on (which wastes capacity during the light period). C. Random D. Schedule off entirely</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Middle ground; handles light traffic at low cost.</p>
+</details>
+<hr>
+<h2 id="5-apply">5. Apply</h2>
+<p>ZopNight Schedules + Groups support per-workload scale-to-N. Pick the pattern based on actual weekend usage. Tune over 2-4 weeks.</p>
+<p>For your team: scale-to-one on 3-5 workloads this month; measure savings; expand if clean.</p>
+<hr>
+<h2 id="related-lessons">Related lessons</h2>
+<ul>
+<li><a href="L1_four_envs.md">L1 — Four envs scheduling</a></li>
+<li><a href="L3_rolling_test.md">L3 — Rolling test environment</a> <em>(next)</em></li>
+<li><a href="L4_freeze.md">L4 — Freeze windows</a></li>
+<li><a href="L5_demo_prod.md">L5 — Demo / prod-like environments</a></li>
+<li><a href="../M5.3_k8s_discipline/L2_hpa.md">M5.3.L2 — HPA on Kubernetes</a></li>
+</ul>
+<h2 id="glossary-terms-touched">Glossary terms touched</h2>
+<p><a href="/glossary/scale-to-one/">Scale-to-one</a> · <a href="/glossary/scale-to-zero/">Scale-to-zero</a> · <a href="/glossary/scale-to-minimum/">Scale-to-minimum</a> · <a href="/glossary/skeleton-crew/">Skeleton crew</a></p>
+<hr>
+<p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-21 · Lesson ID: T5.M5.2.L2</p>
+
+
+      <nav class="lesson-nav" aria-label="Lesson navigation">
+        <a href="/devops-cost-discipline/schedule-patterns/four-envs/" class="lesson-nav-link">
+  <div class="nav-dir">← Previous</div>
+  <div class="nav-title">Four envs — dev / test / stage / prod</div>
+</a>
+        <a href="/devops-cost-discipline/schedule-patterns/rolling-test/" class="lesson-nav-link lesson-nav-next">
+  <div class="nav-dir">Next</div>
+  <div class="nav-title">Rolling test environment</div>
+</a>
+      </nav>
+    </article>
+
+    <aside class="lesson-toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul id="lesson-toc-list"></ul>
+    </aside>
+  </div>
+</div>
+
+<script>
+// Generate TOC from rendered h2s
+document.addEventListener('DOMContentLoaded', function() {
+  const tocList = document.getElementById('lesson-toc-list');
+  if (!tocList) return;
+  const headings = document.querySelectorAll('.lesson-content h2');
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+});
+</script>
+</main>
+
+
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/zopnight/">ZopNight</a></li>
+        <li><a href="/zopday/">ZopDay</a></li>
+        <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+        <li><a href="/zopcloud/">ZopCloud</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/resources/blog/">Blog</a></li>
+        <li><a href="/resources/ebooks/">Ebooks</a></li>
+        <li><a href="/resources/customers/">Case studies</a></li>
+        <li><a href="/resources/changelog/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/company/about/">About</a></li>
+        <li><a href="/company/careers/">Careers</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/community/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right"></div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ABSORB the old footer markup below so it remains valid HTML. We render
+     the canonical OG markup above, then close with a hidden placeholder so
+     legacy classes still parse without showing anything. -->
+<div style="display:none">
+  <div class="footer-brand-col" aria-hidden="true">
+    <a href="/" class="logo-lockup md footer-brand-lockup">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <p class="footer-tag"></p>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/zopnight/">ZopNight</a></li>
+          <li><a href="/zopday/">ZopDay</a></li>
+          <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+          <li><a href="/zopcloud/">ZopCloud</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/">University</a></li>
+          <li><a href="/resources/blog/">Blog</a></li>
+          <li><a href="/resources/ebooks/">Ebooks</a></li>
+          <li><a href="/resources/case-studies/">Case studies</a></li>
+          <li><a href="/resources/docs/">Documentation</a></li>
+          <li><a href="/resources/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="/foundations/">Foundations</a></li>
+          <li><a href="/operator/">Operator</a></li>
+          <li><a href="/engineer/">Engineer</a></li>
+          <li><a href="/architect/">Architect</a></li>
+          <li><a href="/certifications/">Certifications</a></li>
+          <li><a href="/certifications/verify/">Verify a credential</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/search/">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/about/">About</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/trust/">Trust</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/community/">Slack</a></li>
+          <li><a href="https://twitter.com/zopdev" target="_blank" rel="noopener">Twitter</a></li>
+          <li><a href="https://github.com/zopdev" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/company/zopdev" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ZopDev / All rights reserved</div>
+      <div class="footer-bottom-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

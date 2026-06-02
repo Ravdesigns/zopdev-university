@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Max override duration — the org policy / ZopNight Operator / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to **configure** the org-wide Max Override Duration policy **and explain** why it prevents the most common operational hazard.">
+<link rel="canonical" href="https://zop.dev/resources/university/operator/overrides/max-duration/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopDev University">
+<meta property="og:title" content="Max override duration — the org policy / ZopNight Operator / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to **configure** the org-wide Max Override Duration policy **and explain** why it prevents the most common operational hazard.">
+<meta property="og:url" content="https://zop.dev/resources/university/operator/overrides/max-duration/">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="Max override duration — the org policy / ZopNight Operator / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **configure** the org-wide Max Override Duration policy **and explain** why it prevents the most common operational hazard.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Max override duration — the org policy",
+  "description": "By the end of this lesson, you will be able to **configure** the org-wide Max Override Duration policy **and explain** why it prevents the most common operational hazard.",
+  "url": "https://zop.dev/resources/university/operator/overrides/max-duration/",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Operator",
+  "timeRequired": "PT9M",
+  "inLanguage": "en-US",
+  "isPartOf": {
+    "@type": "Course",
+    "name": "ZopNight Operator",
+    "url": "https://zop.dev/resources/university/operator/"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopDev"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ZopDev",
+      "item": "https://zop.dev/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Resources",
+      "item": "https://zop.dev/resources/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "University",
+      "item": "https://zop.dev/resources/university/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "ZopNight Operator",
+      "item": "https://zop.dev/resources/university/operator/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Overrides",
+      "item": "https://zop.dev/resources/university/operator/overrides/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Max override duration — the org policy",
+      "item": "https://zop.dev/resources/university/operator/overrides/max-duration/"
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Site is dark-mode-only — lock the theme attribute before paint.
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</head>
+<body class="">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+     per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
+     in nav, footer, or content resolves correctly. -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
+      <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<nav class="nav" aria-label="Primary navigation">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/product/">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/resources/" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/company/">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/community/">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="/playground/" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+        <div class="nav-pg-menu" role="menu" aria-label="Playground options">
+          <a class="nav-pg-card nav-pg-card--night" href="/playground/#zopnight" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopnight"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopNight playground</span>
+                <span class="nav-pg-desc">Cost loop &middot; idle, schedules, anomalies</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+          <a class="nav-pg-card nav-pg-card--day" href="/playground/#zopday" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopday"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopDay playground</span>
+                <span class="nav-pg-desc">Deploy loop &middot; clusters, datastores, push</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a class="sign" href="/signin/">Sign In</a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+  </div>
+</nav>
+<div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-links">
+    <a href="/product/">Product</a>
+    <a href="/resources/">Resources</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/company/">Company</a>
+    <a href="/community/">Community</a>
+    <a href="/playground/">Playground</a>
+  </div>
+  <div class="nav-drawer-cta">
+    <a href="/signin/" class="sign">Sign in</a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+  </div>
+</div>
+<script>
+(function(){
+  var t = document.querySelector('.nav-mobile-toggle');
+  var d = document.getElementById('nav-drawer');
+  if (!t || !d) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    d.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('drawer-open', !open);
+  });
+  d.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') {
+      t.setAttribute('aria-expanded', 'false');
+      d.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+  });
+})();
+</script>
+
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="/" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button"
+                aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link ">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 237 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+        <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
+      </form>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  var dds = document.querySelectorAll('[data-uni-dropdown]');
+  if (!dds.length) return;
+  function closeAll(){
+    dds.forEach(function(d){
+      d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+      d.classList.remove('open');
+    });
+  }
+  dds.forEach(function(dd){
+    var btn = dd.querySelector('.uni-dropdown-toggle');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        dd.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e){
+    var inside = false;
+    dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+    if (!inside) closeAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
+(function(){
+  var input = document.querySelector('.uni-search-input');
+  var panel = document.getElementById('uni-search-panel');
+  if (!input || !panel) return;
+  var idx = null;
+  function load(){
+    if (idx) return Promise.resolve(idx);
+    return fetch('/assets/lessons.json').then(function(r){ return r.json(); }).then(function(j){ idx = j; return j; }).catch(function(){ idx = []; return []; });
+  }
+  function close(){ panel.hidden = true; panel.innerHTML = ''; }
+  function render(matches, q){
+    if (!matches.length) {
+      panel.innerHTML = '<div class="uni-search-empty">No lessons match <strong>' + escapeText(q) + '</strong></div>';
+      panel.hidden = false;
+      return;
+    }
+    panel.innerHTML = matches.slice(0, 8).map(function(m){
+      return '<a class="uni-search-hit" href="' + m.url + '">' +
+        '<span class="uni-search-hit-code">' + escapeText(m.code || '') + '</span>' +
+        '<span class="uni-search-hit-title">' + highlight(m.title, q) + '</span>' +
+        (m.track ? '<span class="uni-search-hit-meta">' + escapeText(m.track) + '</span>' : '') +
+        '</a>';
+    }).join('');
+    panel.hidden = false;
+  }
+  function escapeText(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function highlight(s, q){
+    var safe = escapeText(s);
+    if (!q) return safe;
+    var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(rx, '<mark>$1</mark>');
+  }
+  function match(q, items){
+    var ql = q.toLowerCase();
+    return items.filter(function(i){
+      return (i.title && i.title.toLowerCase().indexOf(ql) !== -1) || (i.body && i.body.toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+  input.addEventListener('focus', function(){ load(); });
+  input.addEventListener('input', function(){
+    var q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    load().then(function(items){ render(match(q, items), q); });
+  });
+  input.addEventListener('blur', function(){ setTimeout(close, 180); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+      e.preventDefault(); input.focus();
+    }
+    if (e.key === 'Escape') { input.blur(); close(); }
+  });
+})();
+</script>
+<main id="main">
+
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <a href="/operator/">Operator</a><span class="sep">›</span>
+    <a href="/operator/overrides/">Overrides</a><span class="sep">›</span>
+    <span class="current">Max override duration — the org policy</span>
+  </div>
+</section>
+
+<div class="container">
+  <div class="lesson-layout">
+    <aside class="lesson-sidebar" aria-label="Module navigation">
+      <h4>Overrides</h4>
+      <nav>
+<a href="/operator/overrides/when-to-override/" class="">
+  <span class="num">L1</span>
+  <span>When you need an override</span>
+</a>
+<a href="/operator/overrides/setting-overrides/" class="">
+  <span class="num">L2</span>
+  <span>Force-on, force-off, expiry, reason</span>
+</a>
+<a href="/operator/overrides/managing-overrides/" class="">
+  <span class="num">L3</span>
+  <span>Managing active overrides</span>
+</a>
+<a href="/operator/overrides/max-duration/" class="current">
+  <span class="num">L4</span>
+  <span>Max override duration — the org policy</span>
+</a></nav>
+    </aside>
+
+    <article class="lesson-content">
+      <header class="lesson-header">
+        <div class="lesson-id">
+          <span>T1 / M1.5 / L4 of 4 / Operator tier / 9 min</span>
+        </div>
+        <h1>Max override duration — the org policy</h1>
+      </header>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>configure</strong> the org-wide Max Override Duration policy <strong>and explain</strong> why it prevents the most common operational hazard.</p></div>
+      <div class="lesson-metabox"><dl>
+<dt>Tier</dt>
+<dd>Operator (with Admin access)</dd>
+<dt>JTBD</dt>
+<dd>&quot;Prevent the forgotten override that runs forever.&quot;</dd>
+<dt>Personas</dt>
+<dd>Engineering Leader / Security/Compliance / Admin</dd>
+<dt>Prerequisites</dt>
+<dd>[L1–L3](L1_when_to_override.md)</dd>
+<dt>Time</dt>
+<dd>9 minutes</dd>
+<dt>Bloom verb</dt>
+<dd>Configure (Apply) and Explain (Understand)</dd></dl></div>
+      <h2 id="1-concept">1. Concept</h2>
+<p>The <strong>Max Override Duration</strong> is an org-wide policy setting that caps how long any single override can be active. Default: <strong>7 days</strong>. Configurable: 1 hour to 90 days. Admin-only to change.</p>
+<p>The cap exists to prevent a specific failure mode: the override that gets forgotten and runs indefinitely. Without a cap, a force-on override set "for this weekend" survives a team member's departure, an org chart change, three quarterly reviews, and a $40K bill before anyone notices.</p>
+<h3 id="why-7-days-as-default">Why 7 days as default</h3>
+<pre><code>TYPICAL OVERRIDE NEEDS                       TYPICAL DURATION
+─────────────────────────────────────────────────────────────
+Customer demo                                 2-3 days
+Maintenance window                            6-12 hours
+Incident response                              12-48 hours
+DR drill                                       1-2 days
+Off-hours work session                         12-24 hours
+Holiday weekend coverage                       3-5 days
+End-of-quarter business review                 4-5 days</code></pre>
+<p>The 95th percentile of legitimate override duration is about 5 days. Setting the cap at 7 days gives generous headroom while still preventing the indefinite-runaway pattern.</p>
+<p>Anything longer than 7 days is structurally a schedule edit, not an override:</p>
+<ul>
+<li>"Our team works Sundays in May" → edit the schedule for that period</li>
+<li>"Production is non-24/7 in this region" → edit the schedule permanently</li>
+<li>"Our DR site needs to stay on for a month" → edit or new schedule for that resource set</li>
+</ul>
+<h3 id="what-happens-when-the-cap-is-hit">What happens when the cap is hit</h3>
+<pre><code>USER SETS OVERRIDE expiring 30 days from now.
+
+ZopNight UI validation:
+  &quot;Max override duration is 7 days. Reduce to 7 days or less,
+   or consider a schedule edit for permanent changes.&quot;
+
+Reject. The user adjusts to 7 days, OR cancels and uses a different tool.</code></pre>
+<p>Admins can change the cap if their organizational needs justify it:</p>
+<pre><code>SETTINGS → Cost &amp; Scheduling → Max Override Duration
+─────────────────────────────────────────────────────
+Current value:    7 days
+Allowed range:    1 hour to 90 days
+Last changed:     2026-04-12 by admin@org.com
+                  Reason: &quot;Allow 14-day overrides for DR drills&quot;
+
+[Change value]</code></pre>
+<p>Changes to the cap are audited.</p>
+<h3 id="per-resource-exceptions-advanced">Per-resource exceptions (advanced)</h3>
+<p>For a few organizations with legitimate need for longer overrides on specific resources (e.g., a single DR cluster that needs to stay on for a quarter), per-resource exception is available:</p>
+<pre><code>RESOURCE: dr-cluster-eu
+Override max duration: 90 days (overrides org default of 7 days)
+Set by:   security-admin@org.com
+Reason:   &quot;DR cluster requires extended overrides for quarterly drills&quot;</code></pre>
+<p>Per-resource exceptions are admin-only and require a documented reason. They are rare; ~99% of teams use the org default without exceptions.</p>
+<h3 id="why-this-matters-for-compliance">Why this matters for compliance</h3>
+<p>Several compliance frameworks (SOC 2, ISO 27001) ask about "guardrails against indefinite policy bypasses." The Max Override Duration is a defensible answer:</p>
+<ul>
+<li>The policy is configurable</li>
+<li>The default is conservative (7 days)</li>
+<li>Changes are audited</li>
+<li>Per-resource exceptions are documented and admin-only</li>
+<li>Override history is retained indefinitely in the audit log</li>
+</ul>
+<p>A SOC 2 auditor reviewing this policy can verify all five properties from the audit log + settings page. The control is testable.</p>
+<h3 id="what-this-policy-does-not-do">What this policy does NOT do</h3>
+<p>Three deliberate limitations:</p>
+<ol>
+<li><strong>Does not limit the number of overrides.</strong> A team can have 50 active overrides simultaneously, each within the duration cap. The cap is per-override duration, not total override count.</li>
+<li><strong>Does not auto-cancel overrides.</strong> Overrides expire at their set expiry time. The cap rejects creation of long overrides; it does not retroactively shorten existing ones.</li>
+<li><strong>Does not enforce a reason quality bar.</strong> The reason field has a minimum length (>10 chars) but no semantic check. "Test test test" passes; "demo for Acme Corp" passes. The reason field is for human reading, not machine validation.</li>
+</ol>
+<p>The policy is a guardrail, not a panopticon. It catches the canonical mistake (forever-overrides) without micromanaging legitimate ones.</p>
+<h3 id="recommended-settings-per-org-type">Recommended settings per org type</h3>
+<pre><code>ORG TYPE                                  RECOMMENDED MAX DURATION
+─────────────────────────────────────────────────────────────────
+Small dev team, low compliance burden     7 days (default)
+Mid-size SaaS                              7 days (default)
+Enterprise with frequent demos             10 days (slight headroom)
+Heavily regulated (banking, healthcare)   3 days (tighter)
+Highly automated (DR drills weekly)       5 days</code></pre>
+<p>Most teams should stay at the default. Tightening (to 3 days) reduces the risk window but increases friction; loosening past 14 days defeats the purpose.</p>
+<hr>
+<h2 id="2-demo">2. Demo</h2>
+<p>A team setting up the policy on a new ZopNight deployment:</p>
+<pre><code>DAY 1, T+0       Admin opens Settings → Cost &amp; Scheduling
+
+T+30 sec         Reviews current Max Override Duration: 7 days (default)
+T+45 sec         Discusses with FinOps lead: do any workloads need &gt;7 day overrides?
+
+T+2 min          Identifies one: the quarterly DR drill cluster.
+T+3 min          Configures per-resource exception for dr-cluster-eu (90 days max).
+                  Documents the reason in the per-resource override settings.
+
+T+4 min          Org default stays at 7 days.
+                  Settings panel shows:
+                    Org default: 7 days
+                    Exceptions: 1 (dr-cluster-eu, 90 days)
+
+T+5 min          Admin saves and continues.
+
+DAY 30+   First override attempted with 14-day duration:
+                Validation rejects: &quot;Max is 7 days. Use 7-day max or schedule edit.&quot;
+                Team uses 7-day expiry instead.
+
+NO incidents of forgotten 90-day overrides recorded over the first year.</code></pre>
+<p>Five minutes of setup. Zero forgotten-override incidents going forward.</p>
+<p>(Asset: <code>assets/diagrams/M1.5_L4_max_duration_setup.svg</code>.)</p>
+<hr>
+<h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
+<p>If you have admin access:</p>
+<pre><code>1. Open Settings → Cost &amp; Scheduling.
+2. Find the Max Override Duration setting.
+3. Note the current value and last-changed timestamp.
+4. Consider: does this value match your org&#39;s typical override needs?
+   - Are most overrides shorter than 7 days?
+   - Are there any legitimate longer-duration cases?
+5. If no changes needed: leave at default.
+6. If changes needed:
+   - Document the reason
+   - Set the new value
+   - Save
+7. Verify the change is reflected in the override create dialog
+   (the validation rejects values past the new cap).
+
+For non-admin users: review the setting (read-only access).
+Understand the policy. Use it to inform your override decisions.</code></pre>
+<hr>
+<h2 id="4-knowledge-check">4. Knowledge check</h2>
+<h3 id="q1">Q1</h3>
+<p>A team needs to keep a non-prod environment running for a 2-week sprint. The Max Override Duration is 7 days. The right approach:</p>
+<p>A. Set two consecutive 7-day overrides B. The 2-week sprint is too long for an override. Edit the schedule to skip the weekend stops for those two weeks (a schedule edit), or reduce the schedule's active hours during the sprint, then revert after. C. Get an admin to extend the org policy D. Manually start resources every day</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Two weeks is structurally a schedule edit, not an override. The cap correctly redirects the team to the right tool.</p>
+</details>
+<h3 id="q2">Q2</h3>
+<p>A user sets an override with 5-day expiry. The org's Max Override Duration is 7 days. What happens:</p>
+<p>A. Rejected B. Accepted — 5 days is within the 7-day cap. Validation only fires when the expiry exceeds the cap. C. Warns the user D. Capped automatically</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> The cap is the maximum, not a target. Anything within the cap is valid.</p>
+</details>
+<h3 id="q3">Q3</h3>
+<p>A SOC 2 auditor asks: "How do you prevent indefinite policy bypasses?" The defensible response includes:</p>
+<p>A. "We trust our engineers" B. The Max Override Duration cap (default 7 days, audited, admin-only to change), the required expiry on every override, and the audit log of all override events. Together these are a testable control. C. "Overrides cannot exist" D. "We don't use overrides"</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> The cap is one part of a layered control: required expiry, audit log, admin-only policy changes. Together they form a testable answer to "how is this prevented?"</p>
+</details>
+<hr>
+<h2 id="5-apply">5. Apply</h2>
+<p>Max Override Duration is in:</p>
+<ul>
+<li><strong><a href="https://app.zopnight.com/settings/scheduling" target="_blank" rel="noopener">Settings → Cost & Scheduling</a></strong> — org-wide default + exceptions</li>
+<li><strong><a href="https://app.zopnight.com/audit-logs" target="_blank" rel="noopener">Audit Log</a></strong> filter to "policy.max_override_duration" — see every change</li>
+<li><strong><a href="https://app.zopnight.com/overrides/new" target="_blank" rel="noopener">Override create dialog</a></strong> — validation enforces the cap</li>
+</ul>
+<p>For the broader RBAC model (who can change policy, who can set overrides), see <a href="../../T3_zopnight_architect/M3.1_rbac/00_README.md">T3.M3.1</a>.</p>
+<hr>
+<h2 id="module-quiz">Module quiz</h2>
+<p>You have now completed all four lessons of M1.5. The module quiz (10 questions, 80% pass) lives at <a href="../../../certifications/operator/m1.5-quiz.md">/certifications/operator/m1.5-quiz</a>. Pass to earn the <strong>Override-Wise</strong> chip.</p>
+<hr>
+<h2 id="related-lessons">Related lessons</h2>
+<ul>
+<li><a href="../M1.6_history_notifications_audit/00_README.md">M1.6 — History, notifications, audit</a> <em>(next module)</em></li>
+<li><a href="../../T3_zopnight_architect/M3.1_rbac/00_README.md">T3.M3.1 — RBAC</a></li>
+</ul>
+<h2 id="glossary-terms-touched">Glossary terms touched</h2>
+<p><a href="/glossary/max-override-duration/">Max override duration</a> · <a href="/glossary/per-resource-exception/">Per-resource exception</a> · <a href="/glossary/indefinite-override-hazard/">Indefinite-override hazard</a> · <a href="/glossary/policy-guardrail/">Policy guardrail</a></p>
+<hr>
+<p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-20 · Lesson ID: T1.M1.5.L4</p>
+
+
+      <nav class="lesson-nav" aria-label="Lesson navigation">
+        <a href="/operator/overrides/managing-overrides/" class="lesson-nav-link">
+  <div class="nav-dir">← Previous</div>
+  <div class="nav-title">Managing active overrides</div>
+</a>
+        <a href="/operator/history-notifications-audit/state-history/" class="lesson-nav-link lesson-nav-next">
+  <div class="nav-dir">Next</div>
+  <div class="nav-title">The state-history timeline</div>
+</a>
+      </nav>
+    </article>
+
+    <aside class="lesson-toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul id="lesson-toc-list"></ul>
+    </aside>
+  </div>
+</div>
+
+<script>
+// Generate TOC from rendered h2s
+document.addEventListener('DOMContentLoaded', function() {
+  const tocList = document.getElementById('lesson-toc-list');
+  if (!tocList) return;
+  const headings = document.querySelectorAll('.lesson-content h2');
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+});
+</script>
+</main>
+
+
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/zopnight/">ZopNight</a></li>
+        <li><a href="/zopday/">ZopDay</a></li>
+        <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+        <li><a href="/zopcloud/">ZopCloud</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/resources/blog/">Blog</a></li>
+        <li><a href="/resources/ebooks/">Ebooks</a></li>
+        <li><a href="/resources/customers/">Case studies</a></li>
+        <li><a href="/resources/changelog/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/company/about/">About</a></li>
+        <li><a href="/company/careers/">Careers</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/community/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right"></div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ABSORB the old footer markup below so it remains valid HTML. We render
+     the canonical OG markup above, then close with a hidden placeholder so
+     legacy classes still parse without showing anything. -->
+<div style="display:none">
+  <div class="footer-brand-col" aria-hidden="true">
+    <a href="/" class="logo-lockup md footer-brand-lockup">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <p class="footer-tag"></p>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/zopnight/">ZopNight</a></li>
+          <li><a href="/zopday/">ZopDay</a></li>
+          <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+          <li><a href="/zopcloud/">ZopCloud</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/">University</a></li>
+          <li><a href="/resources/blog/">Blog</a></li>
+          <li><a href="/resources/ebooks/">Ebooks</a></li>
+          <li><a href="/resources/case-studies/">Case studies</a></li>
+          <li><a href="/resources/docs/">Documentation</a></li>
+          <li><a href="/resources/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="/foundations/">Foundations</a></li>
+          <li><a href="/operator/">Operator</a></li>
+          <li><a href="/engineer/">Engineer</a></li>
+          <li><a href="/architect/">Architect</a></li>
+          <li><a href="/certifications/">Certifications</a></li>
+          <li><a href="/certifications/verify/">Verify a credential</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/search/">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/about/">About</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/trust/">Trust</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/community/">Slack</a></li>
+          <li><a href="https://twitter.com/zopdev" target="_blank" rel="noopener">Twitter</a></li>
+          <li><a href="https://github.com/zopdev" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/company/zopdev" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ZopDev / All rights reserved</div>
+      <div class="footer-bottom-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+# ZopNight University — robots.txt
+# Allow all crawlers including LLM-search agents (GPTBot, ClaudeBot, PerplexityBot, etc.)
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://zopnight.com/university/sitemap.xml
+
+# Explicit allow for LLM crawlers (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /

@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live computation, not stored / ZopNight Architect / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to **defend** the architectural choice to compute budget spend live (rather than store a `current_spend_usd` column), **predict** the performance characteristics, **and reason** about why this choice matches the two-source cost model.">
+<link rel="canonical" href="https://zop.dev/resources/university/architect/budget-governance/live-compute/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopDev University">
+<meta property="og:title" content="Live computation, not stored / ZopNight Architect / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to **defend** the architectural choice to compute budget spend live (rather than store a `current_spend_usd` column), **predict** the performance characteristics, **and reason** about why this choice matches the two-source cost model.">
+<meta property="og:url" content="https://zop.dev/resources/university/architect/budget-governance/live-compute/">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="Live computation, not stored / ZopNight Architect / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **defend** the architectural choice to compute budget spend live (rather than store a `current_spend_usd` column), **predict** the performance characteristics, **and reason** about why this choice matches the two-source cost model.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Live computation, not stored",
+  "description": "By the end of this lesson, you will be able to **defend** the architectural choice to compute budget spend live (rather than store a `current_spend_usd` column), **predict** the performance characteristics, **and reason** about why this choice matches the two-source cost model.",
+  "url": "https://zop.dev/resources/university/architect/budget-governance/live-compute/",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Architect",
+  "timeRequired": "PT9M",
+  "inLanguage": "en-US",
+  "isPartOf": {
+    "@type": "Course",
+    "name": "ZopNight Architect",
+    "url": "https://zop.dev/resources/university/architect/"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopDev"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ZopDev",
+      "item": "https://zop.dev/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Resources",
+      "item": "https://zop.dev/resources/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "University",
+      "item": "https://zop.dev/resources/university/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "ZopNight Architect",
+      "item": "https://zop.dev/resources/university/architect/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Budget Governance",
+      "item": "https://zop.dev/resources/university/architect/budget-governance/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Live computation, not stored",
+      "item": "https://zop.dev/resources/university/architect/budget-governance/live-compute/"
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Site is dark-mode-only — lock the theme attribute before paint.
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</head>
+<body class="">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+     per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
+     in nav, footer, or content resolves correctly. -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
+      <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<nav class="nav" aria-label="Primary navigation">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/product/">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/resources/" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/company/">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/community/">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="/playground/" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+        <div class="nav-pg-menu" role="menu" aria-label="Playground options">
+          <a class="nav-pg-card nav-pg-card--night" href="/playground/#zopnight" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopnight"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopNight playground</span>
+                <span class="nav-pg-desc">Cost loop &middot; idle, schedules, anomalies</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+          <a class="nav-pg-card nav-pg-card--day" href="/playground/#zopday" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopday"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopDay playground</span>
+                <span class="nav-pg-desc">Deploy loop &middot; clusters, datastores, push</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a class="sign" href="/signin/">Sign In</a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+  </div>
+</nav>
+<div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-links">
+    <a href="/product/">Product</a>
+    <a href="/resources/">Resources</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/company/">Company</a>
+    <a href="/community/">Community</a>
+    <a href="/playground/">Playground</a>
+  </div>
+  <div class="nav-drawer-cta">
+    <a href="/signin/" class="sign">Sign in</a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+  </div>
+</div>
+<script>
+(function(){
+  var t = document.querySelector('.nav-mobile-toggle');
+  var d = document.getElementById('nav-drawer');
+  if (!t || !d) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    d.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('drawer-open', !open);
+  });
+  d.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') {
+      t.setAttribute('aria-expanded', 'false');
+      d.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+  });
+})();
+</script>
+
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="/" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button"
+                aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link ">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 237 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+        <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
+      </form>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  var dds = document.querySelectorAll('[data-uni-dropdown]');
+  if (!dds.length) return;
+  function closeAll(){
+    dds.forEach(function(d){
+      d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+      d.classList.remove('open');
+    });
+  }
+  dds.forEach(function(dd){
+    var btn = dd.querySelector('.uni-dropdown-toggle');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        dd.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e){
+    var inside = false;
+    dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+    if (!inside) closeAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
+(function(){
+  var input = document.querySelector('.uni-search-input');
+  var panel = document.getElementById('uni-search-panel');
+  if (!input || !panel) return;
+  var idx = null;
+  function load(){
+    if (idx) return Promise.resolve(idx);
+    return fetch('/assets/lessons.json').then(function(r){ return r.json(); }).then(function(j){ idx = j; return j; }).catch(function(){ idx = []; return []; });
+  }
+  function close(){ panel.hidden = true; panel.innerHTML = ''; }
+  function render(matches, q){
+    if (!matches.length) {
+      panel.innerHTML = '<div class="uni-search-empty">No lessons match <strong>' + escapeText(q) + '</strong></div>';
+      panel.hidden = false;
+      return;
+    }
+    panel.innerHTML = matches.slice(0, 8).map(function(m){
+      return '<a class="uni-search-hit" href="' + m.url + '">' +
+        '<span class="uni-search-hit-code">' + escapeText(m.code || '') + '</span>' +
+        '<span class="uni-search-hit-title">' + highlight(m.title, q) + '</span>' +
+        (m.track ? '<span class="uni-search-hit-meta">' + escapeText(m.track) + '</span>' : '') +
+        '</a>';
+    }).join('');
+    panel.hidden = false;
+  }
+  function escapeText(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function highlight(s, q){
+    var safe = escapeText(s);
+    if (!q) return safe;
+    var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(rx, '<mark>$1</mark>');
+  }
+  function match(q, items){
+    var ql = q.toLowerCase();
+    return items.filter(function(i){
+      return (i.title && i.title.toLowerCase().indexOf(ql) !== -1) || (i.body && i.body.toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+  input.addEventListener('focus', function(){ load(); });
+  input.addEventListener('input', function(){
+    var q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    load().then(function(items){ render(match(q, items), q); });
+  });
+  input.addEventListener('blur', function(){ setTimeout(close, 180); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+      e.preventDefault(); input.focus();
+    }
+    if (e.key === 'Escape') { input.blur(); close(); }
+  });
+})();
+</script>
+<main id="main">
+
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <a href="/architect/">Architect</a><span class="sep">›</span>
+    <a href="/architect/budget-governance/">Budget Governance</a><span class="sep">›</span>
+    <span class="current">Live computation, not stored</span>
+  </div>
+</section>
+
+<div class="container">
+  <div class="lesson-layout">
+    <aside class="lesson-sidebar" aria-label="Module navigation">
+      <h4>Budget Governance</h4>
+      <nav>
+<a href="/architect/budget-governance/budget-basics/" class="">
+  <span class="num">L1</span>
+  <span>Budget vs forecast vs alert</span>
+</a>
+<a href="/architect/budget-governance/budget-scopes/" class="">
+  <span class="num">L2</span>
+  <span>Per-resource, per-group, per-team budg…</span>
+</a>
+<a href="/architect/budget-governance/threshold-alerts/" class="">
+  <span class="num">L3</span>
+  <span>Threshold-crossing notifications</span>
+</a>
+<a href="/architect/budget-governance/signals/" class="">
+  <span class="num">L4</span>
+  <span>Green/yellow/red signals</span>
+</a>
+<a href="/architect/budget-governance/live-compute/" class="current">
+  <span class="num">L5</span>
+  <span>Live computation, not stored</span>
+</a></nav>
+    </aside>
+
+    <article class="lesson-content">
+      <header class="lesson-header">
+        <div class="lesson-id">
+          <span>T3 / M3.6 / L5 of 5 / Architect tier / 9 min</span>
+        </div>
+        <h1>Live computation, not stored</h1>
+      </header>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>defend</strong> the architectural choice to compute budget spend live (rather than store a <code>current_spend_usd</code> column), <strong>predict</strong> the performance characteristics, <strong>and reason</strong> about why this choice matches the two-source cost model.</p></div>
+      <div class="lesson-metabox"><dl>
+<dt>Tier</dt>
+<dd>Architect</dd>
+<dt>JTBD</dt>
+<dd>&quot;Understand why ZopNight&#39;s budgets always reflect the latest cost data, with zero batch lag.&quot;</dd>
+<dt>Personas</dt>
+<dd>Platform Engineer / FinOps Lead / Security/Compliance</dd>
+<dt>Prerequisites</dt>
+<dd>M3.6.L1-L4 (budget basics + signals) / T0.M0.4 (two-source cost model)</dd>
+<dt>Time</dt>
+<dd>9 minutes</dd>
+<dt>Bloom verb</dt>
+<dd>Defend (Evaluate), Predict (Analyze), Reason (Evaluate)</dd></dl></div>
+      <h2 id="1-concept">1. Concept</h2>
+<p>A budget's current spend is <strong>computed live</strong> on every read, by aggregating <code>cost_records</code> against the budget's scope and time window. There is no <code>current_spend_usd</code> stored column in the database. Every dashboard view, every API call, every notification cron computes the value fresh.</p>
+<pre><code>ARCHITECTURE — LIVE COMPUTATION:
+
+  Read budget detail
+    ↓
+  SELECT SUM(costColumn(hasBilling))
+  FROM cost_records
+  WHERE (scope matches budget&#39;s filter)
+    AND (date in current budget period)
+    ↓
+  Return the sum
+  
+ARCHITECTURE NOT USED — STORED CURRENT_SPEND:
+  Cron writes current_spend_usd column periodically
+  Read budget → return stored value
+  (this approach was used in v2; dropped April 2026)</code></pre>
+<p>The live-compute architecture is what makes budgets always-current and always-correct. It is also what allows arbitrary scope changes to take effect immediately.</p>
+<h3 id="why-live-computation">Why live computation</h3>
+<p>Four reasons, in order of importance:</p>
+<pre><code>1. ACCURACY
+   Always current. No stale data. New cost records show up in the
+   budget reading immediately (next read).
+   Stored values lag by however long the last cron ran.
+
+2. SIMPLICITY
+   One source of truth (cost_records). No sync logic.
+   Stored values require maintenance:
+     - When cost records change, recompute
+     - When scope changes, recompute
+     - Handle race conditions during recompute
+     - Detect and reconcile drift
+     None of this exists in the live-compute model.
+
+3. FLEXIBILITY
+   Easy to compute any scope. New filters work immediately.
+   Stored would require materialized columns for every possible
+   filter combination — impractical at scale.
+
+4. CORRECTNESS
+   No drift. The computation matches what reports show.
+   Stored values can diverge from actuals (rare, but possible
+   bugs cause this; we eliminate the class of bug entirely).</code></pre>
+<h3 id="performance-characteristics">Performance characteristics</h3>
+<p>The concern with live computation is performance. Aren't aggregate SQL queries slow?</p>
+<pre><code>TYPICAL BUDGET READ COSTS (with proper indexing):
+
+  Per-resource budget:    ~5 ms   (single resource_uid filter)
+  Per-group budget:       ~10-25 ms (small to medium group)
+  Per-team budget:         ~10-50 ms (most teams; tag-indexed)
+  Org-wide rollup:         ~50-150 ms (full table scan with date filter)
+  
+DASHBOARD with 12 budget widgets: ~200-400 ms total
+  Fast enough for sub-second page renders.</code></pre>
+<p>The indexing strategy is the key. The <code>cost_records</code> table is indexed on <code>(org_id, date, scope_columns)</code> — the aggregate queries hit the index, not the full table.</p>
+<p>Compare to the stored alternative:</p>
+<pre><code>STORED-COLUMN READ COSTS:
+  Per budget read: 1-2 ms (single row read)
+  
+  But: more complex sync logic
+       Stored values lag behind actuals by minutes-to-hours
+       Re-computation on scope change adds latency to write</code></pre>
+<p>The 10-50 ms live-compute cost is the right trade for the simplicity gains. Sub-100ms is well within UI responsiveness budgets.</p>
+<h3 id="the-costcolumn-function">The <code>costColumn()</code> function</h3>
+<p>The SQL aggregation uses a helper function <code>costColumn(hasBilling)</code> that picks the right cost source per the two-source model (T0.M0.4):</p>
+<pre><code>costColumn(hasBilling):
+  hasBilling = true   →  COALESCE(actual_cost_usd, cost_usd)
+  hasBilling = false  →  cost_usd</code></pre>
+<p>This ensures budgets use the right cost source for the customer's setup:</p>
+<ul>
+<li>If the cloud-account is configured with billing sync → use actual (post-discount, billing-data) when available, fall back to calculated (rack rate) for unsynced days</li>
+<li>If no billing sync → use only the calculated cost</li>
+</ul>
+<p>The result: budgets reflect what the customer will actually pay (when billing data is available) and what we think they will pay (when it isn't), automatically.</p>
+<h3 id="what-live-compute-means-for-budgets">What live compute means for budgets</h3>
+<pre><code>1. SPEND UPDATES IMMEDIATELY when new cost records land
+   - Hourly: discovery cron writes new rack-rate cost records
+   - 24h: billing sync updates actual_cost_usd
+   - In both cases, next budget read picks up the new value
+   - Budget transitions from green to yellow to red as data arrives;
+     no batch processing delay
+
+2. COST SOURCE LABEL visible on budget detail
+   - &quot;Computed from billed cost&quot; (mostly billing data; ideal)
+   - &quot;Computed from rack rate&quot; (only calculated; pre-billing-sync
+     setup or sync paused)
+   - &quot;Mixed&quot; (some billing data, some rack rate)
+   - The label lets the user know which cost column is in play
+
+3. BUDGET CHANGES TAKE EFFECT IMMEDIATELY
+   - New threshold added: next read evaluates against the new threshold
+   - Scope changed (added a resource group): next read includes the
+     new scope
+   - No stored spend to &quot;recompute&quot; — there is nothing to migrate;
+     the next read uses the new scope</code></pre>
+<h3 id="notification-firing">Notification firing</h3>
+<p>The notification cron uses the same live-computation logic:</p>
+<pre><code>NOTIFICATION CRON (runs hourly):
+  
+  For each active budget:
+    spend = live_compute_spend(budget)
+    threshold_crossings = check_thresholds(spend, last_known_spend)
+    
+    For each newly-crossed threshold:
+      fire_notification(threshold, channels)
+      record(audit_log, threshold_crossing)
+    
+    Update budget.last_known_spend = spend
+      (this is the only &quot;stored&quot; value — it&#39;s a &quot;did we already
+       notify on this threshold?&quot; flag, not the spend itself)</code></pre>
+<p>The single stored field is the cross-period bookkeeping flag, not the spend value. The spend itself is computed live.</p>
+<h3 id="historical-migration">Historical migration</h3>
+<p>ZopNight historically stored <code>current_spend_usd</code>. The column was dropped in April 2026 (PRs #1078 + #1108).</p>
+<pre><code>MIGRATION (2026-04-30):
+  1. PR #1078: convert all budget reads to live computation
+              Validate against the stored value (parity check)
+              No customer-visible change
+              
+  2. PR #1108: drop the stored column from the schema
+              Remove the cron that maintained it
+              Simplify the budget service code
+
+CUSTOMER IMPACT: zero
+  Reads use the same underlying cost data, just computed live.
+  Performance is comparable (within 50 ms).
+  Accuracy improved (no stale-data window).
+  Audit log is unchanged.</code></pre>
+<p>The architecture is intentionally lean. Storing a value that can be computed from other values is duplication; duplication invites drift; drift causes audit headaches. Live compute eliminates the class.</p>
+<h3 id="when-live-compute-would-not-be-the-right-choice">When live compute would NOT be the right choice</h3>
+<p>A useful counterfactual:</p>
+<pre><code>LIVE COMPUTE BREAKS DOWN if:
+  - Underlying data is very expensive to query (billion-row scans
+    without indexing)
+  - Aggregation is recursive or graph-walking
+  - Realtime requirement is sub-millisecond (it&#39;s not for budgets)
+  
+For ZopNight&#39;s cost_records table:
+  - Indexed appropriately; queries hit indices
+  - Aggregation is straightforward SUM with date + scope filter
+  - 50 ms is fine for budgets
+  
+So live compute is the right answer here.</code></pre>
+<p>For a different domain (e.g., a real-time game scoreboard), the trade-offs might shift. For budgets specifically, live compute wins.</p>
+<h3 id="how-zopnight-uses-live-computation">How ZopNight uses live computation</h3>
+<p>Every surface that displays budget spend reads it live: dashboards, Reports → Budget Health, the budget detail page, the API endpoint <code>/v1/budgets/{id}</code>, and the notification cron. All of them share the same <code>compute_budget_spend(budget_id)</code> function — there is no second source-of-truth that could disagree.</p>
+<p>For customers who want to export budget state, the API returns the computed value at the moment of the call. Snapshotting a budget's spend at a specific time means calling the API at that time; the system does not retain historical "spend at point X" values (those can be derived from <code>cost_records</code> time-series if needed).</p>
+<hr>
+<h2 id="2-demo">2. Demo</h2>
+<p>A scope-change scenario:</p>
+<pre><code>SCENARIO: Customer adjusts a budget&#39;s scope mid-period.
+
+T+0       Open budget detail
+          Current spend: $4,200 (live computed)
+          Scope: dev-platform-eu group
+          
+T+30 s    Click Edit; change scope to:
+          dev-platform-eu group + staging-eu group
+          (adding a second group to the scope)
+          
+T+45 s    Save the change
+          
+T+46 s    Refresh the budget detail page
+          Recomputed live: spend = $6,800
+          (new scope includes the additional group&#39;s spend)
+
+NO BATCH delay. NO cron wait. NO migration job to rerun current_spend_usd.
+
+This works because:
+  - The budget definition stores the scope filter
+  - Every read evaluates the filter against cost_records
+  - No stored value to refresh
+  - The change takes effect at read time, not write time
+  
+CONTRAST with stored-column architecture:
+  - Save would trigger a recompute job
+  - User refreshes; sees stale value until job completes
+  - User wonders if the change took effect
+  - Possible race condition between recompute and read</code></pre>
+<p>The user gets immediate feedback. The system gets simpler. Both win.</p>
+<hr>
+<h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
+<p>Verify live computation:</p>
+<pre><code>1. Open any budget in your org
+   Current spend (note value): $__________
+   Cost source label: __________ (billed / rack rate / mixed)
+
+2. Wait an hour (or come back tomorrow)
+   Refresh the budget detail
+   Has the spend value changed? Yes / No
+   New value: $__________
+   
+3. If your billing sync just completed (or if it&#39;s been &gt; 24h),
+   the cost source label may have changed from &quot;rack rate&quot; to
+   &quot;billed&quot; for the most recent days. Note any change.
+
+4. Audit observation:
+   Did the budget transition green/yellow/red during the period?
+   __________
+   
+5. Architectural check:
+   Open the API endpoint /v1/budgets/{your-budget-id}
+   The response should include the same computed spend
+   API response: $__________  (matches UI? yes / no)</code></pre>
+<p>If the API and UI values diverge, that's a bug worth reporting — they should always match because they share the live-compute function.</p>
+<hr>
+<h2 id="4-knowledge-check">4. Knowledge check</h2>
+<h3 id="q1">Q1</h3>
+<p>A budget's current spend is:</p>
+<p>A. Stored in a database column for fast reads B. Computed live on every read by aggregating <code>cost_records</code> for the budget's scope and current period. Always current; no stale data; no sync logic. The <code>costColumn(hasBilling)</code> helper picks the right cost source (billed vs rack rate) per the two-source model. C. Cached for 1 hour D. Random</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Live computation is the architectural choice. The <code>current_spend_usd</code> column was dropped in April 2026; the design is intentional.</p>
+</details>
+<h3 id="q2">Q2</h3>
+<p>A new cost record lands at 14:25 UTC. The budget reflects:</p>
+<p>A. After the next cron run (could be hours) B. Immediately, on the next budget read. Live computation means latency = SQL query time (~10-50 ms). The budget transitions across thresholds in near-real-time as cost records arrive. C. After 24 hours D. Random</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Immediate. There is no batch step between cost arrival and budget visibility.</p>
+</details>
+<h3 id="q3">Q3</h3>
+<p>Why no stored <code>current_spend</code> column?</p>
+<p>A. Performance — stored would be slower B. Simplicity and correctness. One source of truth (<code>cost_records</code>). Stored would require sync logic, risk drift, and add complexity. Live compute is fast enough (10-50 ms typical) for the UI responsiveness budget. The trade-off favors live compute decisively. C. Database constraints D. Random</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Architectural decision for simplicity. Performance is comparable; correctness is improved.</p>
+</details>
+<hr>
+<h2 id="5-apply">5. Apply</h2>
+<p>The budget detail page surfaces live-computed spend with the cost-source label. No additional configuration; the architecture handles it.</p>
+<p>For customers debugging "why is my budget showing X" questions, the answer is always: look at the underlying <code>cost_records</code> for the budget's scope and time window. The budget number is a SUM; the components are queryable.</p>
+<hr>
+<h2 id="related-lessons">Related lessons</h2>
+<ul>
+<li><a href="L1_budget_basics.md">L1 — Budget vs forecast vs alert</a></li>
+<li><a href="L2_budget_scopes.md">L2 — Budget scopes</a></li>
+<li><a href="L3_threshold_alerts.md">L3 — Threshold-crossing notifications</a></li>
+<li><a href="L4_signals.md">L4 — Green/yellow/red signals</a></li>
+<li><a href="../../T0_foundations/M0.4_rack_rate_vs_billing/L4_two_source_model.md">T0.M0.4.L4 — The two-source cost model</a></li>
+</ul>
+<h2 id="glossary-terms-touched">Glossary terms touched</h2>
+<p><a href="/glossary/live-computation/">Live computation</a> · <a href="/glossary/cost-column/"><code>costColumn()</code></a> · <a href="/glossary/current-spend-usd/"><code>current_spend_usd</code></a> · <a href="/glossary/cost-source-label/">Cost source label</a></p>
+<hr>
+<h2 id="module-quiz">Module quiz</h2>
+<p>Complete M3.6 → 10-question module quiz unlocks the <strong>Budget-Architect</strong> chip.</p>
+<hr>
+<p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-20 · Lesson ID: T3.M3.6.L5</p>
+
+
+      <nav class="lesson-nav" aria-label="Lesson navigation">
+        <a href="/architect/budget-governance/signals/" class="lesson-nav-link">
+  <div class="nav-dir">← Previous</div>
+  <div class="nav-title">Green/yellow/red signals</div>
+</a>
+        <a href="/architect/dashboards/presets/" class="lesson-nav-link lesson-nav-next">
+  <div class="nav-dir">Next</div>
+  <div class="nav-title">Four presets — Executive, Engineering, FinOps, All Widgets</div>
+</a>
+      </nav>
+    </article>
+
+    <aside class="lesson-toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul id="lesson-toc-list"></ul>
+    </aside>
+  </div>
+</div>
+
+<script>
+// Generate TOC from rendered h2s
+document.addEventListener('DOMContentLoaded', function() {
+  const tocList = document.getElementById('lesson-toc-list');
+  if (!tocList) return;
+  const headings = document.querySelectorAll('.lesson-content h2');
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+});
+</script>
+</main>
+
+
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/zopnight/">ZopNight</a></li>
+        <li><a href="/zopday/">ZopDay</a></li>
+        <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+        <li><a href="/zopcloud/">ZopCloud</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/resources/blog/">Blog</a></li>
+        <li><a href="/resources/ebooks/">Ebooks</a></li>
+        <li><a href="/resources/customers/">Case studies</a></li>
+        <li><a href="/resources/changelog/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/company/about/">About</a></li>
+        <li><a href="/company/careers/">Careers</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/community/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right"></div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ABSORB the old footer markup below so it remains valid HTML. We render
+     the canonical OG markup above, then close with a hidden placeholder so
+     legacy classes still parse without showing anything. -->
+<div style="display:none">
+  <div class="footer-brand-col" aria-hidden="true">
+    <a href="/" class="logo-lockup md footer-brand-lockup">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <p class="footer-tag"></p>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/zopnight/">ZopNight</a></li>
+          <li><a href="/zopday/">ZopDay</a></li>
+          <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+          <li><a href="/zopcloud/">ZopCloud</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/">University</a></li>
+          <li><a href="/resources/blog/">Blog</a></li>
+          <li><a href="/resources/ebooks/">Ebooks</a></li>
+          <li><a href="/resources/case-studies/">Case studies</a></li>
+          <li><a href="/resources/docs/">Documentation</a></li>
+          <li><a href="/resources/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="/foundations/">Foundations</a></li>
+          <li><a href="/operator/">Operator</a></li>
+          <li><a href="/engineer/">Engineer</a></li>
+          <li><a href="/architect/">Architect</a></li>
+          <li><a href="/certifications/">Certifications</a></li>
+          <li><a href="/certifications/verify/">Verify a credential</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/search/">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/about/">About</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/trust/">Trust</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/community/">Slack</a></li>
+          <li><a href="https://twitter.com/zopdev" target="_blank" rel="noopener">Twitter</a></li>
+          <li><a href="https://github.com/zopdev" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/company/zopdev" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ZopDev / All rights reserved</div>
+      <div class="footer-bottom-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

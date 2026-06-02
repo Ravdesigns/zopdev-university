@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pick your SSO / ZopNight Architect / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to **choose** between SAML and OAuth based on org requirements, **explain** the trade-offs of each method, **and recognize** when a customer needs multiple SSO methods simultaneously.">
+<link rel="canonical" href="https://zop.dev/resources/university/architect/sso/pick-sso/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopDev University">
+<meta property="og:title" content="Pick your SSO / ZopNight Architect / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to **choose** between SAML and OAuth based on org requirements, **explain** the trade-offs of each method, **and recognize** when a customer needs multiple SSO methods simultaneously.">
+<meta property="og:url" content="https://zop.dev/resources/university/architect/sso/pick-sso/">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="Pick your SSO / ZopNight Architect / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **choose** between SAML and OAuth based on org requirements, **explain** the trade-offs of each method, **and recognize** when a customer needs multiple SSO methods simultaneously.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Pick your SSO",
+  "description": "By the end of this lesson, you will be able to **choose** between SAML and OAuth based on org requirements, **explain** the trade-offs of each method, **and recognize** when a customer needs multiple SSO methods simultaneously.",
+  "url": "https://zop.dev/resources/university/architect/sso/pick-sso/",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Architect",
+  "timeRequired": "PT9M",
+  "inLanguage": "en-US",
+  "isPartOf": {
+    "@type": "Course",
+    "name": "ZopNight Architect",
+    "url": "https://zop.dev/resources/university/architect/"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopDev"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ZopDev",
+      "item": "https://zop.dev/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Resources",
+      "item": "https://zop.dev/resources/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "University",
+      "item": "https://zop.dev/resources/university/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "ZopNight Architect",
+      "item": "https://zop.dev/resources/university/architect/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Sso",
+      "item": "https://zop.dev/resources/university/architect/sso/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Pick your SSO",
+      "item": "https://zop.dev/resources/university/architect/sso/pick-sso/"
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Site is dark-mode-only — lock the theme attribute before paint.
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</head>
+<body class="">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+     per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
+     in nav, footer, or content resolves correctly. -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
+      <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<nav class="nav" aria-label="Primary navigation">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/product/">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/resources/" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/company/">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/community/">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="/playground/" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+        <div class="nav-pg-menu" role="menu" aria-label="Playground options">
+          <a class="nav-pg-card nav-pg-card--night" href="/playground/#zopnight" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopnight"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopNight playground</span>
+                <span class="nav-pg-desc">Cost loop &middot; idle, schedules, anomalies</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+          <a class="nav-pg-card nav-pg-card--day" href="/playground/#zopday" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopday"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopDay playground</span>
+                <span class="nav-pg-desc">Deploy loop &middot; clusters, datastores, push</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a class="sign" href="/signin/">Sign In</a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+  </div>
+</nav>
+<div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-links">
+    <a href="/product/">Product</a>
+    <a href="/resources/">Resources</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/company/">Company</a>
+    <a href="/community/">Community</a>
+    <a href="/playground/">Playground</a>
+  </div>
+  <div class="nav-drawer-cta">
+    <a href="/signin/" class="sign">Sign in</a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+  </div>
+</div>
+<script>
+(function(){
+  var t = document.querySelector('.nav-mobile-toggle');
+  var d = document.getElementById('nav-drawer');
+  if (!t || !d) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    d.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('drawer-open', !open);
+  });
+  d.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') {
+      t.setAttribute('aria-expanded', 'false');
+      d.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+  });
+})();
+</script>
+
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="/" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button"
+                aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link ">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 237 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+        <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
+      </form>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  var dds = document.querySelectorAll('[data-uni-dropdown]');
+  if (!dds.length) return;
+  function closeAll(){
+    dds.forEach(function(d){
+      d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+      d.classList.remove('open');
+    });
+  }
+  dds.forEach(function(dd){
+    var btn = dd.querySelector('.uni-dropdown-toggle');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        dd.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e){
+    var inside = false;
+    dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+    if (!inside) closeAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
+(function(){
+  var input = document.querySelector('.uni-search-input');
+  var panel = document.getElementById('uni-search-panel');
+  if (!input || !panel) return;
+  var idx = null;
+  function load(){
+    if (idx) return Promise.resolve(idx);
+    return fetch('/assets/lessons.json').then(function(r){ return r.json(); }).then(function(j){ idx = j; return j; }).catch(function(){ idx = []; return []; });
+  }
+  function close(){ panel.hidden = true; panel.innerHTML = ''; }
+  function render(matches, q){
+    if (!matches.length) {
+      panel.innerHTML = '<div class="uni-search-empty">No lessons match <strong>' + escapeText(q) + '</strong></div>';
+      panel.hidden = false;
+      return;
+    }
+    panel.innerHTML = matches.slice(0, 8).map(function(m){
+      return '<a class="uni-search-hit" href="' + m.url + '">' +
+        '<span class="uni-search-hit-code">' + escapeText(m.code || '') + '</span>' +
+        '<span class="uni-search-hit-title">' + highlight(m.title, q) + '</span>' +
+        (m.track ? '<span class="uni-search-hit-meta">' + escapeText(m.track) + '</span>' : '') +
+        '</a>';
+    }).join('');
+    panel.hidden = false;
+  }
+  function escapeText(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function highlight(s, q){
+    var safe = escapeText(s);
+    if (!q) return safe;
+    var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(rx, '<mark>$1</mark>');
+  }
+  function match(q, items){
+    var ql = q.toLowerCase();
+    return items.filter(function(i){
+      return (i.title && i.title.toLowerCase().indexOf(ql) !== -1) || (i.body && i.body.toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+  input.addEventListener('focus', function(){ load(); });
+  input.addEventListener('input', function(){
+    var q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    load().then(function(items){ render(match(q, items), q); });
+  });
+  input.addEventListener('blur', function(){ setTimeout(close, 180); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+      e.preventDefault(); input.focus();
+    }
+    if (e.key === 'Escape') { input.blur(); close(); }
+  });
+})();
+</script>
+<main id="main">
+
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <a href="/architect/">Architect</a><span class="sep">›</span>
+    <a href="/architect/sso/">Sso</a><span class="sep">›</span>
+    <span class="current">Pick your SSO</span>
+  </div>
+</section>
+
+<div class="container">
+  <div class="lesson-layout">
+    <aside class="lesson-sidebar" aria-label="Module navigation">
+      <h4>Sso</h4>
+      <nav>
+<a href="/architect/sso/pick-sso/" class="current">
+  <span class="num">L1</span>
+  <span>Pick your SSO</span>
+</a>
+<a href="/architect/sso/saml-config/" class="">
+  <span class="num">L2</span>
+  <span>SAML per-email-domain</span>
+</a>
+<a href="/architect/sso/oauth/" class="">
+  <span class="num">L3</span>
+  <span>Google + GitHub OAuth</span>
+</a>
+<a href="/architect/sso/diagnose-sso/" class="">
+  <span class="num">L4</span>
+  <span>Diagnosing SSO failures</span>
+</a></nav>
+    </aside>
+
+    <article class="lesson-content">
+      <header class="lesson-header">
+        <div class="lesson-id">
+          <span>T3 / M3.2 / L1 of 4 / Architect tier / 9 min</span>
+        </div>
+        <h1>Pick your SSO</h1>
+      </header>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>choose</strong> between SAML and OAuth based on org requirements, <strong>explain</strong> the trade-offs of each method, <strong>and recognize</strong> when a customer needs multiple SSO methods simultaneously.</p></div>
+      <div class="lesson-metabox"><dl>
+<dt>Tier</dt>
+<dd>Architect</dd>
+<dt>JTBD</dt>
+<dd>&quot;Pick the right SSO method for our org without painting ourselves into a corner six months from now.&quot;</dd>
+<dt>Personas</dt>
+<dd>Platform Engineer / Security/Compliance / IT Admin</dd>
+<dt>Prerequisites</dt>
+<dd>T0 — Foundations / M3.1 — RBAC fundamentals</dd>
+<dt>Time</dt>
+<dd>9 minutes</dd>
+<dt>Bloom verb</dt>
+<dd>Choose (Evaluate), Explain (Understand), Recognize (Apply)</dd></dl></div>
+      <h2 id="1-concept">1. Concept</h2>
+<p>Single Sign-On lets users authenticate once against a trusted identity provider (IdP) and access ZopNight without managing a separate password. ZopNight supports three SSO methods: <strong>SAML</strong> for enterprise IdPs (Okta, Azure AD, OneLogin), <strong>Google OAuth</strong> for Google Workspace orgs, and <strong>GitHub OAuth</strong> for engineering-heavy teams already federated on GitHub.</p>
+<p>All three coexist. A customer can enable any combination — SAML as primary, Google OAuth for a contractor pool, GitHub OAuth for an open-source partner team — and each user picks the method that matches their account.</p>
+<pre><code>SSO METHOD     BEST FOR                              TRADE-OFF
+──────────────────────────────────────────────────────────────────
+SAML           Enterprises with a central IdP        Per-domain config;
+               (Okta, Azure AD, OneLogin, Auth0)    cert management;
+                                                     compliance-friendly
+                                                     
+Google OAuth   Teams already on Google Workspace     Any Google user can
+                                                     attempt; need domain
+                                                     allowlist for safety
+                                                     
+GitHub OAuth   Engineering teams on GitHub Enterprise GitHub account
+                                                     required; lighter
+                                                     compliance posture</code></pre>
+<h3 id="selection-criteria">Selection criteria</h3>
+<p>The right choice usually falls out of three questions: where does identity already live, what compliance posture is the customer in, and how heterogeneous is the user population?</p>
+<pre><code>CRITERION                                    BEST CHOICE
+──────────────────────────────────────────────────────────────────
+Org already has Okta / Azure AD / OneLogin   SAML (centralizes)
+SOC 2 / ISO 27001 audit posture              SAML (compliance trail)
+Per-team identity provisioning needed         SAML (group → role)
+Mixed users (employees + contractors)         SAML primary +
+                                              OAuth for contractors
+Pure Google Workspace org                     Google OAuth
+Just engineering team, no enterprise IdP      Google or GitHub OAuth
+Want shortest setup time                      OAuth (5 min vs 30 min)
+Don&#39;t want to manage SSO certs                OAuth (no certs)
+Need to enforce SCIM auto-provisioning        SAML (well-supported)</code></pre>
+<h3 id="saml-the-enterprise-default">SAML: the enterprise default</h3>
+<p>SAML 2.0 is the assertion-based protocol used by most enterprise IdPs. The customer configures one entry per email domain in ZopNight; users signing in with <code>jane@example.com</code> are redirected to the IdP configured for <code>example.com</code>. The IdP authenticates, issues a signed XML assertion, and ZopNight validates the signature against the stored cert before creating a session.</p>
+<p>SAML's strengths are exactly what compliance teams care about: per-domain configuration is auditable, signing certs are managed centrally, attribute mappings (email, name, group) flow from the IdP, and group claims can drive automatic team assignment. The cost is operational: certs expire annually, metadata can drift, and clock skew between IdP and ZopNight produces puzzling intermittent failures.</p>
+<h3 id="oauth-the-lightweight-default">OAuth: the lightweight default</h3>
+<p>OAuth (Google or GitHub) is faster to enable. Two env vars (client ID + secret), a redirect URI configured at the provider, and the "Sign in with Google" button appears on the login page. No certs, no metadata XML, no per-domain configuration.</p>
+<p>The trade-off: OAuth has no built-in domain restriction. Any Google account can attempt sign-in. For most orgs, that's not acceptable as-is — ZopNight applies a <strong>domain allowlist post-OAuth</strong> to bridge the gap. The check happens after the OAuth handshake: if the authenticated user's email is not in the allowlist, ZopNight rejects the session with an explicit message ("This Google account is not allowed for this org").</p>
+<h3 id="multi-method-coexistence">Multi-method coexistence</h3>
+<p>Most mid-size customers end up with one primary method and a secondary for edge cases:</p>
+<pre><code>PATTERN                                   PRIMARY        SECONDARY
+──────────────────────────────────────────────────────────────────
+Enterprise with mixed external partners    SAML            Google OAuth
+                                                          (contractors)
+Pure-Google Workspace mid-stage company    Google OAuth   GitHub OAuth
+                                                          (eng partners)
+Acquired-then-merged org                   SAML A          SAML B
+                                                          (post-acquisition
+                                                          consolidation)</code></pre>
+<p>The user picks the method at login. Account uniqueness is enforced on email — the same <code>jane@example.com</code> cannot exist as both SAML and Google OAuth user; whichever method first provisioned the user owns the account.</p>
+<h3 id="how-zopnight-uses-it">How ZopNight uses it</h3>
+<p>Customer telemetry (anonymized) on enabled SSO methods:</p>
+<pre><code>SSO STATE                                          % OF CUSTOMERS
+──────────────────────────────────────────────────────────────────
+SAML only                                          42%
+Google OAuth only                                  21%
+SAML + Google OAuth                                18%
+SAML + GitHub OAuth                                7%
+SAML + Google + GitHub                             5%
+GitHub OAuth only                                  4%
+Password (no SSO)                                  3%  (small/early)</code></pre>
+<p>The "SAML primary + OAuth secondary" pattern is the most common stable configuration for mid-to-large customers. The "SAML only" enterprises usually require it for compliance and disable any other method.</p>
+<hr>
+<h2 id="2-demo">2. Demo</h2>
+<p>Two customers, two methods, two different setup paths:</p>
+<pre><code>CUSTOMER A — B2B SaaS, 200 employees, on Azure AD
+  CHOICE:  SAML via Azure AD
+  CONFIG:  1 SAML config in ZopNight (domain=example.com)
+  EFFORT:  ~30 minutes (cert setup, attribute mapping, test)
+  RESULT:  All users SSO via Azure AD; SCIM provisions new users;
+           SOC 2 evidence collection trivial
+           
+CUSTOMER B — 8-person engineering team, no enterprise IdP
+  CHOICE:  Google OAuth (Workspace-backed)
+  CONFIG:  Two env vars (client ID + secret) + domain allowlist
+  EFFORT:  ~5 minutes
+  RESULT:  Engineers sign in with Google; Google&#39;s MFA satisfies
+           ZopNight&#39;s authentication requirement; no cert management</code></pre>
+<p>Different needs, different methods, both correct.</p>
+<hr>
+<h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
+<p>Map your org's identity landscape:</p>
+<pre><code>PRIMARY IDP (where most user accounts live):   __________
+
+DO YOU HAVE:
+  Enterprise IdP (Okta / Azure AD / OneLogin)?       Yes / No
+  Google Workspace?                                    Yes / No
+  GitHub Enterprise?                                   Yes / No
+  Compliance posture (SOC 2 / ISO / HIPAA / etc.)?    __________
+
+USER POPULATION:
+  Full-time employees:    _____ headcount
+  Contractors/partners:   _____ headcount
+  Engineering-only?       _____ Yes / No
+
+RECOMMENDED SSO (based on criteria):
+  Primary:    __________
+  Secondary:  __________ (or &quot;none&quot;)
+
+WHY:
+  __________________________________________________________</code></pre>
+<p>If your primary and secondary differ, that's normal. The choice depends on user heterogeneity.</p>
+<hr>
+<h2 id="4-knowledge-check">4. Knowledge check</h2>
+<h3 id="q1">Q1</h3>
+<p>A team with 500 employees, all on Okta, with a SOC 2 audit next quarter. Best SSO:</p>
+<p>A. GitHub OAuth — simplest setup B. SAML via Okta — enterprise IdP centralizes identity, integrates with existing compliance posture, supports group-based team mapping. The 30-minute setup pays back during the audit. C. Google OAuth D. Mix all three</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> SAML is the enterprise compliance choice. SOC 2 evidence collection is trivial with SAML's audit trail; OAuth requires more documentation to demonstrate the same controls.</p>
+</details>
+<h3 id="q2">Q2</h3>
+<p>A 5-person startup, all on Google Workspace, no compliance audit on the horizon. Best SSO:</p>
+<p>A. SAML — best practice B. Google OAuth — simpler setup (5 min vs 30 min), no certs to manage, integrates with Google's MFA. Move to SAML later if the org grows into enterprise compliance. C. GitHub OAuth D. Password authentication</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> At small scale and low compliance burden, OAuth's simplicity wins. Migrating to SAML later is straightforward — accounts persist by email.</p>
+</details>
+<h3 id="q3">Q3</h3>
+<p>Can multiple SSO methods coexist in the same ZopNight org?</p>
+<p>A. No, pick one B. Yes — SAML + Google OAuth + GitHub OAuth can all be enabled at once. Users pick the method at login. Account uniqueness is enforced on email. C. Only two methods D. SAML overrides others</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Multi-method is supported. Common pattern: SAML for employees, OAuth for contractors. The per-method config is independent.</p>
+</details>
+<hr>
+<h2 id="5-apply">5. Apply</h2>
+<p>Configure SSO methods in <a href="https://app.zopnight.com/settings/authentication" target="_blank" rel="noopener">Settings → Authentication</a>. The page shows all enabled methods, their status, and per-method test buttons. New users picking a method see only the enabled set; admins can toggle methods independently.</p>
+<p>A recommendation: enable a backup login method (password or break-glass) for one admin account, kept under physical key control. SSO providers occasionally have outages; you want a way back in.</p>
+<hr>
+<h2 id="related-lessons">Related lessons</h2>
+<ul>
+<li><a href="L2_saml_config.md">L2 — SAML per-email-domain</a> <em>(next)</em></li>
+<li><a href="L3_oauth.md">L3 — Google + GitHub OAuth</a></li>
+<li><a href="L4_diagnose_sso.md">L4 — Diagnosing SSO failures</a></li>
+<li><a href="../M3.3_audit_logging/L1_what_logged.md">T3.M3.3.L1 — Audit log: what gets recorded</a></li>
+</ul>
+<h2 id="glossary-terms-touched">Glossary terms touched</h2>
+<p><a href="/glossary/saml/">SAML</a> · <a href="/glossary/oauth/">OAuth 2.0</a> · <a href="/glossary/identity-provider/">Identity Provider</a> · <a href="/glossary/domain-allowlist/">Domain allowlist</a></p>
+<hr>
+<p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-20 · Lesson ID: T3.M3.2.L1</p>
+
+
+      <nav class="lesson-nav" aria-label="Lesson navigation">
+        <a href="/architect/rbac/frontend-gating/" class="lesson-nav-link">
+  <div class="nav-dir">← Previous</div>
+  <div class="nav-title">Frontend gating with usePermission()</div>
+</a>
+        <a href="/architect/sso/saml-config/" class="lesson-nav-link lesson-nav-next">
+  <div class="nav-dir">Next</div>
+  <div class="nav-title">SAML per-email-domain</div>
+</a>
+      </nav>
+    </article>
+
+    <aside class="lesson-toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul id="lesson-toc-list"></ul>
+    </aside>
+  </div>
+</div>
+
+<script>
+// Generate TOC from rendered h2s
+document.addEventListener('DOMContentLoaded', function() {
+  const tocList = document.getElementById('lesson-toc-list');
+  if (!tocList) return;
+  const headings = document.querySelectorAll('.lesson-content h2');
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+});
+</script>
+</main>
+
+
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/zopnight/">ZopNight</a></li>
+        <li><a href="/zopday/">ZopDay</a></li>
+        <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+        <li><a href="/zopcloud/">ZopCloud</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/resources/blog/">Blog</a></li>
+        <li><a href="/resources/ebooks/">Ebooks</a></li>
+        <li><a href="/resources/customers/">Case studies</a></li>
+        <li><a href="/resources/changelog/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/company/about/">About</a></li>
+        <li><a href="/company/careers/">Careers</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/community/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right"></div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ABSORB the old footer markup below so it remains valid HTML. We render
+     the canonical OG markup above, then close with a hidden placeholder so
+     legacy classes still parse without showing anything. -->
+<div style="display:none">
+  <div class="footer-brand-col" aria-hidden="true">
+    <a href="/" class="logo-lockup md footer-brand-lockup">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <p class="footer-tag"></p>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/zopnight/">ZopNight</a></li>
+          <li><a href="/zopday/">ZopDay</a></li>
+          <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+          <li><a href="/zopcloud/">ZopCloud</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/">University</a></li>
+          <li><a href="/resources/blog/">Blog</a></li>
+          <li><a href="/resources/ebooks/">Ebooks</a></li>
+          <li><a href="/resources/case-studies/">Case studies</a></li>
+          <li><a href="/resources/docs/">Documentation</a></li>
+          <li><a href="/resources/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="/foundations/">Foundations</a></li>
+          <li><a href="/operator/">Operator</a></li>
+          <li><a href="/engineer/">Engineer</a></li>
+          <li><a href="/architect/">Architect</a></li>
+          <li><a href="/certifications/">Certifications</a></li>
+          <li><a href="/certifications/verify/">Verify a credential</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/search/">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/about/">About</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/trust/">Trust</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/community/">Slack</a></li>
+          <li><a href="https://twitter.com/zopdev" target="_blank" rel="noopener">Twitter</a></li>
+          <li><a href="https://github.com/zopdev" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/company/zopdev" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ZopDev / All rights reserved</div>
+      <div class="footer-bottom-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

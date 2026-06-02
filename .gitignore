@@ -1,0 +1,33 @@
+# ============ OS / IDE ============
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo
+
+# ============ Node ============
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+
+# ============ Build artifacts (we DO commit /site so Vercel can deploy without a build step) ============
+# (intentionally not ignoring /site)
+
+# ============ Local Claude / preview state ============
+.claude/launch.json.bak
+.claude/state/
+.claude/cache/
+.claude/settings.local.json
+
+# ============ Env / secrets ============
+.env
+.env.local
+.env.*.local
+
+# ============ Vercel ============
+.vercel/
+
+# ============ macOS extended attrs / quarantine ============
+._*

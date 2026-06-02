@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tag enforcement in Terraform / CDK / Pulumi / DevOps Cost Discipline / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to **enforce** tag policy at the IaC layer (Terraform, CDK, Pulumi), **configure** CI/CD validation for tag rules, **and combine** IaC enforcement with auto-tagger to achieve 96%+ coverage.">
+<link rel="canonical" href="https://zop.dev/resources/university/devops-cost-discipline/iac-and-cost/tag-enforcement/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopDev University">
+<meta property="og:title" content="Tag enforcement in Terraform / CDK / Pulumi / DevOps Cost Discipline / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to **enforce** tag policy at the IaC layer (Terraform, CDK, Pulumi), **configure** CI/CD validation for tag rules, **and combine** IaC enforcement with auto-tagger to achieve 96%+ coverage.">
+<meta property="og:url" content="https://zop.dev/resources/university/devops-cost-discipline/iac-and-cost/tag-enforcement/">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="Tag enforcement in Terraform / CDK / Pulumi / DevOps Cost Discipline / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **enforce** tag policy at the IaC layer (Terraform, CDK, Pulumi), **configure** CI/CD validation for tag rules, **and combine** IaC enforcement with auto-tagger to achieve 96%+ coverage.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Tag enforcement in Terraform / CDK / Pulumi",
+  "description": "By the end of this lesson, you will be able to **enforce** tag policy at the IaC layer (Terraform, CDK, Pulumi), **configure** CI/CD validation for tag rules, **and combine** IaC enforcement with auto-tagger to achieve 96%+ coverage.",
+  "url": "https://zop.dev/resources/university/devops-cost-discipline/iac-and-cost/tag-enforcement/",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Engineer",
+  "timeRequired": "PT9M",
+  "inLanguage": "en-US",
+  "isPartOf": {
+    "@type": "Course",
+    "name": "DevOps Cost Discipline",
+    "url": "https://zop.dev/resources/university/devops-cost-discipline/"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopDev"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ZopDev",
+      "item": "https://zop.dev/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Resources",
+      "item": "https://zop.dev/resources/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "University",
+      "item": "https://zop.dev/resources/university/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "DevOps Cost Discipline",
+      "item": "https://zop.dev/resources/university/devops-cost-discipline/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Iac And Cost",
+      "item": "https://zop.dev/resources/university/devops-cost-discipline/iac-and-cost/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Tag enforcement in Terraform / CDK / Pulumi",
+      "item": "https://zop.dev/resources/university/devops-cost-discipline/iac-and-cost/tag-enforcement/"
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Site is dark-mode-only — lock the theme attribute before paint.
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</head>
+<body class="">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+     per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
+     in nav, footer, or content resolves correctly. -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
+      <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<nav class="nav" aria-label="Primary navigation">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/product/">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/resources/" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/company/">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/community/">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="/playground/" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+        <div class="nav-pg-menu" role="menu" aria-label="Playground options">
+          <a class="nav-pg-card nav-pg-card--night" href="/playground/#zopnight" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopnight"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopNight playground</span>
+                <span class="nav-pg-desc">Cost loop &middot; idle, schedules, anomalies</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+          <a class="nav-pg-card nav-pg-card--day" href="/playground/#zopday" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopday"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopDay playground</span>
+                <span class="nav-pg-desc">Deploy loop &middot; clusters, datastores, push</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a class="sign" href="/signin/">Sign In</a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+  </div>
+</nav>
+<div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-links">
+    <a href="/product/">Product</a>
+    <a href="/resources/">Resources</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/company/">Company</a>
+    <a href="/community/">Community</a>
+    <a href="/playground/">Playground</a>
+  </div>
+  <div class="nav-drawer-cta">
+    <a href="/signin/" class="sign">Sign in</a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+  </div>
+</div>
+<script>
+(function(){
+  var t = document.querySelector('.nav-mobile-toggle');
+  var d = document.getElementById('nav-drawer');
+  if (!t || !d) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    d.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('drawer-open', !open);
+  });
+  d.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') {
+      t.setAttribute('aria-expanded', 'false');
+      d.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+  });
+})();
+</script>
+
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="/" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button"
+                aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link ">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 237 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+        <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
+      </form>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  var dds = document.querySelectorAll('[data-uni-dropdown]');
+  if (!dds.length) return;
+  function closeAll(){
+    dds.forEach(function(d){
+      d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+      d.classList.remove('open');
+    });
+  }
+  dds.forEach(function(dd){
+    var btn = dd.querySelector('.uni-dropdown-toggle');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        dd.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e){
+    var inside = false;
+    dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+    if (!inside) closeAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
+(function(){
+  var input = document.querySelector('.uni-search-input');
+  var panel = document.getElementById('uni-search-panel');
+  if (!input || !panel) return;
+  var idx = null;
+  function load(){
+    if (idx) return Promise.resolve(idx);
+    return fetch('/assets/lessons.json').then(function(r){ return r.json(); }).then(function(j){ idx = j; return j; }).catch(function(){ idx = []; return []; });
+  }
+  function close(){ panel.hidden = true; panel.innerHTML = ''; }
+  function render(matches, q){
+    if (!matches.length) {
+      panel.innerHTML = '<div class="uni-search-empty">No lessons match <strong>' + escapeText(q) + '</strong></div>';
+      panel.hidden = false;
+      return;
+    }
+    panel.innerHTML = matches.slice(0, 8).map(function(m){
+      return '<a class="uni-search-hit" href="' + m.url + '">' +
+        '<span class="uni-search-hit-code">' + escapeText(m.code || '') + '</span>' +
+        '<span class="uni-search-hit-title">' + highlight(m.title, q) + '</span>' +
+        (m.track ? '<span class="uni-search-hit-meta">' + escapeText(m.track) + '</span>' : '') +
+        '</a>';
+    }).join('');
+    panel.hidden = false;
+  }
+  function escapeText(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function highlight(s, q){
+    var safe = escapeText(s);
+    if (!q) return safe;
+    var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(rx, '<mark>$1</mark>');
+  }
+  function match(q, items){
+    var ql = q.toLowerCase();
+    return items.filter(function(i){
+      return (i.title && i.title.toLowerCase().indexOf(ql) !== -1) || (i.body && i.body.toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+  input.addEventListener('focus', function(){ load(); });
+  input.addEventListener('input', function(){
+    var q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    load().then(function(items){ render(match(q, items), q); });
+  });
+  input.addEventListener('blur', function(){ setTimeout(close, 180); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+      e.preventDefault(); input.focus();
+    }
+    if (e.key === 'Escape') { input.blur(); close(); }
+  });
+})();
+</script>
+<main id="main">
+
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <a href="/devops-cost-discipline/">DevOps Cost</a><span class="sep">›</span>
+    <a href="/devops-cost-discipline/iac-and-cost/">Iac And Cost</a><span class="sep">›</span>
+    <span class="current">Tag enforcement in Terraform / CDK / Pulumi</span>
+  </div>
+</section>
+
+<div class="container">
+  <div class="lesson-layout">
+    <aside class="lesson-sidebar" aria-label="Module navigation">
+      <h4>Iac And Cost</h4>
+      <nav>
+<a href="/devops-cost-discipline/iac-and-cost/tag-enforcement/" class="current">
+  <span class="num">L1</span>
+  <span>Tag enforcement in Terraform / CDK / P…</span>
+</a>
+<a href="/devops-cost-discipline/iac-and-cost/drift/" class="">
+  <span class="num">L2</span>
+  <span>IaC drift detection</span>
+</a>
+<a href="/devops-cost-discipline/iac-and-cost/pre-merge/" class="">
+  <span class="num">L3</span>
+  <span>Pre-merge cost estimation</span>
+</a>
+<a href="/devops-cost-discipline/iac-and-cost/blast-radius/" class="">
+  <span class="num">L4</span>
+  <span>Blast radius — import / move / destroy</span>
+</a></nav>
+    </aside>
+
+    <article class="lesson-content">
+      <header class="lesson-header">
+        <div class="lesson-id">
+          <span>T5 / M5.6 / L1 of 4 / Engineer tier / 9 min</span>
+        </div>
+        <h1>Tag enforcement in Terraform / CDK / Pulumi</h1>
+      </header>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>enforce</strong> tag policy at the IaC layer (Terraform, CDK, Pulumi), <strong>configure</strong> CI/CD validation for tag rules, <strong>and combine</strong> IaC enforcement with auto-tagger to achieve 96%+ coverage.</p></div>
+      <div class="lesson-metabox"><dl>
+<dt>Tier</dt>
+<dd>Engineer</dd>
+<dt>JTBD</dt>
+<dd>&quot;Prevent untagged resources from ever being provisioned via IaC — catch the issue at PR time, not after the resource exists.&quot;</dd>
+<dt>Personas</dt>
+<dd>Platform Engineer / DevOps Engineer / FinOps Lead</dd>
+<dt>Prerequisites</dt>
+<dd>M5.1 (tagging) / M5.4 (multi-account)</dd>
+<dt>Time</dt>
+<dd>9 minutes</dd>
+<dt>Bloom verb</dt>
+<dd>Enforce (Apply), Configure (Apply), Combine (Synthesize)</dd></dl></div>
+      <h2 id="1-concept">1. Concept</h2>
+<p>Tagging discipline is best enforced at provisioning time. IaC tools can validate tags before resources are created — turning what was "we agreed to tag" into "the code won't deploy without tags." This is the preventive enforcement from M5.1.L2 in concrete form.</p>
+<pre><code>ENFORCEMENT LADDER (effectiveness):
+
+  REACTIVE (worst)     Manual quarterly cleanup
+  DETECTIVE (OK)       Daily scan + auto-tagger
+  PREVENTIVE (best)    IaC validation rejects untagged provision</code></pre>
+<p>The preventive layer is where IaC enforcement lives. Combined with detective (auto-tagger), tag coverage stays at 96%+ indefinitely.</p>
+<h3 id="terraform-three-enforcement-layers">Terraform — three enforcement layers</h3>
+<pre><code class="lang-hcl"># LAYER 1 — PROVIDER DEFAULT TAGS
+provider &quot;aws&quot; {
+  region = &quot;us-east-1&quot;
+  
+  default_tags {
+    tags = {
+      environment = var.environment
+      team        = var.team
+      cost_center = var.cost_center
+      owner       = var.owner
+      managed-by  = &quot;terraform&quot;
+    }
+  }
+}
+# → Every resource in this provider gets these tags automatically.
+
+# LAYER 2 — VARIABLE VALIDATION
+variable &quot;environment&quot; {
+  type        = string
+  description = &quot;Environment: dev / test / stage / prod&quot;
+  
+  validation {
+    condition     = contains([&quot;dev&quot;, &quot;test&quot;, &quot;stage&quot;, &quot;prod&quot;], var.environment)
+    error_message = &quot;environment must be one of: dev, test, stage, prod&quot;
+  }
+}
+
+variable &quot;team&quot; {
+  type        = string
+  description = &quot;Team identifier (lowercase, hyphen-separated)&quot;
+  
+  validation {
+    condition     = can(regex(&quot;^[a-z][a-z0-9-]+$&quot;, var.team))
+    error_message = &quot;team must be lowercase with hyphens (e.g., &#39;payment-team&#39;)&quot;
+  }
+}
+
+# LAYER 3 — RESOURCE PRECONDITIONS
+resource &quot;aws_instance&quot; &quot;example&quot; {
+  ami           = data.aws_ami.amazon_linux.id
+  instance_type = &quot;t3.large&quot;
+  
+  tags = {
+    workload = &quot;ml-training&quot;  # additional tag beyond default
+  }
+  
+  lifecycle {
+    precondition {
+      condition = (
+        contains(keys(self.tags), &quot;environment&quot;) &amp;&amp;
+        contains(keys(self.tags), &quot;team&quot;) &amp;&amp;
+        contains(keys(self.tags), &quot;cost_center&quot;) &amp;&amp;
+        contains(keys(self.tags), &quot;owner&quot;)
+      )
+      error_message = &quot;Resource missing required tags: environment, team, cost_center, owner&quot;
+    }
+  }
+}</code></pre>
+<p>Three layers compound: defaults set the floor; validation catches typos; preconditions catch missing tags at apply time.</p>
+<h3 id="default-tags-inheritance-concrete-behavior">Default tags inheritance — concrete behavior</h3>
+<pre><code class="lang-hcl"># In root module
+provider &quot;aws&quot; {
+  default_tags {
+    tags = {
+      environment = &quot;prod&quot;
+      team        = &quot;payment-team&quot;
+      cost_center = &quot;ENG-PAYMENT-001&quot;
+      owner       = &quot;payment-team@company.com&quot;
+    }
+  }
+}
+
+# In some-module
+resource &quot;aws_instance&quot; &quot;web&quot; {
+  ami           = &quot;ami-...&quot;
+  instance_type = &quot;t3.medium&quot;
+  
+  # NO tags block here
+}
+
+# Result: instance gets all 4 tags from provider default!
+# No per-resource tagging needed.
+
+# If you add per-resource tags:
+resource &quot;aws_instance&quot; &quot;ml&quot; {
+  ami           = &quot;ami-...&quot;
+  instance_type = &quot;p4d.24xlarge&quot;
+  
+  tags = {
+    workload    = &quot;ml-training&quot;
+    cost_center = &quot;ML-001&quot;  # OVERRIDES the default
+  }
+}
+
+# Result: ml instance gets:
+#   environment = &quot;prod&quot;        (from default)
+#   team        = &quot;payment-team&quot; (from default)
+#   cost_center = &quot;ML-001&quot;       (RESOURCE OVERRIDE wins)
+#   owner       = &quot;...&quot;         (from default)
+#   workload    = &quot;ml-training&quot;  (resource added)</code></pre>
+<p>The merge behavior: most-specific scope wins for each key.</p>
+<h3 id="cdk-enforcement-typescript">CDK enforcement (TypeScript)</h3>
+<pre><code class="lang-typescript">import { Stack, Tags, Aspects, IAspect, IConstruct } from &#39;aws-cdk-lib&#39;;
+import { CfnResource } from &#39;aws-cdk-lib&#39;;
+
+// Layer 1: Apply tags to entire stack
+const stack = new Stack(app, &#39;production-stack&#39;);
+Tags.of(stack).add(&#39;environment&#39;, &#39;prod&#39;);
+Tags.of(stack).add(&#39;team&#39;, &#39;payment-team&#39;);
+Tags.of(stack).add(&#39;cost_center&#39;, &#39;ENG-PAYMENT-001&#39;);
+Tags.of(stack).add(&#39;owner&#39;, &#39;payment-team@company.com&#39;);
+
+// Layer 2: Aspect to enforce required tags
+class RequireTagsAspect implements IAspect {
+  visit(node: IConstruct): void {
+    if (node instanceof CfnResource) {
+      const tags = node.cfnOptions.tags || {};
+      const required = [&#39;environment&#39;, &#39;team&#39;, &#39;cost_center&#39;, &#39;owner&#39;];
+      const missing = required.filter(t =&gt; !(t in tags));
+      
+      if (missing.length &gt; 0) {
+        node.cfnOptions.metadata = {
+          ...node.cfnOptions.metadata,
+          ValidationError: `Missing required tags: ${missing.join(&#39;, &#39;)}`,
+        };
+      }
+    }
+  }
+}
+
+Aspects.of(stack).add(new RequireTagsAspect());</code></pre>
+<p>CDK's aspect system is the equivalent of Terraform's preconditions.</p>
+<h3 id="pulumi-enforcement-python">Pulumi enforcement (Python)</h3>
+<pre><code class="lang-python">import pulumi
+from pulumi import ResourceTransformation, ResourceTransformationArgs
+
+REQUIRED_TAGS = [&#39;environment&#39;, &#39;team&#39;, &#39;cost_center&#39;, &#39;owner&#39;]
+ALLOWED_ENVIRONMENTS = [&#39;dev&#39;, &#39;test&#39;, &#39;stage&#39;, &#39;prod&#39;]
+
+def enforce_tags(args: ResourceTransformationArgs):
+    if &#39;tags&#39; not in args.props:
+        args.props[&#39;tags&#39;] = {}
+    
+    # Apply defaults
+    args.props[&#39;tags&#39;].setdefault(&#39;environment&#39;, &#39;unknown&#39;)
+    args.props[&#39;tags&#39;].setdefault(&#39;team&#39;, &#39;unknown&#39;)
+    
+    # Validate
+    tags = args.props[&#39;tags&#39;]
+    missing = [t for t in REQUIRED_TAGS if t not in tags]
+    if missing:
+        raise ValueError(f&quot;Missing required tags: {missing}&quot;)
+    
+    if tags[&#39;environment&#39;] not in ALLOWED_ENVIRONMENTS:
+        raise ValueError(f&quot;Invalid environment: {tags[&#39;environment&#39;]}&quot;)
+    
+    return pulumi.ResourceTransformationResult(
+        props=args.props,
+        opts=args.opts,
+    )
+
+pulumi.runtime.register_stack_transformation(enforce_tags)</code></pre>
+<p>Pulumi's transformation system applies the rule org-wide.</p>
+<h3 id="pre-commit-ci-cd-validation">Pre-commit + CI/CD validation</h3>
+<p>Beyond IaC framework features, add explicit validation in CI:</p>
+<pre><code class="lang-yaml"># .github/workflows/terraform.yml
+name: Terraform Validation
+
+on:
+  pull_request:
+    paths:
+      - &#39;**/*.tf&#39;
+      - &#39;**/*.tfvars&#39;
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      
+      - name: Terraform Validate
+        run: terraform validate
+      
+      - name: Custom Tag Validation
+        run: python scripts/validate_tags.py terraform/
+      
+      - name: tflint
+        uses: terraform-linters/setup-tflint@v3
+        run: tflint --recursive</code></pre>
+<pre><code class="lang-python"># scripts/validate_tags.py
+import sys
+import re
+from pathlib import Path
+
+REQUIRED_TAGS = {&#39;environment&#39;, &#39;team&#39;, &#39;cost_center&#39;, &#39;owner&#39;}
+ALLOWED_ENVS = {&#39;dev&#39;, &#39;test&#39;, &#39;stage&#39;, &#39;prod&#39;}
+
+def check_tf_file(path):
+    content = Path(path).read_text()
+    errors = []
+    
+    # Find all resource blocks and check for tags
+    # (simplified; real validation uses proper TF parser)
+    for resource_match in re.finditer(r&#39;resource &quot;(\w+)&quot; &quot;(\w+)&quot; \{([^}]+)\}&#39;, content, re.DOTALL):
+        resource_type = resource_match.group(1)
+        resource_name = resource_match.group(2)
+        resource_body = resource_match.group(3)
+        
+        # Skip resources that don&#39;t support tags
+        if not supports_tags(resource_type):
+            continue
+        
+        # Check for tag presence
+        if &#39;tags&#39; not in resource_body and &#39;default_tags&#39; not in resource_body:
+            errors.append(f&quot;{path}: {resource_type}.{resource_name} missing tags block&quot;)
+    
+    return errors
+
+if __name__ == &#39;__main__&#39;:
+    errors = []
+    for tf in Path(sys.argv[1]).rglob(&#39;*.tf&#39;):
+        errors.extend(check_tf_file(tf))
+    
+    if errors:
+        for e in errors:
+            print(f&quot;ERROR: {e}&quot;)
+        sys.exit(1)</code></pre>
+<p>The script catches resources missing tags before merge.</p>
+<h3 id="cloud-native-policy-as-additional-layer">Cloud-native policy as additional layer</h3>
+<pre><code>AWS:
+  Service Control Policies (SCPs) - cannot create without tags
+  AWS Organizations Tag Policies - require specific tag keys
+  Config Rules - flag resources missing tags
+  
+GCP:
+  Organization Policy Service - constraints
+  Resource Manager Policy
+  
+AZURE:
+  Azure Policy - &quot;deny resources without tags&quot;
+  
+DEFENSE IN DEPTH:
+  IaC validation (catches PR-level)
+  Cloud-native policy (catches console-level)
+  Auto-tagger (catches whatever slips through)
+  
+Combined coverage: 99%+</code></pre>
+<p>The cloud-native layer catches resources created outside IaC (console, CLI, scripts).</p>
+<h3 id="effects-of-iac-enforced-tagging">Effects of IaC-enforced tagging</h3>
+<pre><code>BEFORE ENFORCEMENT:
+  30-40% of new resources missing required tags
+  Manual cleanup needed monthly
+  Reports unreliable for new resources
+  Engineers don&#39;t internalize the policy
+
+AFTER ENFORCEMENT:
+  100% of IaC-provisioned resources have tags (mandatory at PR)
+  Only manual cloud-console provisioning misses
+  Auto-tagger handles those (M5.1.L4)
+  Engineers see policy at PR time; internalize quickly
+  
+COVERAGE TRAJECTORY (typical):
+  Pre-enforcement:           70-80% coverage
+  Week 1 (rollout):           78%
+  Week 4:                     85%
+  Week 12 (auto-tagger):      94%
+  Steady state:               96-99%</code></pre>
+<p>The trajectory: IaC enforcement gets you to ~85% quickly; auto-tagger closes the gap.</p>
+<h3 id="common-pitfalls">Common pitfalls</h3>
+<pre><code>PITFALL                              MITIGATION
+──────────────────────────────────────────────────────────────────
+Validation rules too strict          Phase rollout
+Existing TF code doesn&#39;t pass        Apply to NEW resources first
+                                      Backfill existing gradually
+                                      
+Validation rules out of sync         Single source of truth
+across modules                       (shared module imports validation)
+                                      
+Tag-policy.yaml vs validation.tf      Auto-generate validation from
+inconsistent                          policy YAML
+                                      
+Engineers bypass via console          Cloud-native policy + auto-tagger
+                                      
+Default tags override desired         Document precedence
+per-resource                          Resource-level always wins
+                                      
+Validation slow CI runs               Cache; lint per-file</code></pre>
+<p>Most pitfalls are about insufficient automation or process gaps.</p>
+<hr>
+<h2 id="2-demo">2. Demo</h2>
+<p>A team's 4-week tag enforcement rollout:</p>
+<pre><code>TEAM: 50-engineer SaaS, mostly Terraform
+
+WEEK 0 — DEFINE POLICY:
+  Document required tags + values in platform-repo:
+    REQUIRED:
+      environment: dev / test / stage / prod
+      team: &lt;from approved list&gt;
+      cost_center: &lt;from finance list&gt;
+      owner: email
+    PUBLISH: tag-policy.yaml in platform repo
+    COMMUNICATE: #eng-platform announcement
+
+WEEK 1 — PROVIDER DEFAULTS:
+  Update Terraform modules:
+    Add default_tags block per provider
+    Variable validations for environment + team
+  Push as a non-breaking change
+  
+  Engineers see: their new resources auto-tagged
+  No PR breakage (default tags fill gaps)
+
+WEEK 2 — VARIABLE VALIDATION:
+  Add validation blocks for variables
+  Catch typos at terraform plan time
+  
+  Engineers see: PR feedback for invalid values
+  Quick to fix
+
+WEEK 3 — PRE-COMMIT + CI:
+  Add validate_tags.py to CI pipeline
+  Pre-commit hook for local validation
+  
+  Engineers see: PR blocks if missing tags
+  Onboarding doc updated
+
+WEEK 4 — CLOUD-NATIVE POLICY:
+  AWS SCPs require tags on EC2, RDS, S3, EBS
+  Catches console-created resources
+  Console users see clear error: &quot;Tags required&quot;
+
+RESULTS (week 6 audit):
+  Tag coverage on new resources: 100%
+  Tag coverage on existing resources: 92% (auto-tagger working)
+  Overall org coverage: 96%
+  
+  Engineers internalized policy in 2-3 PRs each
+  No major friction; some confusion in week 1 (resolved)</code></pre>
+<p>The trajectory: 4 weeks of focused work; 96%+ coverage indefinite.</p>
+<hr>
+<h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
+<p>Add tag enforcement to your IaC:</p>
+<pre><code>□ STEP 1: Identify your IaC stack
+  □ Terraform   □ CDK   □ Pulumi   □ CloudFormation
+
+□ STEP 2: Check current state
+  Do you have provider default_tags? □ Yes □ No
+  Do you have variable validation? □ Yes □ No
+  Do you have CI validation? □ Yes □ No
+  Cloud-native policy? □ Yes □ No
+
+□ STEP 3: Pick first improvement
+  □ Add provider default_tags (highest leverage)
+  □ Add variable validation
+  □ Add CI validation script
+  □ Add cloud-native policy
+
+□ STEP 4: Test on sample resource
+  Create test resource with intentionally bad tag
+  Verify validation catches it
+
+□ STEP 5: Roll out gradually
+  Week 1: One module
+  Week 2: All modules
+  Week 3: CI + cloud-native</code></pre>
+<p>A 30-minute audit reveals which layer is missing. Each layer takes ~1 week to add.</p>
+<hr>
+<h2 id="4-knowledge-check">4. Knowledge check</h2>
+<h3 id="q1">Q1</h3>
+<p>Tag enforcement at provider default_tags level:</p>
+<p>A. Per-resource override only B. Every resource managed by that provider configuration inherits the default tags. Override per-resource only when needed. This is the highest-leverage tagging pattern — set once at provider scope; every resource benefits. C. Random D. Doesn't work in production</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Provider-level defaults cascade to all resources in scope.</p>
+</details>
+<h3 id="q2">Q2</h3>
+<p>CI/CD validation of tags:</p>
+<p>A. Optional nice-to-have B. Catches missing/invalid tags before merge. Prevents drift at the source. Combined with IaC framework validation: 100% coverage on new resources. The few minutes of CI time pay back in months of cleanup avoided. C. Random D. Manual only</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> CI validation = preventive enforcement.</p>
+</details>
+<h3 id="q3">Q3</h3>
+<p>Cloud console provisioning (outside IaC):</p>
+<p>A. Always tagged correctly B. Often missed — IaC enforcement only covers IaC-provisioned. Auto-tagger fills gaps post-fact; cloud-native policy (SCPs, Azure Policy) prevents at the console layer. Defense-in-depth: IaC + policy + auto-tagger together. C. Random D. Discovery handles it automatically</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Manual provisioning is the gap; layered enforcement closes it.</p>
+</details>
+<hr>
+<h2 id="5-apply">5. Apply</h2>
+<p>Terraform default_tags + variable validation + CI script + cloud-native policy + auto-tagger = 96%+ coverage.</p>
+<p>For your team: start with provider default_tags (highest leverage). Add layers over 4 weeks.</p>
+<hr>
+<h2 id="related-lessons">Related lessons</h2>
+<ul>
+<li><a href="L2_drift.md">L2 — Drift detection in IaC</a> <em>(next)</em></li>
+<li><a href="L3_pre_merge.md">L3 — Pre-merge cost estimation</a></li>
+<li><a href="L4_blast_radius.md">L4 — Blast-radius reduction</a></li>
+<li><a href="../M5.1_tagging_strategy/00_README.md">M5.1 — Tagging strategy</a></li>
+<li><a href="../M5.1_tagging_strategy/L3_inheritance.md">M5.1.L3 — Tag inheritance</a></li>
+</ul>
+<h2 id="glossary-terms-touched">Glossary terms touched</h2>
+<p><a href="/glossary/iac-tag-enforcement/">IaC tag enforcement</a> · <a href="/glossary/default-tags/">Default tags</a> · <a href="/glossary/variable-validation/">Variable validation</a> · <a href="/glossary/preventive-enforcement/">Preventive enforcement</a></p>
+<hr>
+<p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-21 · Lesson ID: T5.M5.6.L1</p>
+
+
+      <nav class="lesson-nav" aria-label="Lesson navigation">
+        <a href="/devops-cost-discipline/reliability-vs-cost/reliability-theatre/" class="lesson-nav-link">
+  <div class="nav-dir">← Previous</div>
+  <div class="nav-title">Reliability theatre anti-pattern</div>
+</a>
+        <a href="/devops-cost-discipline/iac-and-cost/drift/" class="lesson-nav-link lesson-nav-next">
+  <div class="nav-dir">Next</div>
+  <div class="nav-title">IaC drift detection</div>
+</a>
+      </nav>
+    </article>
+
+    <aside class="lesson-toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul id="lesson-toc-list"></ul>
+    </aside>
+  </div>
+</div>
+
+<script>
+// Generate TOC from rendered h2s
+document.addEventListener('DOMContentLoaded', function() {
+  const tocList = document.getElementById('lesson-toc-list');
+  if (!tocList) return;
+  const headings = document.querySelectorAll('.lesson-content h2');
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+});
+</script>
+</main>
+
+
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/zopnight/">ZopNight</a></li>
+        <li><a href="/zopday/">ZopDay</a></li>
+        <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+        <li><a href="/zopcloud/">ZopCloud</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/resources/blog/">Blog</a></li>
+        <li><a href="/resources/ebooks/">Ebooks</a></li>
+        <li><a href="/resources/customers/">Case studies</a></li>
+        <li><a href="/resources/changelog/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/company/about/">About</a></li>
+        <li><a href="/company/careers/">Careers</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/community/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right"></div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ABSORB the old footer markup below so it remains valid HTML. We render
+     the canonical OG markup above, then close with a hidden placeholder so
+     legacy classes still parse without showing anything. -->
+<div style="display:none">
+  <div class="footer-brand-col" aria-hidden="true">
+    <a href="/" class="logo-lockup md footer-brand-lockup">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <p class="footer-tag"></p>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/zopnight/">ZopNight</a></li>
+          <li><a href="/zopday/">ZopDay</a></li>
+          <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+          <li><a href="/zopcloud/">ZopCloud</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/">University</a></li>
+          <li><a href="/resources/blog/">Blog</a></li>
+          <li><a href="/resources/ebooks/">Ebooks</a></li>
+          <li><a href="/resources/case-studies/">Case studies</a></li>
+          <li><a href="/resources/docs/">Documentation</a></li>
+          <li><a href="/resources/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="/foundations/">Foundations</a></li>
+          <li><a href="/operator/">Operator</a></li>
+          <li><a href="/engineer/">Engineer</a></li>
+          <li><a href="/architect/">Architect</a></li>
+          <li><a href="/certifications/">Certifications</a></li>
+          <li><a href="/certifications/verify/">Verify a credential</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/search/">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/about/">About</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/trust/">Trust</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/community/">Slack</a></li>
+          <li><a href="https://twitter.com/zopdev" target="_blank" rel="noopener">Twitter</a></li>
+          <li><a href="https://github.com/zopdev" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/company/zopdev" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ZopDev / All rights reserved</div>
+      <div class="footer-bottom-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

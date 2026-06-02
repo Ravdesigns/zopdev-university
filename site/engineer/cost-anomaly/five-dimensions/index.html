@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Five dimensions / ZopNight Engineer / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to **pick** the right dimension for an anomaly investigation, **cascade** from broad to narrow, **and recognize** the noise-reduction patterns.">
+<link rel="canonical" href="https://zop.dev/resources/university/engineer/cost-anomaly/five-dimensions/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopDev University">
+<meta property="og:title" content="Five dimensions / ZopNight Engineer / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to **pick** the right dimension for an anomaly investigation, **cascade** from broad to narrow, **and recognize** the noise-reduction patterns.">
+<meta property="og:url" content="https://zop.dev/resources/university/engineer/cost-anomaly/five-dimensions/">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="Five dimensions / ZopNight Engineer / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **pick** the right dimension for an anomaly investigation, **cascade** from broad to narrow, **and recognize** the noise-reduction patterns.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Five dimensions",
+  "description": "By the end of this lesson, you will be able to **pick** the right dimension for an anomaly investigation, **cascade** from broad to narrow, **and recognize** the noise-reduction patterns.",
+  "url": "https://zop.dev/resources/university/engineer/cost-anomaly/five-dimensions/",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Engineer",
+  "timeRequired": "PT9M",
+  "inLanguage": "en-US",
+  "isPartOf": {
+    "@type": "Course",
+    "name": "ZopNight Engineer",
+    "url": "https://zop.dev/resources/university/engineer/"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopDev"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ZopDev",
+      "item": "https://zop.dev/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Resources",
+      "item": "https://zop.dev/resources/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "University",
+      "item": "https://zop.dev/resources/university/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "ZopNight Engineer",
+      "item": "https://zop.dev/resources/university/engineer/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "Cost Anomaly",
+      "item": "https://zop.dev/resources/university/engineer/cost-anomaly/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "Five dimensions",
+      "item": "https://zop.dev/resources/university/engineer/cost-anomaly/five-dimensions/"
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Site is dark-mode-only — lock the theme attribute before paint.
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</head>
+<body class="">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+     per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
+     in nav, footer, or content resolves correctly. -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
+      <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<nav class="nav" aria-label="Primary navigation">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/product/">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/resources/" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/company/">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/community/">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="/playground/" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+        <div class="nav-pg-menu" role="menu" aria-label="Playground options">
+          <a class="nav-pg-card nav-pg-card--night" href="/playground/#zopnight" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopnight"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopNight playground</span>
+                <span class="nav-pg-desc">Cost loop &middot; idle, schedules, anomalies</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+          <a class="nav-pg-card nav-pg-card--day" href="/playground/#zopday" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopday"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopDay playground</span>
+                <span class="nav-pg-desc">Deploy loop &middot; clusters, datastores, push</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a class="sign" href="/signin/">Sign In</a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+  </div>
+</nav>
+<div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-links">
+    <a href="/product/">Product</a>
+    <a href="/resources/">Resources</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/company/">Company</a>
+    <a href="/community/">Community</a>
+    <a href="/playground/">Playground</a>
+  </div>
+  <div class="nav-drawer-cta">
+    <a href="/signin/" class="sign">Sign in</a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+  </div>
+</div>
+<script>
+(function(){
+  var t = document.querySelector('.nav-mobile-toggle');
+  var d = document.getElementById('nav-drawer');
+  if (!t || !d) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    d.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('drawer-open', !open);
+  });
+  d.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') {
+      t.setAttribute('aria-expanded', 'false');
+      d.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+  });
+})();
+</script>
+
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="/" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button"
+                aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link ">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 237 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+        <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
+      </form>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  var dds = document.querySelectorAll('[data-uni-dropdown]');
+  if (!dds.length) return;
+  function closeAll(){
+    dds.forEach(function(d){
+      d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+      d.classList.remove('open');
+    });
+  }
+  dds.forEach(function(dd){
+    var btn = dd.querySelector('.uni-dropdown-toggle');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        dd.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e){
+    var inside = false;
+    dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+    if (!inside) closeAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
+(function(){
+  var input = document.querySelector('.uni-search-input');
+  var panel = document.getElementById('uni-search-panel');
+  if (!input || !panel) return;
+  var idx = null;
+  function load(){
+    if (idx) return Promise.resolve(idx);
+    return fetch('/assets/lessons.json').then(function(r){ return r.json(); }).then(function(j){ idx = j; return j; }).catch(function(){ idx = []; return []; });
+  }
+  function close(){ panel.hidden = true; panel.innerHTML = ''; }
+  function render(matches, q){
+    if (!matches.length) {
+      panel.innerHTML = '<div class="uni-search-empty">No lessons match <strong>' + escapeText(q) + '</strong></div>';
+      panel.hidden = false;
+      return;
+    }
+    panel.innerHTML = matches.slice(0, 8).map(function(m){
+      return '<a class="uni-search-hit" href="' + m.url + '">' +
+        '<span class="uni-search-hit-code">' + escapeText(m.code || '') + '</span>' +
+        '<span class="uni-search-hit-title">' + highlight(m.title, q) + '</span>' +
+        (m.track ? '<span class="uni-search-hit-meta">' + escapeText(m.track) + '</span>' : '') +
+        '</a>';
+    }).join('');
+    panel.hidden = false;
+  }
+  function escapeText(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function highlight(s, q){
+    var safe = escapeText(s);
+    if (!q) return safe;
+    var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(rx, '<mark>$1</mark>');
+  }
+  function match(q, items){
+    var ql = q.toLowerCase();
+    return items.filter(function(i){
+      return (i.title && i.title.toLowerCase().indexOf(ql) !== -1) || (i.body && i.body.toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+  input.addEventListener('focus', function(){ load(); });
+  input.addEventListener('input', function(){
+    var q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    load().then(function(items){ render(match(q, items), q); });
+  });
+  input.addEventListener('blur', function(){ setTimeout(close, 180); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+      e.preventDefault(); input.focus();
+    }
+    if (e.key === 'Escape') { input.blur(); close(); }
+  });
+})();
+</script>
+<main id="main">
+
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <a href="/engineer/">Engineer</a><span class="sep">›</span>
+    <a href="/engineer/cost-anomaly/">Cost Anomaly</a><span class="sep">›</span>
+    <span class="current">Five dimensions</span>
+  </div>
+</section>
+
+<div class="container">
+  <div class="lesson-layout">
+    <aside class="lesson-sidebar" aria-label="Module navigation">
+      <h4>Cost Anomaly</h4>
+      <nav>
+<a href="/engineer/cost-anomaly/five-dimensions/" class="current">
+  <span class="num">L1</span>
+  <span>Five dimensions</span>
+</a>
+<a href="/engineer/cost-anomaly/detection-methods/" class="">
+  <span class="num">L2</span>
+  <span>Percent deviation vs z-score</span>
+</a>
+<a href="/engineer/cost-anomaly/severity-bands/" class="">
+  <span class="num">L3</span>
+  <span>Severity bands</span>
+</a>
+<a href="/engineer/cost-anomaly/root-cause/" class="">
+  <span class="num">L4</span>
+  <span>Root cause analysis</span>
+</a>
+<a href="/engineer/cost-anomaly/redistribution-suppression/" class="">
+  <span class="num">L5</span>
+  <span>Team redistribution suppression</span>
+</a></nav>
+    </aside>
+
+    <article class="lesson-content">
+      <header class="lesson-header">
+        <div class="lesson-id">
+          <span>T2 / M2.10 / L1 of 5 / Engineer tier / 9 min</span>
+        </div>
+        <h1>Five dimensions</h1>
+      </header>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>pick</strong> the right dimension for an anomaly investigation, <strong>cascade</strong> from broad to narrow, <strong>and recognize</strong> the noise-reduction patterns.</p></div>
+      <div class="lesson-metabox"><dl>
+<dt>Tier</dt>
+<dd>Engineer</dd>
+<dt>JTBD</dt>
+<dd>&quot;Drill into cost anomalies fast — find the resource driving the spike via the right dimensional cascade.&quot;</dd>
+<dt>Personas</dt>
+<dd>Platform Engineer / FinOps Lead / SRE</dd>
+<dt>Prerequisites</dt>
+<dd>M2.1 / T4.M4.5 (anomaly response)</dd>
+<dt>Time</dt>
+<dd>9 minutes</dd>
+<dt>Bloom verb</dt>
+<dd>Pick (Evaluate), Cascade (Apply), Recognize (Apply)</dd></dl></div>
+      <h2 id="1-concept">1. Concept</h2>
+<p>ZopNight detects anomalies across 5 dimensions: org, cloud account, resource group, resource, and team. Each dimension catches different kinds of events.</p>
+<pre><code>THE FIVE DIMENSIONS:
+
+org-level         Org-wide spike
+                  Multi-team event; cloud-wide pricing
+                  
+cloud-account     Per-account spike  
+                  New environment in one account
+                  
+resource-group    Per-group spike
+                  Group&#39;s workload scaled up unexpectedly
+                  
+resource          Per-resource spike
+                  Single resource misbehaving
+                  
+team              Per-team spike
+                  Team&#39;s spend pattern changed</code></pre>
+<p>Each dimension catches different patterns. The investigation cascade is the technique.</p>
+<h3 id="how-dimensions-cascade">How dimensions cascade</h3>
+<pre><code>TIME T:
+  Org-level spike detected at +200%
+  
+  Drill 1: cloud-account dimension
+    Account &quot;prod-aws&quot; spike +150%
+    Other accounts: normal
+    → Focused: prod-aws is the source
+    
+  Drill 2: team dimension on prod-aws
+    Team &quot;platform&quot; spike +180%
+    Team &quot;data&quot; normal
+    Team &quot;search&quot; normal
+    → Focused: platform team&#39;s resources
+    
+  Drill 3: resource dimension on platform team
+    Resource &quot;i-0xyz&quot; spike +1,200%
+    Other resources: normal
+    → Diagnosed: i-0xyz is driving the org spike</code></pre>
+<p>Investigating from broadest to narrowest dimension identifies the root cause. The cascade is the technique.</p>
+<h3 id="when-to-use-which-dimension">When to use which dimension</h3>
+<pre><code>QUESTION                                    DIMENSION TO USE
+──────────────────────────────────────────────────────────
+&quot;Are we spending more than yesterday?&quot;     org-level
+&quot;Which cloud is the issue?&quot;                cloud-account
+&quot;Which environment is spiking?&quot;             cloud-account or resource-group
+&quot;Which team is over-spending?&quot;             team
+&quot;Which specific resource is misbehaving?&quot;  resource
+&quot;Which workload?&quot;                          resource-group</code></pre>
+<p>The right dimension matches the question.</p>
+<h3 id="top-10-cap-per-org-per-dimension">Top 10 cap per org per dimension</h3>
+<p>To avoid notification noise, the system caps notifications at top 10 resources per org per dimension:</p>
+<pre><code>EXAMPLE: 20 resources spike simultaneously
+  Top 10 (by deviation): trigger notifications
+  Remaining 10: visible in anomaly feed; don&#39;t fire alerts
+  
+PURPOSE:
+  Prevent alert fatigue
+  Surface the critical few
+  Operators can drill in if needed
+  
+THE OTHER 10:
+  Visible in feed
+  No notification
+  Can be investigated manually</code></pre>
+<p>The cap is a practical noise-reduction. Operators can always drill into the feed.</p>
+<h3 id="adaptive-batching">Adaptive batching</h3>
+<p>Anomaly detection runs on different cadences based on org size:</p>
+<pre><code>ORG SIZE                BATCH SIZE         FREQUENCY
+──────────────────────────────────────────────────────────
+≤ 5,000 resources       25 resources       Daily 04:30 UTC
+≤ 20,000 resources      5 resources         Daily 04:30 UTC
+&gt; 20,000 resources      1 resource at a time Daily 04:30 UTC</code></pre>
+<p>Larger orgs process more carefully to manage memory and API load. The detection scales sub-linearly with resource count.</p>
+<h3 id="what-anomaly-detection-is-not">What anomaly detection IS NOT</h3>
+<pre><code>NOT real-time alerting:
+  Daily cadence; not minutes-level
+  For real-time use cloud-native alarms (CloudWatch, etc.)
+  
+NOT replacing budget alerts:
+  Budget alerts: threshold-based (&quot;spent X% of budget&quot;)
+  Anomaly detection: deviation-based (&quot;spending 200% of normal&quot;)
+  Different signals
+  
+NOT predictive:
+  Reactive (anomalies after the fact)
+  Not &quot;will spend&quot;; &quot;spent unexpectedly&quot;
+  
+NOT actionable directly:
+  Anomaly = diagnostic surface
+  + root cause analysis (L4)
+  + remediation through other mechanisms
+  Not a one-click &quot;fix the anomaly&quot;</code></pre>
+<p>Anomaly detection is one tool; use it for what it's designed for.</p>
+<h3 id="combining-with-budget-alerts">Combining with budget alerts</h3>
+<pre><code>BUDGET ALERTS catch when:
+  Spend exceeds threshold (e.g., &quot;team-X used 80% of $50K budget&quot;)
+  Forecasted to exceed by month-end
+  
+ANOMALY ALERTS catch when:
+  Spend deviates from normal pattern (e.g., &quot;today is 200% of typical&quot;)
+  Statistical anomaly regardless of absolute amount
+  
+USE BOTH:
+  Budget for &quot;are we within plan?&quot;
+  Anomaly for &quot;is something wrong?&quot;
+  Catch different scenarios</code></pre>
+<p>The two systems are complementary. Most teams use both.</p>
+<h3 id="severity-bands-per-dimension">Severity bands per dimension</h3>
+<pre><code>DIMENSION         WARNING       CRITICAL      EXTREME
+─────────────────────────────────────────────────────
+org-level         +50%          +100%         +200%
+cloud-account     +75%          +150%         +300%
+resource-group    +100%         +200%         +500%
+resource          +200%         +500%         +1000%
+team              +75%          +150%         +300%
+
+WARNING:    note; don&#39;t page
+CRITICAL:   investigate within hours
+EXTREME:    page on-call; immediate response</code></pre>
+<p>The thresholds are tuned per dimension because expected variance differs (resources have more natural variance than teams).</p>
+<h3 id="when-dimensions-don-t-help">When dimensions don't help</h3>
+<pre><code>NEW WORKLOADS:
+  Insufficient history; anomalies fire too easily
+  Solution: ZopNight uses 7-day rolling baseline
+  New workloads have warmup period
+  
+SEASONAL PATTERNS:
+  E-commerce spikes in November
+  ML workloads run nightly
+  Solution: ZopNight learns weekly patterns
+  Sunday vs Monday vs Friday recognized as different baselines
+  
+LARGE BURSTS:
+  Single huge event (Black Friday)
+  Solution: Event Readiness (M2.9) marks the period as expected
+  Anomalies suppressed during planned spikes</code></pre>
+<p>The detection has built-in handling for common edge cases.</p>
+<hr>
+<h2 id="2-demo">2. Demo</h2>
+<p>A team's anomaly investigation:</p>
+<pre><code>T+0       Daily anomaly cron runs (04:30 UTC)
+T+30s     System detects:
+            Org spend yesterday: $4,200 above 7-day average
+            +27% above baseline
+T+30s     Org-level WARNING anomaly fired
+T+30s     Slack notification to #finops-alerts
+
+T+5 min   FinOps engineer opens anomaly feed
+T+5 min   Drilling: cloud-account dimension
+            prod-aws-us-east-1: +95% (significant)
+            prod-aws-eu-west-1: normal
+            staging-aws: normal
+          → Focused: us-east-1 is the source
+
+T+10 min  Drilling deeper: team dimension on prod-aws-us-east-1
+            team=ml: +180% (major)
+            team=platform: +10% (background normal)
+            team=search: normal
+            team=billing: normal
+          → Focused: ML team
+
+T+15 min  Drilling: resource dimension on team=ml
+            i-0ml-train-99: was $0/hr yesterday, $560/hr today
+            (vs prev 30 days average: $0/hr — instance was off)
+            Other team=ml resources: normal
+          → Identified: i-0ml-train-99 specifically
+
+T+18 min  DIAGNOSIS:
+          A long-running ML training job spawned 7 large GPU instances
+          overnight that weren&#39;t terminated
+          Verified via CloudWatch logs + audit trail
+          
+          Action: manual termination of the 7 instances
+          Cost stopped; recovery: 5 min
+          
+T+25 min  Cost back to normal
+T+25 min  Anomaly note: incident-2026-05-21
+T+1 day   Postmortem: CI bug fixed; review process improved</code></pre>
+<p>15 minutes from detection to diagnosis using dimensional drill-down.</p>
+<hr>
+<h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
+<p>Practice anomaly investigation:</p>
+<pre><code>□ STEP 1: Open Reports → Anomalies
+  Active anomalies: _____
+
+□ STEP 2: For one anomaly, identify dimension
+  Started at: __________
+  Dimension: __________
+  Severity: __________
+
+□ STEP 3: Practice cascade
+  Drill 1: __________ → narrowed to __________
+  Drill 2: __________ → narrowed to __________
+  Drill 3: __________ → identified __________
+
+□ STEP 4: Estimate time
+  Total investigation time: ___ minutes
+  Diagnostic confidence: _____%
+
+□ STEP 5: Note pattern
+  How did the cascade help vs random search?
+  Future improvement: __________</code></pre>
+<p>A 10-minute practice builds the cascade habit.</p>
+<hr>
+<h2 id="4-knowledge-check">4. Knowledge check</h2>
+<h3 id="q1">Q1</h3>
+<p>An org-level anomaly fires. The right first drill is:</p>
+<p>A. resource dimension immediately B. cloud-account dimension — narrow from broadest to narrowest. Once the account is identified, drill into team or resource as needed. Broad → narrow cascade. Skipping levels often misses the cause. C. random D. team dimension</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Broad → narrow cascade.</p>
+</details>
+<h3 id="q2">Q2</h3>
+<p>Anomaly cap of top 10 resources per dimension is intended to:</p>
+<p>A. Limit detection B. Prevent notification noise. The other resources are visible in the feed but don't fire alerts. Critical 10 surface. Without the cap: every spike alerts; fatigue. C. Reduce cost D. Random</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Noise reduction.</p>
+</details>
+<h3 id="q3">Q3</h3>
+<p>Anomaly detection runs:</p>
+<p>A. Real-time B. Daily at 04:30 UTC — reactive, not real-time. For real-time alerting, use cloud-native alarms or budget thresholds. Anomaly detection identifies unexpected deviations after the fact. C. Hourly D. Random</p>
+<details>
+<summary>Show answer</summary>
+<p><strong>Correct: B.</strong> Daily cadence.</p>
+</details>
+<hr>
+<h2 id="5-apply">5. Apply</h2>
+<p>Anomaly detection at Reports → Anomalies. Dimensional drill-down available.</p>
+<p>For your team: practice the cascade. Build the muscle memory for broad → narrow investigation.</p>
+<hr>
+<h2 id="related-lessons">Related lessons</h2>
+<ul>
+<li><a href="L2_detection_methods.md">L2 — Detection methods</a> <em>(next)</em></li>
+<li><a href="L3_severity_bands.md">L3 — Severity bands</a></li>
+<li><a href="L4_root_cause.md">L4 — Root cause</a></li>
+<li><a href="L5_redistribution_suppression.md">L5 — Redistribution suppression</a></li>
+<li><a href="../../T4_finops_mastery/M4.5_anomaly_response/00_README.md">T4.M4.5 — Anomaly response</a></li>
+</ul>
+<h2 id="glossary-terms-touched">Glossary terms touched</h2>
+<p><a href="/glossary/anomaly-dimension/">Anomaly dimension</a> · <a href="/glossary/dimensional-cascade/">Dimensional cascade</a> · <a href="/glossary/top-10-cap/">Top 10 cap</a> · <a href="/glossary/adaptive-batching/">Adaptive batching</a></p>
+<hr>
+<p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-21 · Lesson ID: T2.M2.10.L1</p>
+
+
+      <nav class="lesson-nav" aria-label="Lesson navigation">
+        <a href="/operator/history-notifications-audit/audit-logs/" class="lesson-nav-link">
+  <div class="nav-dir">← Previous</div>
+  <div class="nav-title">Where audit logs live and how to query them</div>
+</a>
+        <a href="/engineer/cost-anomaly/detection-methods/" class="lesson-nav-link lesson-nav-next">
+  <div class="nav-dir">Next</div>
+  <div class="nav-title">Percent deviation vs z-score</div>
+</a>
+      </nav>
+    </article>
+
+    <aside class="lesson-toc" aria-label="On this page">
+      <h4>On this page</h4>
+      <ul id="lesson-toc-list"></ul>
+    </aside>
+  </div>
+</div>
+
+<script>
+// Generate TOC from rendered h2s
+document.addEventListener('DOMContentLoaded', function() {
+  const tocList = document.getElementById('lesson-toc-list');
+  if (!tocList) return;
+  const headings = document.querySelectorAll('.lesson-content h2');
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
+});
+</script>
+</main>
+
+
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/zopnight/">ZopNight</a></li>
+        <li><a href="/zopday/">ZopDay</a></li>
+        <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+        <li><a href="/zopcloud/">ZopCloud</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/resources/blog/">Blog</a></li>
+        <li><a href="/resources/ebooks/">Ebooks</a></li>
+        <li><a href="/resources/customers/">Case studies</a></li>
+        <li><a href="/resources/changelog/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/company/about/">About</a></li>
+        <li><a href="/company/careers/">Careers</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/community/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right"></div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ABSORB the old footer markup below so it remains valid HTML. We render
+     the canonical OG markup above, then close with a hidden placeholder so
+     legacy classes still parse without showing anything. -->
+<div style="display:none">
+  <div class="footer-brand-col" aria-hidden="true">
+    <a href="/" class="logo-lockup md footer-brand-lockup">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <p class="footer-tag"></p>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/zopnight/">ZopNight</a></li>
+          <li><a href="/zopday/">ZopDay</a></li>
+          <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+          <li><a href="/zopcloud/">ZopCloud</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/">University</a></li>
+          <li><a href="/resources/blog/">Blog</a></li>
+          <li><a href="/resources/ebooks/">Ebooks</a></li>
+          <li><a href="/resources/case-studies/">Case studies</a></li>
+          <li><a href="/resources/docs/">Documentation</a></li>
+          <li><a href="/resources/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="/foundations/">Foundations</a></li>
+          <li><a href="/operator/">Operator</a></li>
+          <li><a href="/engineer/">Engineer</a></li>
+          <li><a href="/architect/">Architect</a></li>
+          <li><a href="/certifications/">Certifications</a></li>
+          <li><a href="/certifications/verify/">Verify a credential</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/search/">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/about/">About</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/trust/">Trust</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/community/">Slack</a></li>
+          <li><a href="https://twitter.com/zopdev" target="_blank" rel="noopener">Twitter</a></li>
+          <li><a href="https://github.com/zopdev" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/company/zopdev" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ZopDev / All rights reserved</div>
+      <div class="footer-bottom-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

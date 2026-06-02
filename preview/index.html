@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Primary SEO -->
+<title>ZopNight University · Learn cloud cost optimization, FinOps, and DevOps cost discipline</title>
+<meta name="description" content="Seven tracks, 252 lessons, three certifications. The operating manual for FinOps and DevOps teams running ZopNight. From cloud-cost foundations to AI-powered ops, written by the people who build the product.">
+<link rel="canonical" href="https://zopnight.com/university">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+<meta name="keywords" content="cloud cost optimization, FinOps, DevOps cost, multi-cloud, AWS cost, GCP cost, Azure cost, ZopNight, cost governance, RBAC, showback, chargeback, unit economics, cloud cost training, FinOps certification">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZopNight University">
+<meta property="og:title" content="ZopNight University · The operating manual for cloud cost teams">
+<meta property="og:description" content="Seven tracks, 252 lessons, three certifications. The same content we use to onboard customer engineering teams.">
+<meta property="og:url" content="https://zopnight.com/university">
+<meta property="og:image" content="https://zopnight.com/university/og/landing.png">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="ZopNight University">
+<meta name="twitter:description" content="Seven tracks, 252 lessons, three certifications. Written by the people who build the product.">
+<meta name="twitter:image" content="https://zopnight.com/university/og/landing.png">
+
+<!-- GEO — JSON-LD EducationalOccupationalProgram + Organization + WebSite -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOccupationalProgram",
+  "name": "ZopNight University",
+  "description": "Cloud cost optimization curriculum across seven tracks: foundations, ZopNight Operator, ZopNight Engineer, ZopNight Architect, FinOps Mastery, DevOps Cost Discipline, AI-Powered Cloud Ops.",
+  "url": "https://zopnight.com/university",
+  "provider": {
+    "@type": "Organization",
+    "name": "ZopDev",
+    "url": "https://zop.dev",
+    "sameAs": ["https://zopnight.com"]
+  },
+  "inLanguage": "en-US",
+  "occupationalCategory": ["Platform Engineer", "FinOps Analyst", "Engineering Leader", "Cloud Architect", "Security Compliance"],
+  "educationalCredentialAwarded": [
+    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Operator", "credentialCategory": "certification", "educationalLevel": "Operator"},
+    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Engineer", "credentialCategory": "certification", "educationalLevel": "Engineer"},
+    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Architect", "credentialCategory": "certification", "educationalLevel": "Architect"}
+  ],
+  "numberOfCredits": 252,
+  "timeToComplete": "P45H",
+  "hasCourse": [
+    {"@type": "Course", "name": "Cloud Cost Foundations", "courseCode": "T0", "timeRequired": "PT5H"},
+    {"@type": "Course", "name": "ZopNight Operator", "courseCode": "T1", "timeRequired": "PT5H"},
+    {"@type": "Course", "name": "ZopNight Engineer", "courseCode": "T2", "timeRequired": "PT10H"},
+    {"@type": "Course", "name": "ZopNight Architect", "courseCode": "T3", "timeRequired": "PT7H", "url": "https://zopnight.com/university/tracks/architect"},
+    {"@type": "Course", "name": "FinOps Mastery", "courseCode": "T4", "timeRequired": "PT7H"},
+    {"@type": "Course", "name": "DevOps Cost Discipline", "courseCode": "T5", "timeRequired": "PT6H"},
+    {"@type": "Course", "name": "AI-Powered Cloud Ops", "courseCode": "T6", "timeRequired": "PT5H"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ZopNight University",
+  "url": "https://zopnight.com/university",
+  "publisher": {"@type": "Organization", "name": "ZopDev", "url": "https://zop.dev"},
+  "inLanguage": "en-US"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "ZopNight", "item": "https://zopnight.com"},
+    {"@type": "ListItem", "position": 2, "name": "University", "item": "https://zopnight.com/university"}
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="assets/styles.css">
+<script>
+  // Apply persisted theme before paint so there is no flash on load.
+  (function(){
+    try {
+      var t = localStorage.getItem('zop-theme');
+      if (!t) t = 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch(e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+</head>
+<body>
+
+<a href="#main" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.cssText=''">Skip to content</a>
+
+<!-- Brand-mark symbol defs (canonical from zop.dev homepage) -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="0 0 715 276">
+      <path d="M7.452 229V201.784L63.504 137.308V134.716H9.072V115.6H85.86V142.816L29.808 207.292V209.884H86.184V229H7.452ZM136.786 231.268C128.794 231.268 121.612 229.648 115.24 226.408C108.868 223.168 103.846 218.47 100.174 212.314C96.5022 206.158 94.6662 198.76 94.6662 190.12V187.528C94.6662 178.888 96.5022 171.49 100.174 165.334C103.846 159.178 108.868 154.48 115.24 151.24C121.612 148 128.794 146.38 136.786 146.38C144.778 146.38 151.96 148 158.332 151.24C164.704 154.48 169.726 159.178 173.398 165.334C177.07 171.49 178.906 178.888 178.906 187.528V190.12C178.906 198.76 177.07 206.158 173.398 212.314C169.726 218.47 164.704 223.168 158.332 226.408C151.96 229.648 144.778 231.268 136.786 231.268ZM136.786 213.124C143.05 213.124 148.234 211.126 152.338 207.13C156.442 203.026 158.494 197.194 158.494 189.634V188.014C158.494 180.454 156.442 174.676 152.338 170.68C148.342 166.576 143.158 164.524 136.786 164.524C130.522 164.524 125.338 166.576 121.234 170.68C117.13 174.676 115.078 180.454 115.078 188.014V189.634C115.078 197.194 117.13 203.026 121.234 207.13C125.338 211.126 130.522 213.124 136.786 213.124ZM192.888 261.4V148.648H212.976V158.368H215.892C217.728 155.236 220.59 152.482 224.478 150.106C228.366 147.622 233.928 146.38 241.164 146.38C247.644 146.38 253.638 148 259.146 151.24C264.654 154.372 269.082 159.016 272.43 165.172C275.778 171.328 277.452 178.78 277.452 187.528V190.12C277.452 198.868 275.778 206.32 272.43 212.476C269.082 218.632 264.654 223.33 259.146 226.57C253.638 229.702 247.644 231.268 241.164 231.268C236.304 231.268 232.2 230.674 228.852 229.486C225.612 228.406 222.966 227.002 220.914 225.274C218.97 223.438 217.404 221.602 216.216 219.766H213.3V261.4H192.888ZM235.008 213.448C241.38 213.448 246.618 211.45 250.722 207.454C254.934 203.35 257.04 197.41 257.04 189.634V188.014C257.04 180.238 254.934 174.352 250.722 170.356C246.51 166.252 241.272 164.2 235.008 164.2C228.744 164.2 223.506 166.252 219.294 170.356C215.082 174.352 212.976 180.238 212.976 188.014V189.634C212.976 197.41 215.082 203.35 219.294 207.454C223.506 211.45 228.744 213.448 235.008 213.448ZM287.446 229V210.208H302.35V134.392H287.446V115.6H334.102C349.33 115.6 360.886 119.488 368.77 127.264C376.762 134.932 380.758 146.38 380.758 161.608V182.992C380.758 198.22 376.762 209.722 368.77 217.498C360.886 225.166 349.33 229 334.102 229H287.446ZM323.734 209.56H334.426C343.066 209.56 349.384 207.292 353.38 202.756C357.376 198.22 359.374 191.848 359.374 183.64V160.96C359.374 152.644 357.376 146.272 353.38 141.844C349.384 137.308 343.066 135.04 334.426 135.04H323.734V209.56ZM430.981 231.268C422.989 231.268 415.915 229.594 409.759 226.246C403.711 222.79 398.959 217.984 395.503 211.828C392.155 205.564 390.481 198.22 390.481 189.796V187.852C390.481 179.428 392.155 172.138 395.503 165.982C398.851 159.718 403.549 154.912 409.597 151.564C415.645 148.108 422.665 146.38 430.657 146.38C438.541 146.38 445.399 148.162 451.231 151.726C457.063 155.182 461.599 160.042 464.839 166.306C468.079 172.462 469.699 179.644 469.699 187.852V194.818H411.217C411.433 200.326 413.485 204.808 417.373 208.264C421.261 211.72 426.013 213.448 431.629 213.448C437.353 213.448 441.565 212.206 444.265 209.722C446.965 207.238 449.017 204.484 450.421 201.46L467.107 210.208C465.595 213.016 463.381 216.094 460.465 219.442C457.657 222.682 453.877 225.49 449.125 227.866C444.373 230.134 438.325 231.268 430.981 231.268ZM411.379 179.59H448.963C448.531 174.946 446.641 171.22 443.293 168.412C440.053 165.604 435.787 164.2 430.495 164.2C424.987 164.2 420.613 165.604 417.373 168.412C414.133 171.22 412.135 174.946 411.379 179.59ZM497.482 229L471.886 148.648H493.594L512.224 214.096H515.14L533.77 148.648H555.478L529.882 229H497.482Z" fill="currentColor"/>
+      <rect x="537" width="89" height="89" fill="#2A4494"/>
+      <rect x="626" width="89" height="89" fill="#F58549"/>
+      <rect x="626" y="89" width="89" height="89" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Row 1 · OG marketing nav -->
+<nav class="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="0 0 715 276"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="#">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="#" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="#">Pricing</a>
+      <a href="#">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="#">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="#" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+      </div>
+      <a class="sign" href="#">Sign In</a>
+      <a class="btn btn-accent" href="#"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- Row 2 · Secondary University nav -->
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="#" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button" aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle" type="button" aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 252 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- HERO — 2-col: text content LEFT, contained motion-rich visual RIGHT -->
+<section class="hero">
+  <div class="container hero-grid">
+
+    <div class="hero-left">
+      <a class="hero-pill" href="/ai-powered-cloud-ops/">
+        <span class="hp-dot" aria-hidden="true"></span>
+        <span class="hp-tag">NEW</span>
+        <span class="hp-sep" aria-hidden="true">|</span>
+        <span class="hp-text">T6 · AI-Powered Cloud Ops · 15 MCP recipes</span>
+        <span class="hp-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <h1 class="hero-h hero-reveal">
+        <span class="hr-line">The operating manual.</span>
+        <span class="hr-line">By those who <em>build it</em>.</span>
+      </h1>
+
+      <p class="hero-lead">
+        Seven tracks. Two hundred fifty-two lessons. Three certifications, earned not awarded. The same content our solution architects use to onboard customer engineering teams.
+      </p>
+
+      <div class="hero-actions">
+        <a href="/foundations/" class="btn btn-secondary">Browse tracks <span class="arrow">→</span></a>
+        <a href="/foundations/cloud-bill-decoded/what-is-in-a-cloud-bill/" class="btn btn-primary">Read a lesson <span class="arrow">→</span></a>
+      </div>
+
+      <p class="hero-trust">
+        Written by the team behind ZopNight. Alumni of <strong>Meesho · Accenture · HashiCorp · OYO</strong>.
+      </p>
+
+      <div class="hero-stats" aria-label="University at a glance">
+        <div class="hero-stat">
+          <div class="hs-num">252<span style="color:var(--g-400)">·</span>15</div>
+          <div class="hs-label">Lessons · MCP recipes</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hs-num">~45<span style="color:var(--g-400)">h</span></div>
+          <div class="hs-label">Median time</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hs-num">3</div>
+          <div class="hs-label">Certifications</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: motion-rich abstract instrument -->
+    <div class="hero-right">
+      <svg class="hero-art" viewBox="0 0 480 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <pattern id="dot-grid-h" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.9" fill="currentColor" opacity="0.35"/>
+          </pattern>
+        </defs>
+
+        <!-- Outer frame -->
+        <rect class="ha-frame" x="0.5" y="0.5" width="479" height="539"/>
+
+        <!-- Dot grid backdrop -->
+        <rect class="ha-grid" x="0" y="0" width="480" height="540" fill="url(#dot-grid-h)"/>
+
+        <!-- Crosshair axes through the center -->
+        <line class="ha-line" x1="20" y1="270" x2="460" y2="270"/>
+        <line class="ha-line" x1="240" y1="20" x2="240" y2="520"/>
+
+        <!-- Outer rotating ring -->
+        <g class="ha-ring-outer" transform-box="view-box" style="transform-origin: 240px 270px">
+          <circle class="ha-stroke ha-dashed-loop" cx="240" cy="270" r="170"/>
+        </g>
+
+        <!-- Mid ring (counter-rotating) -->
+        <g class="ha-ring-mid" transform-box="view-box" style="transform-origin: 240px 270px">
+          <circle class="ha-stroke" cx="240" cy="270" r="120"/>
+        </g>
+
+        <!-- Inner pulse ring -->
+        <circle class="ha-stroke-light ha-inner-pulse" cx="240" cy="270" r="70"/>
+
+        <!-- Nested geometric squares -->
+        <g class="ha-square-rot" transform-box="view-box" style="transform-origin: 240px 270px">
+          <rect class="ha-stroke" x="160" y="190" width="160" height="160"/>
+        </g>
+        <g class="ha-square-rot-slow" transform-box="view-box" style="transform-origin: 240px 270px">
+          <rect class="ha-stroke-light" x="190" y="220" width="100" height="100"/>
+        </g>
+
+        <!-- Center void mark -->
+        <rect class="ha-fill-ink" x="232" y="262" width="16" height="16"/>
+
+        <!-- Tick marks around outer ring -->
+        <g class="ha-ticks">
+          <line x1="240" y1="80" x2="240" y2="92"/>
+          <line x1="240" y1="448" x2="240" y2="460"/>
+          <line x1="80" y1="270" x2="92" y2="270"/>
+          <line x1="448" y1="270" x2="460" y2="270"/>
+          <line x1="356" y1="156" x2="346" y2="166"/>
+          <line x1="124" y1="384" x2="134" y2="374"/>
+          <line x1="356" y1="384" x2="346" y2="374"/>
+          <line x1="124" y1="156" x2="134" y2="166"/>
+        </g>
+
+        <!-- Orbiting accent dot (large arc) -->
+        <g class="ha-orbit-1" transform-box="view-box" style="transform-origin: 240px 270px">
+          <circle class="ha-accent" cx="240" cy="100" r="6"/>
+        </g>
+
+        <!-- Orbiting accent dot (mid arc, opposite direction) -->
+        <g class="ha-orbit-2" transform-box="view-box" style="transform-origin: 240px 270px">
+          <circle class="ha-fill-ink ha-orbit-dot" cx="360" cy="270" r="4"/>
+        </g>
+
+        <!-- Orbiting accent dot (inner arc) -->
+        <g class="ha-orbit-3" transform-box="view-box" style="transform-origin: 240px 270px">
+          <circle class="ha-accent ha-orbit-dot" cx="240" cy="200" r="3"/>
+        </g>
+
+        <!-- Signature orange anchor square -->
+        <rect class="ha-accent ha-anchor" x="20" y="20" width="14" height="14"/>
+
+        <!-- Pulsing focal dot at center -->
+        <circle class="ha-accent-dot" cx="240" cy="270" r="4"/>
+
+        <!-- Constellation dots that breathe -->
+        <g class="ha-dots">
+          <circle cx="90"  cy="120" r="2"/>
+          <circle cx="180" cy="80"  r="2"/>
+          <circle cx="380" cy="120" r="2"/>
+          <circle cx="420" cy="220" r="2"/>
+          <circle cx="380" cy="400" r="2"/>
+          <circle cx="180" cy="440" r="2"/>
+          <circle cx="80"  cy="380" r="2"/>
+          <circle cx="60"  cy="240" r="2"/>
+        </g>
+
+        <!-- Sweeping radar arc -->
+        <g class="ha-radar" transform-box="view-box" style="transform-origin: 240px 270px">
+          <path class="ha-radar-arc" d="M 240 270 L 240 100 A 170 170 0 0 1 410 270 Z"/>
+        </g>
+
+        <!-- Diagonal hairlines -->
+        <line class="ha-hair" x1="20"  y1="20"  x2="460" y2="520"/>
+        <line class="ha-hair" x1="460" y1="20"  x2="20"  y2="520"/>
+      </svg>
+    </div>
+
+  </div>
+</section>
+
+<!-- BENTO — asymmetric tracks. T3 Architect featured (largest); others vary. -->
+<section class="section" id="tracks">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">01 · tracks</div>
+      <div>
+        <h2>Seven tracks,<br/>built around real work.</h2>
+        <p class="sub">Each track maps to a job-to-be-done. Not a vendor feature list. Skim the operator track in an afternoon; the architect tracks reward weeks of study.</p>
+      </div>
+    </div>
+
+    <div class="bento">
+
+      <!-- FEATURED: T3 Architect -->
+      <a href="/architect/" class="b-card b-feat">
+        <div class="num"><span class="np-badge featured">Featured</span><strong>T3</strong> · architect tier · 8 modules</div>
+        <span class="feat-expand" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter"><path d="M 4 8 L 4 4 L 8 4 M 16 12 L 16 16 L 12 16 M 4 4 L 9 9 M 16 16 L 11 11"/></svg>
+        </span>
+        <h3>ZopNight <em>Architect</em>. Design decisions that survive scale.</h3>
+        <p>RBAC topology, multi-account credential strategy, showback dimensions, budget pyramids, dashboard governance, cost-flow Sankey. The choices a year-1 customer will still respect at year five.</p>
+
+        <!-- Minimal isometric: 3-tier stacked platform, apex accent -->
+        <div class="b-visual b-visual-iso" aria-hidden="true">
+          <svg viewBox="0 0 560 180" preserveAspectRatio="xMidYMid meet">
+            <!-- Centered isometric 3-tier stack -->
+            <g transform="translate(210, 32)">
+              <!-- Tier 3 base -->
+              <path d="M 0 96 L 70 128 L 140 96 L 70 64 Z" class="v-stroke v-fill-soft"/>
+              <path d="M 0 96 L 0 112 L 70 144 L 70 128 Z" class="v-stroke v-fill-ink"/>
+              <path d="M 70 128 L 70 144 L 140 112 L 140 96 Z" class="v-stroke"/>
+              <!-- Tier 2 middle -->
+              <path d="M 22 62 L 70 82 L 118 62 L 70 42 Z" class="v-stroke v-fill-soft"/>
+              <path d="M 22 62 L 22 74 L 70 94 L 70 82 Z" class="v-stroke v-fill-ink"/>
+              <path d="M 70 82 L 70 94 L 118 74 L 118 62 Z" class="v-stroke"/>
+              <!-- Tier 1 top -->
+              <path d="M 44 32 L 70 42 L 96 32 L 70 22 Z" class="v-stroke v-fill-soft"/>
+              <path d="M 44 32 L 44 40 L 70 50 L 70 40 Z" class="v-stroke v-fill-ink"/>
+              <path d="M 70 42 L 70 50 L 96 40 L 96 32 Z" class="v-stroke"/>
+              <!-- Apex accent -->
+              <circle class="v-accent" cx="70" cy="10" r="4"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="feat-cta">
+          <span class="link-inline">Open track →</span>
+          <span class="feat-meta">8 modules · 38 lessons · ~7 hours</span>
+        </div>
+      </a>
+
+      <!-- T0 Foundations: stacked horizontal bars (foundational strata) -->
+      <a href="/foundations/" class="b-card b-md">
+        <div class="num operator"><span class="dot" aria-hidden="true"></span><strong>T0</strong> · operator · free</div>
+        <span class="feat-expand" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter"><path d="M 4 8 L 4 4 L 8 4 M 16 12 L 16 16 L 12 16 M 4 4 L 9 9 M 16 16 L 11 11"/></svg>
+        </span>
+        <h3>Cloud Cost Foundations</h3>
+        <p>Rack rate vs billing, the two-source cost model, multi-cloud taxonomy, the FinOps lifecycle, CDCR. The shared vocabulary every track builds on.</p>
+        <!-- Minimal isometric bill — slight skew, 4 lines, one orange -->
+        <div class="b-visual b-visual-iso" aria-hidden="true">
+          <svg viewBox="0 0 240 90" preserveAspectRatio="xMinYMid meet">
+            <g transform="translate(48, 8) skewY(-8)">
+              <rect class="v-stroke v-fill-card" x="0" y="6" width="144" height="78"/>
+              <line class="v-stroke-thin" x1="12" y1="22" x2="132" y2="22"/>
+              <rect class="v-fill-ink" x="12" y="32" width="78" height="4"/>
+              <rect class="v-fill-ink" x="12" y="46" width="60" height="4"/>
+              <rect class="v-accent"   x="12" y="60" width="92" height="4"/>
+              <rect class="v-fill-ink" x="12" y="74" width="68" height="4"/>
+            </g>
+          </svg>
+        </div>
+        <div class="keyline"><span><strong>28</strong> lessons · 6 modules · ~5h</span><span class="arr">→</span></div>
+      </a>
+
+      <!-- T1 Operator: 5x3 control grid (daily product surface) -->
+      <a href="/operator/" class="b-card b-md">
+        <div class="num operator"><span class="dot" aria-hidden="true"></span><strong>T1</strong> · operator</div>
+        <span class="feat-expand" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter"><path d="M 4 8 L 4 4 L 8 4 M 16 12 L 16 16 L 12 16 M 4 4 L 9 9 M 16 16 L 11 11"/></svg>
+        </span>
+        <h3>ZopNight Operator</h3>
+        <p>Daily product walkthrough. Resources, schedules, overrides, recommendations, audit log. The complete operator surface, ready Monday morning.</p>
+        <!-- Minimal isometric console — 3 faces, sparse cells -->
+        <div class="b-visual b-visual-iso" aria-hidden="true">
+          <svg viewBox="0 0 240 90" preserveAspectRatio="xMinYMid meet">
+            <g transform="translate(40, 18)">
+              <path d="M 0 16 L 130 16 L 152 4 L 22 4 Z" class="v-stroke v-fill-card"/>
+              <path d="M 0 16 L 0 56 L 130 56 L 130 16 Z" class="v-stroke v-fill-card-strong"/>
+              <path d="M 130 16 L 152 4 L 152 44 L 130 56 Z" class="v-stroke v-fill-soft"/>
+              <!-- Sparse cell grid -->
+              <g transform="translate(12, 26)">
+                <rect class="v-fill-soft" x="0"  y="0" width="22" height="6"/>
+                <rect class="v-fill-soft" x="28" y="0" width="22" height="6"/>
+                <rect class="v-fill-soft" x="56" y="0" width="22" height="6"/>
+                <rect class="v-fill-soft" x="84" y="0" width="22" height="6"/>
+                <rect class="v-fill-soft" x="0"  y="14" width="22" height="6"/>
+                <rect class="v-accent"    x="28" y="14" width="22" height="6"/>
+                <rect class="v-fill-soft" x="56" y="14" width="22" height="6"/>
+                <rect class="v-fill-soft" x="84" y="14" width="22" height="6"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="keyline"><span><strong>28</strong> lessons · 6 modules · ~5h</span><span class="arr">→</span></div>
+      </a>
+
+      <!-- T2 Engineer (large): connected nodes / recommendation pipeline -->
+      <a href="/engineer/" class="b-card b-lg">
+        <div class="num engineer"><span class="dot" aria-hidden="true"></span><strong>T2</strong> · engineer · biggest track</div>
+        <span class="feat-expand" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter"><path d="M 4 8 L 4 4 L 8 4 M 16 12 L 16 16 L 12 16 M 4 4 L 9 9 M 16 16 L 11 11"/></svg>
+        </span>
+        <h3>ZopNight Engineer. How the product actually works.</h3>
+        <p>Cluster discovery, recommendation pipeline, auto-remediation rules, override semantics, dependency-aware scheduling, anomaly detection. The biggest track. The one engineers come back to.</p>
+        <!-- Minimal isometric open book — two pages, soft text lines -->
+        <div class="b-visual b-visual-iso" aria-hidden="true">
+          <svg viewBox="0 0 400 90" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(124, 14)">
+              <!-- Left page -->
+              <path d="M 0 18 L 76 4 L 76 60 L 0 74 Z" class="v-stroke v-fill-card"/>
+              <!-- Right page -->
+              <path d="M 76 4 L 152 18 L 152 74 L 76 60 Z" class="v-stroke v-fill-card-strong"/>
+              <line class="v-stroke-thin" x1="76" y1="4" x2="76" y2="60"/>
+              <!-- Page text lines (left) -->
+              <line class="v-stroke-thin" x1="10" y1="26" x2="64" y2="14"/>
+              <line class="v-stroke-thin" x1="10" y1="36" x2="64" y2="24"/>
+              <line class="v-stroke-thin" x1="10" y1="46" x2="50" y2="38"/>
+              <line class="v-stroke-thin" x1="10" y1="56" x2="64" y2="44"/>
+              <!-- Page text lines (right) -->
+              <line class="v-stroke-thin" x1="88" y1="16" x2="142" y2="28"/>
+              <line class="v-accent-stroke" x1="88" y1="26" x2="124" y2="34" stroke-width="2"/>
+              <line class="v-stroke-thin" x1="88" y1="36" x2="142" y2="48"/>
+              <line class="v-stroke-thin" x1="88" y1="46" x2="130" y2="56"/>
+            </g>
+          </svg>
+        </div>
+        <div class="keyline"><span><strong>54</strong> lessons · 11 modules · ~10h</span><span class="arr">→</span></div>
+      </a>
+
+      <!-- T4 FinOps Mastery (large): vertical bars / forecasting -->
+      <a href="/finops-mastery/" class="b-card b-lg">
+        <div class="num engineer"><span class="dot" aria-hidden="true"></span><strong>T4</strong> · engineer</div>
+        <span class="feat-expand" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter"><path d="M 4 8 L 4 4 L 8 4 M 16 12 L 16 16 L 12 16 M 4 4 L 9 9 M 16 16 L 11 11"/></svg>
+        </span>
+        <h3>FinOps Mastery. The full Foundation framework, applied.</h3>
+        <p>Crawl, Walk, Run. Showback vs chargeback. Unit economics. Budget governance. Anomaly response. Forecasting. Commitments. Sustainability.</p>
+        <!-- Minimal isometric dashboard with 7 bars, one orange -->
+        <div class="b-visual b-visual-iso" aria-hidden="true">
+          <svg viewBox="0 0 400 90" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(100, 10)">
+              <!-- Top face -->
+              <path d="M 0 14 L 180 14 L 200 0 L 20 0 Z" class="v-stroke v-fill-card"/>
+              <!-- Front -->
+              <path d="M 0 14 L 0 64 L 180 64 L 180 14 Z" class="v-stroke v-fill-card-strong"/>
+              <!-- Right side -->
+              <path d="M 180 14 L 200 0 L 200 50 L 180 64 Z" class="v-stroke v-fill-soft"/>
+              <!-- Chart -->
+              <g transform="translate(10, 20)">
+                <rect class="v-fill-ink"  x="0"   y="24" width="16" height="18"/>
+                <rect class="v-fill-ink"  x="22"  y="14" width="16" height="28"/>
+                <rect class="v-fill-ink"  x="44"  y="20" width="16" height="22"/>
+                <rect class="v-fill-ink"  x="66"  y="8"  width="16" height="34"/>
+                <rect class="v-fill-ink"  x="88"  y="12" width="16" height="30"/>
+                <rect class="v-accent"    x="110" y="0"  width="16" height="42"/>
+                <rect class="v-fill-ink"  x="132" y="16" width="16" height="26"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="keyline"><span><strong>37</strong> lessons · 8 modules · ~7h</span><span class="arr">→</span></div>
+      </a>
+
+      <!-- T5 DevOps Cost: pipeline timeline / stage marks -->
+      <a href="/devops-cost-discipline/" class="b-card b-sm">
+        <div class="num engineer"><span class="dot" aria-hidden="true"></span><strong>T5</strong> · engineer</div>
+        <span class="feat-expand" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter"><path d="M 4 8 L 4 4 L 8 4 M 16 12 L 16 16 L 12 16 M 4 4 L 9 9 M 16 16 L 11 11"/></svg>
+        </span>
+        <h3>DevOps Cost Discipline</h3>
+        <p>Tagging hygiene, schedule patterns, Kubernetes cost, IaC cost gates, cost incident response.</p>
+        <!-- Minimal isometric pipeline — 4 cubes on a rail, one orange -->
+        <div class="b-visual b-visual-iso" aria-hidden="true">
+          <svg viewBox="0 0 240 70" preserveAspectRatio="xMidYMid meet">
+            <!-- Rail -->
+            <line class="v-stroke-thin" x1="14" y1="46" x2="226" y2="46"/>
+            <!-- 4 cubes -->
+            <g transform="translate(20, 30)">
+              <path d="M 0 12 L 14 20 L 28 12 L 14 4 Z" class="v-stroke v-fill-card"/>
+              <path d="M 0 12 L 0 20 L 14 28 L 14 20 Z" class="v-stroke v-fill-ink"/>
+              <path d="M 14 20 L 14 28 L 28 20 L 28 12 Z" class="v-stroke"/>
+            </g>
+            <g transform="translate(76, 30)">
+              <path d="M 0 12 L 14 20 L 28 12 L 14 4 Z" class="v-stroke v-fill-card"/>
+              <path d="M 0 12 L 0 20 L 14 28 L 14 20 Z" class="v-stroke v-fill-ink"/>
+              <path d="M 14 20 L 14 28 L 28 20 L 28 12 Z" class="v-stroke"/>
+            </g>
+            <!-- Active orange cube -->
+            <g transform="translate(132, 24)">
+              <path d="M 0 12 L 14 20 L 28 12 L 14 4 Z" class="v-stroke v-fill-card-strong"/>
+              <path d="M 0 12 L 0 22 L 14 30 L 14 20 Z" class="v-accent"/>
+              <path d="M 14 20 L 14 30 L 28 22 L 28 12 Z" class="v-stroke"/>
+            </g>
+            <g transform="translate(188, 30)">
+              <path d="M 0 12 L 14 20 L 28 12 L 14 4 Z" class="v-stroke v-fill-card"/>
+              <path d="M 0 12 L 0 20 L 14 28 L 14 20 Z" class="v-stroke v-fill-ink"/>
+              <path d="M 14 20 L 14 28 L 28 20 L 28 12 Z" class="v-stroke"/>
+            </g>
+          </svg>
+        </div>
+        <div class="keyline"><span><strong>33</strong> lessons · ~6h</span><span class="arr">→</span></div>
+      </a>
+
+      <!-- T6 AI Ops: radial constellation / MCP recipes radiating out -->
+      <a href="/ai-powered-cloud-ops/" class="b-card b-sm">
+        <div class="num engineer"><span class="dot" aria-hidden="true"></span><strong>T6</strong> · engineer<span class="np-badge new" style="margin-left:auto">New</span></div>
+        <span class="feat-expand" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter"><path d="M 4 8 L 4 4 L 8 4 M 16 12 L 16 16 L 12 16 M 4 4 L 9 9 M 16 16 L 11 11"/></svg>
+        </span>
+        <h3>AI-Powered Cloud Ops</h3>
+        <p>MCP from first principles. Read-only by design. 15 recipes. The 2026 differentiator.</p>
+        <!-- Minimal isometric cube + one sonar ring + orbit dot -->
+        <div class="b-visual b-visual-iso" aria-hidden="true">
+          <svg viewBox="0 0 240 90" preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(94, 26)">
+              <!-- Single sonar ring -->
+              <circle class="v-stroke-thin" cx="26" cy="22" r="38" fill="none" opacity="0.3"/>
+              <!-- Cube top -->
+              <path d="M 4 22 L 26 32 L 48 22 L 26 12 Z" class="v-stroke v-fill-card-strong"/>
+              <!-- Cube left -->
+              <path d="M 4 22 L 4 34 L 26 44 L 26 32 Z" class="v-stroke v-fill-ink"/>
+              <!-- Cube right -->
+              <path d="M 26 32 L 26 44 L 48 34 L 48 22 Z" class="v-stroke"/>
+              <!-- Orbit dot -->
+              <g class="t6-orbit">
+                <circle class="v-accent" cx="64" cy="-16" r="3.5"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="keyline"><span><strong>19</strong> lessons + <strong>15</strong> recipes</span><span class="arr">→</span></div>
+      </a>
+
+      <!-- Track total summary cell -->
+      <div class="b-card b-xs b-totals">
+        <div class="t-eyebrow">Totals</div>
+        <div class="t-block">
+          <div class="t-label">Total content</div>
+          <div class="t-num">252 + 15</div>
+          <div class="t-unit">lessons + recipes</div>
+        </div>
+        <div class="t-block">
+          <div class="t-label">Study time</div>
+          <div class="t-num-sm">~45 hours</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PATH DIAGRAM — signature visual moment.
+     Shows how a learner moves through the seven tracks. -->
+<section class="section" id="path">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">02 · learning path</div>
+      <div>
+        <h2>One foundation,<br/>three tiers,<br/>seven tracks.</h2>
+        <p class="sub">A new engineer reads T0 and T1, takes the Operator cert. Operators grow into T2 and T4, take the Engineer cert. Senior practitioners take T3 and T6, apply for the Architect cert.</p>
+      </div>
+    </div>
+
+    <div class="path-diagram" id="pathDiagram">
+      <svg class="path-connectors" id="pathConnectors" aria-hidden="true" preserveAspectRatio="none"></svg>
+
+      <div class="path-grid">
+        <div class="path-col" data-tier="operator">
+          <div class="path-col-head">
+            <span class="sw operator" aria-hidden="true"></span>
+            Tier 01 · operator
+            <span class="cert-after">cert after T1</span>
+          </div>
+          <div class="path-node" data-node="T0">
+            <div class="pn-id">T0</div>
+            <div class="pn-name">Cloud Cost Foundations</div>
+            <div class="pn-count">28 lessons · 6 modules</div>
+          </div>
+          <div class="path-node" data-node="T1">
+            <div class="pn-id">T1</div>
+            <div class="pn-name">ZopNight Operator</div>
+            <div class="pn-count">28 lessons · 6 modules</div>
+          </div>
+        </div>
+
+        <div class="path-col" data-tier="engineer">
+          <div class="path-col-head">
+            <span class="sw engineer" aria-hidden="true"></span>
+            Tier 02 · engineer
+            <span class="cert-after">cert after T2, T4, T5</span>
+          </div>
+          <div class="path-node" data-node="T2">
+            <div class="pn-id">T2</div>
+            <div class="pn-name">ZopNight Engineer</div>
+            <div class="pn-count">54 lessons · 11 modules</div>
+          </div>
+          <div class="path-node" data-node="T4">
+            <div class="pn-id">T4</div>
+            <div class="pn-name">FinOps Mastery</div>
+            <div class="pn-count">37 lessons · 8 modules</div>
+          </div>
+          <div class="path-node" data-node="T5">
+            <div class="pn-id">T5</div>
+            <div class="pn-name">DevOps Cost</div>
+            <div class="pn-count">33 lessons</div>
+          </div>
+        </div>
+
+        <div class="path-col" data-tier="architect">
+          <div class="path-col-head">
+            <span class="sw architect" aria-hidden="true"></span>
+            Tier 03 · architect
+            <span class="cert-after">application + 14-day take-home</span>
+          </div>
+          <div class="path-node" data-node="T3">
+            <div class="pn-id">T3</div>
+            <div class="pn-name">ZopNight Architect</div>
+            <div class="pn-count">38 lessons · 8 modules</div>
+          </div>
+          <div class="path-node" data-node="T6">
+            <div class="pn-id">T6</div>
+            <div class="pn-name">AI-Powered Cloud Ops</div>
+            <div class="pn-count">19 lessons + 15 recipes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="path-cert-row">
+        <div class="path-cert">
+          <div class="pc-eyebrow">↳ Earn</div>
+          <div class="pc-name">ZopNight Operator certification</div>
+        </div>
+        <div class="path-cert">
+          <div class="pc-eyebrow">↳ Earn</div>
+          <div class="pc-name">ZopNight Engineer certification</div>
+        </div>
+        <div class="path-cert">
+          <div class="pc-eyebrow">↳ Earn</div>
+          <div class="pc-name">ZopNight Architect certification</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE LESSON PREVIEW — show the actual content quality.
+     Demonstrates depth and template, not Lorem ipsum filler. -->
+<section class="section" id="sample">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">03 · sample lesson</div>
+      <div>
+        <h2>Read one,<br/>see the template.</h2>
+        <p class="sub">Every lesson follows the same five-part structure. Outcome, concept, demo, hands-on, knowledge check. Below is the first lesson of the Architect track.</p>
+      </div>
+    </div>
+
+    <div class="sample-wrap">
+      <aside class="sample-side">
+        <div class="sl-meta">T3 · M3.1 · L1 of 6</div>
+        <h3>The 15-entity policy table</h3>
+        <p style="font-size: 13px; color: var(--g-600); margin-bottom: 24px; line-height: 1.5;">Identify the 15 entities, map any surface to its policy, explain why the gateway is the single enforcement point.</p>
+        <div class="sl-detail">
+          <span>Tier · <strong>Architect</strong></span>
+          <span>Time · <strong>9 min</strong></span>
+          <span>Bloom · <strong>Identify, Map</strong></span>
+          <span>Word count · <strong>1,519</strong></span>
+          <span>Prereq · <strong>T1 ops basics</strong></span>
+        </div>
+      </aside>
+      <div class="sample-body">
+        <p><strong>Concept.</strong> ZopNight's authorization model is built around a fixed table of <strong>15 policy entities</strong>. Every protected endpoint in the product maps to one or more entities. Every role is, fundamentally, a set of <code>(entity, action)</code> pairs that the role's members are allowed to invoke.</p>
+        <p>The table is closed, it cannot be extended at runtime. Adding a 16th entity requires a schema migration, a code release, and a policy-table update reviewed by the security team. That deliberate closure is what makes the model auditable: when a customer asks "what can your Admin role do?", the answer is a finite list that fits on one page.</p>
+        <pre><code>ENTITY                  TYPICAL ACTIONS
+─────────────────────────────────────────────────────────
+resource                view, manage (start/stop)
+schedule                view, create, update, delete
+resource-group          view, create, update, delete
+override                view, create, cancel
+cloud-account           view, connect, rotate, revoke
+recommendation          view, apply, dismiss
+... + 9 more</code></pre>
+        <p>The entities cluster into three groups: <strong>operational</strong> (resource, schedule, override, recommendation), <strong>administrative</strong> (cloud-account, team, role, user), and <strong>read-only forensic</strong> (state-history, report, audit-log)...</p>
+      </div>
+    </div>
+
+    <div class="sample-cta" style="margin-top: 32px; justify-content: center;">
+      <a href="lesson-t3-m3-1-l1.html" class="btn btn-primary">Read the full lesson <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS — three cards, varied sizes (1 / 1.2 / 1.4) -->
+<section class="section" id="certs">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">04 · certifications</div>
+      <div>
+        <h2>Three tiers,<br/>earned not awarded.</h2>
+        <p class="sub">Pass the quizzes, complete the lab, ship the take-home. The bar is real because engineering leaders ask for these on resumes.</p>
+      </div>
+    </div>
+    <div class="certs">
+      <div class="cert">
+        <div class="ct-tier"><span class="sw"></span>Tier 01 · operator</div>
+        <h3>ZopNight Operator</h3>
+        <p>Twenty MCQs across T0 + T1. The cloud-cost vocabulary and the daily product surface.</p>
+        <div class="ct-foot">Free · 60 min · open book</div>
+      </div>
+      <div class="cert">
+        <div class="ct-tier"><span class="sw"></span>Tier 02 · engineer</div>
+        <h3>ZopNight Engineer</h3>
+        <p>Forty MCQs plus a practical lab. T2 product internals, T4 FinOps Mastery, T5 DevOps Cost. The certification engineering leaders ask for.</p>
+        <div class="ct-foot">$99 outside customers · 2 hours · lab required</div>
+      </div>
+      <div class="cert">
+        <div class="ct-tier"><span class="sw"></span>Tier 03 · architect</div>
+        <h3>ZopNight Architect</h3>
+        <p>Application plus 14-day take-home. T3 Architect plus T6 AI-Powered Ops. Design decisions, multi-account topology, RBAC, ROI defense. Pass requires committee review by a senior FinOps panel.</p>
+        <div class="ct-foot">Application-only · 14-day take-home · committee reviewed</div>
+        <a href="/certifications/" class="btn btn-accent" style="margin-top: 24px; align-self: flex-start;">Apply for the Architect cert <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- OG marketing final CTA -->
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- OG marketing footer · matches every page in site/ -->
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/">ZopNight</a></li>
+        <li><a href="/">ZopDay</a></li>
+        <li><a href="/">Kubernetes View</a></li>
+        <li><a href="/">ZopCloud</a></li>
+        <li><a href="/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/">Blog</a></li>
+        <li><a href="/">Ebooks</a></li>
+        <li><a href="/">Case studies</a></li>
+        <li><a href="/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/">About</a></li>
+        <li><a href="/">Careers</a></li>
+        <li><a href="/">Trust</a></li>
+        <li><a href="/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="0 0 715 276" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right"></div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/">privacy</a> · <a href="/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ============ Theme toggle ============
+  (function(){
+    var root = document.documentElement;
+    var btn = document.querySelector('.theme-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function(){
+      var current = root.getAttribute('data-theme') || 'dark';
+      var next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('zop-theme', next); } catch(e) {}
+      if (window.__zopPath) window.__zopPath.draw();
+    });
+  })();
+
+  // ============ Path diagram connectors ============
+  (function(){
+    var svg = document.getElementById('pathConnectors');
+    var diagram = document.getElementById('pathDiagram');
+    if (!svg || !diagram) return;
+
+    var ops = ['T0','T1'];
+    var eng = ['T2','T4','T5'];
+    var arc = ['T3','T6'];
+
+    function getCenters(ids){
+      var box = diagram.getBoundingClientRect();
+      return ids.map(function(id){
+        var el = diagram.querySelector('[data-node="' + id + '"]');
+        if (!el) return null;
+        var r = el.getBoundingClientRect();
+        return {
+          left: { x: r.left - box.left, y: r.top - box.top + r.height/2 },
+          right:{ x: r.right - box.left, y: r.top - box.top + r.height/2 }
+        };
+      }).filter(Boolean);
+    }
+
+    function curve(x1, y1, x2, y2){
+      var dx = (x2 - x1) * 0.45;
+      return 'M' + x1 + ',' + y1 + ' C' + (x1+dx) + ',' + y1 + ' ' + (x2-dx) + ',' + y2 + ' ' + x2 + ',' + y2;
+    }
+
+    function draw(){
+      var box = diagram.getBoundingClientRect();
+      svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
+      svg.setAttribute('width', box.width);
+      svg.setAttribute('height', box.height);
+      svg.innerHTML = '';
+      var o = getCenters(ops);
+      var e = getCenters(eng);
+      var a = getCenters(arc);
+
+      // From every operator → every engineer
+      o.forEach(function(start){
+        e.forEach(function(end){
+          var p = document.createElementNS('http://www.w3.org/2000/svg','path');
+          p.setAttribute('d', curve(start.right.x, start.right.y, end.left.x, end.left.y));
+          svg.appendChild(p);
+        });
+      });
+      // From every engineer → every architect
+      e.forEach(function(start){
+        a.forEach(function(end){
+          var p = document.createElementNS('http://www.w3.org/2000/svg','path');
+          p.setAttribute('d', curve(start.right.x, start.right.y, end.left.x, end.left.y));
+          svg.appendChild(p);
+        });
+      });
+    }
+    window.__zopPath = { draw: draw };
+    draw();
+    addEventListener('resize', draw);
+    // Recompute once fonts settle
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    setTimeout(draw, 120);
+  })();
+
+  // ============ Secondary nav dropdowns (Courses / Certifications) ============
+  (function(){
+    var dds = document.querySelectorAll('[data-uni-dropdown]');
+    if (!dds.length) return;
+    function closeAll(){
+      dds.forEach(function(d){
+        d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+        d.classList.remove('open');
+      });
+    }
+    dds.forEach(function(dd){
+      var btn = dd.querySelector('.uni-dropdown-toggle');
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        closeAll();
+        if (!open) {
+          btn.setAttribute('aria-expanded','true');
+          dd.classList.add('open');
+        }
+      });
+    });
+    document.addEventListener('click', function(e){
+      var inside = false;
+      dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+      if (!inside) closeAll();
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') closeAll();
+    });
+  })();
+
+  // ============ Inline search · submits to /search/?q= on enter ============
+  (function(){
+    var input = document.querySelector('.uni-search-input');
+    if (!input) return;
+    document.addEventListener('keydown', function(e){
+      if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+        e.preventDefault(); input.focus();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

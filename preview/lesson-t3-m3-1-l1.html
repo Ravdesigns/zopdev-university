@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Primary SEO -->
+<title>The 15-entity policy table · T3.M3.1.L1 · ZopNight University</title>
+<meta name="description" content="ZopNight's RBAC is built around 15 stable policy entities, enforced at the gateway. Learn the table, the three entity groups (operational, administrative, forensic), and why the model is auditable. 9-min Architect-tier lesson.">
+<link rel="canonical" href="https://zopnight.com/university/lessons/t3-m3-1-l1">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+<meta name="article:published_time" content="2026-05-20">
+<meta name="article:section" content="Architect track / RBAC">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopNight University">
+<meta property="og:title" content="The 15-entity policy table · T3.M3.1.L1">
+<meta property="og:description" content="ZopNight's RBAC is built around 15 stable policy entities, enforced at the gateway. Learn the table and why the model is auditable.">
+<meta property="og:url" content="https://zopnight.com/university/lessons/t3-m3-1-l1">
+<meta property="og:image" content="https://zopnight.com/university/og/t3-m3-1-l1.png">
+<meta property="article:author" content="ZopDev University editorial board">
+<meta property="article:published_time" content="2026-05-20">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The 15-entity policy table">
+<meta name="twitter:description" content="ZopNight's RBAC is built around 15 stable policy entities, enforced at the gateway. 9 min, Architect tier.">
+
+<!-- GEO — JSON-LD LearningResource + BreadcrumbList + FAQ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "The 15-entity policy table",
+  "description": "ZopNight's authorization model is built around a fixed table of 15 policy entities. Every protected endpoint maps to one or more entities; every role is a set of (entity, action) pairs.",
+  "inLanguage": "en-US",
+  "learningResourceType": "Lesson",
+  "educationalLevel": "Architect",
+  "timeRequired": "PT9M",
+  "teaches": "Identify the 15 RBAC entities, map any product surface to the policy it enforces, explain why the gateway is the single enforcement point.",
+  "competencyRequired": "Operator-tier familiarity with the ZopNight product surface.",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Platform Engineers, Security/Compliance, FinOps Leads"
+  },
+  "isPartOf": {
+    "@type": "Course",
+    "name": "ZopNight Architect — Track T3",
+    "courseCode": "T3"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ZopDev University editorial board",
+    "url": "https://zopnight.com/university"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ZopDev",
+    "url": "https://zop.dev"
+  },
+  "datePublished": "2026-05-20",
+  "dateModified": "2026-05-20",
+  "url": "https://zopnight.com/university/lessons/t3-m3-1-l1"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "ZopNight", "item": "https://zopnight.com"},
+    {"@type": "ListItem", "position": 2, "name": "University", "item": "https://zopnight.com/university"},
+    {"@type": "ListItem", "position": 3, "name": "T3 · Architect", "item": "https://zopnight.com/university/tracks/architect"},
+    {"@type": "ListItem", "position": 4, "name": "M3.1 · RBAC", "item": "https://zopnight.com/university/tracks/architect#modules"},
+    {"@type": "ListItem", "position": 5, "name": "L1 · The 15-entity policy table", "item": "https://zopnight.com/university/lessons/t3-m3-1-l1"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "A user clicks 'Apply Recommendation' but sees Access Restricted. What is the most likely cause?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Their role lacks the recommendation:apply policy. Either assign a more permissive role, or grant the specific policy in a custom role. Confirm in Settings → Users → role inspector. Access Restricted is the gateway's 403 response, which is always policy-based."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is the 15-entity policy table enforced?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At the gateway, on every request. The frontend's disabled-state is a UX nicety; the gateway is the security boundary. A scripted client that bypasses the frontend still hits the gateway and is rejected. Gateway enforcement means a single, audited code path handles all authorization."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the default behavior of the gateway when a new endpoint is added without a policy entry?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reject all requests (default-deny). The build pipeline also fails the integration test, catching the omission before merge. Default-deny is the safe default and prevents accidental over-exposure."
+      }
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<a href="#main" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.cssText=''">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-brand">
+      <span class="mark" aria-hidden="true"></span>
+      ZopNight
+    </a>
+    <div class="nav-links">
+      <a href="#">Product</a>
+      <a href="#">Solutions</a>
+      <a href="#">Resources</a>
+      <a href="index.html" class="active">University</a>
+      <a href="#">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="link-inline">Sign in</a>
+      <a href="#" class="btn btn-primary">Start free <span class="arrow">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<article>
+
+<header class="lesson-head">
+  <div class="container">
+    <nav class="lesson-breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">University</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="track-t3.html">T3 · Architect</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="track-t3.html#modules">M3.1 · RBAC</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <span aria-current="page">L1 · The 15-entity policy table</span>
+    </nav>
+    <h1>The 15-entity<br/>policy table.</h1>
+    <div class="lesson-meta-row">
+      <span>Tier · <strong>Architect</strong></span>
+      <span>Time · <strong>9 min</strong></span>
+      <span>Bloom · <strong>Identify, Map, Explain</strong></span>
+      <span>Lesson · <strong>T3.M3.1.L1</strong></span>
+      <span>Reviewed · <strong>2026-05-20</strong></span>
+    </div>
+  </div>
+</header>
+
+<section class="lesson-body">
+  <div class="container">
+
+    <aside class="outcome-card" aria-label="Lesson outcome">
+      <div class="label">Outcome</div>
+      <div class="text">
+        By the end of this lesson, you will be able to identify the 15 entities in ZopNight's RBAC policy table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.
+      </div>
+    </aside>
+
+    <table aria-label="Lesson metadata">
+      <tbody>
+        <tr><td><strong>Tier</strong></td><td>Architect</td></tr>
+        <tr><td><strong>JTBD</strong></td><td>Design a role model that lets engineers do their jobs without granting more than they need.</td></tr>
+        <tr><td><strong>Personas</strong></td><td>Platform Engineer · Security/Compliance · FinOps Lead</td></tr>
+        <tr><td><strong>Prerequisites</strong></td><td>T1 (operator tier) for product surface awareness</td></tr>
+        <tr><td><strong>Time</strong></td><td>9 minutes</td></tr>
+        <tr><td><strong>Bloom verb</strong></td><td>Identify (Remember), Map (Apply), Explain (Understand)</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="concept">1. Concept</h2>
+
+    <p>ZopNight's authorization model is built around a fixed table of <strong>15 policy entities</strong>. Every protected endpoint in the product maps to one or more entities. Every role is, fundamentally, a set of <code>(entity, action)</code> pairs that the role's members are allowed to invoke.</p>
+
+    <p>The table is closed, it cannot be extended at runtime. Adding a 16th entity requires a schema migration, a code release, and a policy-table update reviewed by the security team. That deliberate closure is what makes the model auditable: when a customer asks "what can your Admin role do?", the answer is a finite list that fits on one page.</p>
+
+    <h3 id="the-15">The 15 entities</h3>
+
+    <pre><code>ENTITY                  TYPICAL ACTIONS
+─────────────────────────────────────────────────────────
+resource                view, manage (start/stop)
+schedule                view, create, update, delete
+resource-group          view, create, update, delete, manage-members
+override                view, create, cancel
+cloud-account           view, connect, rotate, revoke
+notification            view, create, update, delete
+team                    view, create, update, delete
+role                    view, create, update, delete, assign
+user                    view, create, update, delete, invite
+organisation            view, update
+assignment              view, create, delete
+state-history           view
+report                  view
+audit-log                view
+recommendation          view, apply, dismiss</code></pre>
+
+    <p>The entities cluster into three groups: <strong>operational</strong> (resource, schedule, resource-group, override, recommendation, notification), <strong>administrative</strong> (cloud-account, team, role, user, organisation, assignment), and <strong>read-only forensic</strong> (state-history, report, audit-log). The grouping matters for role design, a typical Editor role gets full operational and partial administrative; a typical Auditor role gets only the forensic group plus selective view rights.</p>
+
+    <h3 id="why-15">Why exactly 15</h3>
+
+    <p>The number is not arbitrary. Earlier iterations of ZopNight had a much larger entity table (43 in the v2 design) where each backend service exposed its own entities. That model produced unpredictable role behavior, granting <code>cluster:view</code> did not also grant <code>node:view</code>, even though every cluster page rendered nodes. Customers ended up with custom roles that quietly authorized 30+ disconnected entities.</p>
+
+    <p>The v3 consolidation merged the table to 15 stable, user-facing entities. The mapping from entity to backend services is internal and managed by the gateway. From the customer's perspective, the entities mirror what they see in the UI: a "resource" is a thing on the Resources page; a "schedule" is a thing on the Schedules page. No mental translation required.</p>
+
+    <h3 id="coverage">Policy entity coverage</h3>
+
+    <p>Every protected endpoint in ZopNight maps to one or more policy entities. The gateway enforces this on every request, before the request reaches the backend service.</p>
+
+    <pre><code>SURFACE                          REQUIRES
+─────────────────────────────────────────────────────────
+Resources page                   resource:view
+Resource detail                  resource:view
+Start/stop action                resource:manage
+Schedules page                   schedule:view
+Create schedule                  schedule:create
+Apply recommendation             recommendation:apply
+Dismiss recommendation           recommendation:dismiss
+Connect cloud account            cloud-account:connect
+Rotate cloud-account creds       cloud-account:rotate
+View audit log                   audit-log:view
+Export audit log                 audit-log:view + report:view
+Invite teammate                  user:invite
+Create custom role               role:create
+Assign role to user              role:assign + assignment:create</code></pre>
+
+    <p>A user without the right policy gets a <code>403 Access Restricted</code> from the gateway. The backend never sees the request. This is important, defense in depth means even a backend bug cannot bypass authorization.</p>
+
+    <h3 id="gateway">Where the gateway enforces</h3>
+
+    <p>The gateway sits in front of every backend service. Request flow:</p>
+
+    <pre><code>client → gateway → policy check → backend service
+                       ↓
+                  if denied: 403 (request stops here)</code></pre>
+
+    <p>The policy check is a single function call against the policy table, scoped to the authenticated user's roles. The backend services do not re-check. This separation keeps the security boundary unambiguous: one component (the gateway) is responsible for authorization, and that component is hardened, audited, and changes infrequently.</p>
+
+    <h3 id="default-deny">Default-deny</h3>
+
+    <p>The policy model is default-deny. If a new endpoint is added without a policy mapping, the gateway rejects all requests to it. This catches accidental over-exposure during development. The frontend will surface a <code>policy_missing</code> error during build-time integration tests if a new API call is made without a policy entry in the table.</p>
+
+    <h3 id="how-used">How ZopNight uses the table</h3>
+
+    <p>The policy table lives in <code>policy_table.yaml</code> in the gateway repo. Every change is a PR with mandatory review by the security team. The build pipeline asserts that:</p>
+    <ol>
+      <li>Every endpoint declared in any service has a policy entry.</li>
+      <li>Every policy entry references one of the 15 entities (no typos, no orphans).</li>
+      <li>The Frontend's <code>usePermission()</code> helper matches the gateway's policy enforcement (catches drift early).</li>
+    </ol>
+
+    <p>This three-way check (service → gateway → frontend) makes the policy table the single source of truth.</p>
+
+    <h2 id="demo">2. Demo</h2>
+
+    <p>A team-platform engineer wants to start an EC2 instance from the Resources page. The flow:</p>
+
+    <pre><code>GET /v1/resources                    [gateway] → resource:view → 200
+GET /v1/resources/i-0abc             [gateway] → resource:view → 200
+POST /v1/resources/i-0abc/start      [gateway] → resource:manage → 403
+                                                  ^^^ user role lacks manage</code></pre>
+
+    <p>In the policy table, that endpoint is declared as:</p>
+
+    <pre><code>- path: /v1/resources/{id}/start
+  method: POST
+  policy: { entity: resource, action: manage }</code></pre>
+
+    <p>The user's effective role is Viewer. Viewer's policy set is:</p>
+
+    <pre><code>viewer:
+  - { entity: resource, action: view }
+  - { entity: schedule, action: view }
+  - { entity: recommendation, action: view }
+  - { entity: report, action: view }
+  # ...all view-only across the 15 entities</code></pre>
+
+    <p>The gateway resolves the request, finds no matching <code>(resource, manage)</code> permission, returns 403. The frontend's <code>usePermission('resource', 'manage')</code> would have returned <code>false</code>, so the "Start" button would already be disabled, but the gateway is the actual security boundary, disabled UI is a usability nicety, not a security control.</p>
+
+    <h2 id="handson">3. Hands-on (6 min)</h2>
+
+    <p>Open Settings → Roles in your ZopNight org. Pick any custom role (or System role for reference).</p>
+
+    <pre><code>ROLE NAME: __________________
+
+Count policies by entity:
+  resource:         _____ actions allowed
+  schedule:         _____ actions allowed
+  recommendation:   _____ actions allowed
+  audit-log:        _____ actions allowed
+  user / role:      _____ actions allowed (admin-y)
+
+Estimated tier (Viewer / Editor / Admin): __________________
+
+One action this role CAN do that surprises you: __________________
+One action this role CAN'T do that surprises you: __________________</code></pre>
+
+    <p>The "surprises" are usually where role design needs refinement. A FinOps Analyst that cannot dismiss recommendations is over-restricted. A junior engineer that can rotate cloud-account credentials is over-granted.</p>
+
+    <h2 id="quiz">4. Knowledge check</h2>
+
+    <h3 id="q1">Q1</h3>
+    <p>A user clicks "Apply Recommendation" but sees Access Restricted. The most likely cause:</p>
+    <ol type="A">
+      <li>A bug in the recommendation engine</li>
+      <li>Their role lacks <code>recommendation:apply</code>. Either assign a more permissive role, or grant the specific policy in a custom role. Confirm in Settings → Users → role inspector.</li>
+      <li>Cloud provider rejected the action</li>
+      <li>The recommendation expired</li>
+    </ol>
+    <details>
+      <summary>Show answer</summary>
+      <p><strong>Correct: B.</strong> Access Restricted is the gateway's 403 response, which is always policy-based. The recommendation engine, cloud provider, and expiry would surface different errors. Always start a permission diagnosis at the role inspector.</p>
+    </details>
+
+    <h3 id="q2">Q2</h3>
+    <p>The 15-entity policy table is enforced where:</p>
+    <ol type="A">
+      <li>The frontend only, disabled buttons prevent action</li>
+      <li>The gateway, on every request. The frontend's disabled-state is a UX nicety; the gateway is the security boundary. A scripted client that bypasses the frontend still hits the gateway and is rejected.</li>
+      <li>Each backend service independently</li>
+      <li>A WAF rule outside the application</li>
+    </ol>
+    <details>
+      <summary>Show answer</summary>
+      <p><strong>Correct: B.</strong> Gateway enforcement means a single, audited code path handles all authorization. Frontend gating exists to avoid showing actions the user cannot take, but it is not the security control.</p>
+    </details>
+
+    <h3 id="q3">Q3</h3>
+    <p>A new endpoint is added without a policy entry. Default behavior of the gateway:</p>
+    <ol type="A">
+      <li>Allow all authenticated requests</li>
+      <li>Reject all requests (default-deny). The build pipeline also fails the integration test, catching the omission before merge.</li>
+      <li>Allow only Admin</li>
+      <li>Allow only the endpoint's author</li>
+    </ol>
+    <details>
+      <summary>Show answer</summary>
+      <p><strong>Correct: B.</strong> Default-deny is the safe default and prevents accidental over-exposure. The integration test failing in CI is the second line of defense.</p>
+    </details>
+
+    <h2 id="apply">5. Apply</h2>
+
+    <p>The full policy table is browsable in <strong>Settings → Roles → Policy reference</strong>. The <code>usePermission()</code> hook in the frontend is the canonical way for UI components to check rights before rendering. The gateway is the canonical enforcement point.</p>
+
+    <p>When designing a new role, start from a System role (Viewer / Editor / Admin) and remove or add specific <code>(entity, action)</code> pairs. The diff is the role's defining characteristic.</p>
+
+    <!-- Prev / Next navigation -->
+    <nav aria-label="Lesson navigation" style="margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line);">
+      <a href="track-t3.html" style="background: var(--paper); padding: 20px 24px; color: var(--ink); display: block;">
+        <div style="font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--g-500); margin-bottom: 6px;">← Up to module</div>
+        <div style="font-weight: 600;">M3.1 · RBAC</div>
+      </a>
+      <a href="#" style="background: var(--paper); padding: 20px 24px; color: var(--ink); display: block; text-align: right;">
+        <div style="font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--g-500); margin-bottom: 6px;">L2 · Next →</div>
+        <div style="font-weight: 600;">System roles: Viewer, Editor, Admin</div>
+      </a>
+    </nav>
+
+    <h2 id="related">Related lessons</h2>
+    <ul>
+      <li><a href="#">L2 — System roles: Viewer, Editor, Admin</a> <em>(next)</em></li>
+      <li><a href="#">L3 — Custom roles</a></li>
+      <li><a href="#">L6 — Frontend gating with usePermission</a></li>
+    </ul>
+
+    <h2 id="glossary">Glossary terms touched</h2>
+    <p>
+      Policy entity · Gateway · Default-deny · RBAC
+    </p>
+
+    <p style="margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g-500);">
+      § Authored by the ZopDev University editorial board · Last reviewed <time datetime="2026-05-20">2026-05-20</time> · Lesson ID T3.M3.1.L1
+    </p>
+
+  </div>
+</section>
+
+</article>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-brand">
+          <span class="mark" aria-hidden="true"></span>
+          ZopNight
+        </a>
+        <p>Continuous Detect, Continuous Remediate for cloud cost. ZopNight University is the same content we use to onboard customer engineering teams.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Schedules</a></li>
+          <li><a href="#">Recommendations</a></li>
+          <li><a href="#">Audit log</a></li>
+          <li><a href="#">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="index.html#tracks">Tracks</a></li>
+          <li><a href="index.html#certs">Certifications</a></li>
+          <li><a href="index.html#path">Learning paths</a></li>
+          <li><a href="track-t3.html">T3 Architect</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Customers</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="mailto:hello@zop.dev">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>§ · T3.M3.1.L1 · Architect tier · 9 min</span>
+      <span>© 2026 ZopDev · hello@zop.dev</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
