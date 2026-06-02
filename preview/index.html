@@ -364,25 +364,20 @@
         <h3>ZopNight <em>Architect</em>. Design decisions that survive scale.</h3>
         <p>RBAC topology, multi-account credential strategy, showback dimensions, budget pyramids, dashboard governance, cost-flow Sankey. The choices a year-1 customer will still respect at year five.</p>
 
-        <!-- Minimal isometric: 3-tier stacked platform, apex accent -->
-        <div class="b-visual b-visual-iso" aria-hidden="true">
+        <!-- Flat 3-tier nested frames — architecture hierarchy, apex accent -->
+        <div class="b-visual" aria-hidden="true">
           <svg viewBox="0 0 560 180" preserveAspectRatio="xMidYMid meet">
-            <!-- Centered isometric 3-tier stack -->
-            <g transform="translate(210, 32)">
-              <!-- Tier 3 base -->
-              <path d="M 0 96 L 70 128 L 140 96 L 70 64 Z" class="v-stroke v-fill-soft"/>
-              <path d="M 0 96 L 0 112 L 70 144 L 70 128 Z" class="v-stroke v-fill-ink"/>
-              <path d="M 70 128 L 70 144 L 140 112 L 140 96 Z" class="v-stroke"/>
-              <!-- Tier 2 middle -->
-              <path d="M 22 62 L 70 82 L 118 62 L 70 42 Z" class="v-stroke v-fill-soft"/>
-              <path d="M 22 62 L 22 74 L 70 94 L 70 82 Z" class="v-stroke v-fill-ink"/>
-              <path d="M 70 82 L 70 94 L 118 74 L 118 62 Z" class="v-stroke"/>
-              <!-- Tier 1 top -->
-              <path d="M 44 32 L 70 42 L 96 32 L 70 22 Z" class="v-stroke v-fill-soft"/>
-              <path d="M 44 32 L 44 40 L 70 50 L 70 40 Z" class="v-stroke v-fill-ink"/>
-              <path d="M 70 42 L 70 50 L 96 40 L 96 32 Z" class="v-stroke"/>
+            <g transform="translate(190, 16)">
+              <!-- Outer frame -->
+              <rect class="v-stroke" x="0" y="40" width="180" height="120"/>
+              <!-- Middle frame -->
+              <rect class="v-stroke v-fill-soft" x="24" y="58" width="132" height="84"/>
+              <!-- Inner frame -->
+              <rect class="v-fill-ink" x="50" y="78" width="80" height="44"/>
               <!-- Apex accent -->
-              <circle class="v-accent" cx="70" cy="10" r="4"/>
+              <circle class="v-accent" cx="90" cy="14" r="5"/>
+              <!-- Drop line from accent into the inner frame -->
+              <line class="v-stroke-thin v-dashed" x1="90" y1="20" x2="90" y2="78"/>
             </g>
           </svg>
         </div>
@@ -401,17 +396,15 @@
         </span>
         <h3>Cloud Cost Foundations</h3>
         <p>Rack rate vs billing, the two-source cost model, multi-cloud taxonomy, the FinOps lifecycle, CDCR. The shared vocabulary every track builds on.</p>
-        <!-- Minimal isometric bill — slight skew, 4 lines, one orange -->
-        <div class="b-visual b-visual-iso" aria-hidden="true">
+        <!-- Flat horizontal bars — bill line items, one orange -->
+        <div class="b-visual" aria-hidden="true">
           <svg viewBox="0 0 240 90" preserveAspectRatio="xMinYMid meet">
-            <g transform="translate(48, 8) skewY(-8)">
-              <rect class="v-stroke v-fill-card" x="0" y="6" width="144" height="78"/>
-              <line class="v-stroke-thin" x1="12" y1="22" x2="132" y2="22"/>
-              <rect class="v-fill-ink" x="12" y="32" width="78" height="4"/>
-              <rect class="v-fill-ink" x="12" y="46" width="60" height="4"/>
-              <rect class="v-accent"   x="12" y="60" width="92" height="4"/>
-              <rect class="v-fill-ink" x="12" y="74" width="68" height="4"/>
-            </g>
+            <rect class="v-fill-ink" x="0" y="8"  width="200" height="6"/>
+            <rect class="v-fill-ink" x="0" y="24" width="140" height="6"/>
+            <rect class="v-fill-ink" x="0" y="40" width="180" height="6"/>
+            <rect class="v-accent"   x="0" y="56" width="100" height="6"/>
+            <rect class="v-fill-ink" x="0" y="72" width="160" height="6"/>
+            <line class="v-stroke-thin" x1="220" y1="0" x2="220" y2="90"/>
           </svg>
         </div>
         <div class="keyline"><span><strong>28</strong> lessons · 6 modules · ~5h</span><span class="arr">→</span></div>
@@ -425,25 +418,24 @@
         </span>
         <h3>ZopNight Operator</h3>
         <p>Daily product walkthrough. Resources, schedules, overrides, recommendations, audit log. The complete operator surface, ready Monday morning.</p>
-        <!-- Minimal isometric console — 3 faces, sparse cells -->
-        <div class="b-visual b-visual-iso" aria-hidden="true">
+        <!-- Flat 5×3 control grid — daily product surface, one active cell -->
+        <div class="b-visual" aria-hidden="true">
           <svg viewBox="0 0 240 90" preserveAspectRatio="xMinYMid meet">
-            <g transform="translate(40, 18)">
-              <path d="M 0 16 L 130 16 L 152 4 L 22 4 Z" class="v-stroke v-fill-card"/>
-              <path d="M 0 16 L 0 56 L 130 56 L 130 16 Z" class="v-stroke v-fill-card-strong"/>
-              <path d="M 130 16 L 152 4 L 152 44 L 130 56 Z" class="v-stroke v-fill-soft"/>
-              <!-- Sparse cell grid -->
-              <g transform="translate(12, 26)">
-                <rect class="v-fill-soft" x="0"  y="0" width="22" height="6"/>
-                <rect class="v-fill-soft" x="28" y="0" width="22" height="6"/>
-                <rect class="v-fill-soft" x="56" y="0" width="22" height="6"/>
-                <rect class="v-fill-soft" x="84" y="0" width="22" height="6"/>
-                <rect class="v-fill-soft" x="0"  y="14" width="22" height="6"/>
-                <rect class="v-accent"    x="28" y="14" width="22" height="6"/>
-                <rect class="v-fill-soft" x="56" y="14" width="22" height="6"/>
-                <rect class="v-fill-soft" x="84" y="14" width="22" height="6"/>
-              </g>
-            </g>
+            <rect class="v-stroke" x="0"   y="6"  width="42" height="22"/>
+            <rect class="v-stroke" x="50"  y="6"  width="42" height="22"/>
+            <rect class="v-stroke" x="100" y="6"  width="42" height="22"/>
+            <rect class="v-stroke" x="150" y="6"  width="42" height="22"/>
+            <rect class="v-stroke" x="200" y="6"  width="42" height="22"/>
+            <rect class="v-stroke" x="0"   y="34" width="42" height="22"/>
+            <rect class="v-fill-ink" x="50" y="34" width="42" height="22"/>
+            <rect class="v-stroke" x="100" y="34" width="42" height="22"/>
+            <rect class="v-stroke" x="150" y="34" width="42" height="22"/>
+            <rect class="v-stroke" x="200" y="34" width="42" height="22"/>
+            <rect class="v-stroke" x="0"   y="62" width="42" height="22"/>
+            <rect class="v-stroke" x="50"  y="62" width="42" height="22"/>
+            <rect class="v-accent" x="100" y="62" width="42" height="22"/>
+            <rect class="v-stroke" x="150" y="62" width="42" height="22"/>
+            <rect class="v-stroke" x="200" y="62" width="42" height="22"/>
           </svg>
         </div>
         <div class="keyline"><span><strong>28</strong> lessons · 6 modules · ~5h</span><span class="arr">→</span></div>
@@ -457,26 +449,17 @@
         </span>
         <h3>ZopNight Engineer. How the product actually works.</h3>
         <p>Cluster discovery, recommendation pipeline, auto-remediation rules, override semantics, dependency-aware scheduling, anomaly detection. The biggest track. The one engineers come back to.</p>
-        <!-- Minimal isometric open book — two pages, soft text lines -->
-        <div class="b-visual b-visual-iso" aria-hidden="true">
+        <!-- Flat sine wave through node — recommendation pipeline curve -->
+        <div class="b-visual" aria-hidden="true">
           <svg viewBox="0 0 400 90" preserveAspectRatio="xMidYMid meet">
-            <g transform="translate(124, 14)">
-              <!-- Left page -->
-              <path d="M 0 18 L 76 4 L 76 60 L 0 74 Z" class="v-stroke v-fill-card"/>
-              <!-- Right page -->
-              <path d="M 76 4 L 152 18 L 152 74 L 76 60 Z" class="v-stroke v-fill-card-strong"/>
-              <line class="v-stroke-thin" x1="76" y1="4" x2="76" y2="60"/>
-              <!-- Page text lines (left) -->
-              <line class="v-stroke-thin" x1="10" y1="26" x2="64" y2="14"/>
-              <line class="v-stroke-thin" x1="10" y1="36" x2="64" y2="24"/>
-              <line class="v-stroke-thin" x1="10" y1="46" x2="50" y2="38"/>
-              <line class="v-stroke-thin" x1="10" y1="56" x2="64" y2="44"/>
-              <!-- Page text lines (right) -->
-              <line class="v-stroke-thin" x1="88" y1="16" x2="142" y2="28"/>
-              <line class="v-accent-stroke" x1="88" y1="26" x2="124" y2="34" stroke-width="2"/>
-              <line class="v-stroke-thin" x1="88" y1="36" x2="142" y2="48"/>
-              <line class="v-stroke-thin" x1="88" y1="46" x2="130" y2="56"/>
-            </g>
+            <line class="v-stroke-thin" x1="0" y1="45" x2="400" y2="45"/>
+            <path class="v-stroke" d="M 24 60 C 80 60, 80 30, 136 30" fill="none"/>
+            <path class="v-stroke" d="M 136 30 C 192 30, 192 60, 248 60" fill="none"/>
+            <path class="v-stroke" d="M 248 60 C 304 60, 304 30, 360 30" fill="none"/>
+            <circle class="v-fill-ink" cx="24"  cy="60" r="5"/>
+            <circle class="v-fill-ink" cx="136" cy="30" r="5"/>
+            <circle class="v-fill-ink" cx="248" cy="60" r="5"/>
+            <circle class="v-accent"   cx="360" cy="30" r="6"/>
           </svg>
         </div>
         <div class="keyline"><span><strong>54</strong> lessons · 11 modules · ~10h</span><span class="arr">→</span></div>
@@ -490,27 +473,22 @@
         </span>
         <h3>FinOps Mastery. The full Foundation framework, applied.</h3>
         <p>Crawl, Walk, Run. Showback vs chargeback. Unit economics. Budget governance. Anomaly response. Forecasting. Commitments. Sustainability.</p>
-        <!-- Minimal isometric dashboard with 7 bars, one orange -->
-        <div class="b-visual b-visual-iso" aria-hidden="true">
+        <!-- Flat bar chart on baseline — forecast, one tallest orange -->
+        <div class="b-visual" aria-hidden="true">
           <svg viewBox="0 0 400 90" preserveAspectRatio="xMidYMid meet">
-            <g transform="translate(100, 10)">
-              <!-- Top face -->
-              <path d="M 0 14 L 180 14 L 200 0 L 20 0 Z" class="v-stroke v-fill-card"/>
-              <!-- Front -->
-              <path d="M 0 14 L 0 64 L 180 64 L 180 14 Z" class="v-stroke v-fill-card-strong"/>
-              <!-- Right side -->
-              <path d="M 180 14 L 200 0 L 200 50 L 180 64 Z" class="v-stroke v-fill-soft"/>
-              <!-- Chart -->
-              <g transform="translate(10, 20)">
-                <rect class="v-fill-ink"  x="0"   y="24" width="16" height="18"/>
-                <rect class="v-fill-ink"  x="22"  y="14" width="16" height="28"/>
-                <rect class="v-fill-ink"  x="44"  y="20" width="16" height="22"/>
-                <rect class="v-fill-ink"  x="66"  y="8"  width="16" height="34"/>
-                <rect class="v-fill-ink"  x="88"  y="12" width="16" height="30"/>
-                <rect class="v-accent"    x="110" y="0"  width="16" height="42"/>
-                <rect class="v-fill-ink"  x="132" y="16" width="16" height="26"/>
-              </g>
-            </g>
+            <line class="v-stroke-thin" x1="0" y1="80" x2="400" y2="80"/>
+            <rect class="v-fill-ink" x="0"   y="58" width="22" height="22"/>
+            <rect class="v-fill-ink" x="32"  y="44" width="22" height="36"/>
+            <rect class="v-fill-ink" x="64"  y="52" width="22" height="28"/>
+            <rect class="v-fill-ink" x="96"  y="32" width="22" height="48"/>
+            <rect class="v-fill-ink" x="128" y="38" width="22" height="42"/>
+            <rect class="v-accent"   x="160" y="14" width="22" height="66"/>
+            <rect class="v-fill-ink" x="192" y="40" width="22" height="40"/>
+            <rect class="v-fill-ink" x="224" y="50" width="22" height="30"/>
+            <rect class="v-fill-ink" x="256" y="30" width="22" height="50"/>
+            <rect class="v-fill-ink" x="288" y="46" width="22" height="34"/>
+            <rect class="v-fill-ink" x="320" y="34" width="22" height="46"/>
+            <rect class="v-fill-ink" x="352" y="22" width="22" height="58"/>
           </svg>
         </div>
         <div class="keyline"><span><strong>37</strong> lessons · 8 modules · ~7h</span><span class="arr">→</span></div>
@@ -524,33 +502,22 @@
         </span>
         <h3>DevOps Cost Discipline</h3>
         <p>Tagging hygiene, schedule patterns, Kubernetes cost, IaC cost gates, cost incident response.</p>
-        <!-- Minimal isometric pipeline — 4 cubes on a rail, one orange -->
-        <div class="b-visual b-visual-iso" aria-hidden="true">
+        <!-- Flat pipeline — dots on a timeline, one orange (the gate) -->
+        <div class="b-visual" aria-hidden="true">
           <svg viewBox="0 0 240 70" preserveAspectRatio="xMidYMid meet">
-            <!-- Rail -->
-            <line class="v-stroke-thin" x1="14" y1="46" x2="226" y2="46"/>
-            <!-- 4 cubes -->
-            <g transform="translate(20, 30)">
-              <path d="M 0 12 L 14 20 L 28 12 L 14 4 Z" class="v-stroke v-fill-card"/>
-              <path d="M 0 12 L 0 20 L 14 28 L 14 20 Z" class="v-stroke v-fill-ink"/>
-              <path d="M 14 20 L 14 28 L 28 20 L 28 12 Z" class="v-stroke"/>
-            </g>
-            <g transform="translate(76, 30)">
-              <path d="M 0 12 L 14 20 L 28 12 L 14 4 Z" class="v-stroke v-fill-card"/>
-              <path d="M 0 12 L 0 20 L 14 28 L 14 20 Z" class="v-stroke v-fill-ink"/>
-              <path d="M 14 20 L 14 28 L 28 20 L 28 12 Z" class="v-stroke"/>
-            </g>
-            <!-- Active orange cube -->
-            <g transform="translate(132, 24)">
-              <path d="M 0 12 L 14 20 L 28 12 L 14 4 Z" class="v-stroke v-fill-card-strong"/>
-              <path d="M 0 12 L 0 22 L 14 30 L 14 20 Z" class="v-accent"/>
-              <path d="M 14 20 L 14 30 L 28 22 L 28 12 Z" class="v-stroke"/>
-            </g>
-            <g transform="translate(188, 30)">
-              <path d="M 0 12 L 14 20 L 28 12 L 14 4 Z" class="v-stroke v-fill-card"/>
-              <path d="M 0 12 L 0 20 L 14 28 L 14 20 Z" class="v-stroke v-fill-ink"/>
-              <path d="M 14 20 L 14 28 L 28 20 L 28 12 Z" class="v-stroke"/>
-            </g>
+            <line class="v-stroke" x1="0" y1="35" x2="240" y2="35"/>
+            <line class="v-stroke" x1="20"  y1="20" x2="20"  y2="50"/>
+            <line class="v-stroke" x1="60"  y1="20" x2="60"  y2="50"/>
+            <line class="v-stroke" x1="100" y1="20" x2="100" y2="50"/>
+            <line class="v-stroke" x1="140" y1="20" x2="140" y2="50"/>
+            <line class="v-stroke" x1="180" y1="20" x2="180" y2="50"/>
+            <line class="v-stroke" x1="220" y1="20" x2="220" y2="50"/>
+            <circle class="v-fill-ink" cx="20"  cy="35" r="4"/>
+            <circle class="v-fill-ink" cx="60"  cy="35" r="4"/>
+            <circle class="v-accent"   cx="100" cy="35" r="5"/>
+            <circle class="v-fill-ink" cx="140" cy="35" r="4"/>
+            <circle class="v-fill-ink" cx="180" cy="35" r="4"/>
+            <circle class="v-stroke"   cx="220" cy="35" r="4"/>
           </svg>
         </div>
         <div class="keyline"><span><strong>33</strong> lessons · ~6h</span><span class="arr">→</span></div>
@@ -564,23 +531,20 @@
         </span>
         <h3>AI-Powered Cloud Ops</h3>
         <p>MCP from first principles. Read-only by design. 15 recipes. The 2026 differentiator.</p>
-        <!-- Minimal isometric cube + one sonar ring + orbit dot -->
-        <div class="b-visual b-visual-iso" aria-hidden="true">
+        <!-- Flat radial constellation — center node + ring of dots + orange agent -->
+        <div class="b-visual" aria-hidden="true">
           <svg viewBox="0 0 240 90" preserveAspectRatio="xMidYMid meet">
-            <g transform="translate(94, 26)">
-              <!-- Single sonar ring -->
-              <circle class="v-stroke-thin" cx="26" cy="22" r="38" fill="none" opacity="0.3"/>
-              <!-- Cube top -->
-              <path d="M 4 22 L 26 32 L 48 22 L 26 12 Z" class="v-stroke v-fill-card-strong"/>
-              <!-- Cube left -->
-              <path d="M 4 22 L 4 34 L 26 44 L 26 32 Z" class="v-stroke v-fill-ink"/>
-              <!-- Cube right -->
-              <path d="M 26 32 L 26 44 L 48 34 L 48 22 Z" class="v-stroke"/>
-              <!-- Orbit dot -->
-              <g class="t6-orbit">
-                <circle class="v-accent" cx="64" cy="-16" r="3.5"/>
-              </g>
-            </g>
+            <circle class="v-stroke-thin" cx="120" cy="45" r="40" fill="none"/>
+            <circle class="v-stroke-thin" cx="120" cy="45" r="24" fill="none"/>
+            <circle class="v-fill-ink"    cx="120" cy="45" r="6"/>
+            <circle class="v-dot" cx="120" cy="5"   r="2.5"/>
+            <circle class="v-dot" cx="160" cy="20"  r="2.5"/>
+            <circle class="v-dot" cx="180" cy="45"  r="2.5"/>
+            <g class="t6-orbit"><circle class="v-accent" cx="160" cy="70" r="3.5"/></g>
+            <circle class="v-dot" cx="120" cy="85"  r="2.5"/>
+            <circle class="v-dot" cx="80"  cy="70"  r="2.5"/>
+            <circle class="v-dot" cx="60"  cy="45"  r="2.5"/>
+            <circle class="v-dot" cx="80"  cy="20"  r="2.5"/>
           </svg>
         </div>
         <div class="keyline"><span><strong>19</strong> lessons + <strong>15</strong> recipes</span><span class="arr">→</span></div>
