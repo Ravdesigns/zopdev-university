@@ -665,6 +665,7 @@ function universityNav(opts = {}) {
           <a href="${BASE}/certifications/#architect" role="menuitem">Architect</a>
           <a href="${BASE}/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
           <a href="${BASE}/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
+          <a href="${BASE}/certifications/architect/prep/" role="menuitem">Architect prep</a>
           <a href="${BASE}/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="${BASE}/certifications/verify/" role="menuitem">Verify a credential</a>
           <a href="${BASE}/certifications/registry/" role="menuitem">Public registry</a>
@@ -2994,6 +2995,83 @@ function renderPractice(tierKey, tracks) {
   });
 }
 
+// The Architect credential is application + take-home + interview (no MCQ),
+// so instead of a practice exam it gets a prep guide rendered from the
+// authored certifications/architect/00_README.md.
+function renderArchitectPrep() {
+  const raw = fs.readFileSync(path.join(ROOT, 'certifications', 'architect', '00_README.md'), 'utf8');
+  const lines = raw.split('\n');
+
+  let outcome = '';
+  const oi = lines.findIndex(l => /^##\s+outcome\s*$/i.test(l.trim()));
+  if (oi >= 0) {
+    for (let j = oi + 1; j < lines.length; j++) {
+      const t = lines[j].trim();
+      if (!t) continue;
+      if (t.startsWith('#')) break;
+      outcome = t; break;
+    }
+  }
+
+  // Body: from the first "## " after Outcome, minus the trailing signature.
+  const startIdx = lines.findIndex((l, i) => i > oi && /^##\s+/.test(l.trim()) && !/^##\s+outcome/i.test(l.trim()));
+  let bodyLines = startIdx >= 0 ? lines.slice(startIdx) : lines;
+  const sigIdx = bodyLines.findIndex(l => l.trim().startsWith('§') && /Last reviewed/i.test(l));
+  if (sigIdx >= 0) {
+    let cut = sigIdx;
+    if (bodyLines[sigIdx - 1] && bodyLines[sigIdx - 1].trim() === '---') cut = sigIdx - 1;
+    bodyLines = bodyLines.slice(0, cut);
+  }
+  const bodyHTML = renderMarkdown(bodyLines.join('\n'));
+
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <span class="current">Architect prep</span>
+  </div>
+</section>
+
+<section class="track-hero">
+  <div class="container">
+    <div class="track-hero-meta">Certification prep / Application-based</div>
+    <h1>How to prepare for the Architect credential.</h1>
+    ${outcome ? `<p class="track-hero-lead">${escapeHTML(outcome)}</p>` : ''}
+    <p class="track-hero-lead exam-note">The Architect credential is not a multiple-choice exam. It is an application, a one-week take-home design exercise, and a 45-minute review interview with the editorial board. This page is the preparation guide, drawn from the certification brief.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <article class="lesson-content path-body">
+      ${bodyHTML}
+    </article>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>Build toward it.</h2>
+    <p>The Architect credential expects Engineer certification plus production experience at scale. Start with the Architect track and FinOps Mastery.</p>
+    <div class="hero-cta">
+      <a href="${BASE}/architect/" class="btn btn-primary">Study the Architect track <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/#architect" class="btn-ghost">See the certification</a>
+    </div>
+  </div>
+</section>`;
+
+  return pageHTML({
+    title: 'Architect certification prep / ZopDev University',
+    description: 'How to prepare for the ZopDev University Architect credential: the application, the take-home design exercise, and the review interview.',
+    canonical: 'https://zop.dev/resources/university/certifications/architect/prep/',
+    uniNav: 'certifications',
+    body,
+  });
+}
+
 function renderCertifications(tracks) {
   const t0 = tracks.find(t => t.code === 'T0');
   const t1 = tracks.find(t => t.code === 'T1');
@@ -3338,6 +3416,10 @@ for (const tier of ['operator', 'engineer']) {
   writeFile(path.join(SITE_DIR, 'certifications', tier, 'practice', 'index.html'), renderPractice(tier, tracks));
   pageCount++;
 }
+
+// Architect prep guide (this tier is application-based, no MCQ exam)
+writeFile(path.join(SITE_DIR, 'certifications', 'architect', 'prep', 'index.html'), renderArchitectPrep());
+pageCount++;
 
 // Role-based learning paths
 writeFile(path.join(SITE_DIR, 'paths', 'index.html'), renderPathsIndex());
@@ -3839,6 +3921,7 @@ const urls = [
   { loc: 'https://zop.dev/resources/university/certifications/registry/', priority: '0.6' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/practice/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/engineer/practice/', priority: '0.7' },
+  { loc: 'https://zop.dev/resources/university/certifications/architect/prep/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/engineer/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/architect/sample/', priority: '0.7' },
