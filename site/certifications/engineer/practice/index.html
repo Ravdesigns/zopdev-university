@@ -396,6 +396,10 @@
   // answer is not always in the same position. The authored lessons
   // skew heavily toward "B" as the correct key; this removes that tell.
   function prepQuestion(q){
+    // If the explanation names option letters (e.g. "A is wrong", "(C)",
+    // "C and D"), shuffling would leave those references pointing at the
+    // wrong option. Keep such questions in their authored order + letters.
+    if (/\([A-D]\)|\b[A-D] and [A-D]\b|\b[A-D] is (?:wrong|right|correct|incorrect)/.test(q.explanation || '')) return q;
     var opts = shuffle(q.options.slice());
     var newCorrect = q.correct;
     var relabeled = opts.map(function(o, idx){
