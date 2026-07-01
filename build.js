@@ -2418,6 +2418,23 @@ document.addEventListener('DOMContentLoaded', function(){
 // Parse a paths/*.md file into { title, outcome, bodyMd }. bodyMd is
 // everything from "## Sequence" onward, minus the trailing signature,
 // so the hero can own the title + outcome and the body renders the rest.
+// Strip the trailing "--- / § ... Last reviewed" signature from a slice of
+// markdown lines, including any blank lines and the "---" rule before it.
+// (A simple one-line-back check misses the blank line authors leave between
+// the rule and the signature, which then renders as a stray <hr>.)
+function stripTrailingSignatureBlock(lines) {
+  const sigIdx = lines.findIndex(l => l.trim().startsWith('§') && /Last reviewed/i.test(l));
+  if (sigIdx < 0) return lines;
+  let cut = sigIdx;
+  for (let i = sigIdx - 1; i >= 0; i--) {
+    const t = lines[i].trim();
+    if (t === '') { cut = i; continue; }
+    if (t === '---') { cut = i; break; }
+    break;
+  }
+  return lines.slice(0, cut);
+}
+
 function parsePathFile(filePath) {
   let md;
   try { md = fs.readFileSync(filePath, 'utf8'); }
@@ -2441,12 +2458,7 @@ function parsePathFile(filePath) {
   const si = lines.findIndex(l => /^##\s+Sequence/i.test(l.trim()));
   if (si < 0) console.warn(`⚠️  parsePathFile: no "## Sequence" heading in ${filePath}; rendering full body`);
   let bodyLines = si >= 0 ? lines.slice(si) : lines;
-  const sigIdx = bodyLines.findIndex(l => l.trim().startsWith('§') && /Last reviewed/i.test(l));
-  if (sigIdx >= 0) {
-    let cut = sigIdx;
-    if (bodyLines[sigIdx - 1] && bodyLines[sigIdx - 1].trim() === '---') cut = sigIdx - 1;
-    bodyLines = bodyLines.slice(0, cut);
-  }
+  bodyLines = stripTrailingSignatureBlock(bodyLines);
   return { title, outcome, bodyMd: bodyLines.join('\n') };
 }
 
@@ -2838,7 +2850,7 @@ function renderPractice(tierKey, tracks) {
     // If the explanation names option letters (e.g. "A is wrong", "(C)",
     // "C and D"), shuffling would leave those references pointing at the
     // wrong option. Keep such questions in their authored order + letters.
-    if (/\\([A-D]\\)|\\b[A-D] and [A-D]\\b|\\b[A-D] is (?:wrong|right|correct|incorrect)/.test(q.explanation || '')) return q;
+    if (/\\([A-D]\\)|\\b[A-D] and [A-D]\\b|\\b[A-D] is\\b/.test(q.explanation || '')) return q;
     var opts = shuffle(q.options.slice());
     var newCorrect = q.correct;
     var relabeled = opts.map(function(o, idx){
@@ -3014,14 +3026,10 @@ function renderArchitectPrep() {
   }
 
   // Body: from the first "## " after Outcome, minus the trailing signature.
+  if (oi < 0) console.warn('⚠️  renderArchitectPrep: no "## Outcome" heading in architect/00_README.md; hero lead omitted');
   const startIdx = lines.findIndex((l, i) => i > oi && /^##\s+/.test(l.trim()) && !/^##\s+outcome/i.test(l.trim()));
   let bodyLines = startIdx >= 0 ? lines.slice(startIdx) : lines;
-  const sigIdx = bodyLines.findIndex(l => l.trim().startsWith('§') && /Last reviewed/i.test(l));
-  if (sigIdx >= 0) {
-    let cut = sigIdx;
-    if (bodyLines[sigIdx - 1] && bodyLines[sigIdx - 1].trim() === '---') cut = sigIdx - 1;
-    bodyLines = bodyLines.slice(0, cut);
-  }
+  bodyLines = stripTrailingSignatureBlock(bodyLines);
   const bodyHTML = renderMarkdown(bodyLines.join('\n'));
 
   const body = `
@@ -3521,7 +3529,8 @@ function stripMd(text) {
 }
 
 // Parse the hand-authored glossary (reference/glossary/00_README.md) into a
-// term -> definition map. Format: "- **Term** — definition. See [ref](...)."
+// term -> definition map. Format: "- **Term** <sep> definition [See|Compare
+// [ref](url).]" where <sep> is an em-dash, en-dash, or hyphen.
 // These are curated, canonical definitions; prefer them over the sentence
 // auto-extracted from lesson prose. Returns lowercased-term keys.
 function parseAuthoredGlossary() {
@@ -3533,7 +3542,7 @@ function parseAuthoredGlossary() {
     if (!m) continue;
     const term = m[1].trim();
     // Drop a trailing "See [ref](url)." pointer, then strip markdown.
-    let def = m[2].trim().replace(/\s*See\s+\[[^\]]*\]\([^)]*\)\.?\s*$/i, '').trim();
+    let def = m[2].trim().replace(/\s*(?:See(?:\s+also)?|Compare|Cf\.?)\s+\[[^\]]*\]\([^)]*\)\.?\s*$/i, '').trim();
     def = stripMd(def);
     if (term && def) map.set(term.toLowerCase(), def);
   }
