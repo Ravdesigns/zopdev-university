@@ -412,6 +412,11 @@
     return s;
   }
 
+  // Escape a value for use inside a double-quoted HTML attribute. The
+  // pool is build-time authored, but grade() concatenates lessonUrl into
+  // innerHTML, so escape defensively to keep the contract closed.
+  function attr(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
   function draw(){
     var byTopic = {};
     POOL.forEach(function(q){ (byTopic[q.topic] = byTopic[q.topic] || []).push(q); });
@@ -424,6 +429,7 @@
       var rest = shuffle(POOL.filter(function(q){ return !used[q.id]; }));
       for (var i=0;i<rest.length && picked.length<TOTAL_EFF;i++){ picked.push(rest[i]); used[rest[i].id]=1; }
     }
+    // Final shuffle intermixes topics so questions are not grouped by area.
     return shuffle(picked).slice(0, TOTAL_EFF);
   }
 
@@ -493,7 +499,7 @@
       ex.className = 'exam-explain ' + (isRight ? 'is-right' : 'is-wrong');
       ex.innerHTML = '<span class="exam-explain-label">'+verdict+' · answer '+q.correct+'</span>'
         + (q.explanation ? '<p>'+fmt(q.explanation)+'</p>' : '')
-        + '<a class="exam-explain-src" href="'+q.lessonUrl+'">Review: '+fmt(q.lessonLabel)+'</a>';
+        + '<a class="exam-explain-src" href="'+attr(q.lessonUrl)+'">Review: '+fmt(q.lessonLabel)+'</a>';
       ex.hidden = false;
     });
 
@@ -503,6 +509,9 @@
     countEl.textContent = current.length + ' / ' + current.length + ' answered';
     fillEl.style.transform = 'scaleX(1)';
 
+    // Reveal the aria-live region before populating it so screen readers
+    // announce the result (some ignore mutations to hidden elements).
+    resultBox.hidden = false;
     resultBox.innerHTML =
       '<div class="verify-status '+(passed?'':'verify-status-bad')+'">'
       + '<span class="'+(passed?'verify-check':'verify-x')+'" aria-hidden="true"></span>'
@@ -520,7 +529,6 @@
       + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">→</span></button>'
       + '<a class="btn-ghost" href="'+CERT_URL+'">See the certification</a>'
       + '</div>';
-    resultBox.hidden = false;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitted';
     document.getElementById('exam-retake').addEventListener('click', renderExam);

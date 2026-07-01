@@ -7055,6 +7055,10 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .exam-opt-key { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--g-600); border: 1px solid var(--line); width: 26px; height: 26px; display: grid; place-items: center; }
 .exam-opt-text { font-family: var(--font-body); font-size: 15px; line-height: 1.45; color: var(--ink); }
 .exam-opt:hover:not(.correct):not(.incorrect) { border-color: var(--line-b, var(--g-400)); }
+/* The radio is visually hidden, so the global :focus-visible ring would fire
+   on a 0x0 element. Suppress it there and lift the one orange ring to the
+   label via :focus-within (same pattern as .uni-search). Single ring contract. */
+.exam-opt input:focus-visible { outline: none; }
 .exam-opt:focus-within { outline: 2px solid var(--zop-orange); outline-offset: 2px; }
 /* selected, before grading */
 .exam-opt:has(input:checked) { border-color: var(--ink); }

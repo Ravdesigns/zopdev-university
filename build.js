@@ -410,7 +410,7 @@ function parseKnowledgeCheck(lines) {
   // Section ends at the next H2 (## ...) or EOF.
   let end = lines.length;
   for (let i = start + 1; i < lines.length; i++) {
-    if (/^##\s+/.test(lines[i])) { end = i; break; }
+    if (/^##\s+/.test(lines[i].trim())) { end = i; break; }
   }
 
   // Question boundaries: each "### Qn" heading.
@@ -2374,6 +2374,7 @@ const EXAM_BLUEPRINTS = {
       if (/^M1\.3\b/.test(modCode) || /^M1\.4\b/.test(modCode)) return 'schedules';
       if (/^M1\.5\b/.test(modCode)) return 'overrides';
       if (/^M1\.6\b/.test(modCode)) return 'history';
+      console.warn(`⚠️  practice: module ${modCode} (${trackCode}) has no blueprint topic; bucketed as foundation`);
       return 'foundation';
     },
   },
@@ -2537,6 +2538,11 @@ function renderPractice(tierKey, tracks) {
     return s;
   }
 
+  // Escape a value for use inside a double-quoted HTML attribute. The
+  // pool is build-time authored, but grade() concatenates lessonUrl into
+  // innerHTML, so escape defensively to keep the contract closed.
+  function attr(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
   function draw(){
     var byTopic = {};
     POOL.forEach(function(q){ (byTopic[q.topic] = byTopic[q.topic] || []).push(q); });
@@ -2549,6 +2555,7 @@ function renderPractice(tierKey, tracks) {
       var rest = shuffle(POOL.filter(function(q){ return !used[q.id]; }));
       for (var i=0;i<rest.length && picked.length<TOTAL_EFF;i++){ picked.push(rest[i]); used[rest[i].id]=1; }
     }
+    // Final shuffle intermixes topics so questions are not grouped by area.
     return shuffle(picked).slice(0, TOTAL_EFF);
   }
 
@@ -2618,7 +2625,7 @@ function renderPractice(tierKey, tracks) {
       ex.className = 'exam-explain ' + (isRight ? 'is-right' : 'is-wrong');
       ex.innerHTML = '<span class="exam-explain-label">'+verdict+' · answer '+q.correct+'</span>'
         + (q.explanation ? '<p>'+fmt(q.explanation)+'</p>' : '')
-        + '<a class="exam-explain-src" href="'+q.lessonUrl+'">Review: '+fmt(q.lessonLabel)+'</a>';
+        + '<a class="exam-explain-src" href="'+attr(q.lessonUrl)+'">Review: '+fmt(q.lessonLabel)+'</a>';
       ex.hidden = false;
     });
 
@@ -2628,6 +2635,9 @@ function renderPractice(tierKey, tracks) {
     countEl.textContent = current.length + ' / ' + current.length + ' answered';
     fillEl.style.transform = 'scaleX(1)';
 
+    // Reveal the aria-live region before populating it so screen readers
+    // announce the result (some ignore mutations to hidden elements).
+    resultBox.hidden = false;
     resultBox.innerHTML =
       '<div class="verify-status '+(passed?'':'verify-status-bad')+'">'
       + '<span class="'+(passed?'verify-check':'verify-x')+'" aria-hidden="true"></span>'
@@ -2645,7 +2655,6 @@ function renderPractice(tierKey, tracks) {
       + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">→</span></button>'
       + '<a class="btn-ghost" href="'+CERT_URL+'">See the certification</a>'
       + '</div>';
-    resultBox.hidden = false;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitted';
     document.getElementById('exam-retake').addEventListener('click', renderExam);
@@ -2995,10 +3004,13 @@ for (const tier of ['operator']) {
   const pool = collectExamPool(tracks, tier);
   const need = EXAM_BLUEPRINTS[tier].total;
   if (pool.length < need) {
-    console.warn(`⚠️  ${tier} practice pool has only ${pool.length} questions (want >= ${need})`);
-  } else {
-    console.log(`✅ ${tier} practice pool: ${pool.length} questions`);
+    // Do NOT write a page the blueprint would misstate (it advertises
+    // `need` questions and a scaled pass mark). Fail the build instead.
+    console.error(`✗ ${tier} practice pool has only ${pool.length}/${need} questions — skipping page write`);
+    process.exitCode = 1;
+    continue;
   }
+  console.log(`✅ ${tier} practice pool: ${pool.length} questions`);
   writeFile(path.join(SITE_DIR, 'certifications', tier, 'practice', 'index.html'), renderPractice(tier, tracks));
   pageCount++;
 }
