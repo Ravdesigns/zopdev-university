@@ -651,7 +651,8 @@ function universityNav(opts = {}) {
           <a href="${BASE}/certifications/#operator" role="menuitem">Operator</a>
           <a href="${BASE}/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="${BASE}/certifications/#architect" role="menuitem">Architect</a>
-          <a href="${BASE}/certifications/operator/practice/" role="menuitem">Practice exam</a>
+          <a href="${BASE}/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
+          <a href="${BASE}/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
           <a href="${BASE}/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="${BASE}/certifications/verify/" role="menuitem">Verify a credential</a>
         </div>
@@ -1496,6 +1497,10 @@ function renderTrack(track) {
       <div class="item"><strong>Lessons</strong>${totalLessons}</div>
       <div class="item"><strong>Time</strong>${escapeHTML(track.time)}</div>
     </div>
+    <div class="track-progress" data-track="${track.slug}" data-total="${totalLessons}" hidden>
+      <div class="track-progress-bar"><div class="track-progress-fill" id="track-progress-fill"></div></div>
+      <span class="track-progress-label" id="track-progress-label"></span>
+    </div>
   </div>
 </section>
 
@@ -1540,7 +1545,25 @@ function renderTrack(track) {
       </a>
     </div>
   </div>
-</section>`;
+</section>
+<script>
+// Progress: show this track's completion from localStorage (this device).
+(function(){
+  var KEY='zopuni:progress:v1';
+  var el=document.querySelector('.track-progress');
+  if(!el) return;
+  var slug=el.getAttribute('data-track');
+  var total=parseInt(el.getAttribute('data-total'),10)||0;
+  var store; try{ store=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ store={}; }
+  var done=Object.keys(store).filter(function(k){ return k.indexOf(slug+'/')===0; }).length;
+  if(done>total) done=total;
+  var fill=document.getElementById('track-progress-fill');
+  var label=document.getElementById('track-progress-label');
+  if(fill) fill.style.transform='scaleX('+(total?done/total:0)+')';
+  if(label) label.textContent=done+' of '+total+' lessons complete';
+  el.hidden=false;
+})();
+</script>`;
 
   return pageHTML({
     title: `${track.title} / ZopDev University`,
@@ -1680,6 +1703,15 @@ function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
       ${metaRows ? `<div class="lesson-metabox"><dl>${metaRows}</dl></div>` : ''}
       ${contentHTML}
 
+      <div class="lesson-complete" data-lesson-id="${track.slug}/${mod.slug}/${lesson.slug}">
+        <label class="lesson-complete-toggle">
+          <input type="checkbox" id="lesson-complete-cb">
+          <span class="lesson-complete-box" aria-hidden="true"></span>
+          <span class="lesson-complete-label">Mark this lesson complete</span>
+        </label>
+        <span class="lesson-complete-hint">Saved on this device only.</span>
+      </div>
+
       <nav class="lesson-nav" aria-label="Lesson navigation">
         ${prevHTML}
         ${nextHTML}
@@ -1708,6 +1740,26 @@ document.addEventListener('DOMContentLoaded', function() {
     tocList.appendChild(li);
   });
 });
+</script>
+<script>
+// Progress: mark-complete checkbox persisted in localStorage (this device).
+(function(){
+  var KEY='zopuni:progress:v1';
+  var box=document.querySelector('.lesson-complete');
+  var cb=document.getElementById('lesson-complete-cb');
+  if(!box||!cb) return;
+  var id=box.getAttribute('data-lesson-id');
+  function read(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function write(o){ try{ localStorage.setItem(KEY, JSON.stringify(o)); }catch(e){} }
+  var store=read();
+  cb.checked=!!store[id];
+  if(cb.checked) box.classList.add('done');
+  cb.addEventListener('change', function(){
+    var s=read();
+    if(cb.checked){ s[id]=1; box.classList.add('done'); } else { delete s[id]; box.classList.remove('done'); }
+    write(s);
+  });
+})();
 </script>`;
 
   return pageHTML({
@@ -2378,6 +2430,25 @@ const EXAM_BLUEPRINTS = {
       return 'foundation';
     },
   },
+  engineer: {
+    tierTitle: 'Engineer',
+    trackCodes: ['T2', 'T4', 'T5', 'T6'],
+    total: 40,
+    passRatio: 0.75,      // 30 / 40
+    minutes: 60,
+    note: 'This practice covers the 40-question multiple-choice portion. The real Engineer exam also includes a graded, hands-on sandbox lab.',
+    blueprint: [
+      { topic: 'T2', label: 'ZopNight Engineer (Track 2)',      count: 20 },
+      { topic: 'T4', label: 'FinOps Mastery (Track 4)',         count: 11 },
+      { topic: 'T5', label: 'DevOps Cost Discipline (Track 5)', count: 6 },
+      { topic: 'T6', label: 'AI-Powered Cloud Ops (Track 6)',   count: 3 },
+    ],
+    // Engineer questions are bucketed by track (the blueprint is per-track).
+    moduleTopic: (trackCode) => trackCode,
+  },
+  // Architect is intentionally absent: its credential is application +
+  // take-home + interview (no MCQ), so an MCQ practice exam would
+  // misrepresent it. See certifications/architect/00_README.md.
 };
 
 // Gather every parsed knowledge-check question from the tracks that back
@@ -2434,6 +2505,7 @@ function renderPractice(tierKey, tracks) {
     <div class="track-hero-meta">Practice exam / Self-scored, no login</div>
     <h1>${escapeHTML(cfg.tierTitle)} practice exam.</h1>
     <p class="track-hero-lead">${cfg.total} questions drawn from the lessons that back the ${escapeHTML(cfg.tierTitle)} certification, weighted to match the real exam blueprint. Score instantly, read the explanation on every question, retake as many times as you like. This is a study aid, not the proctored credential exam.</p>
+    ${cfg.note ? `<p class="track-hero-lead exam-note">${escapeHTML(cfg.note)}</p>` : ''}
   </div>
 </section>
 
@@ -2456,7 +2528,7 @@ function renderPractice(tierKey, tracks) {
         <li><span class="exam-bp-k">Format</span> ${cfg.total} multiple-choice, open-book</li>
         <li><span class="exam-bp-k">Time</span> ${cfg.minutes} minutes on the real exam</li>
         <li><span class="exam-bp-k">Pass mark</span> ${Math.round(cfg.passRatio * 100)}% (${Math.round(cfg.total * cfg.passRatio)} / ${cfg.total})</li>
-        <li><span class="exam-bp-k">Credential</span> <a href="${BASE}/certifications/#${tierSlug}">Operator certification</a></li>
+        <li><span class="exam-bp-k">Credential</span> <a href="${BASE}/certifications/#${tierSlug}">${escapeHTML(cfg.tierTitle)} certification</a></li>
       </ul>
     </div>
   </div>
@@ -3000,7 +3072,7 @@ pageCount++;
 
 // Practice exam pages (client-side, self-scored). Operator only for now;
 // Engineer + Architect follow once their pools are validated.
-for (const tier of ['operator']) {
+for (const tier of ['operator', 'engineer']) {
   const pool = collectExamPool(tracks, tier);
   const need = EXAM_BLUEPRINTS[tier].total;
   if (pool.length < need) {
@@ -3505,6 +3577,7 @@ const urls = [
   { loc: 'https://zop.dev/resources/university/certifications/', priority: '0.9' },
   { loc: 'https://zop.dev/resources/university/certifications/verify/', priority: '0.8' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/practice/', priority: '0.7' },
+  { loc: 'https://zop.dev/resources/university/certifications/engineer/practice/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/engineer/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/architect/sample/', priority: '0.7' },

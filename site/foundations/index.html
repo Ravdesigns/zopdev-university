@@ -239,7 +239,8 @@
           <a href="/certifications/#operator" role="menuitem">Operator</a>
           <a href="/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="/certifications/#architect" role="menuitem">Architect</a>
-          <a href="/certifications/operator/practice/" role="menuitem">Practice exam</a>
+          <a href="/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
+          <a href="/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
           <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
         </div>
@@ -365,6 +366,10 @@
       <div class="item"><strong>Modules</strong>6</div>
       <div class="item"><strong>Lessons</strong>28</div>
       <div class="item"><strong>Time</strong>5 hours</div>
+    </div>
+    <div class="track-progress" data-track="foundations" data-total="28" hidden>
+      <div class="track-progress-bar"><div class="track-progress-fill" id="track-progress-fill"></div></div>
+      <span class="track-progress-label" id="track-progress-label"></span>
     </div>
   </div>
 </section>
@@ -500,6 +505,24 @@
     </div>
   </div>
 </section>
+<script>
+// Progress: show this track's completion from localStorage (this device).
+(function(){
+  var KEY='zopuni:progress:v1';
+  var el=document.querySelector('.track-progress');
+  if(!el) return;
+  var slug=el.getAttribute('data-track');
+  var total=parseInt(el.getAttribute('data-total'),10)||0;
+  var store; try{ store=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ store={}; }
+  var done=Object.keys(store).filter(function(k){ return k.indexOf(slug+'/')===0; }).length;
+  if(done>total) done=total;
+  var fill=document.getElementById('track-progress-fill');
+  var label=document.getElementById('track-progress-label');
+  if(fill) fill.style.transform='scaleX('+(total?done/total:0)+')';
+  if(label) label.textContent=done+' of '+total+' lessons complete';
+  el.hidden=false;
+})();
+</script>
 </main>
 
 

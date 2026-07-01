@@ -7102,3 +7102,26 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .exam-blueprint { grid-template-columns: 1fr; gap: 24px; }
   .exam-q { padding: 22px 20px; }
 }
+.exam-note { font-size: 14px; color: var(--g-600); margin-top: 10px; }
+
+/* ============================================================= */
+/* PROGRESS TRACKING (localStorage, this-device) — lessons + tracks */
+/* ============================================================= */
+/* Lesson: mark-complete control */
+.lesson-complete { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 40px 0 8px; padding: 20px 24px; border: 1px solid var(--line); background: var(--g-50); }
+.lesson-complete.done { border-color: var(--zop-green); }
+.lesson-complete-toggle { display: inline-flex; align-items: center; gap: 12px; cursor: pointer; }
+.lesson-complete-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.lesson-complete-box { width: 20px; height: 20px; border: 1px solid var(--g-400); background: var(--paper); display: inline-grid; place-items: center; flex-shrink: 0; transition: border-color var(--dur-fast, 160ms) var(--ease-out, ease), background var(--dur-fast, 160ms) var(--ease-out, ease); }
+.lesson-complete-box::after { content: ''; width: 5px; height: 10px; border: solid var(--paper); border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); transform-origin: center; transition: transform var(--dur-fast, 160ms) var(--ease-out, ease); margin-top: -2px; }
+.lesson-complete-toggle input:checked + .lesson-complete-box { background: var(--zop-green); border-color: var(--zop-green); }
+.lesson-complete-toggle input:checked + .lesson-complete-box::after { transform: rotate(45deg) scale(1); }
+.lesson-complete-toggle input:focus-visible + .lesson-complete-box { outline: 2px solid var(--zop-orange); outline-offset: 2px; }
+.lesson-complete-label { font-family: var(--font-body); font-size: 15px; color: var(--ink); }
+.lesson-complete-hint { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--g-600); }
+
+/* Track: completion bar in the hero */
+.track-progress { display: flex; align-items: center; gap: 16px; margin-top: 24px; max-width: 520px; }
+.track-progress-bar { flex: 1; height: 8px; background: var(--g-50); border: 1px solid var(--line); overflow: hidden; }
+.track-progress-fill { height: 100%; background: var(--zop-green); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-med, 250ms) var(--ease-out, ease); }
+.track-progress-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--g-600); white-space: nowrap; font-variant-numeric: tabular-nums; }
