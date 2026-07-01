@@ -386,6 +386,84 @@ function renderMarkdown(md) {
 }
 
 // =============================================================
+// PARSE KNOWLEDGE-CHECK QUESTIONS
+// =============================================================
+// Lessons carry their self-check questions under a "## N. Knowledge
+// check" section. Each question is a "### Qn" block: a stem, plain
+// lettered options (A./B./C./D., one per line, NOT a markdown list),
+// then a <details> answer block whose first bold token is
+// "**Correct: X.**" followed by the explanation prose. The correct
+// answer lives ONLY in that string today, so this is the single source
+// of truth for the option key. Returns [{ stem, options:[{key,text}],
+// correct, explanation }]. Malformed questions are skipped, not thrown.
+function parseKnowledgeCheck(lines) {
+  const questions = [];
+
+  // Locate the knowledge-check section ("## Knowledge check" or
+  // "## 4. Knowledge check" — the number varies by lesson).
+  let start = -1;
+  for (let i = 0; i < lines.length; i++) {
+    if (/^##\s+(?:\d+\.\s*)?knowledge check\b/i.test(lines[i].trim())) { start = i; break; }
+  }
+  if (start === -1) return questions;
+
+  // Section ends at the next H2 (## ...) or EOF.
+  let end = lines.length;
+  for (let i = start + 1; i < lines.length; i++) {
+    if (/^##\s+/.test(lines[i])) { end = i; break; }
+  }
+
+  // Question boundaries: each "### Qn" heading.
+  const qStarts = [];
+  for (let i = start + 1; i < end; i++) {
+    if (/^###\s+Q\d+/i.test(lines[i].trim())) qStarts.push(i);
+  }
+
+  for (let qi = 0; qi < qStarts.length; qi++) {
+    const s = qStarts[qi];
+    const e = qi + 1 < qStarts.length ? qStarts[qi + 1] : end;
+    const block = lines.slice(s + 1, e);
+
+    const stemLines = [];
+    const options = [];
+    let correct = '';
+    let explanation = '';
+    let mode = 'stem'; // stem -> options -> details
+    let inDetails = false;
+
+    for (const line of block) {
+      const t = line.trim();
+      if (/^<details>/i.test(t)) { inDetails = true; mode = 'details'; continue; }
+      if (/^<\/details>/i.test(t)) { inDetails = false; continue; }
+      if (/^<summary>/i.test(t)) continue;
+
+      if (inDetails) {
+        const cm = t.match(/^\*\*Correct:\s*([A-D])\.?\*\*\s*(.*)$/i);
+        if (cm) { correct = cm[1].toUpperCase(); if (cm[2]) explanation = cm[2].trim(); continue; }
+        if (correct && t) explanation += (explanation ? ' ' : '') + t;
+        continue;
+      }
+
+      const om = line.match(/^\s*([A-D])\.\s+(.+)$/);
+      if (om) { options.push({ key: om[1].toUpperCase(), text: om[2].trim() }); mode = 'options'; continue; }
+
+      // Continuation line for a wrapped option (indented, no letter).
+      if (mode === 'options' && t && options.length) { options[options.length - 1].text += ' ' + t; continue; }
+
+      // Everything before the first option is stem prose.
+      if (mode === 'stem' && t) stemLines.push(t);
+    }
+
+    const stem = stemLines.join(' ').trim();
+    if (stem && options.length >= 2 && correct && options.some(o => o.key === correct)) {
+      questions.push({ stem, options, correct, explanation });
+    }
+  }
+
+  return questions;
+}
+
+// =============================================================
 // PARSE LESSON FILES
 // =============================================================
 function parseLessonFile(filePath) {
@@ -431,7 +509,9 @@ function parseLessonFile(filePath) {
     }
   }
 
-  return { title, signature, meta, outcome, raw: md };
+  const questions = parseKnowledgeCheck(lines);
+
+  return { title, signature, meta, outcome, raw: md, questions };
 }
 
 // =============================================================
@@ -571,6 +651,7 @@ function universityNav(opts = {}) {
           <a href="${BASE}/certifications/#operator" role="menuitem">Operator</a>
           <a href="${BASE}/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="${BASE}/certifications/#architect" role="menuitem">Architect</a>
+          <a href="${BASE}/certifications/operator/practice/" role="menuitem">Practice exam</a>
           <a href="${BASE}/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="${BASE}/certifications/verify/" role="menuitem">Verify a credential</a>
         </div>
@@ -2265,6 +2346,325 @@ document.addEventListener('DOMContentLoaded', function(){
   });
 }
 
+// =============================================================
+// PRACTICE EXAM (client-side, self-scored)
+// =============================================================
+// A practice exam draws from the knowledge-check questions already
+// authored in the lessons that back each cert. The draw is weighted to
+// match the published exam blueprint. This is a self-scored study aid,
+// NOT the proctored credential exam (that stays server-side / eng-owned).
+const EXAM_BLUEPRINTS = {
+  operator: {
+    tierTitle: 'Operator',
+    trackCodes: ['T0', 'T1'],
+    total: 20,
+    passRatio: 0.8,       // 16 / 20
+    minutes: 30,
+    blueprint: [
+      { topic: 'foundation', label: 'Cloud Cost Foundations (Track 0)', count: 8 },
+      { topic: 'schedules',  label: 'Schedules and groups',            count: 5 },
+      { topic: 'connect',    label: 'Connect and discover',            count: 3 },
+      { topic: 'overrides',  label: 'Overrides',                       count: 2 },
+      { topic: 'history',    label: 'History and audit',               count: 2 },
+    ],
+    // Map a (trackCode, moduleCode) pair to a blueprint topic bucket.
+    moduleTopic: (trackCode, modCode) => {
+      if (trackCode === 'T0') return 'foundation';
+      if (/^M1\.1\b/.test(modCode) || /^M1\.2\b/.test(modCode)) return 'connect';
+      if (/^M1\.3\b/.test(modCode) || /^M1\.4\b/.test(modCode)) return 'schedules';
+      if (/^M1\.5\b/.test(modCode)) return 'overrides';
+      if (/^M1\.6\b/.test(modCode)) return 'history';
+      return 'foundation';
+    },
+  },
+};
+
+// Gather every parsed knowledge-check question from the tracks that back
+// a tier, tagged with its blueprint topic and a link back to the source
+// lesson. Returns a flat pool the client draws from.
+function collectExamPool(tracks, tierKey) {
+  const cfg = EXAM_BLUEPRINTS[tierKey];
+  const pool = [];
+  for (const track of tracks) {
+    if (!cfg.trackCodes.includes(track.code)) continue;
+    for (const mod of track.modules) {
+      const topic = cfg.moduleTopic(track.code, mod.code);
+      for (const lesson of mod.lessons) {
+        (lesson.questions || []).forEach((q, n) => {
+          pool.push({
+            id: `${track.code}.${mod.code}.${lesson.code}.Q${n + 1}`,
+            topic,
+            stem: q.stem,
+            options: q.options,
+            correct: q.correct,
+            explanation: q.explanation,
+            lessonUrl: `${BASE}/${track.slug}/${mod.slug}/${lesson.slug}/`,
+            lessonLabel: `${track.code} · ${mod.code} · ${lesson.title}`,
+          });
+        });
+      }
+    }
+  }
+  return pool;
+}
+
+function renderPractice(tierKey, tracks) {
+  const cfg = EXAM_BLUEPRINTS[tierKey];
+  const pool = collectExamPool(tracks, tierKey);
+  const tierSlug = tierKey;
+
+  const blueprintRows = cfg.blueprint
+    .map(b => `<tr><td>${escapeHTML(b.label)}</td><td class="exam-bp-count">${b.count}</td></tr>`)
+    .join('');
+
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <span class="current">${escapeHTML(cfg.tierTitle)} practice exam</span>
+  </div>
+</section>
+
+<section class="track-hero">
+  <div class="container">
+    <div class="track-hero-meta">Practice exam / Self-scored, no login</div>
+    <h1>${escapeHTML(cfg.tierTitle)} practice exam.</h1>
+    <p class="track-hero-lead">${cfg.total} questions drawn from the lessons that back the ${escapeHTML(cfg.tierTitle)} certification, weighted to match the real exam blueprint. Score instantly, read the explanation on every question, retake as many times as you like. This is a study aid, not the proctored credential exam.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">Exam blueprint</div>
+      <div>
+        <h2>What the exam covers.</h2>
+        <p class="sub">Published openly. The practice draw uses these same weightings as the proctored ${escapeHTML(cfg.tierTitle)} exam.</p>
+      </div>
+    </div>
+    <div class="exam-blueprint">
+      <table class="exam-bp-table">
+        <thead><tr><th>Area</th><th class="exam-bp-count">Questions</th></tr></thead>
+        <tbody>${blueprintRows}</tbody>
+        <tfoot><tr><td>Total</td><td class="exam-bp-count">${cfg.total}</td></tr></tfoot>
+      </table>
+      <ul class="exam-bp-facts">
+        <li><span class="exam-bp-k">Format</span> ${cfg.total} multiple-choice, open-book</li>
+        <li><span class="exam-bp-k">Time</span> ${cfg.minutes} minutes on the real exam</li>
+        <li><span class="exam-bp-k">Pass mark</span> ${Math.round(cfg.passRatio * 100)}% (${Math.round(cfg.total * cfg.passRatio)} / ${cfg.total})</li>
+        <li><span class="exam-bp-k">Credential</span> <a href="${BASE}/certifications/#${tierSlug}">Operator certification</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="verify-shell exam-shell">
+      <div class="exam-bar">
+        <div class="exam-progress" aria-hidden="true"><div class="exam-progress-fill" id="exam-progress-fill"></div></div>
+        <span class="exam-count" id="exam-count" aria-live="polite">0 / ${cfg.total} answered</span>
+      </div>
+      <form id="exam-form">
+        <div id="exam-questions"></div>
+        <noscript><p class="exam-submit-note">This practice exam needs JavaScript enabled.</p></noscript>
+        <div class="exam-submit-row">
+          <button type="submit" class="btn btn-primary" id="exam-submit">Submit exam <span class="arrow">→</span></button>
+          <span class="exam-submit-note">Unanswered questions count as incorrect.</span>
+        </div>
+      </form>
+      <div class="verify-result exam-result" id="exam-result" aria-live="polite" hidden></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>The practice run is free. So is the credential.</h2>
+    <p>When you can pass this comfortably, take the proctored ${escapeHTML(cfg.tierTitle)} exam and earn a publicly verifiable badge.</p>
+    <div class="hero-cta">
+      <a href="${BASE}/certifications/#${tierSlug}" class="btn btn-primary">See the certification <span class="arrow">→</span></a>
+      <a href="${BASE}/${tierSlug}/" class="btn-ghost">Study the ${escapeHTML(cfg.tierTitle)} course</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var POOL = ${JSON.stringify(pool)};
+  var BLUEPRINT = ${JSON.stringify(cfg.blueprint)};
+  var TOTAL = ${cfg.total};
+  var PASS_RATIO = ${cfg.passRatio};
+  var CERT_URL = ${JSON.stringify(BASE + '/certifications/#' + tierSlug)};
+  var TOTAL_EFF = Math.min(TOTAL, POOL.length);
+
+  var form = document.getElementById('exam-form');
+  var qWrap = document.getElementById('exam-questions');
+  var resultBox = document.getElementById('exam-result');
+  var countEl = document.getElementById('exam-count');
+  var fillEl = document.getElementById('exam-progress-fill');
+  var submitBtn = document.getElementById('exam-submit');
+  var current = [];
+  var graded = false;
+  var LETTERS = ['A','B','C','D','E','F'];
+
+  function shuffle(a){ for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+
+  // Re-shuffle and re-letter each question's options so the correct
+  // answer is not always in the same position. The authored lessons
+  // skew heavily toward "B" as the correct key; this removes that tell.
+  function prepQuestion(q){
+    var opts = shuffle(q.options.slice());
+    var newCorrect = q.correct;
+    var relabeled = opts.map(function(o, idx){
+      var key = LETTERS[idx];
+      if (o.key === q.correct) newCorrect = key;
+      return { key: key, text: o.text };
+    });
+    var out = {}; for (var k in q) out[k] = q[k];
+    out.options = relabeled; out.correct = newCorrect;
+    return out;
+  }
+
+  function fmt(s){
+    s = String(s == null ? '' : s).replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; });
+    s = s.replace(/\\[([^\\]]+)\\]\\([^)]+\\)/g, '$1');
+    s = s.replace(/\`([^\`]+)\`/g, '<code>$1</code>');
+    s = s.replace(/\\*\\*([^*]+)\\*\\*/g, '<strong>$1</strong>');
+    return s;
+  }
+
+  function draw(){
+    var byTopic = {};
+    POOL.forEach(function(q){ (byTopic[q.topic] = byTopic[q.topic] || []).push(q); });
+    var picked = []; var used = {};
+    BLUEPRINT.forEach(function(b){
+      var p = shuffle((byTopic[b.topic] || []).slice());
+      p.slice(0, b.count).forEach(function(q){ picked.push(q); used[q.id] = 1; });
+    });
+    if (picked.length < TOTAL_EFF){
+      var rest = shuffle(POOL.filter(function(q){ return !used[q.id]; }));
+      for (var i=0;i<rest.length && picked.length<TOTAL_EFF;i++){ picked.push(rest[i]); used[rest[i].id]=1; }
+    }
+    return shuffle(picked).slice(0, TOTAL_EFF);
+  }
+
+  function renderExam(){
+    graded = false;
+    current = draw().map(prepQuestion);
+    resultBox.hidden = true;
+    resultBox.innerHTML = '';
+    var html = '';
+    current.forEach(function(q, i){
+      html += '<fieldset class="exam-q" id="exam-q-'+i+'">';
+      html += '<legend class="exam-q-code">Question '+(i+1)+'</legend>';
+      html += '<p class="exam-q-stem">'+fmt(q.stem)+'</p>';
+      html += '<div class="exam-opts">';
+      q.options.forEach(function(o){
+        var id = 'q'+i+'-'+o.key;
+        html += '<label class="exam-opt" for="'+id+'">'
+          + '<input type="radio" id="'+id+'" name="q'+i+'" value="'+o.key+'">'
+          + '<span class="exam-opt-key">'+o.key+'</span>'
+          + '<span class="exam-opt-text">'+fmt(o.text)+'</span>'
+          + '</label>';
+      });
+      html += '</div>';
+      html += '<div class="exam-explain" id="exam-explain-'+i+'" hidden></div>';
+      html += '</fieldset>';
+    });
+    qWrap.innerHTML = html;
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'Submit exam <span class="arrow">→</span>';
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function answeredCount(){
+    var n = 0;
+    for (var i=0;i<current.length;i++){ if (form.querySelector('input[name="q'+i+'"]:checked')) n++; }
+    return n;
+  }
+  function updateProgress(){
+    var n = answeredCount();
+    countEl.textContent = n + ' / ' + current.length + ' answered';
+    fillEl.style.transform = 'scaleX(' + (current.length ? n/current.length : 0) + ')';
+  }
+
+  form.addEventListener('change', function(){ if (!graded) updateProgress(); });
+  form.addEventListener('submit', function(e){ e.preventDefault(); if (!graded) grade(); });
+
+  function grade(){
+    graded = true;
+    var correct = 0;
+    current.forEach(function(q, i){
+      var chosen = form.querySelector('input[name="q'+i+'"]:checked');
+      var val = chosen ? chosen.value : null;
+      var isRight = val === q.correct;
+      if (isRight) correct++;
+      var fs = document.getElementById('exam-q-'+i);
+      fs.querySelectorAll('.exam-opt').forEach(function(lab){
+        var input = lab.querySelector('input');
+        input.disabled = true;
+        var k = input.value;
+        if (k === q.correct) lab.classList.add('correct');
+        if (k === val && !isRight) lab.classList.add('incorrect');
+      });
+      fs.classList.add(isRight ? 'q-right' : 'q-wrong');
+      var ex = document.getElementById('exam-explain-'+i);
+      var verdict = isRight ? 'Correct' : (val ? 'Not quite' : 'Unanswered');
+      ex.className = 'exam-explain ' + (isRight ? 'is-right' : 'is-wrong');
+      ex.innerHTML = '<span class="exam-explain-label">'+verdict+' · answer '+q.correct+'</span>'
+        + (q.explanation ? '<p>'+fmt(q.explanation)+'</p>' : '')
+        + '<a class="exam-explain-src" href="'+q.lessonUrl+'">Review: '+fmt(q.lessonLabel)+'</a>';
+      ex.hidden = false;
+    });
+
+    var pct = current.length ? Math.round(correct/current.length*100) : 0;
+    var passMark = Math.ceil(current.length * PASS_RATIO);
+    var passed = correct >= passMark;
+    countEl.textContent = current.length + ' / ' + current.length + ' answered';
+    fillEl.style.transform = 'scaleX(1)';
+
+    resultBox.innerHTML =
+      '<div class="verify-status '+(passed?'':'verify-status-bad')+'">'
+      + '<span class="'+(passed?'verify-check':'verify-x')+'" aria-hidden="true"></span>'
+      + '<span class="verify-status-text">'+(passed?'You passed the practice exam':'Not yet — keep studying')+'</span>'
+      + '</div>'
+      + '<div class="verify-table">'
+      + '<div class="verify-row-r"><div class="verify-k">Score</div><div class="verify-v verify-v-mono">'+correct+' / '+current.length+' ('+pct+'%)</div></div>'
+      + '<div class="verify-row-r"><div class="verify-k">Passing mark</div><div class="verify-v verify-v-mono">'+passMark+' / '+current.length+'</div></div>'
+      + '<div class="verify-row-r"><div class="verify-k">Result</div><div class="verify-v">'+(passed?'Pass':'Below passing mark')+'</div></div>'
+      + '</div>'
+      + '<p class="exam-result-note">'+(passed
+          ? 'This is a self-scored practice run, not the official credential. When you are ready, take the proctored exam to earn a verifiable badge.'
+          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at 80%.')+'</p>'
+      + '<div class="exam-result-cta">'
+      + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">→</span></button>'
+      + '<a class="btn-ghost" href="'+CERT_URL+'">See the certification</a>'
+      + '</div>';
+    resultBox.hidden = false;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitted';
+    document.getElementById('exam-retake').addEventListener('click', renderExam);
+    resultBox.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  renderExam();
+})();
+</script>`;
+
+  return pageHTML({
+    title: `${cfg.tierTitle} practice exam / ZopDev University`,
+    description: `Free, self-scored ${cfg.tierTitle} practice exam. ${cfg.total} questions weighted to the real exam blueprint, instant scoring, an explanation on every question. No login.`,
+    canonical: `https://zop.dev/resources/university/certifications/${tierSlug}/practice/`,
+    uniNav: 'certifications',
+    body,
+  });
+}
+
 function renderCertifications(tracks) {
   const t0 = tracks.find(t => t.code === 'T0');
   const t1 = tracks.find(t => t.code === 'T1');
@@ -2588,6 +2988,20 @@ for (const tier of ['operator', 'engineer', 'architect']) {
 // Verify-a-credential page
 writeFile(path.join(SITE_DIR, 'certifications', 'verify', 'index.html'), renderVerify());
 pageCount++;
+
+// Practice exam pages (client-side, self-scored). Operator only for now;
+// Engineer + Architect follow once their pools are validated.
+for (const tier of ['operator']) {
+  const pool = collectExamPool(tracks, tier);
+  const need = EXAM_BLUEPRINTS[tier].total;
+  if (pool.length < need) {
+    console.warn(`⚠️  ${tier} practice pool has only ${pool.length} questions (want >= ${need})`);
+  } else {
+    console.log(`✅ ${tier} practice pool: ${pool.length} questions`);
+  }
+  writeFile(path.join(SITE_DIR, 'certifications', tier, 'practice', 'index.html'), renderPractice(tier, tracks));
+  pageCount++;
+}
 
 // =============================================================
 // GLOSSARY (index + per-term page)
@@ -3078,6 +3492,7 @@ const urls = [
   { loc: 'https://zop.dev/resources/university/', priority: '1.0' },
   { loc: 'https://zop.dev/resources/university/certifications/', priority: '0.9' },
   { loc: 'https://zop.dev/resources/university/certifications/verify/', priority: '0.8' },
+  { loc: 'https://zop.dev/resources/university/certifications/operator/practice/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/engineer/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/architect/sample/', priority: '0.7' },

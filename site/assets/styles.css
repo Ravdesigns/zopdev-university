@@ -7026,3 +7026,75 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .uni-search { min-width: 0; flex: 1; margin-left: 12px; }
   .uni-search-key { display: none; }
 }
+
+/* ============================================================= */
+/* PRACTICE EXAM (self-scored) — /certifications/<tier>/practice/ */
+/* Built from existing tokens + the .verify-* result family.      */
+/* Square corners, orange focus ring, transform-only animation,   */
+/* green = correct, orange = incorrect (red is not in the brand).  */
+/* ============================================================= */
+.exam-shell { max-width: 760px; }
+
+/* Progress bar */
+.exam-bar { display: flex; align-items: center; gap: 16px; padding: 4px 0 20px; margin-bottom: 12px; }
+.exam-progress { flex: 1; height: 8px; background: var(--g-50); border: 1px solid var(--line); overflow: hidden; }
+.exam-progress-fill { height: 100%; background: var(--zop-orange); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-med, 250ms) var(--ease-out, ease); }
+.exam-count { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--g-600); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Question card */
+.exam-q { border: 1px solid var(--line); background: var(--paper); padding: 28px 32px; margin: 0 0 20px; }
+.exam-q-code { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g-600); padding: 0; margin-bottom: 12px; }
+.exam-q-stem { font-family: var(--font-body); font-size: 17px; line-height: 1.5; color: var(--ink); margin: 0 0 20px; }
+.exam-q-stem code, .exam-opt-text code, .exam-explain code { font-family: var(--mono); font-size: 0.9em; background: var(--g-50); padding: 1px 5px; border: 1px solid var(--line); }
+
+/* Options */
+.exam-opts { display: flex; flex-direction: column; gap: 10px; }
+.exam-opt { display: grid; grid-template-columns: 28px 1fr; align-items: start; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; position: relative; transition: border-color var(--dur-fast, 160ms) var(--ease-out, ease); }
+.exam-opt::before { content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 4px; background: var(--zop-orange); transform: scaleY(0); transform-origin: top; transition: transform var(--dur-fast, 160ms) var(--ease-out, ease); }
+.exam-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.exam-opt-key { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--g-600); border: 1px solid var(--line); width: 26px; height: 26px; display: grid; place-items: center; }
+.exam-opt-text { font-family: var(--font-body); font-size: 15px; line-height: 1.45; color: var(--ink); }
+.exam-opt:hover:not(.correct):not(.incorrect) { border-color: var(--line-b, var(--g-400)); }
+.exam-opt:focus-within { outline: 2px solid var(--zop-orange); outline-offset: 2px; }
+/* selected, before grading */
+.exam-opt:has(input:checked) { border-color: var(--ink); }
+.exam-opt:has(input:checked)::before { transform: scaleY(1); }
+.exam-opt:has(input:checked) .exam-opt-key { border-color: var(--ink); color: var(--ink); }
+/* graded */
+.exam-opt.correct { border-color: var(--zop-green); }
+.exam-opt.correct::before { background: var(--zop-green); transform: scaleY(1); }
+.exam-opt.correct .exam-opt-key { border-color: var(--zop-green); color: var(--zop-green); }
+.exam-opt.incorrect { border-color: var(--zop-orange); }
+.exam-opt.incorrect::before { background: var(--zop-orange); transform: scaleY(1); }
+.exam-opt.incorrect .exam-opt-key { border-color: var(--zop-orange); color: var(--zop-orange); }
+
+/* Explanation (mirrors the lesson-outcome left-border idiom) */
+.exam-explain { margin-top: 16px; padding: 16px 18px; border-left: 3px solid var(--zop-green); background: var(--g-50); }
+.exam-explain.is-wrong { border-left-color: var(--zop-orange); }
+.exam-explain-label { display: block; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g-600); margin-bottom: 6px; }
+.exam-explain p { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--ink); margin: 0 0 10px; }
+.exam-explain-src { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink); text-decoration: underline; text-decoration-color: var(--zop-orange); text-underline-offset: 3px; }
+
+/* Submit + result */
+.exam-submit-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+.exam-submit-note { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--g-600); }
+.exam-result { margin-top: 32px; }
+.exam-result-note { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--g-600); margin: 20px 0 0; }
+.exam-result-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+
+/* Blueprint */
+.exam-blueprint { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start; }
+.exam-bp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.exam-bp-table th, .exam-bp-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.exam-bp-table thead th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g-600); }
+.exam-bp-table td { font-family: var(--font-body); color: var(--ink); }
+.exam-bp-table tfoot td { font-family: var(--mono); font-weight: 600; border-bottom: none; border-top: 2px solid var(--ink); }
+.exam-bp-count { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.exam-bp-facts { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.exam-bp-facts li { font-family: var(--font-body); font-size: 14px; color: var(--ink); }
+.exam-bp-k { display: block; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g-600); margin-bottom: 2px; }
+
+@media (max-width: 720px) {
+  .exam-blueprint { grid-template-columns: 1fr; gap: 24px; }
+  .exam-q { padding: 22px 20px; }
+}
