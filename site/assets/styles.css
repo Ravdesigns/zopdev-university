@@ -7102,3 +7102,60 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .exam-blueprint { grid-template-columns: 1fr; gap: 24px; }
   .exam-q { padding: 22px 20px; }
 }
+.exam-note { font-size: 14px; color: var(--g-600); margin-top: 10px; }
+
+/* ============================================================= */
+/* PROGRESS TRACKING (localStorage, this-device) — lessons + tracks */
+/* ============================================================= */
+/* Lesson: mark-complete control */
+.lesson-complete { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 40px 0 8px; padding: 20px 24px; border: 1px solid var(--line); background: var(--g-50); }
+.lesson-complete.done { border-color: var(--zop-green); }
+.lesson-complete-toggle { display: inline-flex; align-items: center; gap: 12px; cursor: pointer; }
+.lesson-complete-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.lesson-complete-box { width: 20px; height: 20px; border: 1px solid var(--g-400); background: var(--paper); display: inline-grid; place-items: center; flex-shrink: 0; transition: border-color var(--dur-fast, 160ms) var(--ease-out, ease), background var(--dur-fast, 160ms) var(--ease-out, ease); }
+.lesson-complete-box::after { content: ''; width: 5px; height: 10px; border: solid var(--paper); border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); transform-origin: center; transition: transform var(--dur-fast, 160ms) var(--ease-out, ease); margin-top: -2px; }
+.lesson-complete-toggle input:checked + .lesson-complete-box { background: var(--zop-green); border-color: var(--zop-green); }
+.lesson-complete-toggle input:checked + .lesson-complete-box::after { transform: rotate(45deg) scale(1); }
+.lesson-complete-toggle input:focus-visible + .lesson-complete-box { outline: 2px solid var(--zop-orange); outline-offset: 2px; }
+.lesson-complete-label { font-family: var(--font-body); font-size: 15px; color: var(--ink); }
+.lesson-complete-hint { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--g-600); }
+
+/* Track: completion bar in the hero */
+.track-progress { display: flex; align-items: center; gap: 16px; margin-top: 24px; max-width: 520px; }
+.track-progress-bar { flex: 1; height: 8px; background: var(--g-50); border: 1px solid var(--line); overflow: hidden; }
+.track-progress-fill { height: 100%; background: var(--zop-green); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-med, 250ms) var(--ease-out, ease); }
+.track-progress-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--g-600); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* ============================================================= */
+/* CREDENTIAL REGISTRY — /certifications/registry/                */
+/* ============================================================= */
+.registry-wrap { overflow-x: auto; border: 1px solid var(--line); }
+.registry-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+.registry-table th, .registry-table td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.registry-table thead th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g-600); background: var(--g-50); }
+.registry-table tbody tr:last-child td { border-bottom: none; }
+.registry-table td { font-family: var(--font-body); color: var(--ink); }
+.registry-table .reg-name { font-weight: 600; }
+.registry-table .reg-date { font-family: var(--mono); color: var(--g-600); white-space: nowrap; }
+.reg-id a { font-family: var(--mono); font-size: 12px; color: var(--ink); text-decoration: underline; text-decoration-color: var(--zop-orange); text-underline-offset: 3px; white-space: nowrap; }
+.reg-tier { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 8px; border: 1px solid var(--line); white-space: nowrap; }
+.reg-tier-operator { color: var(--zop-blue); border-color: var(--zop-blue); }
+.reg-tier-engineer { color: var(--zop-orange); border-color: var(--zop-orange); }
+.reg-tier-architect { color: var(--zop-green); border-color: var(--zop-green); }
+.registry-note { font-family: var(--font-body); font-size: 13px; color: var(--g-600); margin-top: 16px; }
+
+/* ============================================================= */
+/* LEARNING PATHS — /paths/ and /paths/<slug>/                    */
+/* ============================================================= */
+.learning-path-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.path-card { display: flex; flex-direction: column; gap: 10px; padding: 28px; border: 1px solid var(--line); background: var(--paper); text-decoration: none; color: var(--ink); transition: transform var(--dur-fast, 160ms) var(--ease-out, ease), box-shadow var(--dur-fast, 160ms) var(--ease-out, ease), border-color var(--dur-fast, 160ms) var(--ease-out, ease); }
+.path-card:hover { transform: translateY(-4px); box-shadow: 0 8px 0 -4px var(--ink); border-color: var(--ink); }
+.path-card-head { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-600); }
+.path-card-cert { color: var(--zop-orange); }
+.path-card-title { font-size: 22px; line-height: 1.15; margin: 4px 0 0; }
+.path-card-aud { font-family: var(--font-body); font-size: 14px; color: var(--g-600); margin: 0; flex: 1; }
+.path-card-foot { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink); margin-top: 8px; }
+.path-card-foot .arrow { color: var(--zop-orange); }
+/* Path detail body reuses .lesson-content; keep the sequence code block readable */
+.path-body { max-width: var(--max-prose, 760px); }
+.path-body pre { white-space: pre-wrap; }

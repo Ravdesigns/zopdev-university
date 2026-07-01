@@ -177,6 +177,7 @@
           <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
         </div>
       </div>
+      <a href="/paths/" class="uni-link ">Paths</a>
       <div class="uni-dropdown" data-uni-dropdown>
         <button class="uni-link uni-dropdown-toggle active" type="button"
                 aria-expanded="false" aria-controls="uni-certs-menu">
@@ -187,9 +188,11 @@
           <a href="/certifications/#operator" role="menuitem">Operator</a>
           <a href="/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="/certifications/#architect" role="menuitem">Architect</a>
-          <a href="/certifications/operator/practice/" role="menuitem">Practice exam</a>
+          <a href="/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
+          <a href="/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
           <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+          <a href="/certifications/registry/" role="menuitem">Public registry</a>
         </div>
       </div>
       <a href="/glossary/" class="uni-link ">Glossary</a>
@@ -308,6 +311,7 @@
     <div class="track-hero-meta">Practice exam / Self-scored, no login</div>
     <h1>Operator practice exam.</h1>
     <p class="track-hero-lead">20 questions drawn from the lessons that back the Operator certification, weighted to match the real exam blueprint. Score instantly, read the explanation on every question, retake as many times as you like. This is a study aid, not the proctored credential exam.</p>
+    
   </div>
 </section>
 
@@ -524,7 +528,7 @@
       + '</div>'
       + '<p class="exam-result-note">'+(passed
           ? 'This is a self-scored practice run, not the official credential. When you are ready, take the proctored exam to earn a verifiable badge.'
-          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at 80%.')+'</p>'
+          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at '+Math.round(PASS_RATIO*100)+'%.')+'</p>'
       + '<div class="exam-result-cta">'
       + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">→</span></button>'
       + '<a class="btn-ghost" href="'+CERT_URL+'">See the certification</a>'

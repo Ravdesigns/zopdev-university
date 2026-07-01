@@ -103,6 +103,17 @@ const TRACKS = [
 ];
 
 // =============================================================
+// ROLE-BASED LEARNING PATHS (mirrors paths/00_README.md table)
+// =============================================================
+const PATHS = [
+  { slug: 'platform-engineer',  file: 'platform_engineer.md',  title: 'Platform / DevOps Engineer', audience: 'Hands-on platform engineering',      duration: '14 hours', cert: 'Operator, then Engineer' },
+  { slug: 'finops-analyst',     file: 'finops_analyst.md',     title: 'FinOps Analyst',             audience: 'FinOps practitioners',              duration: '12 hours', cert: 'Operator, then Engineer' },
+  { slug: 'engineering-leader', file: 'engineering_leader.md', title: 'Engineering Leader',         audience: 'Eng directors and VPs',             duration: '6 hours',  cert: 'No cert required' },
+  { slug: 'finance-partner',    file: 'finance_partner.md',    title: 'Finance Partner',            audience: 'FP&A and procurement',              duration: '5 hours',  cert: 'No cert required' },
+  { slug: 'security-compliance',file: 'security_compliance.md',title: 'Security / Compliance',      audience: 'Security architects and compliance',duration: '10 hours', cert: 'Architect track' },
+];
+
+// =============================================================
 // HELPERS
 // =============================================================
 const escapeHTML = (s) => String(s)
@@ -641,6 +652,7 @@ function universityNav(opts = {}) {
           <a href="${BASE}/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
         </div>
       </div>
+      <a href="${BASE}/paths/" class="uni-link ${cls('paths')}">Paths</a>
       <div class="uni-dropdown" data-uni-dropdown>
         <button class="uni-link uni-dropdown-toggle ${cls('certifications')}" type="button"
                 aria-expanded="false" aria-controls="uni-certs-menu">
@@ -651,9 +663,11 @@ function universityNav(opts = {}) {
           <a href="${BASE}/certifications/#operator" role="menuitem">Operator</a>
           <a href="${BASE}/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="${BASE}/certifications/#architect" role="menuitem">Architect</a>
-          <a href="${BASE}/certifications/operator/practice/" role="menuitem">Practice exam</a>
+          <a href="${BASE}/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
+          <a href="${BASE}/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
           <a href="${BASE}/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="${BASE}/certifications/verify/" role="menuitem">Verify a credential</a>
+          <a href="${BASE}/certifications/registry/" role="menuitem">Public registry</a>
         </div>
       </div>
       <a href="${BASE}/glossary/" class="uni-link ${cls('glossary')}">Glossary</a>
@@ -1496,6 +1510,10 @@ function renderTrack(track) {
       <div class="item"><strong>Lessons</strong>${totalLessons}</div>
       <div class="item"><strong>Time</strong>${escapeHTML(track.time)}</div>
     </div>
+    <div class="track-progress" data-track="${track.slug}" data-total="${totalLessons}" hidden>
+      <div class="track-progress-bar"><div class="track-progress-fill"></div></div>
+      <span class="track-progress-label"></span>
+    </div>
   </div>
 </section>
 
@@ -1540,7 +1558,25 @@ function renderTrack(track) {
       </a>
     </div>
   </div>
-</section>`;
+</section>
+<script>
+// Progress: show this track's completion from localStorage (this device).
+(function(){
+  var KEY='zopuni:progress:v1';
+  var el=document.querySelector('.track-progress');
+  if(!el) return;
+  var slug=el.getAttribute('data-track');
+  var total=parseInt(el.getAttribute('data-total'),10)||0;
+  var store; try{ store=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ store={}; }
+  var done=Object.keys(store).filter(function(k){ return k.indexOf(slug+'/')===0; }).length;
+  if(done>total) done=total;
+  var fill=el.querySelector('.track-progress-fill');
+  var label=el.querySelector('.track-progress-label');
+  if(fill) fill.style.transform='scaleX('+(total?done/total:0)+')';
+  if(label) label.textContent=done+' of '+total+' lessons complete';
+  el.hidden=false;
+})();
+</script>`;
 
   return pageHTML({
     title: `${track.title} / ZopDev University`,
@@ -1680,6 +1716,15 @@ function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
       ${metaRows ? `<div class="lesson-metabox"><dl>${metaRows}</dl></div>` : ''}
       ${contentHTML}
 
+      <div class="lesson-complete" data-lesson-id="${track.slug}/${mod.slug}/${lesson.slug}">
+        <label class="lesson-complete-toggle">
+          <input type="checkbox" id="lesson-complete-cb">
+          <span class="lesson-complete-box" aria-hidden="true"></span>
+          <span class="lesson-complete-label">Mark this lesson complete</span>
+        </label>
+        <span class="lesson-complete-hint">Saved on this device only.</span>
+      </div>
+
       <nav class="lesson-nav" aria-label="Lesson navigation">
         ${prevHTML}
         ${nextHTML}
@@ -1708,6 +1753,26 @@ document.addEventListener('DOMContentLoaded', function() {
     tocList.appendChild(li);
   });
 });
+</script>
+<script>
+// Progress: mark-complete checkbox persisted in localStorage (this device).
+(function(){
+  var KEY='zopuni:progress:v1';
+  var box=document.querySelector('.lesson-complete');
+  var cb=document.getElementById('lesson-complete-cb');
+  if(!box||!cb) return;
+  var id=box.getAttribute('data-lesson-id');
+  function read(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function write(o){ try{ localStorage.setItem(KEY, JSON.stringify(o)); }catch(e){} }
+  var store=read();
+  cb.checked=!!store[id];
+  if(cb.checked) box.classList.add('done');
+  cb.addEventListener('change', function(){
+    var s=read();
+    if(cb.checked){ s[id]=1; box.classList.add('done'); } else { delete s[id]; box.classList.remove('done'); }
+    write(s);
+  });
+})();
 </script>`;
 
   return pageHTML({
@@ -1989,10 +2054,10 @@ function sampleCredentialData(tier) {
       tier, tierLabel: 'Engineer', tierTitle: 'ZopNight Engineer',
       title: 'Tier II / ZopNight Engineer',
       blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 460-rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
-      coverage: 'ZopNight Engineer (T2) + DevOps Cost Discipline (T5)',
-      examLength: '45 minutes',
-      questions: '30 questions',
-      passScore: '80%',
+      coverage: 'ZopNight Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
+      examLength: '60 minutes',
+      questions: '40 questions',
+      passScore: '75%',
       name: 'Priya Menon',
       role: 'Senior Platform Engineer, Flexflow',
       date: 'April 22, 2026',
@@ -2347,6 +2412,237 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 
 // =============================================================
+// ROLE-BASED LEARNING PATHS
+// =============================================================
+// Parse a paths/*.md file into { title, outcome, bodyMd }. bodyMd is
+// everything from "## Sequence" onward, minus the trailing signature,
+// so the hero can own the title + outcome and the body renders the rest.
+function parsePathFile(filePath) {
+  let md;
+  try { md = fs.readFileSync(filePath, 'utf8'); }
+  catch (e) { console.error(`✗ parsePathFile: cannot read ${filePath} — ${e.message}`); process.exit(1); }
+  const lines = md.split('\n');
+
+  let title = '';
+  for (const l of lines) { const m = l.match(/^#\s+(.+)$/); if (m) { title = m[1].trim(); break; } }
+
+  let outcome = '';
+  const oi = lines.findIndex(l => /^##\s+outcome\s*$/i.test(l.trim()));
+  if (oi >= 0) {
+    for (let j = oi + 1; j < lines.length; j++) {
+      const t = lines[j].trim();
+      if (!t) continue;
+      if (t.startsWith('#')) break;
+      outcome = t; break;
+    }
+  }
+
+  const si = lines.findIndex(l => /^##\s+Sequence/i.test(l.trim()));
+  if (si < 0) console.warn(`⚠️  parsePathFile: no "## Sequence" heading in ${filePath}; rendering full body`);
+  let bodyLines = si >= 0 ? lines.slice(si) : lines;
+  const sigIdx = bodyLines.findIndex(l => l.trim().startsWith('§') && /Last reviewed/i.test(l));
+  if (sigIdx >= 0) {
+    let cut = sigIdx;
+    if (bodyLines[sigIdx - 1] && bodyLines[sigIdx - 1].trim() === '---') cut = sigIdx - 1;
+    bodyLines = bodyLines.slice(0, cut);
+  }
+  return { title, outcome, bodyMd: bodyLines.join('\n') };
+}
+
+function renderPathsIndex() {
+  const cards = PATHS.map(p => `
+      <a class="path-card" href="${BASE}/paths/${p.slug}/">
+        <div class="path-card-head">
+          <span class="path-card-dur">${escapeHTML(p.duration)}</span>
+          <span class="path-card-cert">${escapeHTML(p.cert)}</span>
+        </div>
+        <h3 class="path-card-title">${escapeHTML(p.title)}</h3>
+        <p class="path-card-aud">${escapeHTML(p.audience)}</p>
+        <span class="path-card-foot">Open path <span class="arrow" aria-hidden="true">→</span></span>
+      </a>`).join('');
+
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <span class="current">Paths</span>
+  </div>
+</section>
+
+<section class="track-hero">
+  <div class="container">
+    <div class="track-hero-meta">Learning paths / Pick by role</div>
+    <h1>Where are you?</h1>
+    <p class="track-hero-lead">The curriculum is 237 lessons. You do not need all of them. Pick the path that matches your role and follow it in order. Each path threads lessons from across the tracks and pairs with the right certification.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">Five paths</div>
+      <div>
+        <h2>Pick the description that fits you.</h2>
+        <p class="sub">Each is a curated sequence. Skip lessons you have already taken; every lesson stands alone.</p>
+      </div>
+    </div>
+    <div class="learning-path-grid">${cards}
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>Not sure yet? Start with the bill.</h2>
+    <p>Foundations is free and role-agnostic. Nine minutes to the first lesson.</p>
+    <div class="hero-cta">
+      <a href="${BASE}/foundations/" class="btn btn-primary">Read Foundations <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/" class="btn-ghost">See the certifications</a>
+    </div>
+  </div>
+</section>`;
+
+  return pageHTML({
+    title: 'Learning paths / ZopDev University',
+    description: 'Five role-based paths through the ZopDev University curriculum: Platform Engineer, FinOps Analyst, Engineering Leader, Finance Partner, Security & Compliance.',
+    canonical: 'https://zop.dev/resources/university/paths/',
+    uniNav: 'paths',
+    body,
+  });
+}
+
+function renderPath(p) {
+  const parsed = parsePathFile(path.join(ROOT, 'paths', p.file));
+  const bodyHTML = renderMarkdown(parsed.bodyMd);
+
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="${BASE}/paths/">Paths</a><span class="sep">›</span>
+    <span class="current">${escapeHTML(p.title)}</span>
+  </div>
+</section>
+
+<section class="track-hero">
+  <div class="container">
+    <div class="track-hero-meta">Learning path</div>
+    <h1>${escapeHTML(p.title)}</h1>
+    ${parsed.outcome ? `<p class="track-hero-lead">${escapeHTML(parsed.outcome)}</p>` : ''}
+    <div class="track-meta-row">
+      <div class="item"><strong>Audience</strong>${escapeHTML(p.audience)}</div>
+      <div class="item"><strong>Duration</strong>${escapeHTML(p.duration)}</div>
+      <div class="item"><strong>Certification</strong>${escapeHTML(p.cert)}</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <article class="lesson-content path-body">
+      ${bodyHTML}
+    </article>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>Start the path.</h2>
+    <p>Follow the sequence in order, or jump to the certification when you are ready.</p>
+    <div class="hero-cta">
+      <a href="${BASE}/" class="btn btn-primary">Browse all courses <span class="arrow">→</span></a>
+      <a href="${BASE}/paths/" class="btn-ghost">All paths</a>
+    </div>
+  </div>
+</section>`;
+
+  return pageHTML({
+    title: `${p.title} path / ZopDev University`,
+    description: parsed.outcome || `A role-based path through ZopDev University for ${p.audience}.`,
+    canonical: `https://zop.dev/resources/university/paths/${p.slug}/`,
+    uniNav: 'paths',
+    body,
+  });
+}
+
+// =============================================================
+// PUBLIC CREDENTIAL REGISTRY (opt-in)
+// =============================================================
+// A public, opt-in list of credentialled people. Sourced from the same
+// sample-credential data as the verifier; each row deep-links into the
+// verify page. When real issuance ships (eng / GoFr module) this reads
+// from the credential store instead of the sample set.
+function renderRegistry() {
+  const tiers = ['operator', 'engineer', 'architect'];
+  const tierNum = { operator: 'I', engineer: 'II', architect: 'III' };
+  const rows = tiers.map(tier => {
+    const d = sampleCredentialData(tier);
+    const id = sampleCredentialId(tier);
+    return `<tr>
+      <td class="reg-name">${escapeHTML(d.name)}</td>
+      <td>${escapeHTML(d.role)}</td>
+      <td><span class="reg-tier reg-tier-${tier}">Tier ${tierNum[tier]} / ${escapeHTML(d.tierLabel)}</span></td>
+      <td class="reg-id"><a href="${BASE}/certifications/verify/?id=${encodeURIComponent(id)}">${escapeHTML(id)}</a></td>
+      <td class="reg-date">${escapeHTML(d.date)}</td>
+    </tr>`;
+  }).join('');
+
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <span class="current">Registry</span>
+  </div>
+</section>
+
+<section class="track-hero">
+  <div class="container">
+    <div class="track-hero-meta">Public registry / Opt-in</div>
+    <h1>Credentialled practitioners.</h1>
+    <p class="track-hero-lead">A public, opt-in list of people who hold a ZopDev University credential. Every entry links to the public verifier, which shows name, tier, issue date, and coverage. Listing is opt-in, so not every credential holder appears here.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="registry-wrap">
+      <table class="registry-table">
+        <thead><tr><th>Name</th><th>Role</th><th>Credential</th><th>Credential ID</th><th>Issued</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <p class="registry-note">These are sample entries. When credential issuance goes live, this registry lists real opt-in holders drawn from the credential store.</p>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>Have a credential ID to check?</h2>
+    <p>Verify any ZopDev University credential in two clicks, no login.</p>
+    <div class="hero-cta">
+      <a href="${BASE}/certifications/verify/" class="btn btn-primary">Verify a credential <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/" class="btn-ghost">See the certifications</a>
+    </div>
+  </div>
+</section>`;
+
+  return pageHTML({
+    title: 'Credential registry / ZopDev University',
+    description: 'Public, opt-in registry of ZopDev University credential holders. Each entry links to the public verifier.',
+    canonical: 'https://zop.dev/resources/university/certifications/registry/',
+    uniNav: 'certifications',
+    body,
+  });
+}
+
+// =============================================================
 // PRACTICE EXAM (client-side, self-scored)
 // =============================================================
 // A practice exam draws from the knowledge-check questions already
@@ -2378,6 +2674,25 @@ const EXAM_BLUEPRINTS = {
       return 'foundation';
     },
   },
+  engineer: {
+    tierTitle: 'Engineer',
+    trackCodes: ['T2', 'T4', 'T5', 'T6'],
+    total: 40,
+    passRatio: 0.75,      // 30 / 40
+    minutes: 60,
+    note: 'This practice covers the 40-question multiple-choice portion. The real Engineer exam also includes a graded, hands-on sandbox lab.',
+    blueprint: [
+      { topic: 'T2', label: 'ZopNight Engineer (Track 2)',      count: 20 },
+      { topic: 'T4', label: 'FinOps Mastery (Track 4)',         count: 11 },
+      { topic: 'T5', label: 'DevOps Cost Discipline (Track 5)', count: 6 },
+      { topic: 'T6', label: 'AI-Powered Cloud Ops (Track 6)',   count: 3 },
+    ],
+    // Engineer questions are bucketed by track (the blueprint is per-track).
+    moduleTopic: (trackCode) => trackCode,
+  },
+  // Architect is intentionally absent: its credential is application +
+  // take-home + interview (no MCQ), so an MCQ practice exam would
+  // misrepresent it. See certifications/architect/00_README.md.
 };
 
 // Gather every parsed knowledge-check question from the tracks that back
@@ -2434,6 +2749,7 @@ function renderPractice(tierKey, tracks) {
     <div class="track-hero-meta">Practice exam / Self-scored, no login</div>
     <h1>${escapeHTML(cfg.tierTitle)} practice exam.</h1>
     <p class="track-hero-lead">${cfg.total} questions drawn from the lessons that back the ${escapeHTML(cfg.tierTitle)} certification, weighted to match the real exam blueprint. Score instantly, read the explanation on every question, retake as many times as you like. This is a study aid, not the proctored credential exam.</p>
+    ${cfg.note ? `<p class="track-hero-lead exam-note">${escapeHTML(cfg.note)}</p>` : ''}
   </div>
 </section>
 
@@ -2456,7 +2772,7 @@ function renderPractice(tierKey, tracks) {
         <li><span class="exam-bp-k">Format</span> ${cfg.total} multiple-choice, open-book</li>
         <li><span class="exam-bp-k">Time</span> ${cfg.minutes} minutes on the real exam</li>
         <li><span class="exam-bp-k">Pass mark</span> ${Math.round(cfg.passRatio * 100)}% (${Math.round(cfg.total * cfg.passRatio)} / ${cfg.total})</li>
-        <li><span class="exam-bp-k">Credential</span> <a href="${BASE}/certifications/#${tierSlug}">Operator certification</a></li>
+        <li><span class="exam-bp-k">Credential</span> <a href="${BASE}/certifications/#${tierSlug}">${escapeHTML(cfg.tierTitle)} certification</a></li>
       </ul>
     </div>
   </div>
@@ -2495,8 +2811,8 @@ function renderPractice(tierKey, tracks) {
 
 <script>
 (function(){
-  var POOL = ${JSON.stringify(pool)};
-  var BLUEPRINT = ${JSON.stringify(cfg.blueprint)};
+  var POOL = ${JSON.stringify(pool).replace(/<\/script>/gi, '<\\/script>')};
+  var BLUEPRINT = ${JSON.stringify(cfg.blueprint).replace(/<\/script>/gi, '<\\/script>')};
   var TOTAL = ${cfg.total};
   var PASS_RATIO = ${cfg.passRatio};
   var CERT_URL = ${JSON.stringify(BASE + '/certifications/#' + tierSlug)};
@@ -2650,7 +2966,7 @@ function renderPractice(tierKey, tracks) {
       + '</div>'
       + '<p class="exam-result-note">'+(passed
           ? 'This is a self-scored practice run, not the official credential. When you are ready, take the proctored exam to earn a verifiable badge.'
-          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at 80%.')+'</p>'
+          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at '+Math.round(PASS_RATIO*100)+'%.')+'</p>'
       + '<div class="exam-result-cta">'
       + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">→</span></button>'
       + '<a class="btn-ghost" href="'+CERT_URL+'">See the certification</a>'
@@ -2998,9 +3314,13 @@ for (const tier of ['operator', 'engineer', 'architect']) {
 writeFile(path.join(SITE_DIR, 'certifications', 'verify', 'index.html'), renderVerify());
 pageCount++;
 
+// Public credential registry (opt-in)
+writeFile(path.join(SITE_DIR, 'certifications', 'registry', 'index.html'), renderRegistry());
+pageCount++;
+
 // Practice exam pages (client-side, self-scored). Operator only for now;
 // Engineer + Architect follow once their pools are validated.
-for (const tier of ['operator']) {
+for (const tier of ['operator', 'engineer']) {
   const pool = collectExamPool(tracks, tier);
   const need = EXAM_BLUEPRINTS[tier].total;
   if (pool.length < need) {
@@ -3012,6 +3332,14 @@ for (const tier of ['operator']) {
   }
   console.log(`✅ ${tier} practice pool: ${pool.length} questions`);
   writeFile(path.join(SITE_DIR, 'certifications', tier, 'practice', 'index.html'), renderPractice(tier, tracks));
+  pageCount++;
+}
+
+// Role-based learning paths
+writeFile(path.join(SITE_DIR, 'paths', 'index.html'), renderPathsIndex());
+pageCount++;
+for (const p of PATHS) {
+  writeFile(path.join(SITE_DIR, 'paths', p.slug, 'index.html'), renderPath(p));
   pageCount++;
 }
 
@@ -3504,13 +3832,19 @@ const urls = [
   { loc: 'https://zop.dev/resources/university/', priority: '1.0' },
   { loc: 'https://zop.dev/resources/university/certifications/', priority: '0.9' },
   { loc: 'https://zop.dev/resources/university/certifications/verify/', priority: '0.8' },
+  { loc: 'https://zop.dev/resources/university/certifications/registry/', priority: '0.6' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/practice/', priority: '0.7' },
+  { loc: 'https://zop.dev/resources/university/certifications/engineer/practice/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/engineer/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/architect/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/glossary/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/search/', priority: '0.6' },
+  { loc: 'https://zop.dev/resources/university/paths/', priority: '0.8' },
 ];
+for (const p of PATHS) {
+  urls.push({ loc: `https://zop.dev/resources/university/paths/${p.slug}/`, priority: '0.6' });
+}
 for (const t of tracks) {
   urls.push({ loc: `https://zop.dev/resources/university/${t.slug}/`, priority: '0.9' });
   for (const m of t.modules) {

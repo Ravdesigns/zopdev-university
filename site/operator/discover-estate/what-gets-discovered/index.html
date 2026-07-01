@@ -242,6 +242,7 @@
           <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
         </div>
       </div>
+      <a href="/paths/" class="uni-link ">Paths</a>
       <div class="uni-dropdown" data-uni-dropdown>
         <button class="uni-link uni-dropdown-toggle " type="button"
                 aria-expanded="false" aria-controls="uni-certs-menu">
@@ -252,9 +253,11 @@
           <a href="/certifications/#operator" role="menuitem">Operator</a>
           <a href="/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="/certifications/#architect" role="menuitem">Architect</a>
-          <a href="/certifications/operator/practice/" role="menuitem">Practice exam</a>
+          <a href="/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
+          <a href="/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
           <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+          <a href="/certifications/registry/" role="menuitem">Public registry</a>
         </div>
       </div>
       <a href="/glossary/" class="uni-link ">Glossary</a>
@@ -587,6 +590,15 @@ If a resource type you know is in the cloud is NOT in the list:
 <p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-20 · Lesson ID: T1.M1.2.L1</p>
 
 
+      <div class="lesson-complete" data-lesson-id="operator/discover-estate/what-gets-discovered">
+        <label class="lesson-complete-toggle">
+          <input type="checkbox" id="lesson-complete-cb">
+          <span class="lesson-complete-box" aria-hidden="true"></span>
+          <span class="lesson-complete-label">Mark this lesson complete</span>
+        </label>
+        <span class="lesson-complete-hint">Saved on this device only.</span>
+      </div>
+
       <nav class="lesson-nav" aria-label="Lesson navigation">
         <a href="/operator/connect-account/permission-visibility/" class="lesson-nav-link">
   <div class="nav-dir">← Previous</div>
@@ -621,6 +633,26 @@ document.addEventListener('DOMContentLoaded', function() {
     tocList.appendChild(li);
   });
 });
+</script>
+<script>
+// Progress: mark-complete checkbox persisted in localStorage (this device).
+(function(){
+  var KEY='zopuni:progress:v1';
+  var box=document.querySelector('.lesson-complete');
+  var cb=document.getElementById('lesson-complete-cb');
+  if(!box||!cb) return;
+  var id=box.getAttribute('data-lesson-id');
+  function read(){ try{ return JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ return {}; } }
+  function write(o){ try{ localStorage.setItem(KEY, JSON.stringify(o)); }catch(e){} }
+  var store=read();
+  cb.checked=!!store[id];
+  if(cb.checked) box.classList.add('done');
+  cb.addEventListener('change', function(){
+    var s=read();
+    if(cb.checked){ s[id]=1; box.classList.add('done'); } else { delete s[id]; box.classList.remove('done'); }
+    write(s);
+  });
+})();
 </script>
 </main>
 
