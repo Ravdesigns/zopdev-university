@@ -190,6 +190,7 @@
           <a href="/certifications/#architect" role="menuitem">Architect</a>
           <a href="/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
           <a href="/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
+          <a href="/certifications/architect/prep/" role="menuitem">Architect prep</a>
           <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
           <a href="/certifications/registry/" role="menuitem">Public registry</a>
@@ -396,6 +397,10 @@
   // answer is not always in the same position. The authored lessons
   // skew heavily toward "B" as the correct key; this removes that tell.
   function prepQuestion(q){
+    // If the explanation names option letters (e.g. "A is wrong", "(C)",
+    // "C and D"), shuffling would leave those references pointing at the
+    // wrong option. Keep such questions in their authored order + letters.
+    if (/\([A-D]\)|\b[A-D] and [A-D]\b|\b[A-D] is\b/.test(q.explanation || '')) return q;
     var opts = shuffle(q.options.slice());
     var newCorrect = q.correct;
     var relabeled = opts.map(function(o, idx){
