@@ -655,6 +655,7 @@ function universityNav(opts = {}) {
           <a href="${BASE}/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
           <a href="${BASE}/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="${BASE}/certifications/verify/" role="menuitem">Verify a credential</a>
+          <a href="${BASE}/certifications/registry/" role="menuitem">Public registry</a>
         </div>
       </div>
       <a href="${BASE}/glossary/" class="uni-link ${cls('glossary')}">Glossary</a>
@@ -2399,6 +2400,79 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 
 // =============================================================
+// PUBLIC CREDENTIAL REGISTRY (opt-in)
+// =============================================================
+// A public, opt-in list of credentialled people. Sourced from the same
+// sample-credential data as the verifier; each row deep-links into the
+// verify page. When real issuance ships (eng / GoFr module) this reads
+// from the credential store instead of the sample set.
+function renderRegistry() {
+  const tiers = ['operator', 'engineer', 'architect'];
+  const tierNum = { operator: 'I', engineer: 'II', architect: 'III' };
+  const rows = tiers.map(tier => {
+    const d = sampleCredentialData(tier);
+    const id = sampleCredentialId(tier);
+    return `<tr>
+      <td class="reg-name">${escapeHTML(d.name)}</td>
+      <td>${escapeHTML(d.role)}</td>
+      <td><span class="reg-tier reg-tier-${tier}">Tier ${tierNum[tier]} / ${escapeHTML(d.tierLabel)}</span></td>
+      <td class="reg-id"><a href="${BASE}/certifications/verify/?id=${encodeURIComponent(id)}">${escapeHTML(id)}</a></td>
+      <td class="reg-date">${escapeHTML(d.date)}</td>
+    </tr>`;
+  }).join('');
+
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <span class="current">Registry</span>
+  </div>
+</section>
+
+<section class="track-hero">
+  <div class="container">
+    <div class="track-hero-meta">Public registry / Opt-in</div>
+    <h1>Credentialled practitioners.</h1>
+    <p class="track-hero-lead">A public, opt-in list of people who hold a ZopDev University credential. Every entry links to the public verifier, which shows name, tier, issue date, and coverage. Listing is opt-in, so not every credential holder appears here.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="registry-wrap">
+      <table class="registry-table">
+        <thead><tr><th>Name</th><th>Role</th><th>Credential</th><th>Credential ID</th><th>Issued</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <p class="registry-note">These are sample entries. When credential issuance goes live, this registry lists real opt-in holders drawn from the credential store.</p>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>Have a credential ID to check?</h2>
+    <p>Verify any ZopDev University credential in two clicks, no login.</p>
+    <div class="hero-cta">
+      <a href="${BASE}/certifications/verify/" class="btn btn-primary">Verify a credential <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/" class="btn-ghost">See the certifications</a>
+    </div>
+  </div>
+</section>`;
+
+  return pageHTML({
+    title: 'Credential registry / ZopDev University',
+    description: 'Public, opt-in registry of ZopDev University credential holders. Each entry links to the public verifier.',
+    canonical: 'https://zop.dev/resources/university/certifications/registry/',
+    uniNav: 'certifications',
+    body,
+  });
+}
+
+// =============================================================
 // PRACTICE EXAM (client-side, self-scored)
 // =============================================================
 // A practice exam draws from the knowledge-check questions already
@@ -3070,6 +3144,10 @@ for (const tier of ['operator', 'engineer', 'architect']) {
 writeFile(path.join(SITE_DIR, 'certifications', 'verify', 'index.html'), renderVerify());
 pageCount++;
 
+// Public credential registry (opt-in)
+writeFile(path.join(SITE_DIR, 'certifications', 'registry', 'index.html'), renderRegistry());
+pageCount++;
+
 // Practice exam pages (client-side, self-scored). Operator only for now;
 // Engineer + Architect follow once their pools are validated.
 for (const tier of ['operator', 'engineer']) {
@@ -3576,6 +3654,7 @@ const urls = [
   { loc: 'https://zop.dev/resources/university/', priority: '1.0' },
   { loc: 'https://zop.dev/resources/university/certifications/', priority: '0.9' },
   { loc: 'https://zop.dev/resources/university/certifications/verify/', priority: '0.8' },
+  { loc: 'https://zop.dev/resources/university/certifications/registry/', priority: '0.6' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/practice/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/engineer/practice/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/certifications/operator/sample/', priority: '0.7' },
