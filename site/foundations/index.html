@@ -370,8 +370,8 @@
       <div class="item"><strong>Time</strong>5 hours</div>
     </div>
     <div class="track-progress" data-track="foundations" data-total="28" hidden>
-      <div class="track-progress-bar"><div class="track-progress-fill" id="track-progress-fill"></div></div>
-      <span class="track-progress-label" id="track-progress-label"></span>
+      <div class="track-progress-bar"><div class="track-progress-fill"></div></div>
+      <span class="track-progress-label"></span>
     </div>
   </div>
 </section>
@@ -518,8 +518,8 @@
   var store; try{ store=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ store={}; }
   var done=Object.keys(store).filter(function(k){ return k.indexOf(slug+'/')===0; }).length;
   if(done>total) done=total;
-  var fill=document.getElementById('track-progress-fill');
-  var label=document.getElementById('track-progress-label');
+  var fill=el.querySelector('.track-progress-fill');
+  var label=el.querySelector('.track-progress-label');
   if(fill) fill.style.transform='scaleX('+(total?done/total:0)+')';
   if(label) label.textContent=done+' of '+total+' lessons complete';
   el.hidden=false;

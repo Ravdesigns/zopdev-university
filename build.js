@@ -1511,8 +1511,8 @@ function renderTrack(track) {
       <div class="item"><strong>Time</strong>${escapeHTML(track.time)}</div>
     </div>
     <div class="track-progress" data-track="${track.slug}" data-total="${totalLessons}" hidden>
-      <div class="track-progress-bar"><div class="track-progress-fill" id="track-progress-fill"></div></div>
-      <span class="track-progress-label" id="track-progress-label"></span>
+      <div class="track-progress-bar"><div class="track-progress-fill"></div></div>
+      <span class="track-progress-label"></span>
     </div>
   </div>
 </section>
@@ -1570,8 +1570,8 @@ function renderTrack(track) {
   var store; try{ store=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ store={}; }
   var done=Object.keys(store).filter(function(k){ return k.indexOf(slug+'/')===0; }).length;
   if(done>total) done=total;
-  var fill=document.getElementById('track-progress-fill');
-  var label=document.getElementById('track-progress-label');
+  var fill=el.querySelector('.track-progress-fill');
+  var label=el.querySelector('.track-progress-label');
   if(fill) fill.style.transform='scaleX('+(total?done/total:0)+')';
   if(label) label.textContent=done+' of '+total+' lessons complete';
   el.hidden=false;
@@ -2054,10 +2054,10 @@ function sampleCredentialData(tier) {
       tier, tierLabel: 'Engineer', tierTitle: 'ZopNight Engineer',
       title: 'Tier II / ZopNight Engineer',
       blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 460-rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
-      coverage: 'ZopNight Engineer (T2) + DevOps Cost Discipline (T5)',
-      examLength: '45 minutes',
-      questions: '30 questions',
-      passScore: '80%',
+      coverage: 'ZopNight Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
+      examLength: '60 minutes',
+      questions: '40 questions',
+      passScore: '75%',
       name: 'Priya Menon',
       role: 'Senior Platform Engineer, Flexflow',
       date: 'April 22, 2026',
@@ -2418,14 +2418,16 @@ document.addEventListener('DOMContentLoaded', function(){
 // everything from "## Sequence" onward, minus the trailing signature,
 // so the hero can own the title + outcome and the body renders the rest.
 function parsePathFile(filePath) {
-  const md = fs.readFileSync(filePath, 'utf8');
+  let md;
+  try { md = fs.readFileSync(filePath, 'utf8'); }
+  catch (e) { console.error(`✗ parsePathFile: cannot read ${filePath} — ${e.message}`); process.exit(1); }
   const lines = md.split('\n');
 
   let title = '';
   for (const l of lines) { const m = l.match(/^#\s+(.+)$/); if (m) { title = m[1].trim(); break; } }
 
   let outcome = '';
-  const oi = lines.findIndex(l => l.trim() === '## Outcome');
+  const oi = lines.findIndex(l => /^##\s+outcome\s*$/i.test(l.trim()));
   if (oi >= 0) {
     for (let j = oi + 1; j < lines.length; j++) {
       const t = lines[j].trim();
@@ -2436,6 +2438,7 @@ function parsePathFile(filePath) {
   }
 
   const si = lines.findIndex(l => /^##\s+Sequence/i.test(l.trim()));
+  if (si < 0) console.warn(`⚠️  parsePathFile: no "## Sequence" heading in ${filePath}; rendering full body`);
   let bodyLines = si >= 0 ? lines.slice(si) : lines;
   const sigIdx = bodyLines.findIndex(l => l.trim().startsWith('§') && /Last reviewed/i.test(l));
   if (sigIdx >= 0) {
@@ -2485,7 +2488,7 @@ function renderPathsIndex() {
         <p class="sub">Each is a curated sequence. Skip lessons you have already taken; every lesson stands alone.</p>
       </div>
     </div>
-    <div class="path-grid">${cards}
+    <div class="learning-path-grid">${cards}
     </div>
   </div>
 </section>
@@ -2551,7 +2554,7 @@ function renderPath(p) {
     <h2>Start the path.</h2>
     <p>Follow the sequence in order, or jump to the certification when you are ready.</p>
     <div class="hero-cta">
-      <a href="${BASE}/foundations/" class="btn btn-primary">Begin with Foundations <span class="arrow">→</span></a>
+      <a href="${BASE}/" class="btn btn-primary">Browse all courses <span class="arrow">→</span></a>
       <a href="${BASE}/paths/" class="btn-ghost">All paths</a>
     </div>
   </div>
@@ -2808,8 +2811,8 @@ function renderPractice(tierKey, tracks) {
 
 <script>
 (function(){
-  var POOL = ${JSON.stringify(pool)};
-  var BLUEPRINT = ${JSON.stringify(cfg.blueprint)};
+  var POOL = ${JSON.stringify(pool).replace(/<\/script>/gi, '<\\/script>')};
+  var BLUEPRINT = ${JSON.stringify(cfg.blueprint).replace(/<\/script>/gi, '<\\/script>')};
   var TOTAL = ${cfg.total};
   var PASS_RATIO = ${cfg.passRatio};
   var CERT_URL = ${JSON.stringify(BASE + '/certifications/#' + tierSlug)};
@@ -2963,7 +2966,7 @@ function renderPractice(tierKey, tracks) {
       + '</div>'
       + '<p class="exam-result-note">'+(passed
           ? 'This is a self-scored practice run, not the official credential. When you are ready, take the proctored exam to earn a verifiable badge.'
-          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at 80%.')+'</p>'
+          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at '+Math.round(PASS_RATIO*100)+'%.')+'</p>'
       + '<div class="exam-result-cta">'
       + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">→</span></button>'
       + '<a class="btn-ghost" href="'+CERT_URL+'">See the certification</a>'

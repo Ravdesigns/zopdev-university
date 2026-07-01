@@ -528,7 +528,7 @@
       + '</div>'
       + '<p class="exam-result-note">'+(passed
           ? 'This is a self-scored practice run, not the official credential. When you are ready, take the proctored exam to earn a verifiable badge.'
-          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at 80%.')+'</p>'
+          : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at '+Math.round(PASS_RATIO*100)+'%.')+'</p>'
       + '<div class="exam-result-cta">'
       + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">→</span></button>'
       + '<a class="btn-ghost" href="'+CERT_URL+'">See the certification</a>'

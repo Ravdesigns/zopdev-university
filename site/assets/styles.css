@@ -7147,7 +7147,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 /* ============================================================= */
 /* LEARNING PATHS — /paths/ and /paths/<slug>/                    */
 /* ============================================================= */
-.path-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.learning-path-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 .path-card { display: flex; flex-direction: column; gap: 10px; padding: 28px; border: 1px solid var(--line); background: var(--paper); text-decoration: none; color: var(--ink); transition: transform var(--dur-fast, 160ms) var(--ease-out, ease), box-shadow var(--dur-fast, 160ms) var(--ease-out, ease), border-color var(--dur-fast, 160ms) var(--ease-out, ease); }
 .path-card:hover { transform: translateY(-4px); box-shadow: 0 8px 0 -4px var(--ink); border-color: var(--ink); }
 .path-card-head { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-600); }
