@@ -3520,9 +3520,30 @@ function stripMd(text) {
     .trim();
 }
 
+// Parse the hand-authored glossary (reference/glossary/00_README.md) into a
+// term -> definition map. Format: "- **Term** — definition. See [ref](...)."
+// These are curated, canonical definitions; prefer them over the sentence
+// auto-extracted from lesson prose. Returns lowercased-term keys.
+function parseAuthoredGlossary() {
+  const p = path.join(ROOT, 'reference', 'glossary', '00_README.md');
+  const map = new Map();
+  if (!fs.existsSync(p)) return map;
+  for (const line of fs.readFileSync(p, 'utf8').split('\n')) {
+    const m = line.match(/^-\s+\*\*(.+?)\*\*\s*[—–-]\s*(.+)$/);
+    if (!m) continue;
+    const term = m[1].trim();
+    // Drop a trailing "See [ref](url)." pointer, then strip markdown.
+    let def = m[2].trim().replace(/\s*See\s+\[[^\]]*\]\([^)]*\)\.?\s*$/i, '').trim();
+    def = stripMd(def);
+    if (term && def) map.set(term.toLowerCase(), def);
+  }
+  return map;
+}
+
 function buildGlossaryIndex() {
   // termName -> { refs: [{track, mod, lesson}], definition: string }
   const termMap = new Map();
+  const authored = parseAuthoredGlossary();
   for (const a of allLessons) {
     const matches = a.lesson.raw.matchAll(/\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/reference\/glossary\/[^)]+\.md\)/g);
     const seen = new Set();
@@ -3537,8 +3558,13 @@ function buildGlossaryIndex() {
       entry.refs.push({ track: a.track, mod: a.mod, lesson: a.lesson });
       // Capture definition from the first lesson that introduces the term
       if (!entry.definition) {
-        const para = extractTermDefinitionFromLesson(a.lesson.raw, term);
-        if (para) entry.definition = stripMd(para);
+        const authoredDef = authored.get(term.toLowerCase());
+        if (authoredDef) {
+          entry.definition = authoredDef;
+        } else {
+          const para = extractTermDefinitionFromLesson(a.lesson.raw, term);
+          if (para) entry.definition = stripMd(para);
+        }
       }
     }
   }
