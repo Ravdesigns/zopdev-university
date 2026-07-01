@@ -67,6 +67,42 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://zop.dev/resources/university/paths/</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zop.dev/resources/university/paths/platform-engineer/</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zop.dev/resources/university/paths/finops-analyst/</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zop.dev/resources/university/paths/engineering-leader/</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zop.dev/resources/university/paths/finance-partner/</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zop.dev/resources/university/paths/security-compliance/</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://zop.dev/resources/university/foundations/</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>monthly</changefreq>

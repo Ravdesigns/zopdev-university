@@ -103,6 +103,17 @@ const TRACKS = [
 ];
 
 // =============================================================
+// ROLE-BASED LEARNING PATHS (mirrors paths/00_README.md table)
+// =============================================================
+const PATHS = [
+  { slug: 'platform-engineer',  file: 'platform_engineer.md',  title: 'Platform / DevOps Engineer', audience: 'Hands-on platform engineering',      duration: '14 hours', cert: 'Operator, then Engineer' },
+  { slug: 'finops-analyst',     file: 'finops_analyst.md',     title: 'FinOps Analyst',             audience: 'FinOps practitioners',              duration: '12 hours', cert: 'Operator, then Engineer' },
+  { slug: 'engineering-leader', file: 'engineering_leader.md', title: 'Engineering Leader',         audience: 'Eng directors and VPs',             duration: '6 hours',  cert: 'No cert required' },
+  { slug: 'finance-partner',    file: 'finance_partner.md',    title: 'Finance Partner',            audience: 'FP&A and procurement',              duration: '5 hours',  cert: 'No cert required' },
+  { slug: 'security-compliance',file: 'security_compliance.md',title: 'Security / Compliance',      audience: 'Security architects and compliance',duration: '10 hours', cert: 'Architect track' },
+];
+
+// =============================================================
 // HELPERS
 // =============================================================
 const escapeHTML = (s) => String(s)
@@ -641,6 +652,7 @@ function universityNav(opts = {}) {
           <a href="${BASE}/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
         </div>
       </div>
+      <a href="${BASE}/paths/" class="uni-link ${cls('paths')}">Paths</a>
       <div class="uni-dropdown" data-uni-dropdown>
         <button class="uni-link uni-dropdown-toggle ${cls('certifications')}" type="button"
                 aria-expanded="false" aria-controls="uni-certs-menu">
@@ -2400,6 +2412,161 @@ document.addEventListener('DOMContentLoaded', function(){
 }
 
 // =============================================================
+// ROLE-BASED LEARNING PATHS
+// =============================================================
+// Parse a paths/*.md file into { title, outcome, bodyMd }. bodyMd is
+// everything from "## Sequence" onward, minus the trailing signature,
+// so the hero can own the title + outcome and the body renders the rest.
+function parsePathFile(filePath) {
+  const md = fs.readFileSync(filePath, 'utf8');
+  const lines = md.split('\n');
+
+  let title = '';
+  for (const l of lines) { const m = l.match(/^#\s+(.+)$/); if (m) { title = m[1].trim(); break; } }
+
+  let outcome = '';
+  const oi = lines.findIndex(l => l.trim() === '## Outcome');
+  if (oi >= 0) {
+    for (let j = oi + 1; j < lines.length; j++) {
+      const t = lines[j].trim();
+      if (!t) continue;
+      if (t.startsWith('#')) break;
+      outcome = t; break;
+    }
+  }
+
+  const si = lines.findIndex(l => /^##\s+Sequence/i.test(l.trim()));
+  let bodyLines = si >= 0 ? lines.slice(si) : lines;
+  const sigIdx = bodyLines.findIndex(l => l.trim().startsWith('§') && /Last reviewed/i.test(l));
+  if (sigIdx >= 0) {
+    let cut = sigIdx;
+    if (bodyLines[sigIdx - 1] && bodyLines[sigIdx - 1].trim() === '---') cut = sigIdx - 1;
+    bodyLines = bodyLines.slice(0, cut);
+  }
+  return { title, outcome, bodyMd: bodyLines.join('\n') };
+}
+
+function renderPathsIndex() {
+  const cards = PATHS.map(p => `
+      <a class="path-card" href="${BASE}/paths/${p.slug}/">
+        <div class="path-card-head">
+          <span class="path-card-dur">${escapeHTML(p.duration)}</span>
+          <span class="path-card-cert">${escapeHTML(p.cert)}</span>
+        </div>
+        <h3 class="path-card-title">${escapeHTML(p.title)}</h3>
+        <p class="path-card-aud">${escapeHTML(p.audience)}</p>
+        <span class="path-card-foot">Open path <span class="arrow" aria-hidden="true">→</span></span>
+      </a>`).join('');
+
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <span class="current">Paths</span>
+  </div>
+</section>
+
+<section class="track-hero">
+  <div class="container">
+    <div class="track-hero-meta">Learning paths / Pick by role</div>
+    <h1>Where are you?</h1>
+    <p class="track-hero-lead">The curriculum is 237 lessons. You do not need all of them. Pick the path that matches your role and follow it in order. Each path threads lessons from across the tracks and pairs with the right certification.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">Five paths</div>
+      <div>
+        <h2>Pick the description that fits you.</h2>
+        <p class="sub">Each is a curated sequence. Skip lessons you have already taken; every lesson stands alone.</p>
+      </div>
+    </div>
+    <div class="path-grid">${cards}
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>Not sure yet? Start with the bill.</h2>
+    <p>Foundations is free and role-agnostic. Nine minutes to the first lesson.</p>
+    <div class="hero-cta">
+      <a href="${BASE}/foundations/" class="btn btn-primary">Read Foundations <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/" class="btn-ghost">See the certifications</a>
+    </div>
+  </div>
+</section>`;
+
+  return pageHTML({
+    title: 'Learning paths / ZopDev University',
+    description: 'Five role-based paths through the ZopDev University curriculum: Platform Engineer, FinOps Analyst, Engineering Leader, Finance Partner, Security & Compliance.',
+    canonical: 'https://zop.dev/resources/university/paths/',
+    uniNav: 'paths',
+    body,
+  });
+}
+
+function renderPath(p) {
+  const parsed = parsePathFile(path.join(ROOT, 'paths', p.file));
+  const bodyHTML = renderMarkdown(parsed.bodyMd);
+
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="${BASE}/paths/">Paths</a><span class="sep">›</span>
+    <span class="current">${escapeHTML(p.title)}</span>
+  </div>
+</section>
+
+<section class="track-hero">
+  <div class="container">
+    <div class="track-hero-meta">Learning path</div>
+    <h1>${escapeHTML(p.title)}</h1>
+    ${parsed.outcome ? `<p class="track-hero-lead">${escapeHTML(parsed.outcome)}</p>` : ''}
+    <div class="track-meta-row">
+      <div class="item"><strong>Audience</strong>${escapeHTML(p.audience)}</div>
+      <div class="item"><strong>Duration</strong>${escapeHTML(p.duration)}</div>
+      <div class="item"><strong>Certification</strong>${escapeHTML(p.cert)}</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <article class="lesson-content path-body">
+      ${bodyHTML}
+    </article>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container">
+    <h2>Start the path.</h2>
+    <p>Follow the sequence in order, or jump to the certification when you are ready.</p>
+    <div class="hero-cta">
+      <a href="${BASE}/foundations/" class="btn btn-primary">Begin with Foundations <span class="arrow">→</span></a>
+      <a href="${BASE}/paths/" class="btn-ghost">All paths</a>
+    </div>
+  </div>
+</section>`;
+
+  return pageHTML({
+    title: `${p.title} path / ZopDev University`,
+    description: parsed.outcome || `A role-based path through ZopDev University for ${p.audience}.`,
+    canonical: `https://zop.dev/resources/university/paths/${p.slug}/`,
+    uniNav: 'paths',
+    body,
+  });
+}
+
+// =============================================================
 // PUBLIC CREDENTIAL REGISTRY (opt-in)
 // =============================================================
 // A public, opt-in list of credentialled people. Sourced from the same
@@ -3165,6 +3332,14 @@ for (const tier of ['operator', 'engineer']) {
   pageCount++;
 }
 
+// Role-based learning paths
+writeFile(path.join(SITE_DIR, 'paths', 'index.html'), renderPathsIndex());
+pageCount++;
+for (const p of PATHS) {
+  writeFile(path.join(SITE_DIR, 'paths', p.slug, 'index.html'), renderPath(p));
+  pageCount++;
+}
+
 // =============================================================
 // GLOSSARY (index + per-term page)
 // =============================================================
@@ -3662,7 +3837,11 @@ const urls = [
   { loc: 'https://zop.dev/resources/university/certifications/architect/sample/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/glossary/', priority: '0.7' },
   { loc: 'https://zop.dev/resources/university/search/', priority: '0.6' },
+  { loc: 'https://zop.dev/resources/university/paths/', priority: '0.8' },
 ];
+for (const p of PATHS) {
+  urls.push({ loc: `https://zop.dev/resources/university/paths/${p.slug}/`, priority: '0.6' });
+}
 for (const t of tracks) {
   urls.push({ loc: `https://zop.dev/resources/university/${t.slug}/`, priority: '0.9' });
   for (const m of t.modules) {
