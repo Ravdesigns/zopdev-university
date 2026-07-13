@@ -2,7 +2,7 @@
 
 **Status:** Draft v1 for review · **Owner:** Avinash Gaurav · **Date:** 2026-05-19
 **Folder:** `/Users/raramuri/Desktop/ZopNight/ZopNight University/`
-**Sources read in full:** `USE-CASES.md` (252 lines), `FEATURES (1).md` (607 lines), `RECOMMENDATION-RULES (1).md` (258 KB, 460 rules), `DESIGN.md` (650 lines), Competition Parity `00_INDEX.md` + Vantage + CloudHealth battlecards, Saviynt University, Vantage University, `zop-dev-website-v3.vercel.app`.
+**Sources read in full:** `USE-CASES.md` (252 lines), `FEATURES (1).md` (607 lines), `RECOMMENDATION-RULES (1).md` (258 KB, 490 rules), `DESIGN.md` (650 lines), Competition Parity `00_INDEX.md` + Vantage + CloudHealth battlecards, Saviynt University, Vantage University, `zop-dev-website-v3.vercel.app`.
 
 ---
 

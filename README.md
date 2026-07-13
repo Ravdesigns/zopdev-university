@@ -59,7 +59,7 @@ BASE_URL=/resources/university node build.js
 
 ```
 zopdev-university/
-├── build.js                   Single-file static-site generator (~2,300 lines)
+├── build.js                   Single-file static-site generator (~4,100 lines)
 ├── tracks/                    Authored curriculum (markdown only)
 │   ├── T0_foundations/
 │   │   ├── M0.1_cloud_bill_decoded/
