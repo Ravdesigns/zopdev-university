@@ -12,9 +12,9 @@ A static-site curriculum with three jobs to be done.
 
 1. **Teach** cloud cost optimization end-to-end, from "read your first cloud bill" to "design the cost-discipline practice for a 5,000-engineer org."
 2. **Credential** people who actually run the practice — three tiers (Operator, Engineer, Architect), each backed by a proctored exam, each publicly verifiable in two clicks.
-3. **Reference** the vocabulary — 922 glossary terms extracted from the curriculum, 502 with authored definitions pulled verbatim from the lesson where the term is first defined.
+3. **Reference** the vocabulary — 921 glossary terms extracted from the curriculum, every one carrying a definition (100% coverage) pulled verbatim from the lesson where the term is first defined.
 
-Everything is hand-authored markdown. The build script renders it into 1,227 static HTML pages.
+Everything is hand-authored markdown. The build script renders it into 1,236 static HTML pages.
 
 ---
 
@@ -79,7 +79,7 @@ zopdev-university/
 ├── reference/                 Glossary, patterns, rules, worked examples
 ├── preview/                   Generated preview screenshots
 ├── site/                      ★ GENERATED OUTPUT — what gets deployed
-│   ├── index.html             Landing
+│   ├── index.html             Landing (copied from preview/index.html — see note below)
 │   ├── foundations/           Course pages (one per course)
 │   ├── operator/
 │   ├── engineer/
@@ -93,7 +93,7 @@ zopdev-university/
 │   │   ├── engineer/sample/
 │   │   ├── architect/sample/
 │   │   └── verify/            Public credential-ID verification page
-│   ├── glossary/              922 term pages + index
+│   ├── glossary/              921 term pages + index
 │   ├── search/                Client-side lesson search
 │   ├── assets/styles.css
 │   ├── sitemap.xml
@@ -107,6 +107,8 @@ zopdev-university/
 ```
 
 The committed `site/` directory is regenerated from `tracks/` on every build. Both are version-controlled so Vercel can deploy without a build step.
+
+> **Homepage note.** The deployed `site/index.html` is not the `renderLanding()` output. As the final build step, `build.js` copies the hand-authored bento + isometric homepage from `preview/index.html` over the generated landing (search `HOMEPAGE OVERRIDE` in `build.js`). The generated landing still builds; it is simply overwritten. Edit the homepage in `preview/index.html`, not `renderLanding()`.
 
 ---
 
@@ -221,7 +223,7 @@ If you find an em-dash or section sign in chrome, it's a defect — file it.
 3. Run `node build.js`. The new lesson + its glossary term references + sitemap entries land automatically.
 4. Preview at `http://127.0.0.1:5176/<course>/<module>/<lesson>/`.
 
-The build is fast (~1 second for the full 1,227-page generation). Iterate freely.
+The build is fast (~1 second for the full 1,236-page generation). Iterate freely.
 
 ---
 
@@ -249,7 +251,7 @@ For questions or contributions, contact the ZopDev University Editorial Board.
 - 7 courses
 - 52 modules
 - 237 lessons
-- 922 glossary terms (502 with extracted authored definitions)
+- 921 glossary terms (all with an authored or extracted definition, 100% coverage)
 - 3 certifications (Operator, Engineer, Architect)
-- 1,227 generated HTML pages
-- 1,226 sitemap URLs
+- 1,236 generated HTML pages
+- 1,235 sitemap URLs

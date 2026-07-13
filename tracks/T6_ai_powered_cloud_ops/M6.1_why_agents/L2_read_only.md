@@ -111,7 +111,7 @@ Each layer alone is incomplete; together they make agentic ops safe.
 
 ### What an agent can still do
 
-A read-only agent is still powerful:
+A read-only agent is still capable:
 
 ```
 - Answer cost questions in plain English

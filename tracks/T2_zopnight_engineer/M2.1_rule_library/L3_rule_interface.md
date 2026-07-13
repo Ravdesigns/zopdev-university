@@ -28,7 +28,7 @@ Every rule in ZopNight implements one or more interfaces. Understanding them cla
 ```
 INTERFACE             PURPOSE                        EXAMPLE RULES
 ─────────────────────────────────────────────────────────────────────
-Rule (base)           Core logic; always required    All 460 rules
+Rule (base)           Core logic; always required    All 490 rules
 MetricsAware          Needs metrics (CPU, etc.)      RC-004, RC-006, RC-202
 PricingAware          Needs per-resource pricing      Most rules with $ savings
 ```
@@ -263,7 +263,7 @@ TYPICAL EFFORT: 1-3 days per rule (simple)
                 1-2 weeks per rule (complex; novel metrics)
 ```
 
-The simplicity of adding rules is why the library grows to 460.
+The simplicity of adding rules is why the library grows to 490.
 
 ---
 

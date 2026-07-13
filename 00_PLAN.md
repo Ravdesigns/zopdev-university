@@ -112,7 +112,7 @@ The core scheduling loop. Maps 1:1 to FEATURES Priority 1–2.
 
 #### Track 2 — ZopNight Engineer *(L200, product)*
 Maps to FEATURES Priority 3–4 + Priority 7 + Priority 8.
-- M2.1 — The 460-rule library, explained
+- M2.1 — The 490-rule library, explained
 - M2.2 — Reading evidence: cloud monitoring + activity-log signals
 - M2.3 — Auto-remediation: from recommendation to one-click apply (the 20 certified rules)
 - M2.4 — VM autoscaling: monitor → recommend → autopilot
@@ -177,7 +177,7 @@ Each path is a hand-picked subset of lessons from Tracks 0–6, ordered for that
 
 ### 4.3 Reference library (always-on, not gated)
 
-- **The 460-rule catalog** (searchable, filterable by provider/category/severity, mapped to lessons that teach it)
+- **The 490-rule catalog** (searchable, filterable by provider/category/severity, mapped to lessons that teach it)
 - **Cloud cost glossary** (terms used in the curriculum, hyperlinked from every lesson)
 - **CDCR pattern library** (10–15 named patterns: "off-hours scheduling," "scale-to-zero with HPA," "tag-then-allocate," etc.)
 - **Worked-example gallery** (the cost calculations from every L200/L300 lesson, isolated as reusable artifacts)
@@ -327,7 +327,7 @@ These are the visuals we **must** produce; everything else is text + screenshots
 - T0.M0.6: CDCR loop diagram — original signature visual
 - T1.M1.1: cloud-account → permission audit flow — original
 - T1.M1.3: weekly 24-hour grid (the actual schedule visualization)
-- T2.M2.1: rule taxonomy radial (8 categories × 460 rules)
+- T2.M2.1: rule taxonomy radial (8 categories × 490 rules)
 - T2.M2.4: monitor → recommend → autopilot progressive-autonomy spectrum
 - T2.M2.6: K8s parent-child cluster diagram
 - T3.M3.1: RBAC policy entity map (15 entities, role-scoped)
@@ -397,7 +397,7 @@ Decision needed from you before Phase 0 starts.
 | **Phase 0 — Foundation** | 0–1 | This plan approved · IA file · Lesson template · Visual style guide · Image production brief · Platform decision | PM + Design |
 | **Phase 1 — Track 0 (Foundations) + Track 1 (Practitioner)** | 2–4 | 6 + 6 = 12 lessons live · 1 catalog page · 2 track pages · L100 cert exam draft | Writer + Eng |
 | **Phase 2 — Tracks 4 + 5 (FinOps + DevOps domain)** | 5–6 | 7 + 7 = 14 lessons live · Cross-product pattern library MVP | Writer + Domain SME |
-| **Phase 3 — Track 2 (Engineer) + Track 3 (Architect)** | 7–9 | 10 + 8 = 18 lessons live · L200 lab sandbox · 460-rule reference catalog | Eng + Writer |
+| **Phase 3 — Track 2 (Engineer) + Track 3 (Architect)** | 7–9 | 10 + 8 = 18 lessons live · L200 lab sandbox · 490-rule reference catalog | Eng + Writer |
 | **Phase 4 — Track 6 (AI Ops) + role paths + certs** | 10–11 | T6 (6 lessons) · 5 role paths · L100 cert live · L200 cert draft | Eng + PM |
 | **Phase 5 — Community track + L300 + iteration** | 12+ | Contribution surface · L300 application · feedback loop · second-cohort cycle | PM + Editorial board |
 
@@ -436,7 +436,7 @@ ZopNight University/
 │   ├── finance_partner.md
 │   └── security_compliance.md
 ├── reference/
-│   ├── rule_catalog.md                      (the 460 rules, browsable)
+│   ├── rule_catalog.md                      (the 490 rules, browsable)
 │   ├── glossary.md
 │   ├── patterns/                            (10–15 CDCR patterns)
 │   └── worked_examples/

@@ -277,7 +277,7 @@ REQUEST plan:
   Justification:   __________
 ```
 
-If you don't have admin access to test multi-role views, ask an admin to demonstrate the difference in a sync — it's a powerful demonstration of the RBAC model.
+If you don't have admin access to test multi-role views, ask an admin to demonstrate the difference in a sync — it's a clear demonstration of the RBAC model.
 
 ---
 
@@ -331,7 +331,7 @@ D. Random
 
 Per-widget RBAC is automatic; no per-dashboard configuration is required to enable it. Customer-configurable Hide vs Placeholder is in the dashboard editor's per-widget settings.
 
-For multi-role customer demos, show the same dashboard from a Viewer's window vs an Admin's window — the placeholder pattern is a powerful demonstration of the RBAC model in action.
+For multi-role customer demos, show the same dashboard from a Viewer's window vs an Admin's window — the placeholder pattern is a clear demonstration of the RBAC model in action.
 
 ---
 

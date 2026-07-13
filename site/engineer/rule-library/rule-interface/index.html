@@ -425,7 +425,7 @@
 <p>Every rule in ZopNight implements one or more interfaces. Understanding them clarifies how the recommender works, why some rules need specific data, and what evidence appears in the UI.</p>
 <pre><code>INTERFACE             PURPOSE                        EXAMPLE RULES
 ─────────────────────────────────────────────────────────────────────
-Rule (base)           Core logic; always required    All 460 rules
+Rule (base)           Core logic; always required    All 490 rules
 MetricsAware          Needs metrics (CPU, etc.)      RC-004, RC-006, RC-202
 PricingAware          Needs per-resource pricing      Most rules with $ savings</code></pre>
 <p>The interfaces are composable — a rule can be just Rule (state-based), or Rule + MetricsAware, or all three.</p>
@@ -603,7 +603,7 @@ The cron cadence (every 6h) is the throttle; recommender adapts.</code></pre>
 
 TYPICAL EFFORT: 1-3 days per rule (simple)
                 1-2 weeks per rule (complex; novel metrics)</code></pre>
-<p>The simplicity of adding rules is why the library grows to 460.</p>
+<p>The simplicity of adding rules is why the library grows to 490.</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
 <p>A typical Evaluate call for RC-001 (Idle EC2):</p>
