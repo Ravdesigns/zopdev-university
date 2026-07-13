@@ -248,7 +248,7 @@ For complex programmatic queries (across many dimensions, scriptable), use the M
 ## Related lessons
 
 - [L4 — Manual start/stop with confirmation](L4_manual_start_stop.md) *(next)*
-- [T2.M2.1 — The 460-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
+- [T2.M2.1 — The 490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
 
 ## Glossary terms touched
 

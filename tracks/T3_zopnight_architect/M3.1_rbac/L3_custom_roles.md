@@ -96,7 +96,7 @@ The rule of thumb: a custom role is justified when no system role's policy set i
     notification:view
   Excludes: recommendation:*, role:*, user:*, cloud-account:*
   
-  Use: on-call cost responder. Narrow but powerful subset.
+  Use: on-call cost responder. Narrow but high-impact subset.
 ```
 
 ### How to design a custom role

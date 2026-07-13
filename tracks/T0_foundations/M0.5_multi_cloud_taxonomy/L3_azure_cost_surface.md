@@ -61,7 +61,7 @@ Stopped (deallocated)               $0            $Y     ← correct
 Deleted                             $0           $Y if managed disks remain, else $0
 ```
 
-ZopNight's Azure scheduler uses deallocate for VMs. Any team writing their own scheduling needs to verify the API call is `Deallocate`, not `Stop`. (See the [FEATURES.md](../../../../FEATURES%20(1).md) reference for the Azure-specific implementation note.)
+ZopNight's Azure scheduler uses deallocate for VMs. Any team writing their own scheduling needs to verify the API call is `Deallocate`, not `Stop`. (See the FEATURES.md reference for the Azure-specific implementation note.)
 
 ### Azure Reservations
 
@@ -221,7 +221,7 @@ ZopNight's Azure integration handles:
 - **Scheduling** uses Deallocate (not Stop) for VMs — the correct call
 - **Activity logs** via Azure Activity Log for the "Recent Activity" tab
 
-Azure-specific rules in the [460-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md) include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.
+Azure-specific rules in the [490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md) include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.
 
 ---
 

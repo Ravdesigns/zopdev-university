@@ -443,7 +443,7 @@ Running                            $X            $Y
 Stopped (allocated)                $X            $Y     ← TRAP
 Stopped (deallocated)               $0            $Y     ← correct
 Deleted                             $0           $Y if managed disks remain, else $0</code></pre>
-<p>ZopNight's Azure scheduler uses deallocate for VMs. Any team writing their own scheduling needs to verify the API call is <code>Deallocate</code>, not <code>Stop</code>. (See the <a href="../../../../FEATURES%20(1">FEATURES.md</a>.md) reference for the Azure-specific implementation note.)</p>
+<p>ZopNight's Azure scheduler uses deallocate for VMs. Any team writing their own scheduling needs to verify the API call is <code>Deallocate</code>, not <code>Stop</code>. (See the FEATURES.md reference for the Azure-specific implementation note.)</p>
 <h3 id="azure-reservations">Azure Reservations</h3>
 <p>Azure Reservations are roughly equivalent to AWS Reserved Instances:</p>
 <ul>
@@ -553,7 +553,7 @@ SCENARIO 4: Correct configuration — AHB + Deallocate 5 nightly
 <li><strong>Scheduling</strong> uses Deallocate (not Stop) for VMs — the correct call</li>
 <li><strong>Activity logs</strong> via Azure Activity Log for the "Recent Activity" tab</li>
 </ul>
-<p>Azure-specific rules in the <a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">460-rule library</a> include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.</p>
+<p>Azure-specific rules in the <a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">490-rule library</a> include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>

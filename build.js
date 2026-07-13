@@ -52,7 +52,7 @@ const TRACKS = [
     short: 'Engineer',
     eyebrow: 'Course / Engineer',
     tier: 'Engineer',
-    desc: 'Read the 460-rule library, reason about evidence, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, optimize Bedrock. The depth tier for engineers building cost-aware systems.',
+    desc: 'Read the 490-rule library, reason about evidence, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, optimize Bedrock. The depth tier for engineers building cost-aware systems.',
     time: '10 hours',
     audience: 'Platform Engineer / SRE / ML Engineer',
   },
@@ -247,6 +247,16 @@ function renderMarkdown(md) {
       const glossaryM = url.match(/reference\/glossary\/([^)\/]+?)\.md$/i);
       if (glossaryM) {
         return `<a href="${BASE}/glossary/${slugify(glossaryM[1])}/">${txt}</a>`;
+      }
+      // Cross-repo references into the original authoring environment
+      // (e.g. ../../../../USE-CASES.md, ../../../../../All Research/...).
+      // Those targets don't exist in this repo, so a rendered href would
+      // be a dead link. Glossary links resolve at three levels up (handled
+      // above); anything reaching four-or-more levels up escapes the repo.
+      // Render the link text as plain prose. The lesson source is left
+      // byte-for-byte intact (the CHANGES.md "tracks unchanged" invariant).
+      if (/^(?:\.\.\/){4,}/.test(url)) {
+        return txt;
       }
       // Cross-lesson reference: lessons sometimes author L1_foo.md etc.
       // Leave these alone for now — they'd need full-path resolution.
@@ -2054,7 +2064,7 @@ function sampleCredentialData(tier) {
     engineer: {
       tier, tierLabel: 'Engineer', tierTitle: 'ZopNight Engineer',
       title: 'Tier II / ZopNight Engineer',
-      blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 460-rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
+      blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 490-rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
       coverage: 'ZopNight Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
       examLength: '60 minutes',
       questions: '40 questions',
@@ -3248,7 +3258,7 @@ function renderCertifications(tracks) {
         <section class="cert-card-scope">
           <span class="cert-card-scope-label">What it proves</span>
           <ul>
-            <li>Reads the 460-rule library, configures auto-remediation</li>
+            <li>Reads the 490-rule library, configures auto-remediation</li>
             <li>Schedules K8s + Databricks workloads, pre-scales for events</li>
             <li>Tags at the IaC layer (Terraform / Pulumi / CDK)</li>
             <li>Runs a cost incident: detect, diagnose, remediate, postmortem</li>
@@ -3553,19 +3563,34 @@ function buildGlossaryIndex() {
   // termName -> { refs: [{track, mod, lesson}], definition: string }
   const termMap = new Map();
   const authored = parseAuthoredGlossary();
+  // Terms are keyed by their generated slug, not the raw display string, so
+  // case-only variants ("Azure Reservation" vs "Azure reservation") collapse
+  // to a single canonical entry. Without this, colliding slugs write the same
+  // term page twice and emit a duplicate <loc> in the sitemap.
+  const slugToKey = new Map();
   for (const a of allLessons) {
     const matches = a.lesson.raw.matchAll(/\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/reference\/glossary\/[^)]+\.md\)/g);
     const seen = new Set();
     for (const m of matches) {
       const term = m[1].trim();
-      if (seen.has(term)) continue;
-      seen.add(term);
-      if (!termMap.has(term)) {
-        termMap.set(term, { refs: [], definition: '' });
+      const slug = slugify(term);
+      // Canonical key per slug: first display string seen wins.
+      const key = slugToKey.get(slug) || term;
+      if (!slugToKey.has(slug)) slugToKey.set(slug, key);
+      // Dedup lesson references at the canonical-key level (a lesson that
+      // uses two case-variants of one term still counts once).
+      if (seen.has(key)) continue;
+      seen.add(key);
+      if (!termMap.has(key)) {
+        termMap.set(key, { refs: [], definition: '' });
       }
-      const entry = termMap.get(term);
+      const entry = termMap.get(key);
       entry.refs.push({ track: a.track, mod: a.mod, lesson: a.lesson });
-      // Capture definition from the first lesson that introduces the term
+      // Capture the definition from the first lesson (in processing order)
+      // that yields one: the authored glossary entry is preferred, else the
+      // defining paragraph extracted from this lesson's prose. For terms that
+      // merged from case-variant slugs, this may be a later lesson than the
+      // canonical first mention, whichever first produces a usable definition.
       if (!entry.definition) {
         const authoredDef = authored.get(term.toLowerCase());
         if (authoredDef) {

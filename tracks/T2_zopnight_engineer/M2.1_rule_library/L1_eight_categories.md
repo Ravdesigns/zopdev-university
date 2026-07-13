@@ -13,7 +13,7 @@ By the end of this lesson, you will be able to **categorize** any finding into t
 | | |
 |---|---|
 | **Tier** | Engineer |
-| **JTBD** | "Understand the 460-rule library well enough to find what matters in my estate." |
+| **JTBD** | "Understand the 490-rule library well enough to find what matters in my estate." |
 | **Personas** | Platform Engineer · FinOps Lead · SRE |
 | **Prerequisites** | T1.M1.1 (recommendations basics) |
 | **Time** | 9 minutes |
@@ -23,7 +23,7 @@ By the end of this lesson, you will be able to **categorize** any finding into t
 
 ## 1. Concept
 
-ZopNight's 460 rules sort into 8 categories. Knowing the category lets you predict the rule's behavior, the typical severity, and the right remediation path. The categorization is the mental shortcut that turns "460 rules I don't understand" into "8 categories I can navigate."
+ZopNight's 490 rules sort into 8 categories. Knowing the category lets you predict the rule's behavior, the typical severity, and the right remediation path. The categorization is the mental shortcut that turns "490 rules I don't understand" into "8 categories I can navigate."
 
 ```
 CATEGORY          ~COUNT  WHAT IT CATCHES                        EXAMPLES

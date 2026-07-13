@@ -176,7 +176,7 @@ D. Outsource cloud management
 
 ## 5. Apply
 
-ZopNight pre-computes all ten mistakes as a subset of its 460 audit rules. The Recommendations page filters expose each one:
+ZopNight pre-computes all ten mistakes as a subset of its 490 audit rules. The Recommendations page filters expose each one:
 
 - **Idle compute** → `category=idle, status=open`
 - **Orphan storage** → `category=orphan, resource_type=ebs-volume / disk`
@@ -202,7 +202,7 @@ You have now completed all five lessons of M0.1. The module quiz (10 questions, 
 ## Related lessons
 
 - [T0.M0.3 — Why scheduling beats commitments at non-prod scale](../M0.3_scheduling_vs_commitments/00_README.md) *(next module)*
-- [T2.M2.1 — The 460-rule library, explained](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
+- [T2.M2.1 — The 490-rule library, explained](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
 - [T5.M5.2 — Schedule design patterns](../../T5_devops_cost_discipline/M5.2_schedule_patterns/00_README.md)
 
 ## Glossary terms touched

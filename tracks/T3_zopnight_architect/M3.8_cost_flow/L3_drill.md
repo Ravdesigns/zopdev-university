@@ -120,7 +120,7 @@ The breadcrumb-as-trail pattern matches OS-level navigation conventions. Users l
 
 ### URL persistence — the key feature
 
-The drill state lives in the URL. This produces three powerful properties:
+The drill state lives in the URL. This produces three useful properties:
 
 ```
 1. SHAREABILITY

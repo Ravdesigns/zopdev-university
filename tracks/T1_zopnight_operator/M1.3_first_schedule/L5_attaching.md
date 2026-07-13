@@ -94,7 +94,7 @@ Groups have the same rule: a resource can be in at most one group. Two groups ca
 
 ### The search-across attachment panel
 
-When attaching resources to a schedule, the attachment panel exposes a powerful filter:
+When attaching resources to a schedule, the attachment panel exposes a precise filter:
 
 ```
 ATTACH RESOURCES TO SCHEDULE "Business Hours"

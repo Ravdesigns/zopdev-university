@@ -6,7 +6,7 @@
 
 ## What you'll be able to do after this track
 
-Operate the 460-rule recommendations engine. Read evidence from CloudWatch / Cloud Monitoring / Azure Monitor. Configure auto-remediation with approval gates. Manage VM autoscaling across ASG / VMSS / MIG with smart defaults. Adopt or replace existing cloud-side scaling policies safely. Schedule K8s workloads (Deploy / STS / CronJob) and Databricks (Workspace / Cluster / Pool / SQL Warehouse). Configure auto-tagging. Run Event Readiness for traffic events. Detect, root-cause, and respond to cost anomalies. Optimize AWS Bedrock and ML workloads.
+Operate the 490-rule recommendations engine. Read evidence from CloudWatch / Cloud Monitoring / Azure Monitor. Configure auto-remediation with approval gates. Manage VM autoscaling across ASG / VMSS / MIG with smart defaults. Adopt or replace existing cloud-side scaling policies safely. Schedule K8s workloads (Deploy / STS / CronJob) and Databricks (Workspace / Cluster / Pool / SQL Warehouse). Configure auto-tagging. Run Event Readiness for traffic events. Detect, root-cause, and respond to cost anomalies. Optimize AWS Bedrock and ML workloads.
 
 ---
 
@@ -14,7 +14,7 @@ Operate the 460-rule recommendations engine. Read evidence from CloudWatch / Clo
 
 | # | Module | Lessons | Time |
 |---|---|---|---|
-| M2.1 | [The 460-rule library, explained](M2.1_rule_library/00_README.md) | 5 | ~45 min |
+| M2.1 | [The 490-rule library, explained](M2.1_rule_library/00_README.md) | 5 | ~45 min |
 | M2.2 | [Reading evidence](M2.2_reading_evidence/00_README.md) | 4 | ~36 min |
 | M2.3 | [Auto-remediation](M2.3_auto_remediation/00_README.md) | 6 | ~54 min |
 | M2.4 | [VM autoscaling](M2.4_vm_autoscaling/00_README.md) | 6 | ~54 min |

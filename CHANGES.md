@@ -40,8 +40,19 @@ This repo started from [avinashdotcom/zopdev-university](https://github.com/avin
 - Generates 1,227 HTML pages under `/site/` (vs the original's same count) — output structure unchanged so Vercel deploy still works without a build step.
 - Search index (237 lessons), sitemap (1,226 URLs), `robots.txt`, `vercel.json`, favicon all preserved.
 
+## Content + accuracy refresh (2026-07-13)
+
+Reconciled against the canonical product sources (FEATURES.md, USE-CASES.md, RECOMMENDATION-RULES.md, and the live `zop.dev` docs). This is the first pass that edits `tracks/` and `reference/` content, so the "byte-for-byte OG" note below no longer holds for those two trees.
+
+- **Rule count refreshed 460 to 490.** The curriculum and reference cited a stale total of 460 audit rules. Canonical is now 490 (216 AWS, 127 GCP, 147 Azure). Updated ~20 references across 12 files (module title, cross-links, body prose, `reference/rules/00_README.md`, `reference/00_README.md`). Also corrected the internal per-cloud split in `reference/rules/00_README.md` (AWS 201 to 216, GCP 112 to 127). The two `$460` dollar figures in `T3/M3.8/L3_drill.md` and `T2/M2.6/L1_why_k8s_hard.md` were deliberately left untouched.
+- **Brand-voice surgical pass.** Removed the 6 banned-word ("powerful") adjectives from lesson bodies, swapped for precise wording (capable / high-impact / clear / useful / precise) with meaning preserved. The other banned words on the list are legitimate here and were left alone: all 40 "leverage" uses are the noun/adjective sense (not the marketing verb), and the single "transform" is "Pulumi's transformation system" (a real API term).
+- **Dead cross-repo links neutralized.** Seven `../../../../` references into the original authoring environment (`All Research/`, `USE-CASES.md`, `FEATURES.md`, `00_PLAN.md`) across four T0 lessons. Six well-formed links are neutralized in the renderer (`build.js`: any target reaching four-or-more levels up renders as plain prose), so those lesson sources are untouched. The seventh, in `M0.5/L3_azure_cost_surface.md`, pointed at `FEATURES (1).md` — the parenthesized filename breaks markdown's `[text](url)` parse, so it was cleaned to plain text in the lesson source directly. The generated site now has zero dead links.
+- **Duplicate glossary slug fixed at the root.** Two lesson references used case-variant display strings ("Azure Reservation" and "Azure reservation") that both slugified to `azure-reservation`. That single collision wrote the term page twice, emitted a duplicate `<loc>` in the sitemap (an SEO defect), and inflated the reported page count by one. `buildGlossaryIndex` now keys terms by slug so case-variants merge into one canonical entry (lesson references combined). After the fix the numbers are internally consistent: 1,236 generated HTML pages = 1,235 sitemap URLs + the 404 page, with zero duplicate sitemap entries. Known limitation: the merged entry's display string is the first case-variant seen in processing order (here "Azure reservation"), so casing on a collided term is deterministic but not necessarily the best-cased form.
+- **Doc counts corrected.** `README.md` and `PRODUCT.md` now state the real, self-consistent build output: 1,236 pages, 1,235 sitemap URLs, 921 glossary terms at 100% definition coverage (the old 1,227 / 1,226 / 502 figures predated the exam / registry / paths / glossary-completion commits).
+- **Homepage indirection documented.** `README.md` now notes that `site/index.html` is copied from `preview/index.html` as the final build step (the `HOMEPAGE OVERRIDE` block in `build.js`), so editors change the homepage in the right place.
+
 ## Files NOT changed
 
-- `tracks/**/*.md` — every lesson, module README, and signature line is byte-for-byte the OG content.
-- `paths/`, `certifications/`, `reference/` — source content unchanged.
-- `00_PLAN.md`, `01_INFORMATION_ARCHITECTURE.md`, `02_TOPIC_COMPENDIUM.md`, `03_DURATION_AND_TONE_CALIBRATION.md`, `04_CLIENT_READINESS_AUDIT.md`, `DESIGN.md`, `PRODUCT.md`, `README.md` — preserved as-authored.
+- `tracks/**/*.md` — content is OG-authored except for the rule-count and brand-voice refresh documented above.
+- `paths/`, `certifications/` — source content unchanged. `reference/` changed only for the rule-count refresh above.
+- `00_PLAN.md`, `01_INFORMATION_ARCHITECTURE.md`, `02_TOPIC_COMPENDIUM.md`, `03_DURATION_AND_TONE_CALIBRATION.md`, `04_CLIENT_READINESS_AUDIT.md`, `DESIGN.md` — preserved as-authored. `README.md` / `PRODUCT.md` updated only for the corrected counts + homepage note above.

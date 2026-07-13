@@ -190,7 +190,7 @@ ZopNight's GCP integration handles:
 - **Metrics enrichment** via Cloud Monitoring for size + count on GCS and Artifact Registry
 - **Activity logs** via Cloud Logging for the "Recent Activity" tab in evidence panels
 
-GCP-specific rules in the [460-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md) include sustained-use opportunity detection (workloads on the edge of the SUD bracket), CUD coverage gap detection (steady workloads without commitments), and cross-zone egress alerts (high inter-zone traffic flagged for zone-pinning).
+GCP-specific rules in the [490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md) include sustained-use opportunity detection (workloads on the edge of the SUD bracket), CUD coverage gap detection (steady workloads without commitments), and cross-zone egress alerts (high inter-zone traffic flagged for zone-pinning).
 
 ---
 
