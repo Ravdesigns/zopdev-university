@@ -971,7 +971,11 @@ ${finalCTA()}
           </span>
         </div>
       </div>
-      <div class="foot-globe-right"></div>
+      <div class="foot-globe-right">
+        <div class="foot-regions-v2" id="foot-regions-v2">
+          <canvas id="foot-regions-map"></canvas>
+        </div>
+      </div>
     </div>
 
     <div class="foot-bottom foot-bottom-3">
@@ -1148,6 +1152,7 @@ ${hideUniNav ? '' : universityNav({ active: uniNav })}
 ${body}
 </main>
 ${footer()}
+<script defer src="${BASE}/assets/foot-globe.js"></script>
 </body>
 </html>`;
 }
