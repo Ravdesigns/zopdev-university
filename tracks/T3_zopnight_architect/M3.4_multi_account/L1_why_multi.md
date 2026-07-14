@@ -264,7 +264,7 @@ C. Manual per-account login
 D. Random
 
 <details>
-<summary>Answer</summary>
+<summary>Show answer</summary>
 
 **Correct: B.** Cross-account credential patterns scale to dozens or hundreds of accounts without per-account ZopNight licensing.
 </details>
