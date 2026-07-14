@@ -163,11 +163,11 @@ B. Decomposing the current bill by layer, identifying the RI layer contribution,
 C. Calling AWS support
 D. Buying a new RI immediately
 
-<establishment>
+<details>
 <summary>Show answer</summary>
 
 **Correct: B.** Layer decomposition lets you model the exact bump. Without it, the team is guessing.
-</establishment>
+</details>
 
 ### Q3
 The "Unblended Cost" column in AWS CUR most closely corresponds to:
