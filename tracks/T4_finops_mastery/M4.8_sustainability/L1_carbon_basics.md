@@ -70,7 +70,7 @@ SAME workload running in different regions:
   eu-north-1 (Sweden, 50 gCO2/kWh):
     100 m5.large × 730 hr/mo × 0.05 kW × 50g/kWh = 183 kg CO2/mo
     
-  CARBON DIFFERENCE: 2,190 kg CO2/mo (86% reduction)
+  CARBON DIFFERENCE: 1,095 kg CO2/mo (86% reduction)
   COST DIFFERENCE:    minor (regional price variance, usually ±5%)
   
 A team can move workloads to cleaner regions and reduce carbon

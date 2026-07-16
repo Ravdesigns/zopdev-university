@@ -18,7 +18,7 @@ Three jobs to be done, in order:
 
 1. **Teach** cloud cost optimization end-to-end. 237 lessons across 7 tracks (Foundations, Operator, Engineer, Architect, FinOps Mastery, DevOps Cost, AI-Powered Ops). Foundations is free; tracks compound from there.
 2. **Credential** the people who actually run the practice. Three tiers — Operator, Engineer, Architect — each backed by an exam, each publicly verifiable in two clicks. The cert is real because engineering leaders ask for it on résumés.
-3. **Reference** the vocabulary. ~921 glossary terms extracted from the curriculum, most (about 847) with an authored or extracted definition.
+3. **Reference** the vocabulary. ~921 glossary terms extracted from the curriculum, most (about 845) with an authored or extracted definition.
 
 ## Voice
 

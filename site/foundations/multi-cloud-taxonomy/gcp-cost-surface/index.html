@@ -471,7 +471,7 @@ Network egress                   $ 9,800     8%         ← high — cross-zone 
 Cloud SQL                        $ 7,400     6%         
 Cloud Logging                    $ 5,200     4%         Above free tier
 Cloud Monitoring                 $ 3,100     3%         Custom metrics heavy
-Other long tail                  $20,880    18%         
+Other long tail                  $21,381    18%         
 ────────────────────────────────────────────────────────────────────────
 TOTAL                           $120,000   100%</code></pre>
 <p>The 8% network line is the cross-zone chatter cost. It is not a GCP-only surprise: AWS bills the same cross-AZ traffic at $0.01 per GB each direction, so this workload would cost about the same on AWS. The mitigation is the same on both clouds: pin the workloads to a single zone (accept reduced AZ-failure tolerance) or use regional persistent disks instead of cross-zone replication.</p>

@@ -12,7 +12,7 @@ A static-site curriculum with three jobs to be done.
 
 1. **Teach** cloud cost optimization end-to-end, from "read your first cloud bill" to "design the cost-discipline practice for a 5,000-engineer org."
 2. **Credential** people who actually run the practice — three tiers (Operator, Engineer, Architect), each backed by a proctored exam, each publicly verifiable in two clicks.
-3. **Reference** the vocabulary — 921 glossary terms extracted from the curriculum, most (about 847) carrying an authored or extracted definition pulled verbatim from the lesson where the term is first defined.
+3. **Reference** the vocabulary — 921 glossary terms extracted from the curriculum, most (about 845) carrying an authored or extracted definition pulled verbatim from the lesson where the term is first defined.
 
 Everything is hand-authored markdown. The build script renders it into 1,236 static HTML pages.
 
@@ -251,7 +251,7 @@ For questions or contributions, contact the ZopDev University Editorial Board.
 - 7 courses
 - 52 modules
 - 237 lessons
-- 921 glossary terms (about 847 with an authored or extracted definition)
+- 921 glossary terms (about 845 with an authored or extracted definition)
 - 3 certifications (Operator, Engineer, Architect)
 - 1,236 generated HTML pages
 - 1,235 sitemap URLs

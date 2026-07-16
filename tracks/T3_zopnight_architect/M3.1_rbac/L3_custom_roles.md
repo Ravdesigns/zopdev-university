@@ -23,7 +23,7 @@ By the end of this lesson, you will be able to **decide** when a custom role is 
 
 ## 1. Concept
 
-A **custom role** is a role that the customer's Admin assembles from the 15-entity policy table. It exists alongside the three system roles (Viewer, Editor, Admin) and is invoked when the system roles do not cleanly fit a job function. The system roles cover roughly 80% of role assignments; custom roles cover the remaining 20%.
+A **custom role** is a role that the customer's Admin assembles from the policy table. It exists alongside the four system roles (Viewer, Editor, Admin, SuperAdmin) and is invoked when the system roles do not cleanly fit a job function. The system roles cover roughly 80% of role assignments; custom roles cover the remaining 20%.
 
 The mechanics are simple: pick policy entities, pick actions for each, save the role, assign to users. The discipline is harder: most custom-role decisions look obvious at the time and obvious-in-retrospect a year later, but the middle six months are where roles accumulate that nobody can explain.
 

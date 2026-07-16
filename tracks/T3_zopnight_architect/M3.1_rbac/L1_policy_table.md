@@ -223,7 +223,7 @@ When designing a new role, start from a System role (Viewer / Editor / Admin) an
 
 ## Related lessons
 
-- [L2 — System roles: Viewer, Editor, Admin](L2_system_roles.md) *(next)*
+- [L2 — System roles: Viewer, Editor, Admin, SuperAdmin](L2_system_roles.md) *(next)*
 - [L3 — Custom roles](L3_custom_roles.md)
 - [L6 — Frontend gating with usePermission](L6_frontend_gating.md)
 

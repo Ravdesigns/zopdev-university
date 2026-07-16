@@ -265,7 +265,7 @@ IMPLEMENTATION (1 day of engineering time):
 
 ACTUAL USAGE (after first month):
   Active hours per week: 35 (some weekend testing happens)
-  Cost: $500 × (35/168) + baseline 1-node 24/7 cost
+  Cost: $500 × (35/168) + baseline 1-node 24/7 (1 node ~$67 + EKS control plane ~$73)
        = $104 + $140
        = $244/mo
        

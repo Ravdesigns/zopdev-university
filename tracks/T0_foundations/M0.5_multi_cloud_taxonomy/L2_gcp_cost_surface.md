@@ -99,7 +99,7 @@ Network egress                   $ 9,800     8%         ← high — cross-zone 
 Cloud SQL                        $ 7,400     6%         
 Cloud Logging                    $ 5,200     4%         Above free tier
 Cloud Monitoring                 $ 3,100     3%         Custom metrics heavy
-Other long tail                  $20,880    18%         
+Other long tail                  $21,381    18%         
 ────────────────────────────────────────────────────────────────────────
 TOTAL                           $120,000   100%
 ```

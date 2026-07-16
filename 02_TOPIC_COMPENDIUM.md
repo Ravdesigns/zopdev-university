@@ -383,7 +383,7 @@ Numbers in `()` cite the lesson(s) that own each topic. Topics shown here are *t
 - Reason field — overrides (T1.M1.5)
 - Recipe library — 15 MCP recipes (T6.M6.4)
 - Recommend mode (autoscaling) (T2.M2.4)
-- Recommendation rules — 490 total (T2.M2.1)
+- Recommendation rules — 450+ total (T2.M2.1)
 - Recommendations — Open, Applied, Dismissed, Optimised (T2.M2.1)
 - Reduced motion — accessibility (meta — visual)
 - Redis Streams — audit logs (T3.M3.3)
@@ -772,7 +772,7 @@ Spaced practice is intentional. The same concept shows up at concept-level (T0),
 
 ## 9. Reference library — every topic enumerated
 
-### 9.1 Rule catalog (490 rules)
+### 9.1 Rule catalog (450+ rules)
 
 By category (counts approximate):
 | Category | Count | Where taught |
