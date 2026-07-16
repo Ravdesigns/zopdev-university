@@ -211,6 +211,7 @@ const stripLessonHeaderBlock = (md) => {
 };
 
 // Minimal markdown → HTML renderer
+let __dgmSeq = 0; // global sequence for namespacing inlined-diagram marker ids
 function renderMarkdown(md, srcPath) {
   md = stripFrontmatter(md);
   // Strip the lesson "header block" — H1, § signature, hr, ## Outcome + outcome para,
@@ -275,10 +276,13 @@ function renderMarkdown(md, srcPath) {
         const rel = url.replace(/#.*$/, '');
         const abs = path.normalize(path.join(path.dirname(srcPath), rel));
         const resolved = LESSON_URL_BY_SRC.get(abs);
-        if (resolved) return `<a href="${resolved}">${txt}</a>`;
+        // Re-append any #section anchor so a resolved link lands on the section.
+        if (resolved) return `<a href="${resolved}${mdM[1] || ''}">${txt}</a>`;
         return txt;
       }
       if (mdM) return txt; // .md link with no resolution context: never emit dead href
+      // Cross-repo escapes (4+ levels up) render as plain prose, not a dead href.
+      if (/^(?:\.\.\/){4,}/.test(url)) return txt;
       return `<a href="${url}">${txt}</a>`;
     });
     return text;
@@ -306,20 +310,48 @@ function renderMarkdown(md, srcPath) {
     }
     if (inCode) { codeBuf.push(line); i++; continue; }
 
-    // Diagram callout: "(Asset: `assets/diagrams/X.svg`.)". These are editorial
-    // placeholders for a planned diagram. If the SVG exists it is inlined as a
-    // <figure> (inheriting page CSS, so it is theme-aware); if it does not, the
+    // Diagram callout. Editorial placeholders for a planned diagram, authored
+    // in a few phrasings: "(Asset: `assets/diagrams/X.svg`.)",
+    // "(Asset: `X.svg` — caption.)", "(Asset to produce: <desc>. Path: `X.svg`.)"
+    // and "(SVG to be produced — see `X.svg` once issued.)". Match any
+    // standalone parenthesized callout that references an assets/diagrams SVG.
+    // If the SVG exists it is inlined as a theme-aware <figure>; if not, the
     // placeholder is dropped entirely so it never leaks into published prose.
-    const assetM = line.trim().match(/^\(Asset:\s*`?(assets\/diagrams\/[A-Za-z0-9_.\/-]+\.svg)`?\s*(?:[—–-]\s*([^)]*?))?\.?\)$/i);
-    if (assetM) {
+    const dgmTrim = line.trim();
+    const isAssetCallout = dgmTrim.startsWith('(') && dgmTrim.endsWith(')') && (
+      /`assets\/[A-Za-z0-9_.\/-]+`/.test(dgmTrim) ||
+      /\b(Asset to produce|SVG to be produced|Annotated screenshot|Demo asset to produce)\b/i.test(dgmTrim)
+    );
+    const dgmRef = dgmTrim.match(/`(assets\/diagrams\/[A-Za-z0-9_.\/-]+\.svg)`/);
+    if (isAssetCallout) {
       if (paraBuf.length) { out.push(flushPara(paraBuf)); paraBuf = []; }
       if (inList) { out.push(`</${listType}>\n`); inList = false; }
-      const svgPath = path.join(ROOT, assetM[1]);
-      if (fs.existsSync(svgPath)) {
-        const svg = fs.readFileSync(svgPath, 'utf8').replace(/<\?xml[^>]*\?>\s*/i, '').trim();
-        const cap = (assetM[2] || '').trim().replace(/\.$/, '');
-        const capHTML = cap ? `<figcaption>${escapeHTML(cap.charAt(0).toUpperCase() + cap.slice(1))}</figcaption>` : '';
-        out.push(`<figure class="lesson-diagram">${svg}${capHTML}</figure>\n`);
+      // Screenshot placeholders and not-yet-produced diagrams are dropped
+      // entirely; only an existing assets/diagrams SVG is inlined.
+      const rel = dgmRef ? dgmRef[1] : null;
+      if (!rel) { i++; continue; }
+      // Reject path traversal — only files strictly under assets/diagrams/ are
+      // ever read and inlined (the SVG is emitted unescaped, so an escape could
+      // inline arbitrary local content).
+      if (!rel.includes('..')) {
+        const svgPath = path.join(ROOT, rel);
+        if (fs.existsSync(svgPath)) {
+          let svg = fs.readFileSync(svgPath, 'utf8').replace(/<\?xml[^>]*\?>\s*/i, '').trim();
+          // Namespace the internal marker id per figure so two diagrams on one
+          // page cannot collide on a duplicate id.
+          const uid = 'd' + (__dgmSeq++);
+          svg = svg.replace(/dgmArrow/g, 'dgmArrow_' + uid);
+          // Caption: "Asset to produce: <cap>. Path:" or trailing "— <cap>.".
+          let cap = '';
+          const cm1 = dgmTrim.match(/Asset to produce:\s*(.+?)\.\s*Path:/i);
+          const cm2 = dgmTrim.match(/\.svg`?\s*[—–-]\s*([^)]*?)\.?\)$/);
+          if (cm1) cap = cm1[1]; else if (cm2) cap = cm2[1];
+          cap = cap.trim().replace(/\.$/, '');
+          const capHTML = cap ? `<figcaption>${escapeHTML(cap.charAt(0).toUpperCase() + cap.slice(1))}</figcaption>` : '';
+          out.push(`<figure class="lesson-diagram">${svg}${capHTML}</figure>\n`);
+        } else {
+          console.warn(`⚠️  diagram referenced but missing: ${rel} (in ${srcPath ? path.relative(ROOT, srcPath) : 'unknown'})`);
+        }
       }
       i++; continue;
     }
@@ -1135,7 +1167,7 @@ function pageHTML({
 <meta property="og:title" content="${escapeHTML(title)}">
 <meta property="og:description" content="${escapeHTML(ogDesc)}">
 <meta property="og:url" content="${canonical}">
-<meta property="og:image" content="${ogImage || 'https://zop.dev/resources/university/og/default.svg'}">
+<meta property="og:image" content="${ogImage || 'https://zop.dev/resources/university/og/default.png'}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
@@ -1145,6 +1177,7 @@ function pageHTML({
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="${escapeHTML(title)}">
 <meta name="twitter:description" content="${escapeHTML(ogDesc)}">
+<meta name="twitter:image" content="${ogImage || 'https://zop.dev/resources/university/og/default.png'}">
 
 ${schema || ''}
 
@@ -3140,7 +3173,7 @@ function renderArchitectPrep() {
   const startIdx = lines.findIndex((l, i) => i > oi && /^##\s+/.test(l.trim()) && !/^##\s+outcome/i.test(l.trim()));
   let bodyLines = startIdx >= 0 ? lines.slice(startIdx) : lines;
   bodyLines = stripTrailingSignatureBlock(bodyLines);
-  const bodyHTML = renderMarkdown(bodyLines.join('\n'));
+  const bodyHTML = renderMarkdown(bodyLines.join('\n'), path.join(ROOT, 'certifications', 'architect', '00_README.md'));
 
   const body = `
 <section class="breadcrumb">

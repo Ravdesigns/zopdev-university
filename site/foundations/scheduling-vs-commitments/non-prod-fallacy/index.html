@@ -15,7 +15,7 @@
 <meta property="og:title" content="The non-prod fallacy / Cloud Cost Foundations / ZopDev University">
 <meta property="og:description" content="By the end of this lesson, you will be able to explain why &quot;buy reservations for non-prod&quot; is the textbook over-commitment mistake and propose the correct alternative.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/non-prod-fallacy/">
-<meta property="og:image" content="https://zop.dev/resources/university/og/default.svg">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
@@ -25,6 +25,7 @@
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="The non-prod fallacy / Cloud Cost Foundations / ZopDev University">
 <meta name="twitter:description" content="By the end of this lesson, you will be able to explain why &quot;buy reservations for non-prod&quot; is the textbook over-commitment mistake and propose the correct alternative.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
@@ -520,8 +521,8 @@ FINOPS:      &quot;Schedule now. Observe the steady-state floor for 60 days.
              much lower risk.&quot;</code></pre>
 <p>The pattern: lead with the math, name the trap, propose the sequence. The procurement team walks away aligned, not blocked.</p>
 <figure class="lesson-diagram"><svg viewBox="0 0 660 340" role="img" xmlns="http://www.w3.org/2000/svg">
-<defs><marker id="dgmArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
-<rect x="0" y="0" width="660" height="340" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Non-prod commitment decision</text><rect x="240" y="52" width="180" height="44" rx="0" class="dgm-card-blue"/><text x="330" y="78" class="dgm-title" text-anchor="middle">Will it run past the term?</text><line x1="330" y1="96" x2="110" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow)"/><text x="220" y="148" class="dgm-label-sm" text-anchor="middle">No</text><rect x="20" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="110" y="226" class="dgm-title" text-anchor="middle">Schedule only</text><text x="110" y="246" class="dgm-label-sm" text-anchor="middle">Do not commit</text><line x1="330" y1="96" x2="550" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow)"/><text x="440" y="148" class="dgm-label-sm" text-anchor="middle">Yes</text><rect x="460" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="550" y="226" class="dgm-title" text-anchor="middle">Consider commit</text><text x="550" y="246" class="dgm-label-sm" text-anchor="middle">If utilization &gt; break-even</text>
+<defs><marker id="dgmArrow_d7" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="340" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Non-prod commitment decision</text><rect x="240" y="52" width="180" height="44" rx="0" class="dgm-card-blue"/><text x="330" y="78" class="dgm-title" text-anchor="middle">Will it run past the term?</text><line x1="330" y1="96" x2="110" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d7)"/><text x="220" y="148" class="dgm-label-sm" text-anchor="middle">No</text><rect x="20" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="110" y="226" class="dgm-title" text-anchor="middle">Schedule only</text><text x="110" y="246" class="dgm-label-sm" text-anchor="middle">Do not commit</text><line x1="330" y1="96" x2="550" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d7)"/><text x="440" y="148" class="dgm-label-sm" text-anchor="middle">Yes</text><rect x="460" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="550" y="226" class="dgm-title" text-anchor="middle">Consider commit</text><text x="550" y="246" class="dgm-label-sm" text-anchor="middle">If utilization &gt; break-even</text>
 </svg><figcaption>Flowchart for the non-prod commitment decision</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>

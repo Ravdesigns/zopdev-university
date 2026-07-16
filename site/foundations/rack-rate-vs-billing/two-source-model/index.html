@@ -15,7 +15,7 @@
 <meta property="og:title" content="The two-source cost model / Cloud Cost Foundations / ZopDev University">
 <meta property="og:description" content="By the end of this lesson, you will be able to describe the two-source cost model and pick the right source for any cost question.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/two-source-model/">
-<meta property="og:image" content="https://zop.dev/resources/university/og/default.svg">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
@@ -25,6 +25,7 @@
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="The two-source cost model / Cloud Cost Foundations / ZopDev University">
 <meta name="twitter:description" content="By the end of this lesson, you will be able to describe the two-source cost model and pick the right source for any cost question.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
@@ -501,7 +502,7 @@ WEEK billing (actual)         $7.45    (5 days × $1.49)
 WEEK using COALESCE          $12.05    ($7.45 + $4.60 fallback)</code></pre>
 <p>The COALESCE pattern gives the best-available-answer per day: actual where available, calculated where not. The week label is <code>actual</code> (because some days were actual) but the rendered tooltip notes the partial fallback.</p>
 <figure class="lesson-diagram"><svg viewBox="0 0 660 198" role="img" xmlns="http://www.w3.org/2000/svg">
-<defs><marker id="dgmArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<defs><marker id="dgmArrow_d12" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
 <rect x="0" y="0" width="660" height="198" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">The two-source model</text><rect x="20" y="50" width="290" height="128" rx="0" class="dgm-card"/><rect x="340" y="50" width="290" height="128" rx="0" class="dgm-card-blue"/><text x="165" y="74" class="dgm-title" text-anchor="middle">Billing source</text><text x="485" y="74" class="dgm-num" text-anchor="middle">Metrics source</text><text x="34" y="92" class="dgm-label" text-anchor="start">· Authoritative $</text><text x="34" y="122" class="dgm-label" text-anchor="start">· Invoice-accurate</text><text x="34" y="152" class="dgm-label" text-anchor="start">· Lags ~24h</text><text x="354" y="92" class="dgm-label" text-anchor="start">· Near-real-time</text><text x="354" y="122" class="dgm-label" text-anchor="start">· Size + utilization</text><text x="354" y="152" class="dgm-label" text-anchor="start">· Enriches evidence</text>
 </svg><figcaption>Table view with both columns and the fallback overlay</figcaption></figure>
 <hr>

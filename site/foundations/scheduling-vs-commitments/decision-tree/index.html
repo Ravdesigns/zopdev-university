@@ -15,7 +15,7 @@
 <meta property="og:title" content="When scheduling wins, when commitments win / Cloud Cost Foundations / ZopDev University">
 <meta property="og:description" content="By the end of this lesson, you will be able to decide which lever (schedule, commit, or both) fits any given workload using a four-question decision tree.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/decision-tree/">
-<meta property="og:image" content="https://zop.dev/resources/university/og/default.svg">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
@@ -25,6 +25,7 @@
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="When scheduling wins, when commitments win / Cloud Cost Foundations / ZopDev University">
 <meta name="twitter:description" content="By the end of this lesson, you will be able to decide which lever (schedule, commit, or both) fits any given workload using a four-question decision tree.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
@@ -514,8 +515,8 @@ Q3: Stateless / eviction-tolerant?
     Pattern: Savings Plan for 40 vCPU-hours/day, Spot for the variable layer</code></pre>
 <p>Three workloads, three different lever combinations. The tree drives each.</p>
 <figure class="lesson-diagram"><svg viewBox="0 0 660 340" role="img" xmlns="http://www.w3.org/2000/svg">
-<defs><marker id="dgmArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
-<rect x="0" y="0" width="660" height="340" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Schedule, commit, or both?</text><rect x="240" y="52" width="180" height="44" rx="0" class="dgm-card-blue"/><text x="330" y="78" class="dgm-title" text-anchor="middle">Is the workload steady 24/7?</text><line x1="330" y1="96" x2="110" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow)"/><text x="220" y="148" class="dgm-label-sm" text-anchor="middle">No</text><rect x="20" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="110" y="226" class="dgm-title" text-anchor="middle">Schedule it</text><text x="110" y="246" class="dgm-label-sm" text-anchor="middle">Off-hours = biggest win</text><line x1="330" y1="96" x2="330" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow)"/><text x="330" y="148" class="dgm-label-sm" text-anchor="middle">Yes</text><rect x="240" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="330" y="226" class="dgm-title" text-anchor="middle">Commit</text><text x="330" y="246" class="dgm-label-sm" text-anchor="middle">RI / SP / CUD</text><line x1="330" y1="96" x2="550" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow)"/><text x="440" y="148" class="dgm-label-sm" text-anchor="middle">Partly</text><rect x="460" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="550" y="226" class="dgm-title" text-anchor="middle">Do both</text><text x="550" y="246" class="dgm-label-sm" text-anchor="middle">Baseline + schedule peak</text>
+<defs><marker id="dgmArrow_d8" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="340" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Schedule, commit, or both?</text><rect x="240" y="52" width="180" height="44" rx="0" class="dgm-card-blue"/><text x="330" y="78" class="dgm-title" text-anchor="middle">Is the workload steady 24/7?</text><line x1="330" y1="96" x2="110" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d8)"/><text x="220" y="148" class="dgm-label-sm" text-anchor="middle">No</text><rect x="20" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="110" y="226" class="dgm-title" text-anchor="middle">Schedule it</text><text x="110" y="246" class="dgm-label-sm" text-anchor="middle">Off-hours = biggest win</text><line x1="330" y1="96" x2="330" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d8)"/><text x="330" y="148" class="dgm-label-sm" text-anchor="middle">Yes</text><rect x="240" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="330" y="226" class="dgm-title" text-anchor="middle">Commit</text><text x="330" y="246" class="dgm-label-sm" text-anchor="middle">RI / SP / CUD</text><line x1="330" y1="96" x2="550" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d8)"/><text x="440" y="148" class="dgm-label-sm" text-anchor="middle">Partly</text><rect x="460" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="550" y="226" class="dgm-title" text-anchor="middle">Do both</text><text x="550" y="246" class="dgm-label-sm" text-anchor="middle">Baseline + schedule peak</text>
 </svg></figure>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>

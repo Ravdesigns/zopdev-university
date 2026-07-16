@@ -15,7 +15,7 @@
 <meta property="og:title" content="Tags, labels, and the cost-attribution problem / Cloud Cost Foundations / ZopDev University">
 <meta property="og:description" content="By the end of this lesson, you will be able to trace any dollar of cloud spend back to a team using tags, and identify the four tags every cloud estate needs as the minimum viable tag set.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/cloud-bill-decoded/tags-and-attribution/">
-<meta property="og:image" content="https://zop.dev/resources/university/og/default.svg">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
@@ -25,6 +25,7 @@
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Tags, labels, and the cost-attribution problem / Cloud Cost Foundations / ZopDev University">
 <meta name="twitter:description" content="By the end of this lesson, you will be able to trace any dollar of cloud spend back to a team using tags, and identify the four tags every cloud estate needs as the minimum viable tag set.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
@@ -490,7 +491,10 @@ identity    $1,247.30
 growth      $   893.10
 data        $   612.40
 (null)      $   211.80   ← Unattributed. This bucket should trend to zero.</code></pre>
-<p>(Asset to produce: a stacked bar chart of attributed vs. unattributed cost trending over 90 days, showing untagged spend shrinking. Path: <code>assets/diagrams/M0.1_L4_tag_coverage_trend.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 240" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d0" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="240" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Tag coverage climbing over a quarter</text><line x1="50" y1="200" x2="630" y2="200" class="dgm-ink-s"/><line x1="50" y1="50" x2="50" y2="200" class="dgm-ink-s"/><polyline points="50,137 166,123.5 282,105.5 398,89 514,77.00000000000001 630,68" class="dgm-blue-s" stroke-width="2.5"/><circle cx="50" cy="137" r="3.5" class="dgm-blue"/><text x="50" y="127" class="dgm-label-sm" text-anchor="middle">42%</text><circle cx="166" cy="123.5" r="3.5" class="dgm-blue"/><text x="166" y="113.5" class="dgm-label-sm" text-anchor="middle">51%</text><circle cx="282" cy="105.5" r="3.5" class="dgm-blue"/><text x="282" y="95.5" class="dgm-label-sm" text-anchor="middle">63%</text><circle cx="398" cy="89" r="3.5" class="dgm-blue"/><text x="398" y="79" class="dgm-label-sm" text-anchor="middle">74%</text><circle cx="514" cy="77.00000000000001" r="3.5" class="dgm-blue"/><text x="514" y="67.00000000000001" class="dgm-label-sm" text-anchor="middle">82%</text><circle cx="630" cy="68" r="3.5" class="dgm-blue"/><text x="630" y="58" class="dgm-label-sm" text-anchor="middle">88%</text>
+</svg><figcaption>A stacked bar chart of attributed vs. unattributed cost trending over 90 days, showing untagged spend shrinking</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-8-min">3. Hands-on (8 min)</h2>
 <ol>

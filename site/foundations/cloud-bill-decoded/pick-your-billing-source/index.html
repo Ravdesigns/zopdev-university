@@ -15,7 +15,7 @@
 <meta property="og:title" content="CUR, Cost Explorer, Cost Management, BigQuery — pick one / Cloud Cost Foundations / ZopDev University">
 <meta property="og:description" content="By the end of this lesson, you will be able to choose the right billing data source on AWS, GCP, or Azure for a given question, and explain when one source is wrong for the job.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/cloud-bill-decoded/pick-your-billing-source/">
-<meta property="og:image" content="https://zop.dev/resources/university/og/default.svg">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
@@ -25,6 +25,7 @@
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="CUR, Cost Explorer, Cost Management, BigQuery — pick one / Cloud Cost Foundations / ZopDev University">
 <meta name="twitter:description" content="By the end of this lesson, you will be able to choose the right billing data source on AWS, GCP, or Azure for a given question, and explain when one source is wrong for the job.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
@@ -478,7 +479,6 @@ WHERE service.description = &#39;Compute Engine&#39;
   AND usage_start_time &lt;  TIMESTAMP(&#39;2026-05-20&#39;);
 -- → returns the equivalent for GCE</code></pre>
 <p>All three answer the same question. CUR-via-Athena gives the most granular drill-down (resource ID, RI attribution). Cost Explorer returns fastest. BigQuery export is the only option on GCP and is itself the most flexible if SQL is a comfortable surface for the team.</p>
-<p>(Demo asset to produce: side-by-side screenshot of the three console interfaces returning the same number. Path: <code>assets/screenshots/M0.1_L2_three_sources.png</code>.)</p>
 <hr>
 <h2 id="3-hands-on-6-min-uses-real-bill-not-zopnight">3. Hands-on (6 min — uses real bill, not ZopNight)</h2>
 <p>Pick the source that matches your primary cloud and pull yesterday's total EC2 / Compute Engine / Azure VM spend.</p>
