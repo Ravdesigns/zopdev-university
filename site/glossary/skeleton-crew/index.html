@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skeleton crew / Glossary / ZopDev University</title>
-<meta name="description" content="The scale-to-one weekend pattern that keeps a single replica running instead of a full fleet or a full shutdown, reducing cost while preserving quorum, sharding, and health-check behavior.">
+<meta name="description" content="The off-hours pattern of scaling a service down to a single replica (not zero) to keep it warm and reachable at minimal cost. A single replica does NOT preserve quorum: quorum systems (etcd, ZooKeeper, HA databases) need a majority of an odd-numbered set, so skeleton crew suits stateless or non-quorum workloads, not quorum-dependent ones.">
 <link rel="canonical" href="https://zop.dev/resources/university/glossary/skeleton-crew/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Skeleton crew / Glossary / ZopDev University">
-<meta property="og:description" content="The scale-to-one weekend pattern that keeps a single replica running instead of a full fleet or a full shutdown, reducing cost while preserving quorum, sharding, and health-check behavior.">
+<meta property="og:description" content="The off-hours pattern of scaling a service down to a single replica (not zero) to keep it warm and reachable at minimal cost. A single replica does NOT preserve quorum: quorum systems (etcd, ZooKeeper, HA databases) need a majority of an odd-numbered set, so skeleton crew suits stateless or non-quorum workloads, not quorum-dependent ones.">
 <meta property="og:url" content="https://zop.dev/resources/university/glossary/skeleton-crew/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:locale" content="en_US">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Skeleton crew / Glossary / ZopDev University">
-<meta name="twitter:description" content="The scale-to-one weekend pattern that keeps a single replica running instead of a full fleet or a full shutdown, reducing cost while preserving quorum, sharding, and health-check behavior.">
+<meta name="twitter:description" content="The off-hours pattern of scaling a service down to a single replica (not zero) to keep it warm and reachable at minimal cost. A single replica does NOT preserve quorum: quorum systems (etcd, ZooKeeper, HA databases) need a majority of an odd-numbered set, so skeleton crew suits stateless or non-quorum workloads, not quorum-dependent ones.">
 
 
 
@@ -311,7 +311,7 @@
   <div class="container">
     <div class="glossary-term-meta"><span class="eyebrow-square" aria-hidden="true"></span>Glossary term</div>
     <h1 class="glossary-term-name">Skeleton crew</h1>
-    <p class="glossary-term-def">The scale-to-one weekend pattern that keeps a single replica running instead of a full fleet or a full shutdown, reducing cost while preserving quorum, sharding, and health-check behavior.</p>
+    <p class="glossary-term-def">The off-hours pattern of scaling a service down to a single replica (not zero) to keep it warm and reachable at minimal cost. A single replica does NOT preserve quorum: quorum systems (etcd, ZooKeeper, HA databases) need a majority of an odd-numbered set, so skeleton crew suits stateless or non-quorum workloads, not quorum-dependent ones.</p>
     <div class="glossary-term-foot">
       <span class="glossary-term-count">1 lesson reference</span>
       <a href="/glossary/" class="glossary-term-back">← Back to glossary</a>

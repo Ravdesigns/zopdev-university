@@ -5,7 +5,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 ## A
 - **Adopt-or-replace** — Pattern where ZopNight detects existing cloud scaling and asks the user whether to adopt (observe) or replace (manage). See [T2.M2.5](../../tracks/T2_zopnight_engineer/M2.5_adopt_or_replace/00_README.md).
 - **AES-256-GCM** — Encryption used for credential storage. See [T1.M1.1.L1](../../tracks/T1_zopnight_operator/M1.1_connect_account/L1_vault_credentials.md).
-- **Amortized cost** — Azure-specific cost column that distributes reservation purchases across the term. See [T0.M0.4.L3](../../tracks/T0_foundations/M0.4_rack_rate_vs_billing/L3_amortized_azure.md).
+- **Amortized cost** — The cost of an upfront commitment (RI, Savings Plan, CUD) spread across the hours it covers, so each resource shows its true effective daily cost. Not Azure-specific: AWS exposes it via Cost Explorer Amortized / CUR EffectiveCost, GCP via the credit-applied BigQuery export, and FOCUS via EffectiveCost. See [T0.M0.4.L3](../../tracks/T0_foundations/M0.4_rack_rate_vs_billing/L3_amortized_azure.md).
 - **Anomaly detection** — Daily cron detecting cost deviations across 5 dimensions. See [T2.M2.10](../../tracks/T2_zopnight_engineer/M2.10_cost_anomaly/00_README.md).
 - **Approval gate** — Optional workflow step requiring human sign-off before remediation executes. See [T2.M2.3.L3](../../tracks/T2_zopnight_engineer/M2.3_auto_remediation/L3_approval_gate.md).
 - **ASG** — AWS Auto Scaling Group, a target type for autoscaling policies.
@@ -40,6 +40,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 - **Egress** — Cloud network traffic leaving the cloud or crossing zones.
 - **Engineer tier** — Second cert tier; deep product knowledge.
 - **Event Readiness** — Pre-scale infrastructure for known traffic events.
+- **ExpressRoute** — Azure's dedicated private network connection between on-premises and Azure that bypasses the public internet, with its own pricing model. Inter-zone bandwidth within a region is charged about $0.01/GB each direction on Azure, the same as AWS and GCP (not free).
 
 ## F
 - **FinOps** — Cloud Financial Operations. Industry framework from FinOps Foundation.
@@ -62,6 +63,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 
 ## L-M
 - **MCP** — Model Context Protocol. Open standard for AI agent integrations.
+- **Model selection** — Choosing the cheapest model that still meets the quality bar for a task, and routing simpler prompts to cheaper models. Price gaps between tiers are large but finite: Claude Opus vs Haiku is roughly 18.75x on token price, not 50-100x.
 - **MetricsAware rule** — Rule that consumes cloud monitoring data.
 - **Multi-AZ** — RDS feature replicating across availability zones for reliability.
 
@@ -95,6 +97,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 
 ## W-Z
 - **Welford stats** — Online statistics for autoscaler smart defaults.
+- **Well-Architected Framework** — The AWS Well-Architected Framework, a review methodology built on six pillars: operational excellence, security, reliability, performance efficiency, cost optimization, and sustainability. It is not a multi-account account layout; that is AWS Organizations / Landing Zone / Control Tower.
 - **Workload Identity Federation** — Modern cred mechanism for GCP/Azure (no long-lived keys).
 
 
@@ -442,7 +445,7 @@ Definitions grounded in the lesson that introduces each term. First-pass, drafte
 - **SIEM webhook** — A notification route that mirrors the full audit log to a SIEM for compliance evidence collection, used by regulated organizations that need a complete record of remediation activity.
 - **Signal weight** — The confidence value assigned to each individual auto-tagger signal (naming patterns, existing tags, configuration, resource group, account context), combined in composite scoring so agreeing signals yield high confidence and conflicting ones yield low, in a rule-based deterministic way.
 - **Size-scaling pattern** — A Databricks SQL warehouse schedule that runs a larger size during business hours and scales down to a smaller size overnight for occasional queries, best for prod with diurnal traffic variation.
-- **Skeleton crew** — The scale-to-one weekend pattern that keeps a single replica running instead of a full fleet or a full shutdown, reducing cost while preserving quorum, sharding, and health-check behavior.
+- **Skeleton crew** — The off-hours pattern of scaling a service down to a single replica (not zero) to keep it warm and reachable at minimal cost. A single replica does NOT preserve quorum: quorum systems (etcd, ZooKeeper, HA databases) need a majority of an odd-numbered set, so skeleton crew suits stateless or non-quorum workloads, not quorum-dependent ones.
 - **Skill changelog** — The dated list of version entries kept in a shared skill's metadata that records what changed in each release, including breaking changes, so users can see how the skill has evolved.
 - **Skill (Claude Code)** — A markdown file that Claude Code loads as a named command, letting a team invoke an embedded prompt by name so the same instructions run consistently every time, shifting prompts from text snippets to versioned software.
 - **Skill deprecation** — The graceful retirement of a shared skill that has become obsolete (for example after an MCP tool is renamed or an output format changes), done deliberately rather than by silent breakage.
