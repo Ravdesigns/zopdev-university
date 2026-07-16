@@ -396,7 +396,7 @@ body.drawer-open { overflow: hidden; }
    ========================================================= */
 .section {
   padding: 96px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 0;
 }
 .section:last-of-type { border-bottom: 0; }
 
@@ -880,6 +880,20 @@ body.drawer-open { overflow: hidden; }
   gap: 48px;
   padding: 48px 0 96px;
   align-items: start;
+}
+/* Grid children default to min-width:auto, which lets a wide code block
+   force the middle column past the viewport. Pin to 0 so pre/tables
+   scroll inside their column instead of overflowing the page. */
+.lesson-layout > * { min-width: 0; }
+.lesson-body pre, .lesson-content pre,
+.lesson-body table, .lesson-content table { max-width: 100%; }
+/* Footer attribution ("Authored by … · Lesson ID: …") — muted, small */
+.lesson-attribution {
+  margin-top: 40px; padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.04em; color: var(--g-500);
+  line-height: 1.6;
 }
 @media (max-width: 1100px) {
   .lesson-layout {
@@ -5047,9 +5061,9 @@ summary.m-row:hover .m-row-chevron { color: var(--zop-orange); }
 }
 .final h2 {
   font-family: var(--font) !important;
-  font-size: clamp(40px, 5.4vw, 80px);
-  font-weight: 700; line-height: 0.98;
-  letter-spacing: -0.045em;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700; line-height: 1.05;
+  letter-spacing: -0.03em;
   color: var(--ink);
   margin: 0 0 14px;
 }
@@ -5069,28 +5083,29 @@ summary.m-row:hover .m-row-chevron { color: var(--zop-orange); }
   display: flex; gap: 12px; flex-wrap: wrap;
   margin-top: 28px;
 }
+/* KPI boxes match the hero stat strip: bordered connected cells, big
+   cream numeral, sentence-case muted label beneath. */
 .final-stats.final-stats--inline {
   margin-top: 36px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  border-top: 1px solid var(--line);
-  padding-top: 24px;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  padding: 0;
 }
 .final-stats.final-stats--inline > div {
-  display: flex; flex-direction: column; gap: 10px;
-  padding-right: 24px;
-  border-right: 1px solid var(--line);
-  font-family: var(--mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.07em;
-  color: var(--g-500); line-height: 1.5;
+  background: var(--paper);
+  padding: 30px 28px 32px;
+  display: flex; flex-direction: column; gap: 14px;
+  font-family: var(--font-body); font-size: 15px;
+  text-transform: none; letter-spacing: normal;
+  color: var(--g-600); line-height: 1.5;
 }
-.final-stats.final-stats--inline > div:last-child { border-right: 0; padding-right: 0; }
-.final-stats.final-stats--inline > div:not(:first-child) { padding-left: 24px; }
 .final-stats.final-stats--inline strong {
   font-family: var(--font);
-  font-size: clamp(34px, 3.6vw, 52px);
-  font-weight: 700; letter-spacing: -0.04em;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700; letter-spacing: -0.03em;
   color: var(--ink); line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -5119,8 +5134,7 @@ summary.m-row:hover .m-row-chevron { color: var(--zop-orange); }
 @media (max-width: 880px) {
   .final-grid { grid-template-columns: 1fr; }
   .final-aside { display: none; }
-  .final-stats.final-stats--inline { grid-template-columns: 1fr; gap: 16px; }
-  .final-stats.final-stats--inline > div { border-right: 0; padding-right: 0; padding-left: 0 !important; }
+  .final-stats.final-stats--inline { grid-template-columns: 1fr; }
 }
 
 /* =================================================================
@@ -5864,7 +5878,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 /* ============================================================
    SECTION RHYTHM — homepage parity (88px / 64-88 hero / 48 sec-head)
    ============================================================ */
-.section { padding: 88px 0; border-bottom: 1px solid var(--line); }
+.section { padding: 88px 0; border-bottom: 0; }
 .section:last-of-type { border-bottom: 0; }
 
 /* Section head — eyebrow row + 2-col composition below.
@@ -5983,10 +5997,26 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .hero-trust {
   font-family: var(--font-body); font-size: 13px;
   color: var(--g-500); line-height: 1.5;
-  margin: 0 0 28px;
+  margin: 0 0 14px;
   max-width: 520px;
 }
 .hero-trust strong { color: var(--ink); font-weight: 600; }
+/* Alumni logo strip — official marks (cream) + Meesho wordmark */
+.hero-alumni {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 26px; margin: 0 0 28px;
+  color: var(--ink);
+}
+.hero-alumni .alumni-mark {
+  height: 22px; width: auto; display: block;
+  color: var(--ink); opacity: 0.85;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.hero-alumni:hover .alumni-mark { opacity: 1; }
+.hero-alumni .alumni-meesho {
+  font-family: var(--font); font-weight: 700; font-size: 20px;
+  letter-spacing: -0.03em; line-height: 22px; color: var(--ink);
+}
 /* Hero typography (left column, vertical stack) */
 .hero-left .hero-pill { margin-bottom: 28px; align-self: flex-start; }
 
@@ -6018,28 +6048,32 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 }
 
 /* Hero stat strip — measured outcomes (lessons / hours / certs) */
+/* KPI stat strip — bordered connected cells (marketing proof-strip style):
+   outer 1px frame, faint vertical dividers between cells, big cream numeral,
+   sentence-case muted label beneath. */
 .hero-stats {
   margin-top: auto;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+  padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
 }
-.hero-stat { padding: 0 20px 0 0; display: flex; flex-direction: column; gap: 10px; }
-.hero-stat + .hero-stat { border-left: 1px solid var(--line); padding-left: 24px; }
-/* Sanctioned stat scale (DESIGN.md §7.3 / marketing .pp-stat): big Space
-   Grotesk numeral, weight 700, tight tracking; mono uppercase label. */
+.hero-stat {
+  background: var(--paper);
+  padding: 30px 28px 32px;
+  display: flex; flex-direction: column; gap: 14px;
+}
 .hero-stat .hs-num {
-  font-family: var(--font); font-size: clamp(34px, 3.6vw, 52px);
-  font-weight: 700; letter-spacing: -0.04em; line-height: 1;
+  font-family: var(--font); font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700; letter-spacing: -0.03em; line-height: 1;
   color: var(--ink); font-variant-numeric: tabular-nums;
-  margin: 0;
+  margin: 0; white-space: nowrap;
 }
 .hero-stat .hs-num .hs-sub { color: var(--g-400); font-weight: 700; }
 .hero-stat .hs-label {
-  font-family: var(--mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.07em;
-  color: var(--g-500); line-height: 1.5; max-width: 22ch;
+  font-family: var(--font-body); font-size: 15px;
+  color: var(--g-600); line-height: 1.5; max-width: 24ch;
 }
 
 /* ============================================================
@@ -6765,10 +6799,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .path-arrow { transform: rotate(90deg); justify-self: center; }
   .hero-actions { justify-content: flex-start; }
   .hero-stats { grid-template-columns: 1fr 1fr; }
-  .hero-stats .hero-stat:nth-child(3) {
-    border-left: 0; padding-left: 20px; border-top: 1px solid var(--line); padding-top: 16px;
-    grid-column: 1 / -1;
-  }
+  .hero-stats .hero-stat:nth-child(3) { grid-column: 1 / -1; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .sample-wrap { grid-template-columns: 1fr; }
   .sec-head { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -6782,9 +6813,6 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .path-flow { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero-stats { grid-template-columns: 1fr; }
-  .hero-stats .hero-stat + .hero-stat {
-    border-left: 0; padding-left: 20px; border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px;
-  }
   .nav-brand .brand-sub { display: none; }
 }
 
@@ -7039,7 +7067,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   text-decoration: none;
 }
 .uni-brand-mark {
-  width: 20px; height: 20px; display: inline-block; flex-shrink: 0;
+  width: 28px; height: 28px; display: inline-block; flex-shrink: 0;
 }
 .uni-brand-mark svg { width: 100%; height: 100%; display: block; }
 .uni-brand-zop {
@@ -7277,6 +7305,71 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .path-body { max-width: var(--max-prose, 760px); }
 .path-body pre { white-space: pre-wrap; }
 
+/* =========================================================
+   NO SECTION EYEBROWS / ORANGE SQUARES (per request)
+   Remove the decorative mono eyebrow labels above headings and every
+   orange 10x10 square accent, site-wide. Informational labels
+   (cert tier, sample-lesson id) keep their text but lose the square.
+   ========================================================= */
+.sec-meta,
+.lp-section-eyebrow,
+.track-hero-meta,
+.final-eyebrow,
+.track-next-eyebrow,
+.catalog-row-eyebrow { display: none !important; }
+
+.sec-meta::before,
+.lp-section-eyebrow .eyebrow-square,
+.eyebrow-square,
+.track-hero-meta::before,
+.final-eyebrow::before,
+.track-next-eyebrow::before,
+.catalog-row-eyebrow::before,
+.cert-level::before,
+.sl-meta::before,
+.hero-eyebrow::before,
+.hero-meta::before,
+.sec-head-new .sec-meta::before { display: none !important; content: none !important; }
+
+/* No eyebrow line on bento cards (the "FEATURED | T3 · ARCHITECT TIER ·
+   8 MODULES" / "T0 · OPERATOR · FREE" .num row, and the TOTALS eyebrow). */
+.b-card .num,
+.b-card .t-eyebrow { display: none !important; }
+
+/* No blue accent words in headings — poor contrast on dark. Keep cream. */
+.hero h1 em, .hero h1 .blue,
+.b-feat h3 em, .b-feat .num strong { color: var(--ink) !important; }
+
+/* No full-width dividers between sections (hero->tracks, ->final, ->footer,
+   and the track-hero underline on inner pages). */
+.hero, .track-hero { border-bottom: 0 !important; }
+.final, .footer { border-top: 0 !important; }
+
+/* =========================================================
+   HERO BACKGROUND PHOTO (booth) + legibility overlay
+   Photo fills the hero; a left-heavy dark gradient keeps the
+   headline / lead / CTA / KPI legible while the subject (person +
+   laptop) reads on the right. Old animated SVG visual hidden.
+   ========================================================= */
+.hero { isolation: isolate; }
+.hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: url('/assets/hero-bg.jpg') 24% center / 118% auto no-repeat;
+  filter: saturate(1.08) contrast(1.06) brightness(0.9);
+  transform: scaleX(-1);
+}
+.hero::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(15,15,18,1) 0%, rgba(15,15,18,0.99) 26%, rgba(15,15,18,0.72) 58%, rgba(15,15,18,0.4) 100%),
+    linear-gradient(0deg, rgba(15,15,18,0.9) 0%, rgba(15,15,18,0) 42%);
+}
+.hero .container { position: relative; z-index: 2; }
+.hero-right .hero-art, .hero-art { display: none !important; }
+@media (max-width: 900px) {
+  /* single column on mobile: photo still fills, text over full dark wash */
+  .hero::after { background: linear-gradient(0deg, rgba(15,15,18,0.94), rgba(15,15,18,0.8)); }
+}
 /* ============================================================
    Lesson diagrams (inline SVG figures). Theme-aware via tokens.
    ============================================================ */

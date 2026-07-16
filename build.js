@@ -210,6 +210,32 @@ const stripLessonHeaderBlock = (md) => {
   return lines.slice(startIdx).join('\n');
 };
 
+// Resolve a markdown link target to the right destination HTML.
+// Shared by the body renderer and the lesson meta-box so both handle
+// glossary refs, sibling-lesson refs, escaped repo refs, and bare .md
+// links consistently (no raw "[L1](L1_foo.md)" leaking to the page).
+function resolveMdLink(txt, url) {
+  const glossaryM = url.match(/reference\/glossary\/([^)\/]+?)\.md$/i);
+  if (glossaryM) return `<a href="${BASE}/glossary/${slugify(glossaryM[1])}/">${txt}</a>`;
+  // Escaped the repo (../../../../…): render as plain prose, no dead href.
+  if (/^(?:\.\.\/){4,}/.test(url)) return txt;
+  // Sibling lesson (L1_six_principles.md → ../six-principles/).
+  const sib = url.match(/(?:^|\/)L\d+_(.+?)\.md$/i);
+  if (sib) return `<a href="../${slugify(sib[1])}/">${txt}</a>`;
+  // Any other unresolved .md target → plain prose (avoid a dead link).
+  if (/\.md(?:#.*)?$/i.test(url)) return txt;
+  const isExternal = /^https?:\/\//.test(url);
+  const target = isExternal ? ' target="_blank" rel="noopener"' : '';
+  return `<a href="${url}"${target}>${txt}</a>`;
+}
+
+// Render a lesson meta-box value: escape, tidy separators, then linkify
+// any markdown links via the shared resolver.
+function renderMetaVal(v) {
+  let t = escapeHTML(String(v)).replace(/\s*[·]\s*/g, ' / ');
+  return t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, txt, url) => resolveMdLink(txt, url));
+}
+
 // Minimal markdown → HTML renderer
 let __dgmSeq = 0; // global sequence for namespacing inlined-diagram marker ids
 function renderMarkdown(md, srcPath) {
@@ -229,6 +255,11 @@ function renderMarkdown(md, srcPath) {
     if (buf.length === 0) return '';
     const text = buf.join(' ').trim();
     if (!text) return '';
+    // Footer attribution line ("§ Authored by … · Lesson ID: …"): drop the
+    // authoring § marker and render as a muted attribution block.
+    if (/^§/.test(text)) {
+      return `<p class="lesson-attribution">${renderInline(text.replace(/^§\s*/, ''))}</p>\n`;
+    }
     return `<p>${renderInline(text)}</p>\n`;
   };
 
@@ -716,7 +747,7 @@ function universityNav(opts = {}) {
 <nav class="uni-nav" aria-label="University navigation">
   <div class="container uni-nav-inner">
     <a href="${BASE}/" class="uni-brand" aria-label="ZopDev University home">
-      <svg class="uni-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#mark-zopnight"/></svg>
+      <svg class="uni-brand-mark" viewBox="0 0 100 100" aria-hidden="true"><use href="#mark-zopuni"/></svg>
       <span class="uni-brand-zop">ZopDev</span>
       <span class="uni-brand-uni">University</span>
     </a>
@@ -1202,6 +1233,17 @@ ${schema || ''}
       <rect width="32" height="32" fill="#2A4494"/>
       <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
     </symbol>
+    <symbol id="mark-zopdev" viewBox="0 0 100 100">
+      <rect x="0"  y="0"  width="50" height="50" fill="#2A4494"/>
+      <rect x="50" y="0"  width="50" height="50" fill="#F58549"/>
+      <rect x="50" y="50" width="50" height="50" fill="#7FB236"/>
+    </symbol>
+    <symbol id="mark-zopuni" viewBox="0 0 100 100">
+      <rect width="100" height="100" rx="16" fill="#2A4494"/>
+      <path d="M 38 27 Q -12 50 38 73 Q 16 50 38 27 Z" fill="#FFFFFF"/>
+      <path d="M 62 27 Q 112 50 62 73 Q 84 50 62 27 Z" fill="#FFFFFF"/>
+      <polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/>
+    </symbol>
     <symbol id="mark-zopday" viewBox="0 0 32 32">
       <rect width="32" height="32" fill="#F58549"/>
       <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
@@ -1646,33 +1688,6 @@ ${lessons}
   </div>
 </section>
 
-<section class="track-next">
-  <div class="container">
-    <div class="track-next-grid">
-      <div class="track-next-copy">
-        <div class="track-next-eyebrow">Start here</div>
-        <h2>Ready to dig in?</h2>
-        <p>The first lesson is the foundation of everything that follows. Nine minutes. No login.</p>
-        <div class="track-next-cta">
-          <a href="${BASE}/${track.slug}/${track.modules[0]?.slug}/${track.modules[0]?.lessons[0]?.slug}/" class="btn btn-primary">Start Module 1 <span class="arrow">→</span></a>
-          <a href="${BASE}/" class="btn-ghost">All courses <span class="arrow">→</span></a>
-        </div>
-      </div>
-      <a class="track-next-card" href="${BASE}/${track.slug}/${track.modules[0]?.slug}/${track.modules[0]?.lessons[0]?.slug}/">
-        <div class="track-next-card-head">
-          <span class="track-next-card-code">${escapeHTML(track.modules[0]?.code || 'M1')} · L1</span>
-          <span class="track-next-card-time">~9 min</span>
-        </div>
-        <h3 class="track-next-card-title">${escapeHTML(track.modules[0]?.lessons[0]?.title || 'Open the first lesson')}</h3>
-        <p class="track-next-card-outcome">${escapeHTML(stripMarkdown(track.modules[0]?.lessons[0]?.outcome || `The opening lesson of ${track.title.toLowerCase()}.`).slice(0, 180))}</p>
-        <div class="track-next-card-foot">
-          <span>Open lesson</span>
-          <span class="track-next-card-arrow" aria-hidden="true">→</span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
 <script>
 // Progress: show this track's completion from localStorage (this device).
 (function(){
@@ -1835,7 +1850,7 @@ function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
   // brand-compliant without modifying the source .md file.
   const metaRows = Object.entries(lesson.meta || {}).map(([k, v]) => `
 <dt>${escapeHTML(k)}</dt>
-<dd>${escapeHTML(String(v).replace(/\s*[·]\s*/g, ' / '))}</dd>`).join('');
+<dd>${renderMetaVal(v)}</dd>`).join('');
 
   // Prev/next
   const prevHTML = prevLesson
@@ -4256,10 +4271,13 @@ writeFile(path.join(SITE_DIR, 'robots.txt'), robots);
 // =============================================================
 // FAVICON (inline SVG)
 // =============================================================
-const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="#FAF7EC"/>
-  <rect x="6" y="6" width="14" height="14" fill="#2A4494"/>
-  <circle cx="16" cy="10" r="3" fill="#FAF7EC"/>
+// ZopDev University mark — white "eye" (two crescents + starburst pupil)
+// on the blue brand square.
+const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="16" fill="#2A4494"/>
+  <path d="M 38 27 Q -12 50 38 73 Q 16 50 38 27 Z" fill="#FFFFFF"/>
+  <path d="M 62 27 Q 112 50 62 73 Q 84 50 62 27 Z" fill="#FFFFFF"/>
+  <polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/>
 </svg>`;
 writeFile(path.join(SITE_DIR, 'assets', 'favicon.svg'), favicon);
 

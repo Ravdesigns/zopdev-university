@@ -396,7 +396,7 @@ body.drawer-open { overflow: hidden; }
    ========================================================= */
 .section {
   padding: 96px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 0;
 }
 .section:last-of-type { border-bottom: 0; }
 
@@ -880,6 +880,20 @@ body.drawer-open { overflow: hidden; }
   gap: 48px;
   padding: 48px 0 96px;
   align-items: start;
+}
+/* Grid children default to min-width:auto, which lets a wide code block
+   force the middle column past the viewport. Pin to 0 so pre/tables
+   scroll inside their column instead of overflowing the page. */
+.lesson-layout > * { min-width: 0; }
+.lesson-body pre, .lesson-content pre,
+.lesson-body table, .lesson-content table { max-width: 100%; }
+/* Footer attribution ("Authored by … · Lesson ID: …") — muted, small */
+.lesson-attribution {
+  margin-top: 40px; padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.04em; color: var(--g-500);
+  line-height: 1.6;
 }
 @media (max-width: 1100px) {
   .lesson-layout {
@@ -5047,9 +5061,9 @@ summary.m-row:hover .m-row-chevron { color: var(--zop-orange); }
 }
 .final h2 {
   font-family: var(--font) !important;
-  font-size: clamp(40px, 5.4vw, 80px);
-  font-weight: 700; line-height: 0.98;
-  letter-spacing: -0.045em;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700; line-height: 1.05;
+  letter-spacing: -0.03em;
   color: var(--ink);
   margin: 0 0 14px;
 }
@@ -5069,28 +5083,29 @@ summary.m-row:hover .m-row-chevron { color: var(--zop-orange); }
   display: flex; gap: 12px; flex-wrap: wrap;
   margin-top: 28px;
 }
+/* KPI boxes match the hero stat strip: bordered connected cells, big
+   cream numeral, sentence-case muted label beneath. */
 .final-stats.final-stats--inline {
   margin-top: 36px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
-  border-top: 1px solid var(--line);
-  padding-top: 24px;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  padding: 0;
 }
 .final-stats.final-stats--inline > div {
-  display: flex; flex-direction: column; gap: 10px;
-  padding-right: 24px;
-  border-right: 1px solid var(--line);
-  font-family: var(--mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.07em;
-  color: var(--g-500); line-height: 1.5;
+  background: var(--paper);
+  padding: 30px 28px 32px;
+  display: flex; flex-direction: column; gap: 14px;
+  font-family: var(--font-body); font-size: 15px;
+  text-transform: none; letter-spacing: normal;
+  color: var(--g-600); line-height: 1.5;
 }
-.final-stats.final-stats--inline > div:last-child { border-right: 0; padding-right: 0; }
-.final-stats.final-stats--inline > div:not(:first-child) { padding-left: 24px; }
 .final-stats.final-stats--inline strong {
   font-family: var(--font);
-  font-size: clamp(34px, 3.6vw, 52px);
-  font-weight: 700; letter-spacing: -0.04em;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700; letter-spacing: -0.03em;
   color: var(--ink); line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -5119,8 +5134,7 @@ summary.m-row:hover .m-row-chevron { color: var(--zop-orange); }
 @media (max-width: 880px) {
   .final-grid { grid-template-columns: 1fr; }
   .final-aside { display: none; }
-  .final-stats.final-stats--inline { grid-template-columns: 1fr; gap: 16px; }
-  .final-stats.final-stats--inline > div { border-right: 0; padding-right: 0; padding-left: 0 !important; }
+  .final-stats.final-stats--inline { grid-template-columns: 1fr; }
 }
 
 /* =================================================================
@@ -5864,7 +5878,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 /* ============================================================
    SECTION RHYTHM — homepage parity (88px / 64-88 hero / 48 sec-head)
    ============================================================ */
-.section { padding: 88px 0; border-bottom: 1px solid var(--line); }
+.section { padding: 88px 0; border-bottom: 0; }
 .section:last-of-type { border-bottom: 0; }
 
 /* Section head — eyebrow row + 2-col composition below.
@@ -5983,10 +5997,26 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .hero-trust {
   font-family: var(--font-body); font-size: 13px;
   color: var(--g-500); line-height: 1.5;
-  margin: 0 0 28px;
+  margin: 0 0 14px;
   max-width: 520px;
 }
 .hero-trust strong { color: var(--ink); font-weight: 600; }
+/* Alumni logo strip — official marks (cream) + Meesho wordmark */
+.hero-alumni {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 26px; margin: 0 0 28px;
+  color: var(--ink);
+}
+.hero-alumni .alumni-mark {
+  height: 22px; width: auto; display: block;
+  color: var(--ink); opacity: 0.85;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.hero-alumni:hover .alumni-mark { opacity: 1; }
+.hero-alumni .alumni-meesho {
+  font-family: var(--font); font-weight: 700; font-size: 20px;
+  letter-spacing: -0.03em; line-height: 22px; color: var(--ink);
+}
 /* Hero typography (left column, vertical stack) */
 .hero-left .hero-pill { margin-bottom: 28px; align-self: flex-start; }
 
@@ -6018,28 +6048,32 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 }
 
 /* Hero stat strip — measured outcomes (lessons / hours / certs) */
+/* KPI stat strip — bordered connected cells (marketing proof-strip style):
+   outer 1px frame, faint vertical dividers between cells, big cream numeral,
+   sentence-case muted label beneath. */
 .hero-stats {
   margin-top: auto;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+  padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
 }
-.hero-stat { padding: 0 20px 0 0; display: flex; flex-direction: column; gap: 10px; }
-.hero-stat + .hero-stat { border-left: 1px solid var(--line); padding-left: 24px; }
-/* Sanctioned stat scale (DESIGN.md §7.3 / marketing .pp-stat): big Space
-   Grotesk numeral, weight 700, tight tracking; mono uppercase label. */
+.hero-stat {
+  background: var(--paper);
+  padding: 30px 28px 32px;
+  display: flex; flex-direction: column; gap: 14px;
+}
 .hero-stat .hs-num {
-  font-family: var(--font); font-size: clamp(34px, 3.6vw, 52px);
-  font-weight: 700; letter-spacing: -0.04em; line-height: 1;
+  font-family: var(--font); font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700; letter-spacing: -0.03em; line-height: 1;
   color: var(--ink); font-variant-numeric: tabular-nums;
-  margin: 0;
+  margin: 0; white-space: nowrap;
 }
 .hero-stat .hs-num .hs-sub { color: var(--g-400); font-weight: 700; }
 .hero-stat .hs-label {
-  font-family: var(--mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.07em;
-  color: var(--g-500); line-height: 1.5; max-width: 22ch;
+  font-family: var(--font-body); font-size: 15px;
+  color: var(--g-600); line-height: 1.5; max-width: 24ch;
 }
 
 /* ============================================================
@@ -6765,10 +6799,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .path-arrow { transform: rotate(90deg); justify-self: center; }
   .hero-actions { justify-content: flex-start; }
   .hero-stats { grid-template-columns: 1fr 1fr; }
-  .hero-stats .hero-stat:nth-child(3) {
-    border-left: 0; padding-left: 20px; border-top: 1px solid var(--line); padding-top: 16px;
-    grid-column: 1 / -1;
-  }
+  .hero-stats .hero-stat:nth-child(3) { grid-column: 1 / -1; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .sample-wrap { grid-template-columns: 1fr; }
   .sec-head { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -6782,9 +6813,6 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .path-flow { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero-stats { grid-template-columns: 1fr; }
-  .hero-stats .hero-stat + .hero-stat {
-    border-left: 0; padding-left: 20px; border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px;
-  }
   .nav-brand .brand-sub { display: none; }
 }
 
@@ -7039,7 +7067,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   text-decoration: none;
 }
 .uni-brand-mark {
-  width: 20px; height: 20px; display: inline-block; flex-shrink: 0;
+  width: 28px; height: 28px; display: inline-block; flex-shrink: 0;
 }
 .uni-brand-mark svg { width: 100%; height: 100%; display: block; }
 .uni-brand-zop {
@@ -7143,3 +7171,226 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .uni-search { min-width: 0; flex: 1; margin-left: 12px; }
   .uni-search-key { display: none; }
 }
+
+/* ============================================================= */
+/* PRACTICE EXAM (self-scored) — /certifications/<tier>/practice/ */
+/* Built from existing tokens + the .verify-* result family.      */
+/* Square corners, orange focus ring, transform-only animation,   */
+/* green = correct, orange = incorrect (red is not in the brand).  */
+/* ============================================================= */
+.exam-shell { max-width: 760px; }
+
+/* Progress bar */
+.exam-bar { display: flex; align-items: center; gap: 16px; padding: 4px 0 20px; margin-bottom: 12px; }
+.exam-progress { flex: 1; height: 8px; background: var(--g-50); border: 1px solid var(--line); overflow: hidden; }
+.exam-progress-fill { height: 100%; background: var(--zop-orange); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-med, 250ms) var(--ease-out, ease); }
+.exam-count { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--g-600); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Question card */
+.exam-q { border: 1px solid var(--line); background: var(--paper); padding: 28px 32px; margin: 0 0 20px; }
+.exam-q-code { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g-600); padding: 0; margin-bottom: 12px; }
+.exam-q-stem { font-family: var(--font-body); font-size: 17px; line-height: 1.5; color: var(--ink); margin: 0 0 20px; }
+.exam-q-stem code, .exam-opt-text code, .exam-explain code { font-family: var(--mono); font-size: 0.9em; background: var(--g-50); padding: 1px 5px; border: 1px solid var(--line); }
+
+/* Options */
+.exam-opts { display: flex; flex-direction: column; gap: 10px; }
+.exam-opt { display: grid; grid-template-columns: 28px 1fr; align-items: start; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; position: relative; transition: border-color var(--dur-fast, 160ms) var(--ease-out, ease); }
+.exam-opt::before { content: ''; position: absolute; left: -1px; top: 0; bottom: 0; width: 4px; background: var(--zop-orange); transform: scaleY(0); transform-origin: top; transition: transform var(--dur-fast, 160ms) var(--ease-out, ease); }
+.exam-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.exam-opt-key { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--g-600); border: 1px solid var(--line); width: 26px; height: 26px; display: grid; place-items: center; }
+.exam-opt-text { font-family: var(--font-body); font-size: 15px; line-height: 1.45; color: var(--ink); }
+.exam-opt:hover:not(.correct):not(.incorrect) { border-color: var(--line-b, var(--g-400)); }
+/* The radio is visually hidden, so the global :focus-visible ring would fire
+   on a 0x0 element. Suppress it there and lift the one orange ring to the
+   label via :focus-within (same pattern as .uni-search). Single ring contract. */
+.exam-opt input:focus-visible { outline: none; }
+.exam-opt:focus-within { outline: 2px solid var(--zop-orange); outline-offset: 2px; }
+/* selected, before grading */
+.exam-opt:has(input:checked) { border-color: var(--ink); }
+.exam-opt:has(input:checked)::before { transform: scaleY(1); }
+.exam-opt:has(input:checked) .exam-opt-key { border-color: var(--ink); color: var(--ink); }
+/* graded */
+.exam-opt.correct { border-color: var(--zop-green); }
+.exam-opt.correct::before { background: var(--zop-green); transform: scaleY(1); }
+.exam-opt.correct .exam-opt-key { border-color: var(--zop-green); color: var(--zop-green); }
+.exam-opt.incorrect { border-color: var(--zop-orange); }
+.exam-opt.incorrect::before { background: var(--zop-orange); transform: scaleY(1); }
+.exam-opt.incorrect .exam-opt-key { border-color: var(--zop-orange); color: var(--zop-orange); }
+
+/* Explanation (mirrors the lesson-outcome left-border idiom) */
+.exam-explain { margin-top: 16px; padding: 16px 18px; border-left: 3px solid var(--zop-green); background: var(--g-50); }
+.exam-explain.is-wrong { border-left-color: var(--zop-orange); }
+.exam-explain-label { display: block; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g-600); margin-bottom: 6px; }
+.exam-explain p { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--ink); margin: 0 0 10px; }
+.exam-explain-src { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink); text-decoration: underline; text-decoration-color: var(--zop-orange); text-underline-offset: 3px; }
+
+/* Submit + result */
+.exam-submit-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+.exam-submit-note { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--g-600); }
+.exam-result { margin-top: 32px; }
+.exam-result-note { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--g-600); margin: 20px 0 0; }
+.exam-result-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+
+/* Blueprint */
+.exam-blueprint { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start; }
+.exam-bp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.exam-bp-table th, .exam-bp-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.exam-bp-table thead th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g-600); }
+.exam-bp-table td { font-family: var(--font-body); color: var(--ink); }
+.exam-bp-table tfoot td { font-family: var(--mono); font-weight: 600; border-bottom: none; border-top: 2px solid var(--ink); }
+.exam-bp-count { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.exam-bp-facts { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.exam-bp-facts li { font-family: var(--font-body); font-size: 14px; color: var(--ink); }
+.exam-bp-k { display: block; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g-600); margin-bottom: 2px; }
+
+@media (max-width: 720px) {
+  .exam-blueprint { grid-template-columns: 1fr; gap: 24px; }
+  .exam-q { padding: 22px 20px; }
+}
+.exam-note { font-size: 14px; color: var(--g-600); margin-top: 10px; }
+
+/* ============================================================= */
+/* PROGRESS TRACKING (localStorage, this-device) — lessons + tracks */
+/* ============================================================= */
+/* Lesson: mark-complete control */
+.lesson-complete { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 40px 0 8px; padding: 20px 24px; border: 1px solid var(--line); background: var(--g-50); }
+.lesson-complete.done { border-color: var(--zop-green); }
+.lesson-complete-toggle { display: inline-flex; align-items: center; gap: 12px; cursor: pointer; }
+.lesson-complete-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.lesson-complete-box { width: 20px; height: 20px; border: 1px solid var(--g-400); background: var(--paper); display: inline-grid; place-items: center; flex-shrink: 0; transition: border-color var(--dur-fast, 160ms) var(--ease-out, ease), background var(--dur-fast, 160ms) var(--ease-out, ease); }
+.lesson-complete-box::after { content: ''; width: 5px; height: 10px; border: solid var(--paper); border-width: 0 2px 2px 0; transform: rotate(45deg) scale(0); transform-origin: center; transition: transform var(--dur-fast, 160ms) var(--ease-out, ease); margin-top: -2px; }
+.lesson-complete-toggle input:checked + .lesson-complete-box { background: var(--zop-green); border-color: var(--zop-green); }
+.lesson-complete-toggle input:checked + .lesson-complete-box::after { transform: rotate(45deg) scale(1); }
+.lesson-complete-toggle input:focus-visible + .lesson-complete-box { outline: 2px solid var(--zop-orange); outline-offset: 2px; }
+.lesson-complete-label { font-family: var(--font-body); font-size: 15px; color: var(--ink); }
+.lesson-complete-hint { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--g-600); }
+
+/* Track: completion bar in the hero */
+.track-progress { display: flex; align-items: center; gap: 16px; margin-top: 24px; max-width: 520px; }
+.track-progress-bar { flex: 1; height: 8px; background: var(--g-50); border: 1px solid var(--line); overflow: hidden; }
+.track-progress-fill { height: 100%; background: var(--zop-green); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-med, 250ms) var(--ease-out, ease); }
+.track-progress-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--g-600); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* ============================================================= */
+/* CREDENTIAL REGISTRY — /certifications/registry/                */
+/* ============================================================= */
+.registry-wrap { overflow-x: auto; border: 1px solid var(--line); }
+.registry-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px; }
+.registry-table th, .registry-table td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.registry-table thead th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g-600); background: var(--g-50); }
+.registry-table tbody tr:last-child td { border-bottom: none; }
+.registry-table td { font-family: var(--font-body); color: var(--ink); }
+.registry-table .reg-name { font-weight: 600; }
+.registry-table .reg-date { font-family: var(--mono); color: var(--g-600); white-space: nowrap; }
+.reg-id a { font-family: var(--mono); font-size: 12px; color: var(--ink); text-decoration: underline; text-decoration-color: var(--zop-orange); text-underline-offset: 3px; white-space: nowrap; }
+.reg-tier { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 8px; border: 1px solid var(--line); white-space: nowrap; }
+.reg-tier-operator { color: var(--zop-blue); border-color: var(--zop-blue); }
+.reg-tier-engineer { color: var(--zop-orange); border-color: var(--zop-orange); }
+.reg-tier-architect { color: var(--zop-green); border-color: var(--zop-green); }
+.registry-note { font-family: var(--font-body); font-size: 13px; color: var(--g-600); margin-top: 16px; }
+
+/* ============================================================= */
+/* LEARNING PATHS — /paths/ and /paths/<slug>/                    */
+/* ============================================================= */
+.learning-path-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.path-card { display: flex; flex-direction: column; gap: 10px; padding: 28px; border: 1px solid var(--line); background: var(--paper); text-decoration: none; color: var(--ink); transition: transform var(--dur-fast, 160ms) var(--ease-out, ease), box-shadow var(--dur-fast, 160ms) var(--ease-out, ease), border-color var(--dur-fast, 160ms) var(--ease-out, ease); }
+.path-card:hover { transform: translateY(-4px); box-shadow: 0 8px 0 -4px var(--ink); border-color: var(--ink); }
+.path-card-head { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-600); }
+.path-card-cert { color: var(--zop-orange); }
+.path-card-title { font-size: 22px; line-height: 1.15; margin: 4px 0 0; }
+.path-card-aud { font-family: var(--font-body); font-size: 14px; color: var(--g-600); margin: 0; flex: 1; }
+.path-card-foot { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink); margin-top: 8px; }
+.path-card-foot .arrow { color: var(--zop-orange); }
+/* Path detail body reuses .lesson-content; keep the sequence code block readable */
+.path-body { max-width: var(--max-prose, 760px); }
+.path-body pre { white-space: pre-wrap; }
+
+/* =========================================================
+   NO SECTION EYEBROWS / ORANGE SQUARES (per request)
+   Remove the decorative mono eyebrow labels above headings and every
+   orange 10x10 square accent, site-wide. Informational labels
+   (cert tier, sample-lesson id) keep their text but lose the square.
+   ========================================================= */
+.sec-meta,
+.lp-section-eyebrow,
+.track-hero-meta,
+.final-eyebrow,
+.track-next-eyebrow,
+.catalog-row-eyebrow { display: none !important; }
+
+.sec-meta::before,
+.lp-section-eyebrow .eyebrow-square,
+.eyebrow-square,
+.track-hero-meta::before,
+.final-eyebrow::before,
+.track-next-eyebrow::before,
+.catalog-row-eyebrow::before,
+.cert-level::before,
+.sl-meta::before,
+.hero-eyebrow::before,
+.hero-meta::before,
+.sec-head-new .sec-meta::before { display: none !important; content: none !important; }
+
+/* No eyebrow line on bento cards (the "FEATURED | T3 · ARCHITECT TIER ·
+   8 MODULES" / "T0 · OPERATOR · FREE" .num row, and the TOTALS eyebrow). */
+.b-card .num,
+.b-card .t-eyebrow { display: none !important; }
+
+/* No blue accent words in headings — poor contrast on dark. Keep cream. */
+.hero h1 em, .hero h1 .blue,
+.b-feat h3 em, .b-feat .num strong { color: var(--ink) !important; }
+
+/* No full-width dividers between sections (hero->tracks, ->final, ->footer,
+   and the track-hero underline on inner pages). */
+.hero, .track-hero { border-bottom: 0 !important; }
+.final, .footer { border-top: 0 !important; }
+
+/* =========================================================
+   HERO BACKGROUND PHOTO (booth) + legibility overlay
+   Photo fills the hero; a left-heavy dark gradient keeps the
+   headline / lead / CTA / KPI legible while the subject (person +
+   laptop) reads on the right. Old animated SVG visual hidden.
+   ========================================================= */
+.hero { isolation: isolate; }
+.hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: url('/assets/hero-bg.jpg') 24% center / 118% auto no-repeat;
+  filter: saturate(1.08) contrast(1.06) brightness(0.9);
+  transform: scaleX(-1);
+}
+.hero::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(15,15,18,1) 0%, rgba(15,15,18,0.99) 26%, rgba(15,15,18,0.72) 58%, rgba(15,15,18,0.4) 100%),
+    linear-gradient(0deg, rgba(15,15,18,0.9) 0%, rgba(15,15,18,0) 42%);
+}
+.hero .container { position: relative; z-index: 2; }
+.hero-right .hero-art, .hero-art { display: none !important; }
+@media (max-width: 900px) {
+  /* single column on mobile: photo still fills, text over full dark wash */
+  .hero::after { background: linear-gradient(0deg, rgba(15,15,18,0.94), rgba(15,15,18,0.8)); }
+}
+/* ============================================================
+   Lesson diagrams (inline SVG figures). Theme-aware via tokens.
+   ============================================================ */
+.lesson-diagram{margin:2.25rem 0}
+.lesson-diagram svg{display:block;width:100%;max-width:660px;height:auto;margin:0 auto}
+.lesson-diagram figcaption{margin:.85rem auto 0;max-width:660px;font-family:var(--mono);font-size:.76rem;letter-spacing:.02em;color:var(--ink);opacity:.6;text-align:center}
+.dgm-paper{fill:var(--paper)}
+.dgm-ink{fill:var(--ink)}
+.dgm-ink-s{stroke:var(--ink);fill:none}
+.dgm-blue{fill:var(--zop-blue)}
+.dgm-blue-s{stroke:var(--zop-blue);fill:none}
+.dgm-orange{fill:var(--zop-orange)}
+.dgm-orange-s{stroke:var(--zop-orange);fill:none}
+.dgm-muted{fill:var(--ink);opacity:.5}
+.dgm-grid{stroke:var(--ink);opacity:.13;fill:none}
+.dgm-card{fill:var(--paper);stroke:var(--ink);stroke-opacity:.22}
+.dgm-card-blue{fill:var(--zop-blue);fill-opacity:.08;stroke:var(--zop-blue);stroke-opacity:.5}
+.dgm-label{font-family:var(--mono);font-size:11px;fill:var(--ink)}
+.dgm-label-sm{font-family:var(--mono);font-size:9.5px;fill:var(--ink);opacity:.7}
+.dgm-title{font-family:var(--font);font-weight:600;font-size:13px;fill:var(--ink)}
+.dgm-num{font-family:var(--font);font-weight:700;font-size:13px;fill:var(--zop-blue)}
+.dgm-bar{fill:var(--zop-blue)}
+.dgm-bar-2{fill:var(--zop-blue);opacity:.45}
+.dgm-arrow{stroke:var(--ink);stroke-opacity:.55;fill:none}
