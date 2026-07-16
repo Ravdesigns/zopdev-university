@@ -73,9 +73,9 @@ PATTERN A — Daily batch time-shift
   Same compute hours; different timing
   Lower carbon footprint
   
-  Example: 50 GPU instances × 4 hours
-  At 2 AM (350 gCO2/kWh): 100 kg CO2
-  At 11 AM (250 gCO2/kWh during solar peak): 71 kg CO2
+  Example: 50 GPU instances × 4 hours (~250W/GPU = 12.5 kW = 50 kWh)
+  At 2 AM (350 gCO2/kWh): 17.5 kg CO2
+  At 11 AM (250 gCO2/kWh during solar peak): 12.5 kg CO2
   Savings: 29% (29 kg per batch run; thousands of kg annually)
 
 PATTERN B — Geographic shift for batch
@@ -218,6 +218,8 @@ WORKLOAD: nightly ML training pipeline
   
 CURRENT carbon footprint (us-east-1, 350 g/kWh average):
   GPU power: ~250W per GPU × 50 GPUs = 12.5 kW
+    (250W is a mid-range assumption; A100/H100 training GPUs draw
+     400-700W, so scale the kWh and kg proportionally)
   4 hours × 12.5 kW = 50 kWh
   At 2 AM: 350 g/kWh × 50 kWh = 17.5 kg CO2 per run
   Daily: 17.5 kg
