@@ -452,9 +452,9 @@ EDITOR
 
 ADMIN
   Full control over all 15 entities, including:
-    - role:create, role:update, role:assign
-    - user:invite, user:delete
-    - cloud-account:rotate, cloud-account:revoke
+    - role:create, role:update, role:update
+    - user:create, user:delete
+    - cloud-account:update, cloud-account:delete
     - organisation:update
   Use for: senior eng, ops leadership, security/compliance leads,
            designated FinOps owner</code></pre>
@@ -493,7 +493,7 @@ Custom          2-5   (edge cases — compliance-only Auditor,
 1 SRE lead              Admin
 3 PM / product          Viewer
 1 finance partner       Viewer
-1 security/compliance   Custom (Viewer + audit-log:export
+1 security/compliance   Custom (Viewer + audit-log:view
                                 + report:view extended)
 ─────────────────────────────────────────────────────
 TOTAL                   2 Admins · 8 Editors · 3 Viewers · 1 Custom</code></pre>
@@ -518,7 +518,7 @@ Admin #3 (name): __________ Required Admin capability: __________</code></pre>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
 <h3 id="q1">Q1</h3>
 <p>A FinOps Analyst needs to view recommendations and dismiss them, but NOT apply them (each apply is high-risk and goes through a separate approval). The right role:</p>
-<p>A. Editor — gives full access B. Custom role — Viewer + <code>recommendation:dismiss</code>, without <code>recommendation:apply</code>. The system roles don't fit exactly; this is the 20% custom case. Document the role in the role description. C. Admin D. Viewer (with a separate process for dismissals)</p>
+<p>A. Editor — gives full access B. Custom role — Viewer + <code>recommendation:update</code>, without <code>recommendation:update</code>. The system roles don't fit exactly; this is the 20% custom case. Document the role in the role description. C. Admin D. Viewer (with a separate process for dismissals)</p>
 <details>
 <summary>Show answer</summary>
 <p><strong>Correct: B.</strong> This is a textbook custom-role case. The system roles are tiered — Editor includes apply. Removing just apply means a custom role. Always document the <em>why</em> in the role's description field so reviewers in 6 months understand the intent.</p>

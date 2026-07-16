@@ -456,18 +456,18 @@ recommendation          view, apply, dismiss</code></pre>
 ─────────────────────────────────────────────────────
 Resources page                   resource:view
 Resource detail                  resource:view
-Start/stop action                resource:manage
+Start/stop action                resource:update
 Schedules page                   schedule:view
 Create schedule                  schedule:create
-Apply recommendation             recommendation:apply
-Dismiss recommendation           recommendation:dismiss
-Connect cloud account            cloud-account:connect
-Rotate cloud-account creds       cloud-account:rotate
+Apply recommendation             recommendation:update
+Dismiss recommendation           recommendation:update
+Connect cloud account            cloud-account:create
+Rotate cloud-account creds       cloud-account:update
 View audit log                   audit-log:view
 Export audit log                 audit-log:view + report:view
-Invite teammate                  user:invite
+Invite teammate                  user:create
 Create custom role               role:create
-Assign role to user              role:assign + assignment:create</code></pre>
+Assign role to user              role:update + assignment:create</code></pre>
 <p>A user without the right policy gets a <code>403 Access Restricted</code> from the gateway. The backend never sees the request. This is important — defense in depth means even a backend bug cannot bypass authorization.</p>
 <h3 id="where-the-gateway-enforces">Where the gateway enforces</h3>
 <p>The gateway sits in front of every backend service. Request flow:</p>
@@ -490,7 +490,7 @@ Assign role to user              role:assign + assignment:create</code></pre>
 <p>A team-platform engineer wants to start an EC2 instance from the Resources page. The flow:</p>
 <pre><code>GET /v1/resources                    [gateway] → resource:view → 200
 GET /v1/resources/i-0abc             [gateway] → resource:view → 200
-POST /v1/resources/i-0abc/start      [gateway] → resource:manage → 403
+POST /v1/resources/i-0abc/start      [gateway] → resource:update → 403
                                                   ^^^ user role lacks manage</code></pre>
 <p>In the policy table, that endpoint is declared as:</p>
 <pre><code class="lang-yaml">- path: /v1/resources/{id}/start
@@ -525,7 +525,7 @@ One action this role CAN&#39;T do that surprises you: __________________</code><
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
 <h3 id="q1">Q1</h3>
 <p>A user clicks "Apply Recommendation" but sees Access Restricted. The most likely cause:</p>
-<p>A. A bug in the recommendation engine B. Their role lacks <code>recommendation:apply</code>. Either assign a more permissive role, or grant the specific policy in a custom role. Confirm in Settings → Users → role inspector. C. Cloud provider rejected the action D. The recommendation expired</p>
+<p>A. A bug in the recommendation engine B. Their role lacks <code>recommendation:update</code>. Either assign a more permissive role, or grant the specific policy in a custom role. Confirm in Settings → Users → role inspector. C. Cloud provider rejected the action D. The recommendation expired</p>
 <details>
 <summary>Show answer</summary>
 <p><strong>Correct: B.</strong> Access Restricted is the gateway's 403 response, which is always policy-based. The recommendation engine, cloud provider, and expiry would surface different errors. Always start a permission diagnosis at the role inspector.</p>

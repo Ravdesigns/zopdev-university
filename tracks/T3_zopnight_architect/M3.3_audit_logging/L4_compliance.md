@@ -106,7 +106,7 @@ The pattern that works:
    "How do you control who can revoke cloud-account credentials?"
 
 2. YOU ANSWER:
-   "Only Admin role has cloud-account:revoke. The audit log records
+   "Only Admin role has cloud-account:delete. The audit log records
    every revocation. Let me show you."
 
 3. YOU RUN THE QUERY (in ZopNight):

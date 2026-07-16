@@ -56,9 +56,9 @@ EDITOR
 
 ADMIN
   Full control over all 15 entities, including:
-    - role:create, role:update, role:assign
-    - user:invite, user:delete
-    - cloud-account:rotate, cloud-account:revoke
+    - role:create, role:update, role:update
+    - user:create, user:delete
+    - cloud-account:update, cloud-account:delete
     - organisation:update
   Use for: senior eng, ops leadership, security/compliance leads,
            designated FinOps owner
@@ -121,7 +121,7 @@ TEAM: 14 users
 1 SRE lead              Admin
 3 PM / product          Viewer
 1 finance partner       Viewer
-1 security/compliance   Custom (Viewer + audit-log:export
+1 security/compliance   Custom (Viewer + audit-log:view
                                 + report:view extended)
 ─────────────────────────────────────────────────────
 TOTAL                   2 Admins · 8 Editors · 3 Viewers · 1 Custom
@@ -160,7 +160,7 @@ A clean output: every Admin has a specific reason. A messy output: Admins for wh
 A FinOps Analyst needs to view recommendations and dismiss them, but NOT apply them (each apply is high-risk and goes through a separate approval). The right role:
 
 A. Editor — gives full access
-B. Custom role — Viewer + `recommendation:dismiss`, without `recommendation:apply`. The system roles don't fit exactly; this is the 20% custom case. Document the role in the role description.
+B. Custom role — Viewer + `recommendation:update`, without `recommendation:update`. The system roles don't fit exactly; this is the 20% custom case. Document the role in the role description.
 C. Admin
 D. Viewer (with a separate process for dismissals)
 

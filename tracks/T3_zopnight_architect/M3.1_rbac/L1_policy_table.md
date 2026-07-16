@@ -66,18 +66,18 @@ SURFACE                          REQUIRES
 ─────────────────────────────────────────────────────
 Resources page                   resource:view
 Resource detail                  resource:view
-Start/stop action                resource:manage
+Start/stop action                resource:update
 Schedules page                   schedule:view
 Create schedule                  schedule:create
-Apply recommendation             recommendation:apply
-Dismiss recommendation           recommendation:dismiss
-Connect cloud account            cloud-account:connect
-Rotate cloud-account creds       cloud-account:rotate
+Apply recommendation             recommendation:update
+Dismiss recommendation           recommendation:update
+Connect cloud account            cloud-account:create
+Rotate cloud-account creds       cloud-account:update
 View audit log                   audit-log:view
 Export audit log                 audit-log:view + report:view
-Invite teammate                  user:invite
+Invite teammate                  user:create
 Create custom role               role:create
-Assign role to user              role:assign + assignment:create
+Assign role to user              role:update + assignment:create
 ```
 
 A user without the right policy gets a `403 Access Restricted` from the gateway. The backend never sees the request. This is important — defense in depth means even a backend bug cannot bypass authorization.
@@ -116,7 +116,7 @@ A team-platform engineer wants to start an EC2 instance from the Resources page.
 ```
 GET /v1/resources                    [gateway] → resource:view → 200
 GET /v1/resources/i-0abc             [gateway] → resource:view → 200
-POST /v1/resources/i-0abc/start      [gateway] → resource:manage → 403
+POST /v1/resources/i-0abc/start      [gateway] → resource:update → 403
                                                   ^^^ user role lacks manage
 ```
 
@@ -173,7 +173,7 @@ The "surprises" are usually where role design needs refinement. A FinOps Analyst
 A user clicks "Apply Recommendation" but sees Access Restricted. The most likely cause:
 
 A. A bug in the recommendation engine
-B. Their role lacks `recommendation:apply`. Either assign a more permissive role, or grant the specific policy in a custom role. Confirm in Settings → Users → role inspector.
+B. Their role lacks `recommendation:update`. Either assign a more permissive role, or grant the specific policy in a custom role. Confirm in Settings → Users → role inspector.
 C. Cloud provider rejected the action
 D. The recommendation expired
 

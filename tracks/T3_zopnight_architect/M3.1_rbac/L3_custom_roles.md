@@ -53,11 +53,11 @@ The rule of thumb: a custom role is justified when no system role's policy set i
   Policies:
     resource:view
     schedule:view, schedule:create, schedule:update
-    recommendation:view, recommendation:apply, recommendation:dismiss
+    recommendation:view, recommendation:update, recommendation:update
     report:view
     team:view
     audit-log:view
-  Excludes: cloud-account:connect, role:*, user:* (admin functions)
+  Excludes: cloud-account:create, role:*, user:* (admin functions)
   
   Use: full operational power on cost surface, no RBAC management
 ```
@@ -89,7 +89,7 @@ The rule of thumb: a custom role is justified when no system role's policy set i
 ```
 "Cost-spike Responder" role
   Policies (Editor minus most):
-    resource:view, resource:manage (start/stop)
+    resource:view, resource:update (start/stop)
     schedule:view, schedule:create (emergency-stop schedules)
     override:view, override:create
     audit-log:view
@@ -167,7 +167,7 @@ Customer telemetry (anonymized) suggests the most common custom-role patterns:
 PATTERN                                       FREQUENCY
 ─────────────────────────────────────────────────────────
 "Editor minus role:* / user:*"                 32%
-"Viewer plus audit-log:view + report:export"   24%
+"Viewer plus audit-log:view + report:view"   24%
 "FinOps Analyst" variant                       18%
 "DBA / DataOps" variant                        9%
 "Junior / read-only" variant                   7%
@@ -195,12 +195,12 @@ CUSTOM ROLE DESIGN:
   Policies:
     resource:view
     recommendation:view
-    recommendation:apply
-    recommendation:dismiss
+    recommendation:update
+    recommendation:update
     audit-log:view
     schedule:view  (so they can see when DBs are scheduled)
   Excludes:
-    resource:manage  (cannot start/stop directly)
+    resource:update  (cannot start/stop directly)
     schedule:create / update / delete (cannot schedule DBs)
 
 ASSIGN to 3 DBAs. Save.
@@ -245,7 +245,7 @@ If you cannot fill in the JTBD and Description, the role is not yet justified.
 A FinOps Analyst needs all the Editor permissions but cannot manage cloud-account credentials. The best approach:
 
 A. Use Editor and trust the user not to rotate credentials
-B. Build a custom role with all Editor policies EXCEPT `cloud-account:connect`, `cloud-account:rotate`, and `cloud-account:revoke`. Save with a clear description.
+B. Build a custom role with all Editor policies EXCEPT `cloud-account:create`, `cloud-account:update`, and `cloud-account:delete`. Save with a clear description.
 C. Promote to Admin temporarily
 D. Use Viewer and grant exceptions per task
 

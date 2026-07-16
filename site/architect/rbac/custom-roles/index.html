@@ -447,11 +447,11 @@
   Policies:
     resource:view
     schedule:view, schedule:create, schedule:update
-    recommendation:view, recommendation:apply, recommendation:dismiss
+    recommendation:view, recommendation:update, recommendation:update
     report:view
     team:view
     audit-log:view
-  Excludes: cloud-account:connect, role:*, user:* (admin functions)
+  Excludes: cloud-account:create, role:*, user:* (admin functions)
   
   Use: full operational power on cost surface, no RBAC management</code></pre>
 <pre><code>&quot;Compliance Auditor&quot; role
@@ -474,7 +474,7 @@
   the new engineer demonstrates competence (usually 30-90 days).</code></pre>
 <pre><code>&quot;Cost-spike Responder&quot; role
   Policies (Editor minus most):
-    resource:view, resource:manage (start/stop)
+    resource:view, resource:update (start/stop)
     schedule:view, schedule:create (emergency-stop schedules)
     override:view, override:create
     audit-log:view
@@ -530,7 +530,7 @@
 <pre><code>PATTERN                                       FREQUENCY
 ─────────────────────────────────────────────────────────
 &quot;Editor minus role:* / user:*&quot;                 32%
-&quot;Viewer plus audit-log:view + report:export&quot;   24%
+&quot;Viewer plus audit-log:view + report:view&quot;   24%
 &quot;FinOps Analyst&quot; variant                       18%
 &quot;DBA / DataOps&quot; variant                        9%
 &quot;Junior / read-only&quot; variant                   7%
@@ -551,12 +551,12 @@ CUSTOM ROLE DESIGN:
   Policies:
     resource:view
     recommendation:view
-    recommendation:apply
-    recommendation:dismiss
+    recommendation:update
+    recommendation:update
     audit-log:view
     schedule:view  (so they can see when DBs are scheduled)
   Excludes:
-    resource:manage  (cannot start/stop directly)
+    resource:update  (cannot start/stop directly)
     schedule:create / update / delete (cannot schedule DBs)
 
 ASSIGN to 3 DBAs. Save.</code></pre>
@@ -587,7 +587,7 @@ __________________________________________________________</code></pre>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
 <h3 id="q1">Q1</h3>
 <p>A FinOps Analyst needs all the Editor permissions but cannot manage cloud-account credentials. The best approach:</p>
-<p>A. Use Editor and trust the user not to rotate credentials B. Build a custom role with all Editor policies EXCEPT <code>cloud-account:connect</code>, <code>cloud-account:rotate</code>, and <code>cloud-account:revoke</code>. Save with a clear description. C. Promote to Admin temporarily D. Use Viewer and grant exceptions per task</p>
+<p>A. Use Editor and trust the user not to rotate credentials B. Build a custom role with all Editor policies EXCEPT <code>cloud-account:create</code>, <code>cloud-account:update</code>, and <code>cloud-account:delete</code>. Save with a clear description. C. Promote to Admin temporarily D. Use Viewer and grant exceptions per task</p>
 <details>
 <summary>Show answer</summary>
 <p><strong>Correct: B.</strong> "Editor minus specific actions" is the most common custom-role pattern. Trust is not a control; explicit exclusion is.</p>
