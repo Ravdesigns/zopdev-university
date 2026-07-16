@@ -35,7 +35,7 @@ These ten mistakes appear in every cloud bill, in every organization, across eve
  5  Unused Elastic IPs                   $3.60 each per month (AWS)
  6  Dev running as prod (oversized)      20–40% of dev compute
  7  Over-provisioned RDS                 20–35% of DB compute
- 8  Cross-AZ chatter (GCP)               2–10% of network spend
+ 8  Cross-zone chatter (all clouds)   2–10% of network spend
  9  Public-internet egress for internal  3–15% of network spend
 10  Over-retained logs and metrics       5–20% of observability spend
 ```
@@ -68,7 +68,7 @@ Dev EC2 instances created at `m5.2xlarge` because somebody copied a Terraform mo
 
 The hardest one to fix because it requires confidence in the workload's headroom. RDS instances provisioned for a peak that never comes, multi-AZ enabled in dev, IOPS provisioned higher than throughput requires. Detection: low CPU, low connections, low IOPS. Fix: downsize during a maintenance window. (Database changes never auto-remediated — see [the database denylist](../../T2_zopnight_engineer/M2.3_auto_remediation/L5_database_denylist.md).)
 
-### #8 Cross-AZ chatter (GCP)
+### #8 Cross-zone chatter (all clouds)
 
 On AWS, GCP, and Azure, traffic between zones in the same region is charged, roughly $0.01 per GB in each direction (about $0.02 per GB round-trip). Only traffic that stays within a single zone is free. Result: a K8s cluster that wasn't pinned to one zone can rack up significant network charges on any of the three clouds. Detection: inter-zone egress consistently high. Fix: pin workloads to a single zone or use regional persistent disks.
 
@@ -96,7 +96,7 @@ MISTAKE                              FOUND     MONTHLY WASTE     % OF BILL
  5 Unused Elastic IPs                23 EIPs   $    83            0.0%
  6 Oversized dev compute             31 inst   $ 4,100            2.3%
  7 Over-provisioned RDS              4 DBs     $ 2,800            1.6%
- 8 Cross-AZ chatter (n/a here, AWS)  -         -                  -
+ 8 Cross-zone chatter (none found)    -         -                  -
  9 Public-internet for internal      1 service $   970            0.5%
 10 Over-retained logs/metrics        -         $ 1,840            1.0%
 ──────────────────────────────────────────────────────────────────────────
@@ -176,7 +176,7 @@ D. Outsource cloud management
 
 ## 5. Apply
 
-ZopNight pre-computes all ten mistakes as a subset of its 490 audit rules. The Recommendations page filters expose each one:
+ZopNight pre-computes all ten mistakes as a subset of its 450+ audit rules. The Recommendations page filters expose each one:
 
 - **Idle compute** → `category=idle, status=open`
 - **Orphan storage** → `category=orphan, resource_type=ebs-volume / disk`
@@ -202,7 +202,7 @@ You have now completed all five lessons of M0.1. The module quiz (10 questions, 
 ## Related lessons
 
 - [T0.M0.3 — Why scheduling beats commitments at non-prod scale](../M0.3_scheduling_vs_commitments/00_README.md) *(next module)*
-- [T2.M2.1 — The 490-rule library, explained](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
+- [T2.M2.1 — The 450+ rule library, explained](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
 - [T5.M5.2 — Schedule design patterns](../../T5_devops_cost_discipline/M5.2_schedule_patterns/00_README.md)
 
 ## Glossary terms touched

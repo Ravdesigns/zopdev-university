@@ -41,7 +41,7 @@ THE CERTIFICATION BAR:
     Customer executes manually
 ```
 
-The 20-certified count grows over time. Goal: empty denylist (all 490 rules certified) within 12-18 months.
+The 20-certified count grows over time. Goal: empty denylist (the full rule set) within 12-18 months.
 
 ### What "certified" means — the bar
 

@@ -221,7 +221,7 @@ ZopNight's Azure integration handles:
 - **Scheduling** uses Deallocate (not Stop) for VMs — the correct call
 - **Activity logs** via Azure Activity Log for the "Recent Activity" tab
 
-Azure-specific rules in the [490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md) include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.
+Azure-specific rules in the [450+ rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md) include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.
 
 ---
 

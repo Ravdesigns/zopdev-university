@@ -197,7 +197,7 @@ The Sankey overlay highlights services with reclaimable spend — typically the 
 
 - [L2 — GCP cost surface](L2_gcp_cost_surface.md) *(next)*
 - [L3 — Azure cost surface](L3_azure_cost_surface.md)
-- [T2.M2.1 — The 490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
+- [T2.M2.1 — The 450+ rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
 
 ## Glossary terms touched
 

@@ -219,7 +219,7 @@ If either shows $0 or labels as ActualCost, escalate — the sync is misconfigur
 
 - [L4 — The two-source cost model](L4_two_source_model.md) *(next)*
 - [L2 — Billing cost and the discount stack](L2_billing_cost.md)
-- [T2.M2.1 — The 490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
+- [T2.M2.1 — The 450+ rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
 
 ## Glossary terms touched
 

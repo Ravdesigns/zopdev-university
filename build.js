@@ -52,7 +52,7 @@ const TRACKS = [
     short: 'Engineer',
     eyebrow: 'Course / Engineer',
     tier: 'Engineer',
-    desc: 'Read the 490-rule library, reason about evidence, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, optimize Bedrock. The depth tier for engineers building cost-aware systems.',
+    desc: 'Read the 450+ rule library, reason about evidence, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, optimize Bedrock. The depth tier for engineers building cost-aware systems.',
     time: '10 hours',
     audience: 'Platform Engineer / SRE / ML Engineer',
   },
@@ -2093,7 +2093,7 @@ function sampleCredentialData(tier) {
     engineer: {
       tier, tierLabel: 'Engineer', tierTitle: 'ZopNight Engineer',
       title: 'Tier II / ZopNight Engineer',
-      blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 490-rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
+      blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 450+ rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
       coverage: 'ZopNight Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
       examLength: '60 minutes',
       questions: '40 questions',
@@ -3287,7 +3287,7 @@ function renderCertifications(tracks) {
         <section class="cert-card-scope">
           <span class="cert-card-scope-label">What it proves</span>
           <ul>
-            <li>Reads the 490-rule library, configures auto-remediation</li>
+            <li>Reads the 450+ rule library, configures auto-remediation</li>
             <li>Schedules K8s + Databricks workloads, pre-scales for events</li>
             <li>Tags at the IaC layer (Terraform / Pulumi / CDK)</li>
             <li>Runs a cost incident: detect, diagnose, remediate, postmortem</li>

@@ -28,7 +28,7 @@ Every rule in ZopNight implements one or more interfaces. Understanding them cla
 ```
 INTERFACE             PURPOSE                        EXAMPLE RULES
 ─────────────────────────────────────────────────────────────────────
-Rule (base)           Core logic; always required    All 490 rules
+Rule (base)           Core logic; always required    All 450+ rules
 MetricsAware          Needs metrics (CPU, etc.)      RC-004, RC-006, RC-202
 PricingAware          Needs per-resource pricing      Most rules with $ savings
 ```

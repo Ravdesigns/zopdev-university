@@ -1,6 +1,6 @@
 # Recommendation Rule Catalog
 
-490 rules across AWS (216), GCP (127), Azure (147).
+450+ rules across AWS, GCP, and Azure.
 
 ## Categories
 
