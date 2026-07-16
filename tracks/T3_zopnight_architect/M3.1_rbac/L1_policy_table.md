@@ -107,7 +107,7 @@ The policy table is defined in code, not a YAML file: the gateway's Go `PolicyTa
 2. Every policy uses the uniform view/create/update/delete verbs on an entity.
 3. The frontend's `usePermission()` helper matches the gateway's enforcement (catches drift early).
 
-This three-way check (service → gateway `PolicyTable()` → frontend `permissions.js`) keeps enforcement consistent. The set of entities is not a fixed 15: alongside the core resource types it also includes budget, dashboard, autoscaler-policy, event-readiness, unit-metric, and policy.
+This three-way check (service → gateway `PolicyTable()` → frontend `permissions.js`) keeps enforcement consistent. Beyond the 15 core entities in the table above, the same model covers a few specialized entities (budget, dashboard, autoscaler-policy, event-readiness, unit-metric, policy) — the table is "core 15 plus a short tail," not literally 15 and no more.
 
 ---
 
@@ -141,7 +141,7 @@ viewer:
   # ...all view-only across every entity
 ```
 
-The gateway resolves the request, finds no matching `(resource, manage)` permission, returns 403. The frontend's `usePermission('resource', 'manage')` would have returned `false`, so the "Start" button would already be disabled, but the gateway is the actual security boundary — disabled UI is a usability nicety, not a security control.
+The gateway resolves the request, finds no matching `(resource, update)` permission, returns 403. The frontend's `usePermission('resource', 'update')` would have returned `false`, so the "Start" button would already be disabled, but the gateway is the actual security boundary — disabled UI is a usability nicety, not a security control.
 
 ---
 

@@ -41,7 +41,7 @@ RC-1610  Streaming vs batch mismatch          Wrong API for the workload
 
 Each catches a specific pattern. On top of the rules, two cross-cutting **levers** — *model selection* (route to a cheaper model) and *batching* (consolidate calls) — usually capture most of the recoverable cost; they are techniques the rules and evidence surface, not single rule IDs.
 
-### Top 3 rules by typical impact
+### Top 3 by typical impact
 
 ```
 MODEL SELECTION lever (often biggest)

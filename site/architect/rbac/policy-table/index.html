@@ -488,7 +488,7 @@ Assign role to user              role:update + assignment:create</code></pre>
 <li>Every policy uses the uniform view/create/update/delete verbs on an entity.</li>
 <li>The frontend's <code>usePermission()</code> helper matches the gateway's enforcement (catches drift early).</li>
 </ol>
-<p>This three-way check (service → gateway <code>PolicyTable()</code> → frontend <code>permissions.js</code>) keeps enforcement consistent. The set of entities is not a fixed 15: alongside the core resource types it also includes budget, dashboard, autoscaler-policy, event-readiness, unit-metric, and policy.</p>
+<p>This three-way check (service → gateway <code>PolicyTable()</code> → frontend <code>permissions.js</code>) keeps enforcement consistent. Beyond the 15 core entities in the table above, the same model covers a few specialized entities (budget, dashboard, autoscaler-policy, event-readiness, unit-metric, policy) — the table is "core 15 plus a short tail," not literally 15 and no more.</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
 <p>A team-platform engineer wants to start an EC2 instance from the Resources page. The flow:</p>
@@ -507,7 +507,7 @@ POST /v1/resources/i-0abc/start      [gateway] → resource:update → 403
   - { entity: recommendation, action: view }
   - { entity: report, action: view }
   # ...all view-only across every entity</code></pre>
-<p>The gateway resolves the request, finds no matching <code>(resource, manage)</code> permission, returns 403. The frontend's <code>usePermission(&#39;resource&#39;, &#39;manage&#39;)</code> would have returned <code>false</code>, so the "Start" button would already be disabled, but the gateway is the actual security boundary — disabled UI is a usability nicety, not a security control.</p>
+<p>The gateway resolves the request, finds no matching <code>(resource, update)</code> permission, returns 403. The frontend's <code>usePermission(&#39;resource&#39;, &#39;update&#39;)</code> would have returned <code>false</code>, so the "Start" button would already be disabled, but the gateway is the actual security boundary — disabled UI is a usability nicety, not a security control.</p>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>Open Settings → Roles in your ZopNight org. Pick any custom role (or System role for reference).</p>

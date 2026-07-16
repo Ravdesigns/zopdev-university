@@ -105,7 +105,7 @@ Notifications                     notification:view
 PAT Inventory                     SuperAdmin-only (no pat policy entity)
 ```
 
-Some widgets (Audit Log, RBAC Summary, Cloud Accounts, PAT Inventory) are typically Admin-only. The placeholder pattern means they can appear on a shared dashboard without showing data to non-Admins.
+Some widgets (Audit Log, RBAC Summary, Cloud Accounts) are typically Admin-only; PAT Inventory is SuperAdmin-only. The placeholder pattern means they can appear on a shared dashboard without showing data to non-Admins.
 
 ### The "Access restricted" placeholder
 

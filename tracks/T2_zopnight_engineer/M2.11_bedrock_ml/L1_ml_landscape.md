@@ -62,7 +62,7 @@ ZopNight detects ML cost patterns:
 HIGH INFERENCE COST PER TOKEN:
   Pattern: high-cost model used for simple queries
   Detection: cost per token unusually high
-  Pattern: model selection (a top lever)
+  Lever: model selection
   Action: route by complexity
   
 IDLE BEDROCK PROVISIONED THROUGHPUT:
@@ -74,7 +74,7 @@ IDLE BEDROCK PROVISIONED THROUGHPUT:
 TRAINING JOBS ON ON-DEMAND:
   Pattern: training using premium pricing
   Detection: training workload type + on-demand tier
-  Pattern: request batching (a top lever)
+  Lever: Spot for interruptible training
   Action: switch to Spot
   
 GPU INSTANCES 24/7:

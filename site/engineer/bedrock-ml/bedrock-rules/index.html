@@ -439,7 +439,7 @@ RC-1608  Long-running custom model            Always-on, unused capacity
 RC-1609  Unused fine-tuned model              Created but no inferences
 RC-1610  Streaming vs batch mismatch          Wrong API for the workload</code></pre>
 <p>Each catches a specific pattern. On top of the rules, two cross-cutting <strong>levers</strong> — <em>model selection</em> (route to a cheaper model) and <em>batching</em> (consolidate calls) — usually capture most of the recoverable cost; they are techniques the rules and evidence surface, not single rule IDs.</p>
-<h3 id="top-3-rules-by-typical-impact">Top 3 rules by typical impact</h3>
+<h3 id="top-3-by-typical-impact">Top 3 by typical impact</h3>
 <pre><code>MODEL SELECTION lever (often biggest)
   Detection: token usage patterns suggest cheaper model would handle workload
   Savings: 50-90% on inference cost
