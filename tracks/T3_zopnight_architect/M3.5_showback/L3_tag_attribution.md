@@ -344,7 +344,7 @@ Define and enforce your tag taxonomy at [Settings → Tag policies](https://app.
 - [L2 — Team attribution](L2_team_attribution.md)
 - [L4 — Tag coverage](L4_tag_coverage.md) *(next)*
 - [L5 — Unit economics](L5_unit_economics.md)
-- [T2.M2.8 — Auto-tagger module](../../T2_zopnight_engineer/M2.8_autotag/00_README.md)
+- [T2.M2.8 — Auto-tagger module](../../T2_zopnight_engineer/M2.8_auto_tagging/00_README.md)
 
 ## Glossary terms touched
 

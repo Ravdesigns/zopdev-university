@@ -420,7 +420,7 @@ Complete M2.2 → 10-question module quiz unlocks the **Evidence-Reader** chip.
 - [L2 — Activity tab](L2_activity_tab.md)
 - [L3 — Pricing gap + DLQ](L3_pricing_gap_dlq.md)
 - [T0.M0.4.L1 — Rack rate vs billing](../../T0_foundations/M0.4_rack_rate_vs_billing/L1_rack_rate.md)
-- [T1.M1.3.L6 — Realism factor in savings estimator](../../T1_zopnight_operator/M1.3_schedules/L6_savings_estimator.md)
+- [T1.M1.3.L6 — Realism factor in savings estimator](../../T1_zopnight_operator/M1.3_first_schedule/L6_savings_estimator.md)
 
 ## Glossary terms touched
 

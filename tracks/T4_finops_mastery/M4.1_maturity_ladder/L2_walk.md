@@ -339,7 +339,7 @@ If you're already running optimization sprints, the win is preserving what you'v
 - [L3 — Run: operate cadence compounds](L3_run.md) *(next)*
 - [L4 — Maturity anti-patterns](L4_antipatterns.md)
 - [L5 — 90-day move-up plan](L5_90_day_plan.md)
-- [T0.M0.2.L4 — The 5 Operate KPIs](../../T0_foundations/M0.2_finops_lifecycle/L4_operate_kpis.md)
+- [T0.M0.2.L4 — The 5 Operate KPIs](../../T0_foundations/M0.2_finops_principles/L4_operate.md)
 
 ## Glossary terms touched
 

@@ -436,7 +436,7 @@
  9  Public-internet egress for internal  3–15% of network spend
 10  Over-retained logs and metrics       5–20% of observability spend</code></pre>
 <h3 id="1-idle-compute-non-prod-left-running">#1 Idle compute (non-prod left running)</h3>
-<p>Dev, test, and staging environments running 168 hours a week instead of the 50–60 hours a week anyone actually uses them. The math: stopping non-prod outside business hours and weekends recovers ~70% of those hours. (Full math in <a href="../M0.3_scheduling_vs_commitments/L1_168_hour_math.md">M0.3 L1</a>.) Detection: any non-prod resource with low CPU and a steady running schedule. Fix: schedule it off.</p>
+<p>Dev, test, and staging environments running 168 hours a week instead of the 50–60 hours a week anyone actually uses them. The math: stopping non-prod outside business hours and weekends recovers ~70% of those hours. (Full math in <a href="/foundations/scheduling-vs-commitments/168-hour-math/">M0.3 L1</a>.) Detection: any non-prod resource with low CPU and a steady running schedule. Fix: schedule it off.</p>
 <h3 id="2-orphan-storage-detached-ebs-disks">#2 Orphan storage (detached EBS / disks)</h3>
 <p>EC2 instance terminates, attached EBS volume is configured <em>not</em> to delete on termination, volume keeps billing. The volume is unattached, has no workload, and continues at full storage rate. Detection: storage in <code>available</code> (AWS) / <code>unattached</code> (Azure) status with no recent activity. Fix: snapshot if data matters, then delete the volume.</p>
 <h3 id="3-forgotten-snapshots">#3 Forgotten snapshots</h3>
@@ -446,9 +446,9 @@
 <h3 id="5-unused-elastic-ips">#5 Unused Elastic IPs</h3>
 <p>AWS charges $0.005 per hour ($3.60 per month) for any Elastic IP that is not attached to a running instance. The fee exists to discourage IP hoarding. Detection: EIPs in <code>Unassociated</code> state. Fix: release them.</p>
 <h3 id="6-dev-running-as-prod-oversized">#6 Dev running as prod (oversized)</h3>
-<p>Dev EC2 instances created at <code>m5.2xlarge</code> because somebody copied a Terraform module from prod. The dev workload runs at 2 percent CPU. Detection: non-prod instances with CPU consistently under 10 percent. Fix: drop a size or two. (See <a href="../../T2_zopnight_engineer/M2.1_rule_library/L1_eight_categories.md">T2.M2.1 lesson 1</a> and rule RC-006.)</p>
+<p>Dev EC2 instances created at <code>m5.2xlarge</code> because somebody copied a Terraform module from prod. The dev workload runs at 2 percent CPU. Detection: non-prod instances with CPU consistently under 10 percent. Fix: drop a size or two. (See <a href="/engineer/rule-library/eight-categories/">T2.M2.1 lesson 1</a> and rule RC-006.)</p>
 <h3 id="7-over-provisioned-rds">#7 Over-provisioned RDS</h3>
-<p>The hardest one to fix because it requires confidence in the workload's headroom. RDS instances provisioned for a peak that never comes, multi-AZ enabled in dev, IOPS provisioned higher than throughput requires. Detection: low CPU, low connections, low IOPS. Fix: downsize during a maintenance window. (Database changes never auto-remediated — see <a href="../../T2_zopnight_engineer/M2.3_auto_remediation/L5_database_denylist.md">the database denylist</a>.)</p>
+<p>The hardest one to fix because it requires confidence in the workload's headroom. RDS instances provisioned for a peak that never comes, multi-AZ enabled in dev, IOPS provisioned higher than throughput requires. Detection: low CPU, low connections, low IOPS. Fix: downsize during a maintenance window. (Database changes never auto-remediated — see <a href="/engineer/auto-remediation/database-denylist/">the database denylist</a>.)</p>
 <h3 id="8-cross-zone-chatter-all-clouds">#8 Cross-zone chatter (all clouds)</h3>
 <p>On AWS, GCP, and Azure, traffic between zones in the same region is charged, roughly $0.01 per GB in each direction (about $0.02 per GB round-trip). Only traffic that stays within a single zone is free. Result: a K8s cluster that wasn't pinned to one zone can rack up significant network charges on any of the three clouds. Detection: inter-zone egress consistently high. Fix: pin workloads to a single zone or use regional persistent disks.</p>
 <h3 id="9-public-internet-egress-for-internal-traffic">#9 Public-internet egress for internal traffic</h3>
@@ -527,13 +527,13 @@ TOTAL avoidable                                $29,997           16.7%</code></p
 <p><a href="https://app.zopnight.com/recommendations" target="_blank" rel="noopener">Open ZopNight Recommendations</a> <em>(deep link)</em></p>
 <hr>
 <h2 id="module-quiz">Module quiz</h2>
-<p>You have now completed all five lessons of M0.1. The module quiz (10 questions, 80% pass) lives at <a href="../../../certifications/operator/m0.1-quiz.md">/certifications/operator/m0.1-quiz</a>. Pass it to earn the <strong>Bill-Reader</strong> chip and unlock M0.2.</p>
+<p>You have now completed all five lessons of M0.1. The module quiz (10 questions, 80% pass) lives at /certifications/operator/m0.1-quiz. Pass it to earn the <strong>Bill-Reader</strong> chip and unlock M0.2.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="../M0.3_scheduling_vs_commitments/00_README.md">T0.M0.3 — Why scheduling beats commitments at non-prod scale</a> <em>(next module)</em></li>
-<li><a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">T2.M2.1 — The 450+ rule library, explained</a></li>
-<li><a href="../../T5_devops_cost_discipline/M5.2_schedule_patterns/00_README.md">T5.M5.2 — Schedule design patterns</a></li>
+<li><a href="/foundations/scheduling-vs-commitments/">T0.M0.3 — Why scheduling beats commitments at non-prod scale</a> <em>(next module)</em></li>
+<li><a href="/engineer/rule-library/">T2.M2.1 — The 450+ rule library, explained</a></li>
+<li><a href="/devops-cost-discipline/schedule-patterns/">T5.M5.2 — Schedule design patterns</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/avoidable-spend/">Avoidable spend</a> · <a href="/glossary/lifecycle-policy/">Lifecycle policy</a> · <a href="/glossary/nat-gateway/">NAT Gateway</a> · <a href="/glossary/elastic-ip/">Elastic IP</a> · <a href="/glossary/cross-az-traffic/">Cross-AZ traffic</a></p>

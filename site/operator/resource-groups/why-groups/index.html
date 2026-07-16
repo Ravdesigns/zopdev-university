@@ -449,7 +449,7 @@ Notification rules      Notifications fire on group events
 Sequenced execution     Group-level ordering of start/stop (covered L4)</code></pre>
 <p>A single group can carry all four attachments simultaneously. Adding a resource to the group means it inherits all four.</p>
 <h3 id="exclusive-membership">Exclusive membership</h3>
-<p>A resource can be in <strong>at most one group</strong> at a time. The exclusivity rule from <a href="../M1.3_first_schedule/L5_attaching.md">M1.3 L5</a> extends to groups: one schedule per resource AND one group per resource.</p>
+<p>A resource can be in <strong>at most one group</strong> at a time. The exclusivity rule from <a href="/operator/first-schedule/attaching/">M1.3 L5</a> extends to groups: one schedule per resource AND one group per resource.</p>
 <p>Why exclusive: two groups can have conflicting attached schedules. Group A says "stop at 8 PM"; Group B says "stop at 10 PM." If a resource were in both groups, which schedule wins? Resolving the conflict requires precedence rules or per-resource overrides, both of which add complexity. The simpler model: one group, explicit choice.</p>
 <p>When attempting to add a resource that's already in another group:</p>
 <pre><code>&quot;prod-dev-1 is currently in group &#39;old-dev-cluster&#39;.
@@ -584,9 +584,9 @@ about practicing group design. The mechanics are in L2.</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_creating_groups.md">L2 — Creating and managing groups</a> <em>(next)</em></li>
-<li><a href="L4_sequenced_execution.md">L4 — Sequenced execution</a></li>
-<li><a href="../M1.3_first_schedule/L5_attaching.md">M1.3 L5 — Attaching resources and groups</a></li>
+<li><a href="/operator/resource-groups/creating-groups/">L2 — Creating and managing groups</a> <em>(next)</em></li>
+<li><a href="/operator/resource-groups/sequenced-execution/">L4 — Sequenced execution</a></li>
+<li><a href="/operator/first-schedule/attaching/">M1.3 L5 — Attaching resources and groups</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/resource-group/">Resource group</a> · <a href="/glossary/exclusive-membership/">Exclusive membership</a> · <a href="/glossary/stable-membership/">Stable membership</a> · <a href="/glossary/group-attachment/">Group attachment</a></p>

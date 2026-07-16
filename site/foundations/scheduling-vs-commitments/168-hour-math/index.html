@@ -461,7 +461,7 @@ Realistic at 40% (after friction)       $16,000
 <p>For everything else, the math is dominant.</p>
 <h3 id="compounding-with-rightsizing">Compounding with rightsizing</h3>
 <p>Scheduling and rightsizing compound. A non-prod m5.2xlarge that should be m5.xlarge, scheduled off-hours, saves the rightsizing delta (~50% of compute) AND the scheduling delta (~50% of remaining hours). Combined savings on that single resource: ~75 percent.</p>
-<p>This is why the lever sequence in <a href="../M0.2_finops_principles/L3_optimize.md">M0.2 L3</a> puts scheduling first and rightsizing second. Each works on the others.</p>
+<p>This is why the lever sequence in <a href="/foundations/finops-principles/optimize/">M0.2 L3</a> puts scheduling first and rightsizing second. Each works on the others.</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
 <p>Real numbers, anonymized, from a SaaS company's first scheduling rollout:</p>
@@ -535,9 +535,9 @@ STEP 5. Multiply by 12 = annual savings
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_commitments.md">L2 — Commitments: what RIs, SPs, CUDs really save</a> <em>(next)</em></li>
-<li><a href="L4_decision_tree.md">L4 — When scheduling wins, when commitments win</a></li>
-<li><a href="../../T1_zopnight_operator/M1.3_first_schedule/00_README.md">T1.M1.3 — Build your first schedule</a></li>
+<li><a href="/foundations/scheduling-vs-commitments/commitments/">L2 — Commitments: what RIs, SPs, CUDs really save</a> <em>(next)</em></li>
+<li><a href="/foundations/scheduling-vs-commitments/decision-tree/">L4 — When scheduling wins, when commitments win</a></li>
+<li><a href="/operator/first-schedule/">T1.M1.3 — Build your first schedule</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/scheduling/">Scheduling</a> · <a href="/glossary/theoretical-savings/">Theoretical savings</a> · <a href="/glossary/realized-savings/">Realized savings</a> · <a href="/glossary/realism-discount/">Realism discount</a></p>

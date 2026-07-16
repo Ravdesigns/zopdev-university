@@ -446,7 +446,7 @@
   Relative duration:    +24h, +48h, +7d (computed from now)
   End-of-week:          Monday 00:00 (common shorthand)</code></pre>
 <p>The expiry is stored as an absolute UTC timestamp. Timezone conversions happen at display time only.</p>
-<p>If the expiry exceeds the resource's <strong>Max Override Duration</strong> cap (covered in <a href="L4_max_duration.md">L4</a>), the create is rejected. A team trying to set a 90-day override on a resource capped at 7 days must either reduce the duration, have an admin raise that resource's cap, or edit the schedule for a permanent change. If the resource's cap is 0, overrides are refused there entirely.</p>
+<p>If the expiry exceeds the resource's <strong>Max Override Duration</strong> cap (covered in <a href="/operator/overrides/max-duration/">L4</a>), the create is rejected. A team trying to set a 90-day override on a resource capped at 7 days must either reduce the duration, have an admin raise that resource's cap, or edit the schedule for a permanent change. If the resource's cap is 0, overrides are refused there entirely.</p>
 <h3 id="field-4-scope-implicit">Field 4 — Scope (implicit)</h3>
 <ul>
 <li><strong>Per-resource override</strong> is set from the Resource detail page → applies to that one resource only</li>
@@ -468,7 +468,7 @@ AT EXPIRY:
   - The resource&#39;s state at expiry is its actual state (NO automatic transition)</code></pre>
 <p>The override does NOT actively transition the resource. It only prevents the schedule from transitioning. If a force-off override is removed at expiry and the schedule's next start cron is hours away, the resource stays off until then.</p>
 <h3 id="notifications">Notifications</h3>
-<p>Setting an override fires a notification (per the resource's notification routing — see <a href="../M1.6_history_notifications_audit/L3_notifications.md">M1.6 L3</a>):</p>
+<p>Setting an override fires a notification (per the resource's notification routing — see <a href="/operator/history-notifications-audit/notifications/">M1.6 L3</a>):</p>
 <pre><code>Slack notification:
 ─────────────────────────────────────────────────────────
 🔔 Override applied
@@ -584,9 +584,9 @@ T+8 hrs   Schedule resumes normal operation.</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L3_managing_overrides.md">L3 — Managing active overrides</a> <em>(next)</em></li>
-<li><a href="L4_max_duration.md">L4 — Max override duration</a></li>
-<li><a href="../M1.6_history_notifications_audit/L3_notifications.md">M1.6 L3 — Notifications</a></li>
+<li><a href="/operator/overrides/managing-overrides/">L3 — Managing active overrides</a> <em>(next)</em></li>
+<li><a href="/operator/overrides/max-duration/">L4 — Max override duration</a></li>
+<li><a href="/operator/history-notifications-audit/notifications/">M1.6 L3 — Notifications</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/force-on/">Force-on</a> · <a href="/glossary/force-off/">Force-off</a> · <a href="/glossary/reason-field/">Reason field</a> · <a href="/glossary/override-expiry/">Override expiry</a> · <a href="/glossary/override-scope/">Override scope</a></p>

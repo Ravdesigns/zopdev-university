@@ -347,8 +347,8 @@ For sustained improvement, schedule a weekly 30-minute review during the "Operat
 - [L2 — Team attribution](L2_team_attribution.md)
 - [L3 — Tag attribution](L3_tag_attribution.md)
 - [L5 — Unit economics](L5_unit_economics.md) *(next)*
-- [T2.M2.8 — Auto-tagger](../../T2_zopnight_engineer/M2.8_autotag/00_README.md)
-- [T5.M5.1 — Tagging discipline](../../T5_devops_cost_discipline/M5.1_tagging/00_README.md)
+- [T2.M2.8 — Auto-tagger](../../T2_zopnight_engineer/M2.8_auto_tagging/00_README.md)
+- [T5.M5.1 — Tagging discipline](../../T5_devops_cost_discipline/M5.1_tagging_strategy/00_README.md)
 
 ## Glossary terms touched
 

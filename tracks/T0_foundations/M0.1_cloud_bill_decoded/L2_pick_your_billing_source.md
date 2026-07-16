@@ -206,7 +206,7 @@ To verify which source is currently feeding your account:
 - [L1 — What's actually in a cloud bill](L1_what_is_in_a_cloud_bill.md) *(previous)*
 - [L3 — Granularity vs. timeliness](L3_granularity_vs_timeliness.md) *(next)*
 - [T0.M0.4.L3 — Amortized cost: Azure's gotcha](../M0.4_rack_rate_vs_billing/L3_amortized_azure.md)
-- [T3.M3.5.L1 — Showback design: pick the dimension](../../T3_zopnight_architect/M3.5_showback/L1_pick_the_dimension.md)
+- [T3.M3.5.L1 — Showback design: pick the dimension](../../T3_zopnight_architect/M3.5_showback/L1_pick_dimension.md)
 
 ## Rule references
 

@@ -320,7 +320,7 @@ For monthly cycles, schedule a 30-minute period-end variance review — budget v
 - [L3 — Threshold-crossing notifications](L3_threshold_alerts.md)
 - [L4 — Green/yellow/red signals](L4_signals.md)
 - [L5 — Live computation, not stored](L5_live_compute.md)
-- [T4.M4.4 — Budget setting at FinOps maturity](../../T4_finops_mastery/M4.4_budgets/00_README.md)
+- [T4.M4.4 — Budget setting at FinOps maturity](../../T4_finops_mastery/M4.4_budget_governance/00_README.md)
 
 ## Glossary terms touched
 

@@ -178,7 +178,7 @@ ZopNight's Inform surface has three personas baked in:
 
 - **Engineering team** → Reports → Cost Breakdown, Reports → Resources, MCP for self-serve queries
 - **Engineering leadership** → Dashboards → Engineering preset, Weekly summary email
-- **Finance / leadership** → Dashboards → FinOps preset and Executive preset, with the cost-per-unit overlay (see [T3.M3.5 L5](../../T3_zopnight_architect/M3.5_showback/L5_unit_economics_in_product.md))
+- **Finance / leadership** → Dashboards → FinOps preset and Executive preset, with the cost-per-unit overlay (see [T3.M3.5 L5](../../T3_zopnight_architect/M3.5_showback/L5_unit_economics.md))
 
 The four shapes are all present: Trend (Reports → Cost Trend), Breakdown (Reports → Cost Flow Sankey), Snapshot (Dashboards), Anomaly (Reports → Anomalies with 15-min cadence).
 

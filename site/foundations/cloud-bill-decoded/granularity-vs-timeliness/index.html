@@ -433,13 +433,13 @@ DAILY BILLING         18–36 hrs    Per resource     &quot;What was actually ch
                                                      yesterday?&quot;
 MONTHLY SETTLED       3–10 days    Per resource     &quot;What is the final
   past month closing                                authoritative invoice?&quot;</code></pre>
-<p><strong>Live (calculated).</strong> Computed by multiplying the current state (running, stopped, instance type, region) by the public rate card. Always available. Always rack-rate. The number is real but it is not the bill. ZopNight's <code>cost_usd</code> column carries this number — see <a href="../M0.4_rack_rate_vs_billing/L1_rack_rate.md">L1 of M0.4</a>.</p>
+<p><strong>Live (calculated).</strong> Computed by multiplying the current state (running, stopped, instance type, region) by the public rate card. Always available. Always rack-rate. The number is real but it is not the bill. ZopNight's <code>cost_usd</code> column carries this number — see <a href="/foundations/rack-rate-vs-billing/rack-rate/">L1 of M0.4</a>.</p>
 <p><strong>Daily billing.</strong> What the cloud provider actually charged for yesterday. Reflects discounts, reservation distribution, savings-plan amortization. Becomes available 18 to 36 hours after the day closes. ZopNight's <code>actual_cost_usd</code> column carries this number when billing sync is configured.</p>
 <p><strong>Monthly settled.</strong> The closed-out invoice. Provider may revise daily numbers retroactively as late-arriving metering events or reservation adjustments post. Final by the 5th–10th of the following month.</p>
 <h3 id="the-mistake-everyone-makes-once">The mistake everyone makes once</h3>
 <p>The first time a Finance partner sees "real-time cost data" in a SaaS dashboard, they ask the engineering team to reconcile it against the cloud invoice. The numbers do not match. The Finance partner concludes the SaaS tool is wrong.</p>
 <p>What actually happened: the SaaS tool showed live calculated cost (rack rate), the invoice carried daily billing (post-discount). Both are correct. They answer different questions.</p>
-<p>The fix is to label which column is which. A tool that says "$1,247 today" without saying <em>which kind of $1,247</em> is mis-managing the trust gradient. ZopNight surfaces both labels on the Reports summary — see <a href="../M0.4_rack_rate_vs_billing/L4_two_source_model.md">the two-source cost model</a>.</p>
+<p>The fix is to label which column is which. A tool that says "$1,247 today" without saying <em>which kind of $1,247</em> is mis-managing the trust gradient. ZopNight surfaces both labels on the Reports summary — see <a href="/foundations/rack-rate-vs-billing/two-source-model/">the two-source cost model</a>.</p>
 <h3 id="pick-the-band-by-the-question">Pick the band by the question</h3>
 <pre><code>QUESTION                                      → BAND
 ─────────────────────────────────────────────────────────────
@@ -470,7 +470,7 @@ MONTHLY SETTLED       3–10 days    Per resource     &quot;What is the final
 <ol>
 <li>Pick one running EC2 / Compute Engine / Azure VM.</li>
 <li>Compute the live rack rate manually: <code>hourly_rate × hours_since_month_start</code>. The hourly rate is at the provider's pricing page.</li>
-<li>Pull yesterday's billed cost for the same resource using the CLI block from <a href="L2_pick_your_billing_source.md">L2</a>.</li>
+<li>Pull yesterday's billed cost for the same resource using the CLI block from <a href="/foundations/cloud-bill-decoded/pick-your-billing-source/">L2</a>.</li>
 <li>Multiply yesterday's billed cost by the number of days elapsed this month.</li>
 <li>Compare the two numbers. The gap is the effective discount running on this resource.</li>
 </ol>
@@ -506,14 +506,14 @@ MONTHLY SETTLED       3–10 days    Per resource     &quot;What is the final
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_pick_your_billing_source.md">L2 — Pick your billing source</a></li>
-<li><a href="L4_tags_and_attribution.md">L4 — Tags, labels, and the cost-attribution problem</a> <em>(next)</em></li>
-<li><a href="../M0.4_rack_rate_vs_billing/L4_two_source_model.md">T0.M0.4.L4 — The two-source cost model</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.10_cost_anomaly/00_README.md">T2.M2.10 — Cost anomaly detection</a></li>
+<li><a href="/foundations/cloud-bill-decoded/pick-your-billing-source/">L2 — Pick your billing source</a></li>
+<li><a href="/foundations/cloud-bill-decoded/tags-and-attribution/">L4 — Tags, labels, and the cost-attribution problem</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/two-source-model/">T0.M0.4.L4 — The two-source cost model</a></li>
+<li><a href="/engineer/cost-anomaly/">T2.M2.10 — Cost anomaly detection</a></li>
 </ul>
 <h2 id="rule-references">Rule references</h2>
 <ul>
-<li><a href="../../../reference/rules/RC-001.md"><code>RC-001</code> Idle EC2</a> — uses calculated cost for the live signal, billed cost for the verified savings</li>
+<li><code>RC-001</code> Idle EC2 — uses calculated cost for the live signal, billed cost for the verified savings</li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/live-calculated-cost/">Live calculated cost</a> · <a href="/glossary/daily-billing/">Daily billing</a> · <a href="/glossary/monthly-settled/">Monthly settled</a> · <a href="/glossary/effective-discount/">Effective discount</a></p>

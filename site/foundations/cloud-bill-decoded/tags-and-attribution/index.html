@@ -449,7 +449,7 @@ owner          Sec, Ops               an email address or group alias</code></pr
 <li><strong>Reorganizations.</strong> The <code>team</code> value <code>growth</code> becomes <code>monetization</code> after a reorg, but old resources still carry <code>team=growth</code>. Now the spend is split across two team names that are the same team.</li>
 <li><strong>Tag-policy mismatch.</strong> A new tag policy says <code>environment</code> must be lowercase; existing resources have <code>Environment=Production</code>. Reports show "Production" and "prod" as different environments.</li>
 </ol>
-<p>The fix is <strong>tag policy as code,</strong> enforced at provision time (Terraform / CDK / Pulumi pre-commit hook) and audited continuously (the Auto-Tagging service flags drift; see <a href="../../T2_zopnight_engineer/M2.8_auto_tagging/00_README.md">T2.M2.8</a>).</p>
+<p>The fix is <strong>tag policy as code,</strong> enforced at provision time (Terraform / CDK / Pulumi pre-commit hook) and audited continuously (the Auto-Tagging service flags drift; see <a href="/engineer/auto-tagging/">T2.M2.8</a>).</p>
 <h3 id="a-note-on-hierarchies">A note on hierarchies</h3>
 <p>Tags are flat. There is no built-in concept of <code>team.subteam</code> or <code>cost_center.parent</code>. Teams that need hierarchy build it with multiple tag keys (<code>team</code>, <code>subteam</code>) or by convention (<code>team=identity-auth</code>, <code>team=identity-mfa</code>). Pick one approach. Stick with it.</p>
 <hr>
@@ -497,7 +497,7 @@ data        $   612.40
 <li>Note the <strong>Unattributed</strong> bucket. What percent of total spend has no team tag?</li>
 <li>Pull a list of the top 20 untagged resources (sort by spend descending).</li>
 <li>For the top 5 untagged resources, find the actual owner. Use the cloud console, Slack, or a CMDB.</li>
-<li>If the owner can be determined, apply the four MVT tags through your IaC or console. If the owner cannot be determined, the resource is a candidate for the orphan list — see <a href="../../T2_zopnight_engineer/M2.1_rule_library/L5_reading_a_rec_card.md">T2.M2.1 lesson 5</a>.</li>
+<li>If the owner can be determined, apply the four MVT tags through your IaC or console. If the owner cannot be determined, the resource is a candidate for the orphan list — see <a href="/engineer/rule-library/reading-a-rec-card/">T2.M2.1 lesson 5</a>.</li>
 </ol>
 <p>Time-bounded version: do this for the top 3 untagged resources only. Eight minutes, not eight hours.</p>
 <hr>
@@ -531,15 +531,15 @@ data        $   612.40
 <li><strong>Reports → Tags</strong> lets any tag key (cloud-native or accepted auto-tag) drive the breakdown. Stacked trend chart, expandable rows for provider and resource-type breakdowns.</li>
 <li><strong>Tag Coverage Widget</strong> on the dashboard shows tagged-vs-untagged as a donut. The target is "Untagged ≤ 5%."</li>
 </ul>
-<p>The <strong>Auto-Tagging</strong> service (Insights → Auto-Tagging) infers <code>environment</code> and <code>noStop</code> predictions for untagged resources using rule-based logic (naming patterns, existing tags, instance class). Accept or reject each suggestion. Accepted tags carry <code>dimension_source=auto</code> so they are distinguishable from cloud-native tags. See <a href="../../T2_zopnight_engineer/M2.8_auto_tagging/00_README.md">T2.M2.8</a>.</p>
+<p>The <strong>Auto-Tagging</strong> service (Insights → Auto-Tagging) infers <code>environment</code> and <code>noStop</code> predictions for untagged resources using rule-based logic (naming patterns, existing tags, instance class). Accept or reject each suggestion. Accepted tags carry <code>dimension_source=auto</code> so they are distinguishable from cloud-native tags. See <a href="/engineer/auto-tagging/">T2.M2.8</a>.</p>
 <p><a href="https://app.zopnight.com/reports/tags" target="_blank" rel="noopener">Open ZopNight Reports → Tags</a> <em>(deep link)</em></p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L5_ten_cost_mistakes.md">L5 — The ten cost mistakes that show up on every bill</a> <em>(next)</em></li>
-<li><a href="../../T2_zopnight_engineer/M2.8_auto_tagging/00_README.md">T2.M2.8 — Auto-tagging</a></li>
-<li><a href="../../T3_zopnight_architect/M3.5_showback/00_README.md">T3.M3.5 — Showback design</a></li>
-<li><a href="../../T5_devops_cost_discipline/M5.1_tagging_strategy/00_README.md">T5.M5.1 — Tagging strategy that survives reorgs</a></li>
+<li><a href="/foundations/cloud-bill-decoded/ten-cost-mistakes/">L5 — The ten cost mistakes that show up on every bill</a> <em>(next)</em></li>
+<li><a href="/engineer/auto-tagging/">T2.M2.8 — Auto-tagging</a></li>
+<li><a href="/architect/showback/">T3.M3.5 — Showback design</a></li>
+<li><a href="/devops-cost-discipline/tagging-strategy/">T5.M5.1 — Tagging strategy that survives reorgs</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/tag/">Tag</a> · <a href="/glossary/label/">Label</a> · <a href="/glossary/unattributed/">Unattributed</a> · <a href="/glossary/tag-coverage/">Tag coverage</a> · <a href="/glossary/minimum-viable-tag-set/">Minimum viable tag set</a></p>

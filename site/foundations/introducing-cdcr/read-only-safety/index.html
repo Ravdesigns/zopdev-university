@@ -460,7 +460,7 @@ Action types that NEVER auto-execute on the above:
 </ul>
 <p>Customers can deny any scoped-write permission and the system gracefully degrades — the affected feature shows as "monitor only" instead of "fully active." Discovery continues. Recommendations continue. Only the write side is restricted.</p>
 <h3 id="permission-visibility">Permission Visibility</h3>
-<p>The system makes its permission state visible. The <a href="https://app.zopnight.com/cloud-accounts" target="_blank" rel="noopener">Permission Visibility</a> drawer per account shows Granted / Denied / Unknown badges per provider-type-region with the exact error messages from any denied call. This is unique — most competitors silently fail discovery and report lower numbers. ZopNight refuses to silently mis-report. (Covered in <a href="../../T1_zopnight_operator/M1.1_connect_account/00_README.md">T1.M1.1</a>.)</p>
+<p>The system makes its permission state visible. The <a href="https://app.zopnight.com/cloud-accounts" target="_blank" rel="noopener">Permission Visibility</a> drawer per account shows Granted / Denied / Unknown badges per provider-type-region with the exact error messages from any denied call. This is unique — most competitors silently fail discovery and report lower numbers. ZopNight refuses to silently mis-report. (Covered in <a href="/operator/connect-account/">T1.M1.1</a>.)</p>
 <h3 id="the-approval-gate">The approval gate</h3>
 <p>For scoped writes that are reversible-but-risky (like terminating a non-prod EC2), the system defaults to "approval-gated." A designated admin receives the request via Slack DM or email, reviews, approves or declines. Only then does the write execute.</p>
 <p>The approval gate is:</p>
@@ -566,9 +566,9 @@ auto-remediation is enabled.</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_what_cdcr_is_not.md">L4 — What CDCR is NOT</a> <em>(next — closes the module)</em></li>
-<li><a href="../../T1_zopnight_operator/M1.1_connect_account/00_README.md">T1.M1.1 — Connect a cloud account</a></li>
-<li><a href="../../T3_zopnight_architect/M3.3_audit_logging/00_README.md">T3.M3.3 — Audit logging</a></li>
+<li><a href="/foundations/introducing-cdcr/what-cdcr-is-not/">L4 — What CDCR is NOT</a> <em>(next — closes the module)</em></li>
+<li><a href="/operator/connect-account/">T1.M1.1 — Connect a cloud account</a></li>
+<li><a href="/architect/audit-logging/">T3.M3.3 — Audit logging</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/read-only-safety/">Read-only safety</a> · <a href="/glossary/scoped-write/">Scoped write</a> · <a href="/glossary/database-denylist/">Database denylist</a> · <a href="/glossary/approval-gate/">Approval gate</a> · <a href="/glossary/permission-visibility/">Permission Visibility</a></p>

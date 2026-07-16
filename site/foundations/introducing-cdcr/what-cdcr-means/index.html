@@ -459,7 +459,7 @@ Idle / orphan / scheduled     Auto (within scope and rate limits)
 Right-sizing                  Approval-gated (admin sign-off)
 Database / stateful changes   Never auto — human-only with playbook
 Recommendations                Always shown — auto-remediation is opt-in</code></pre>
-<p>The system is "act"-capable but does not act recklessly. Customers explicitly choose what to delegate. The default for most write operations is approval-gated, not auto. (Full safety model in <a href="L3_read_only_safety.md">L3</a>.)</p>
+<p>The system is "act"-capable but does not act recklessly. Customers explicitly choose what to delegate. The default for most write operations is approval-gated, not auto. (Full safety model in <a href="/foundations/introducing-cdcr/read-only-safety/">L3</a>.)</p>
 <h3 id="why-act-is-the-differentiator">Why "act" is the differentiator</h3>
 <p>The cost-tracking tool market is crowded. Vantage, CloudHealth, Apptio, CloudZero, Flexera — every major player has cost reporting. What separates is whether they <em>do</em> anything about what they report.</p>
 <p>CDCR is the practice that closes the report-to-action gap. The competitive landscape (from the Competition Parity research):</p>
@@ -481,7 +481,7 @@ Spot.io (K8s + VM)     Y        N      Y     ← act-only, narrow scope</code></
 <ol>
 <li><strong>Time-to-remediation in hours.</strong> Not weeks. The number that matters.</li>
 <li><strong>Compounding savings.</strong> Each closed loop reveals the next finding, faster.</li>
-<li><strong>Higher confidence in commitments.</strong> A steady operate loop reveals the true floor for commitment design (see <a href="../M0.3_scheduling_vs_commitments/L4_decision_tree.md">M0.3 L4</a>).</li>
+<li><strong>Higher confidence in commitments.</strong> A steady operate loop reveals the true floor for commitment design (see <a href="/foundations/scheduling-vs-commitments/decision-tree/">M0.3 L4</a>).</li>
 <li><strong>Lower opportunity cost.</strong> Engineering hours are not consumed by ticket triage.</li>
 <li><strong>Better ownership.</strong> When the team sees the loop close in real time, ownership of the cost surface becomes natural.</li>
 </ol>
@@ -547,7 +547,7 @@ T+24 hr   Billing sync confirms saved hours</code></pre>
 <p>A. True B. False. CDCR is graduated: safe findings (idle, orphan) can auto-remediate when enabled. Rightsizing and destructive operations remain approval-gated. Database and stateful changes are human-only. The default is conservative. C. True for prod, false for dev D. True only for compute</p>
 <details>
 <summary>Show answer</summary>
-<p><strong>Correct: B.</strong> CDCR's safety model is the topic of <a href="L3_read_only_safety.md">L3</a>. The system is act-capable but the default is approval-gated for most write paths.</p>
+<p><strong>Correct: B.</strong> CDCR's safety model is the topic of <a href="/foundations/introducing-cdcr/read-only-safety/">L3</a>. The system is act-capable but the default is approval-gated for most write paths.</p>
 </details>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
@@ -563,10 +563,10 @@ T+24 hr   Billing sync confirms saved hours</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_cost_of_detect_only.md">L2 — The cost of detect-only</a> <em>(next)</em></li>
-<li><a href="L3_read_only_safety.md">L3 — Read-only safety</a></li>
-<li><a href="L4_what_cdcr_is_not.md">L4 — What CDCR is NOT</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.3_auto_remediation/00_README.md">T2.M2.3 — Auto-remediation</a></li>
+<li><a href="/foundations/introducing-cdcr/cost-of-detect-only/">L2 — The cost of detect-only</a> <em>(next)</em></li>
+<li><a href="/foundations/introducing-cdcr/read-only-safety/">L3 — Read-only safety</a></li>
+<li><a href="/foundations/introducing-cdcr/what-cdcr-is-not/">L4 — What CDCR is NOT</a></li>
+<li><a href="/engineer/auto-remediation/">T2.M2.3 — Auto-remediation</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/cdcr/">CDCR</a> · <a href="/glossary/report-and-ticket/">Report-and-ticket</a> · <a href="/glossary/time-to-remediation/">Time-to-remediation</a> · <a href="/glossary/safe-to-auto/">Safe-to-auto</a> · <a href="/glossary/graduated-authority/">Graduated authority</a></p>

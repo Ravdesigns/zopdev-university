@@ -553,7 +553,7 @@
 <p>The external ID is mandatory. It is generated unique per customer organization in ZopNight and prevents the <strong>confused deputy</strong> attack (where one customer's account ID could be used to access another customer's role).</p>
 <h3 id="why-read-mostly">Why "read-mostly"</h3>
 <p>Read-only would mean: no scheduling, no auto-remediation, no autoscaler management. The product would be a reporting tool. The customer wants execution. So the term is "read-mostly" — read-only is the baseline, scoped writes are opt-in extensions.</p>
-<p>Most customers start in monitor mode (read-only baseline) and gradually enable the scoped writes as they build trust with the product. This is the <a href="../../T2_zopnight_engineer/M2.4_vm_autoscaling/00_README.md">progressive autonomy</a> pattern at the IAM layer.</p>
+<p>Most customers start in monitor mode (read-only baseline) and gradually enable the scoped writes as they build trust with the product. This is the <a href="/engineer/vm-autoscaling/">progressive autonomy</a> pattern at the IAM layer.</p>
 <h3 id="multi-account-topology">Multi-account topology</h3>
 <p>For an AWS Organization with many accounts, the canonical setup:</p>
 <ul>
@@ -628,9 +628,9 @@ T+5 min   Account marked Active; discovery preview begins</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L3_gcp_azure_creds.md">L3 — GCP & Azure credentials</a> <em>(next)</em></li>
-<li><a href="L4_permission_visibility.md">L4 — Permission Visibility</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.5_adopt_or_replace/00_README.md">T2.M2.5 — Adopt-or-replace existing cloud scaling</a></li>
+<li><a href="/operator/connect-account/gcp-azure-creds/">L3 — GCP & Azure credentials</a> <em>(next)</em></li>
+<li><a href="/operator/connect-account/permission-visibility/">L4 — Permission Visibility</a></li>
+<li><a href="/engineer/adopt-or-replace/">T2.M2.5 — Adopt-or-replace existing cloud scaling</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/iam-role/">IAM role</a> · <a href="/glossary/assume-role/">Assume-role</a> · <a href="/glossary/external-id/">External ID</a> · <a href="/glossary/confused-deputy/">Confused deputy</a> · <a href="/glossary/cloudformation-stackset/">CloudFormation StackSet</a></p>

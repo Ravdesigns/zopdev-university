@@ -438,7 +438,7 @@ A custom &quot;ZopNight Scheduler&quot; role with:
   ... (similar narrow list for GKE workloads)</code></pre>
 <h3 id="gcp-connecting">GCP — connecting</h3>
 <p>Two paths:</p>
-<p><strong>Path 1 — Service account key file.</strong> Customer creates a service account, downloads the JSON key file, and uploads it to ZopNight. The key file is the credential; it goes into the vault per <a href="L1_vault_credentials.md">L1</a>. Convenient but the key file is long-lived; rotation requires re-upload.</p>
+<p><strong>Path 1 — Service account key file.</strong> Customer creates a service account, downloads the JSON key file, and uploads it to ZopNight. The key file is the credential; it goes into the vault per <a href="/operator/connect-account/vault-credentials/">L1</a>. Convenient but the key file is long-lived; rotation requires re-upload.</p>
 <p><strong>Path 2 — Workload Identity Federation (recommended).</strong> Customer configures GCP to trust ZopNight's identity provider via OIDC. ZopNight exchanges its identity token for a short-lived GCP access token at call time. No long-lived key file in the vault. This is the modern recommended path.</p>
 <pre><code>Setup steps for Workload Identity:
 1. Create a Workload Identity Pool in the customer&#39;s GCP project
@@ -558,8 +558,8 @@ the credential cannot access. The error path is informative.</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_permission_visibility.md">L4 — Permission Visibility</a> <em>(next)</em></li>
-<li><a href="../../T3_zopnight_architect/M3.2_sso/00_README.md">T3.M3.2 — SAML, Google OAuth, GitHub OAuth</a></li>
+<li><a href="/operator/connect-account/permission-visibility/">L4 — Permission Visibility</a> <em>(next)</em></li>
+<li><a href="/architect/sso/">T3.M3.2 — SAML, Google OAuth, GitHub OAuth</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/service-account-gcp/">Service Account (GCP)</a> · <a href="/glossary/service-principal-azure/">Service Principal (Azure)</a> · <a href="/glossary/workload-identity-federation/">Workload Identity Federation</a> · <a href="/glossary/management-group/">Management Group</a> · <a href="/glossary/app-registration/">App Registration</a></p>

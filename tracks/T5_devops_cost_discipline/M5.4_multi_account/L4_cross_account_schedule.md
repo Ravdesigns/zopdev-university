@@ -478,7 +478,7 @@ For ZopNight: Groups with tag selectors automatically include cross-account reso
 - [L3 — Network egress costs](L3_network_egress.md)
 - [L5 — Consolidate or split](L5_consolidate_or_split.md) *(next)*
 - [M5.2 — Schedule patterns](../M5.2_schedule_patterns/00_README.md)
-- [T1.M1.4 — Groups](../../T1_zopnight_operator/M1.4_groups/00_README.md)
+- [T1.M1.4 — Groups](../../T1_zopnight_operator/M1.4_resource_groups/00_README.md)
 
 ## Glossary terms touched
 

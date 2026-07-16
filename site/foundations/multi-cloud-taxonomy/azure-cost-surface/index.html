@@ -418,7 +418,7 @@
 <dt>Bloom verb</dt>
 <dd>Distinguish (Analyze) and Recognize (Understand)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
-<p>Azure's cost surface looks similar to AWS and GCP but has two mechanics that catch teams: <strong>deallocate vs stop</strong> for VMs and the <strong>Hybrid Benefit</strong> discount for Windows / SQL workloads. Plus the amortized-cost gotcha from <a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">M0.4 L3</a>, which is so important it gets its own lesson.</p>
+<p>Azure's cost surface looks similar to AWS and GCP but has two mechanics that catch teams: <strong>deallocate vs stop</strong> for VMs and the <strong>Hybrid Benefit</strong> discount for Windows / SQL workloads. Plus the amortized-cost gotcha from <a href="/foundations/rack-rate-vs-billing/amortized-azure/">M0.4 L3</a>, which is so important it gets its own lesson.</p>
 <h3 id="the-top-10-azure-services-by-typical-spend-share">The top 10 Azure services by typical spend share</h3>
 <pre><code>RANK  SERVICE                          TYPICAL %  NOTES
 ─────────────────────────────────────────────────────────────────────
@@ -453,7 +453,7 @@ Deleted                             $0           $Y if managed disks remain, els
 <li>Up to <strong>~40% discount</strong> on the rate card for 3-year, ~25% for 1-year</li>
 <li><strong>Exchange / cancel</strong> options available with restrictions</li>
 </ul>
-<p>The amortized-cost behaviour from <a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">M0.4 L3</a> is the critical reading nuance: ActualCost at subscription scope returns $0 for reserved resources, AmortizedCost is the right column for per-resource reporting.</p>
+<p>The amortized-cost behaviour from <a href="/foundations/rack-rate-vs-billing/amortized-azure/">M0.4 L3</a> is the critical reading nuance: ActualCost at subscription scope returns $0 for reserved resources, AmortizedCost is the right column for per-resource reporting.</p>
 <h3 id="azure-hybrid-benefit-ahb">Azure Hybrid Benefit (AHB)</h3>
 <p>A discount that the other clouds do not have. If you own on-premises Windows Server or SQL Server licenses with active Software Assurance, you can bring those licenses to Azure and skip paying for the license portion of the VM cost.</p>
 <pre><code>WORKLOAD                                  HYBRID BENEFIT IMPACT
@@ -549,17 +549,17 @@ SCENARIO 4: Correct configuration — AHB + Deallocate 5 nightly
 <p>ZopNight's Azure integration handles:</p>
 <ul>
 <li><strong>Discovery</strong> via Resource Graph (101 resource types)</li>
-<li><strong>Billing sync</strong> via Azure Cost Management with <code>AmortizedCost</code> (the right column — see <a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">M0.4 L3</a>)</li>
+<li><strong>Billing sync</strong> via Azure Cost Management with <code>AmortizedCost</code> (the right column — see <a href="/foundations/rack-rate-vs-billing/amortized-azure/">M0.4 L3</a>)</li>
 <li><strong>Scheduling</strong> uses Deallocate (not Stop) for VMs — the correct call</li>
 <li><strong>Activity logs</strong> via Azure Activity Log for the "Recent Activity" tab</li>
 </ul>
-<p>Azure-specific rules in the <a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">450+ rule library</a> include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.</p>
+<p>Azure-specific rules in the <a href="/engineer/rule-library/">450+ rule library</a> include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_multi_cloud_governance.md">L4 — Multi-cloud governance</a> <em>(next)</em></li>
-<li><a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">T0.M0.4.L3 — Amortized cost: Azure's gotcha</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.6_k8s_scheduling/00_README.md">T2.M2.6 — K8s workload scheduling (AKS)</a></li>
+<li><a href="/foundations/multi-cloud-taxonomy/multi-cloud-governance/">L4 — Multi-cloud governance</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/amortized-azure/">T0.M0.4.L3 — Amortized cost: Azure's gotcha</a></li>
+<li><a href="/engineer/k8s-scheduling/">T2.M2.6 — K8s workload scheduling (AKS)</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/deallocate/">Deallocate</a> · <a href="/glossary/azure-hybrid-benefit/">Azure Hybrid Benefit</a> · <a href="/glossary/azure-reservation/">Azure Reservation</a> · <a href="/glossary/software-assurance/">Software Assurance</a> · <a href="/glossary/expressroute/">ExpressRoute</a></p>

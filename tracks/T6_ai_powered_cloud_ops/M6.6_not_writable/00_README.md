@@ -7,8 +7,8 @@
 | # | Lesson | Time |
 |---|---|---|
 | L1 | [The architectural choice — read-only forever](L1_read_only_forever.md) | 9 min |
-| L2 | [When you do need to write](L2_when_to_write.md) | 9 min |
-| L3 | [The future of write-with-approval](L3_future_write.md) | 9 min |
+| L2 | [When you do need to write](./L2_when_you_need_writes.md) | 9 min |
+| L3 | [The future of write-with-approval](./L3_future_write_approval.md) | 9 min |
 
 ---
 

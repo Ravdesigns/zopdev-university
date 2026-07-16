@@ -421,7 +421,7 @@
 <p>A framing as broad as CDCR invites scope creep. "Continuous Detect, Continuous Remediation" sounds like it could mean "automate everything." It does not. The University defines four explicit boundaries — what CDCR is NOT trying to do — so the practice stays defensible.</p>
 <h3 id="boundary-1-cdcr-is-not-autopilot-for-everything">Boundary 1 — CDCR is NOT autopilot for everything</h3>
 <p><strong>The temptation:</strong> since CDCR can auto-remediate idle EC2, surely it can auto-remediate everything. Just turn on every rule.</p>
-<p><strong>Why this is wrong:</strong> the safety model from <a href="L3_read_only_safety.md">L3</a> is graduated for good reason. Some operations are reversible-and-cheap (terminate an idle EC2 with snapshot first). Some are reversible-but-disruptive (rightsize a production load balancer). Some are irreversible-and-risky (database changes, anything stateful, anything touching customer data). CDCR's defaults are conservative because <em>the math of risk is not symmetric.</em></p>
+<p><strong>Why this is wrong:</strong> the safety model from <a href="/foundations/introducing-cdcr/read-only-safety/">L3</a> is graduated for good reason. Some operations are reversible-and-cheap (terminate an idle EC2 with snapshot first). Some are reversible-but-disruptive (rightsize a production load balancer). Some are irreversible-and-risky (database changes, anything stateful, anything touching customer data). CDCR's defaults are conservative because <em>the math of risk is not symmetric.</em></p>
 <p>A failed cost optimization costs $300 in lost savings. A failed database change can cost six figures in downtime and trust. The defaults should reflect this asymmetry.</p>
 <p><strong>The correct framing:</strong> <em>CDCR is "act-capable, customer-controlled."</em> Customers decide where to delegate authority. The system defaults to "show, don't act" for anything risky. Auto-remediation is a customer-elected choice per rule per scope.</p>
 <h3 id="boundary-2-cdcr-is-not-a-way-to-bypass-change-management">Boundary 2 — CDCR is NOT a way to bypass change management</h3>
@@ -432,12 +432,12 @@
 <li>The CDCR approval gate routes through the change-management system</li>
 <li>Audit logs feed the compliance evidence trail</li>
 <li>Notifications go to the same channels as other operational changes</li>
-<li>The Operate cadence (see <a href="../M0.2_finops_principles/L4_operate.md">M0.2 L4</a>) includes a change-window awareness</li>
+<li>The Operate cadence (see <a href="/foundations/finops-principles/operate/">M0.2 L4</a>) includes a change-window awareness</li>
 </ul>
 <p><strong>The correct framing:</strong> <em>CDCR makes change management faster on the cost surface, not absent.</em> Auto-remediation on tagged non-prod is a deliberate scope where the customer's change process has pre-approved a class of actions. Everything outside that scope flows through normal channels.</p>
 <h3 id="boundary-3-cdcr-is-not-a-substitute-for-cost-ownership">Boundary 3 — CDCR is NOT a substitute for cost ownership</h3>
 <p><strong>The temptation:</strong> the FinOps practice can outsource cost ownership to CDCR. The system finds and fixes problems. Teams don't have to think about cost.</p>
-<p><strong>Why this is wrong:</strong> <a href="../M0.2_finops_principles/L1_six_principles.md">Principle 3</a> of the FinOps Foundation — <em>everyone takes ownership for their technology usage</em> — is undermined if teams stop paying attention because the tool handles it. The result is <em>worse</em> than no tooling, because waste accumulates in classes the tool cannot address (architectural waste, lever 4 from <a href="../M0.2_finops_principles/L3_optimize.md">M0.2 L3</a>).</p>
+<p><strong>Why this is wrong:</strong> <a href="/foundations/finops-principles/six-principles/">Principle 3</a> of the FinOps Foundation — <em>everyone takes ownership for their technology usage</em> — is undermined if teams stop paying attention because the tool handles it. The result is <em>worse</em> than no tooling, because waste accumulates in classes the tool cannot address (architectural waste, lever 4 from <a href="/foundations/finops-principles/optimize/">M0.2 L3</a>).</p>
 <p>CDCR handles levers 1 and 2 (eliminate waste, rightsize). It cannot handle lever 4 (architect / design). The most consequential cost decisions — workload placement, architectural design, build-vs-buy — remain with the engineering teams that own the workloads.</p>
 <p><strong>The correct framing:</strong> <em>CDCR handles the operational floor. Architectural ceilings remain with engineering ownership.</em> The right organizational structure has both: CDCR running the operational loop, engineering teams making the architectural decisions that drive the structural cost base.</p>
 <h3 id="boundary-4-cdcr-is-not-a-single-vendor-lock">Boundary 4 — CDCR is NOT a single-vendor lock</h3>
@@ -545,24 +545,24 @@ WHAT TRIGGERS A REVIEW OF THESE BOUNDARIES:
 <li><strong>Database denylist</strong> is enforced in code, not in policy — cannot be turned off</li>
 <li><strong>Approval gate configurable per rule</strong> integrates with change management</li>
 <li><strong>Recommendations remain show-able even when auto is off</strong> — ownership stays with the team</li>
-<li><strong>MCP read-only enforcement</strong> — even AI-agent integrations cannot mutate (see <a href="../../T6_ai_powered_cloud_ops/M6.6_not_writable/00_README.md">T6.M6.6</a>)</li>
+<li><strong>MCP read-only enforcement</strong> — even AI-agent integrations cannot mutate (see <a href="/ai-powered-cloud-ops/not-writable/">T6.M6.6</a>)</li>
 </ul>
 <p>The boundaries are also reflected in the Competition Parity positioning: ZopNight does not claim to be a single-vendor solution; it claims to be a strong execution layer that integrates with broader FinOps practice.</p>
 <hr>
 <h2 id="module-quiz">Module quiz</h2>
-<p>You have now completed all four lessons of M0.6 and all 28 lessons of Track 0. The module quiz (10 questions, 80% pass) lives at <a href="../../../certifications/operator/m0.6-quiz.md">/certifications/operator/m0.6-quiz</a>. Pass to earn the <strong>CDCR-Native</strong> chip and complete the Operator-tier foundation.</p>
+<p>You have now completed all four lessons of M0.6 and all 28 lessons of Track 0. The module quiz (10 questions, 80% pass) lives at /certifications/operator/m0.6-quiz. Pass to earn the <strong>CDCR-Native</strong> chip and complete the Operator-tier foundation.</p>
 <hr>
 <h2 id="track-complete-what-s-next">Track complete — what's next</h2>
 <p>You have completed Track 0 — Cloud Cost Foundations.</p>
-<p><strong>Operator certification.</strong> Take the <a href="../../../certifications/operator/00_README.md">Operator certification exam</a> (free, 20 questions, 30 min, open-book). Pass to earn the <strong>ZopDev Operator</strong> digital badge, shareable to LinkedIn.</p>
-<p><strong>Or go deeper.</strong> Continue to <a href="../../T1_zopnight_operator/00_README.md">Track 1 — ZopNight Operator</a> to learn the product, or jump to a <a href="../../../paths/00_README.md">role-based path</a> curated for your role.</p>
+<p><strong>Operator certification.</strong> Take the Operator certification exam (free, 20 questions, 30 min, open-book). Pass to earn the <strong>ZopDev Operator</strong> digital badge, shareable to LinkedIn.</p>
+<p><strong>Or go deeper.</strong> Continue to <a href="/operator/">Track 1 — ZopNight Operator</a> to learn the product, or jump to a role-based path curated for your role.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L1_what_cdcr_means.md">L1 — What CDCR means</a></li>
-<li><a href="L2_cost_of_detect_only.md">L2 — The cost of detect-only</a></li>
-<li><a href="L3_read_only_safety.md">L3 — Read-only safety</a></li>
-<li><a href="../../T6_ai_powered_cloud_ops/M6.6_not_writable/00_README.md">T6.M6.6 — What's NOT writable via MCP</a></li>
+<li><a href="/foundations/introducing-cdcr/what-cdcr-means/">L1 — What CDCR means</a></li>
+<li><a href="/foundations/introducing-cdcr/cost-of-detect-only/">L2 — The cost of detect-only</a></li>
+<li><a href="/foundations/introducing-cdcr/read-only-safety/">L3 — Read-only safety</a></li>
+<li><a href="/ai-powered-cloud-ops/not-writable/">T6.M6.6 — What's NOT writable via MCP</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/cdcr-boundaries/">CDCR boundaries</a> · <a href="/glossary/change-management-integration/">Change management integration</a> · <a href="/glossary/single-vendor-lock/">Single-vendor lock</a> · <a href="/glossary/operational-floor/">Operational floor</a> · <a href="/glossary/architectural-ceiling/">Architectural ceiling</a></p>

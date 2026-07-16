@@ -424,7 +424,7 @@
 <blockquote>"We have $40K of non-prod compute spend. Cloud provider offers 40% off on a 1-year RI. Let's commit to non-prod and save $16K per year."</blockquote>
 <p>The math is honest if you accept the framing. The framing is wrong.</p>
 <h3 id="why-the-framing-is-wrong">Why the framing is wrong</h3>
-<p>Non-prod compute is <em>the workload class most suited to scheduling</em>. By definition, non-prod does not need to run nights and weekends. The math from <a href="L1_168_hour_math.md">L1</a> said this: standard scheduling saves ~64% of hours, realistically ~45%.</p>
+<p>Non-prod compute is <em>the workload class most suited to scheduling</em>. By definition, non-prod does not need to run nights and weekends. The math from <a href="/foundations/scheduling-vs-commitments/168-hour-math/">L1</a> said this: standard scheduling saves ~64% of hours, realistically ~45%.</p>
 <p>If you schedule non-prod, you have removed the hours that an RI would have covered. The RI keeps billing for those hours regardless. The result:</p>
 <pre><code>SCENARIO: $40K monthly non-prod compute
   Approach A — Buy 1-yr RI at 40% discount, don&#39;t schedule
@@ -564,8 +564,8 @@ Sentence 3 (the dollar comparison):
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_decision_tree.md">L4 — When scheduling wins, when commitments win</a> <em>(next)</em></li>
-<li><a href="../../T4_finops_mastery/M4.7_commitments_demystified/00_README.md">T4.M4.7 — Commitments demystified</a></li>
+<li><a href="/foundations/scheduling-vs-commitments/decision-tree/">L4 — When scheduling wins, when commitments win</a> <em>(next)</em></li>
+<li><a href="/finops-mastery/commitments-demystified/">T4.M4.7 — Commitments demystified</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/non-prod-fallacy/">Non-prod fallacy</a> · <a href="/glossary/over-commitment/">Over-commitment</a> · <a href="/glossary/floor/">Floor</a> · <a href="/glossary/sequence-rule/">Sequence rule</a></p>

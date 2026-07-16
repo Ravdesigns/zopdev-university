@@ -325,7 +325,7 @@ Document your team's Run practice in your wiki. The documentation is what makes 
 - [L2 — Walk: optimization motion](L2_walk.md)
 - [L4 — Maturity anti-patterns](L4_antipatterns.md) *(next)*
 - [L5 — 90-day move-up plan](L5_90_day_plan.md)
-- [T0.M0.2.L4 — The 5 Operate KPIs](../../T0_foundations/M0.2_finops_lifecycle/L4_operate_kpis.md)
+- [T0.M0.2.L4 — The 5 Operate KPIs](../../T0_foundations/M0.2_finops_principles/L4_operate.md)
 
 ## Glossary terms touched
 

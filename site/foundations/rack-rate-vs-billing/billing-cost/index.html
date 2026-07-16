@@ -437,10 +437,10 @@
 ─────────────────────────────────────────────────────────
 NET = BILLING COST</code></pre>
 <h3 id="layer-by-layer">Layer-by-layer</h3>
-<p><strong>Layer 1 — Rate card.</strong> The published, public unit price. See <a href="L1_rack_rate.md">L1</a>.</p>
+<p><strong>Layer 1 — Rate card.</strong> The published, public unit price. See <a href="/foundations/rack-rate-vs-billing/rack-rate/">L1</a>.</p>
 <p><strong>Layer 2 — Sustained-use (GCP only).</strong> GCP automatically applies a discount to compute that runs for >25% of the month. No commitment required. Up to 30% off on instances running 100% of the month. AWS and Azure have no equivalent.</p>
 <p><strong>Layer 3 — Spot.</strong> Replaces the rate-card price with the spot market price. Discount varies hour by hour (typically 50–90% off). Workload must be eviction-tolerant.</p>
-<p><strong>Layer 4 — Commitments (RI / SP / CUD).</strong> Customer commits to a baseline of usage for 1 or 3 years. Discount applies to covered hours. See <a href="../M0.3_scheduling_vs_commitments/L2_commitments.md">M0.3 L2</a> for the math.</p>
+<p><strong>Layer 4 — Commitments (RI / SP / CUD).</strong> Customer commits to a baseline of usage for 1 or 3 years. Discount applies to covered hours. See <a href="/foundations/scheduling-vs-commitments/commitments/">M0.3 L2</a> for the math.</p>
 <p><strong>Layer 5 — Azure Hybrid Benefit.</strong> A customer with on-prem Windows or SQL Server licenses can bring them to Azure and avoid paying for the license portion of the VM cost. Typical savings: 30–40% on eligible SKUs. AWS has a similar but smaller program for Windows.</p>
 <p><strong>Layer 6 — Enterprise Discount Program (EDP).</strong> A negotiated additional discount, typically a single percentage off everything, in exchange for a multi-year minimum spend commitment. 1–10% range is common. EDPs are confidential and rarely visible to engineering teams; the FinOps team sees them in the billing data.</p>
 <p><strong>Layer 7 — Credits.</strong> Marketing credits, free-tier allowances, startup credits, education credits. Finite — consumed first, expire on a date. Visible as negative line items in the bill.</p>
@@ -531,9 +531,9 @@ NET BILLING COST                       $______</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L3_amortized_azure.md">L3 — Amortized cost: Azure's gotcha</a> <em>(next)</em></li>
-<li><a href="L4_two_source_model.md">L4 — The two-source cost model</a></li>
-<li><a href="../../T4_finops_mastery/M4.7_commitments_demystified/00_README.md">T4.M4.7 — Commitments demystified</a></li>
+<li><a href="/foundations/rack-rate-vs-billing/amortized-azure/">L3 — Amortized cost: Azure's gotcha</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/two-source-model/">L4 — The two-source cost model</a></li>
+<li><a href="/finops-mastery/commitments-demystified/">T4.M4.7 — Commitments demystified</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/unblended-cost/">Unblended cost</a> · <a href="/glossary/sustained-use-discount/">Sustained-use discount</a> · <a href="/glossary/enterprise-discount-program/">Enterprise Discount Program</a> · <a href="/glossary/azure-hybrid-benefit/">Azure Hybrid Benefit</a> · <a href="/glossary/discount-stack/">Discount stack</a></p>

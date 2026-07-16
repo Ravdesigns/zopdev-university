@@ -418,7 +418,7 @@
 <dt>Bloom verb</dt>
 <dd>Add, Remove, Migrate (Apply)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
-<p>Group membership at scale needs efficient bulk operations. The Add Members panel reuses the filter machinery from <a href="../M1.2_discover_estate/L3_grouped_filters.md">M1.2 L3</a> so a team can construct a filter, multi-select, and add hundreds of resources in one operation.</p>
+<p>Group membership at scale needs efficient bulk operations. The Add Members panel reuses the filter machinery from <a href="/operator/discover-estate/grouped-filters/">M1.2 L3</a> so a team can construct a filter, multi-select, and add hundreds of resources in one operation.</p>
 <h3 id="the-add-members-panel">The Add Members panel</h3>
 <pre><code>GROUP: dev-platform-eu (currently 0 members)
 ADD MEMBERS
@@ -492,10 +492,10 @@ Confirmation modal:
 <p>The Add Members panel's search field searches across the entire estate, not just within the current selection. A user typing "prod-eu" sees every resource with "prod-eu" in its name, UID, or tag values — regardless of which account, region, or current group.</p>
 <p>This is useful when the team knows the naming convention but doesn't remember exactly which account or region a resource lives in.</p>
 <h3 id="membership-versioning">Membership versioning</h3>
-<p>The group membership table is versioned implicitly: every add and every remove writes an audit-log entry with timestamp, actor, and reason (optional). A team can ask "when was prod-eu-rds-3 added to this group?" and find the answer in the audit log (covered in <a href="../../T3_zopnight_architect/M3.3_audit_logging/00_README.md">T3.M3.3</a>).</p>
+<p>The group membership table is versioned implicitly: every add and every remove writes an audit-log entry with timestamp, actor, and reason (optional). A team can ask "when was prod-eu-rds-3 added to this group?" and find the answer in the audit log (covered in <a href="/architect/audit-logging/">T3.M3.3</a>).</p>
 <p>This matters for compliance audits and for debugging "why is this resource being scheduled?" investigations.</p>
 <h3 id="performance-at-scale">Performance at scale</h3>
-<p>For very large estates (1,000+ resources per group), the bulk operations use the same 4-worker pool from <a href="../M1.2_discover_estate/L4_manual_start_stop.md">M1.2 L4</a>. Adding 1,000 resources takes 2–3 minutes. The UI shows a per-resource progress indicator during the operation.</p>
+<p>For very large estates (1,000+ resources per group), the bulk operations use the same 4-worker pool from <a href="/operator/discover-estate/manual-start-stop/">M1.2 L4</a>. Adding 1,000 resources takes 2–3 minutes. The UI shows a per-resource progress indicator during the operation.</p>
 <p>If a member-add operation fails for a specific resource (e.g., the resource was deleted from the cloud between filter and add), the bulk operation completes the rest and reports the failure. The user can retry the failed entries.</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
@@ -584,9 +584,9 @@ THEN: practice removing a member.
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_sequenced_execution.md">L4 — Sequenced execution</a> <em>(next)</em></li>
-<li><a href="../M1.2_discover_estate/L3_grouped_filters.md">M1.2 L3 — Grouped filters</a></li>
-<li><a href="../../T3_zopnight_architect/M3.3_audit_logging/00_README.md">T3.M3.3 — Audit logging</a></li>
+<li><a href="/operator/resource-groups/sequenced-execution/">L4 — Sequenced execution</a> <em>(next)</em></li>
+<li><a href="/operator/discover-estate/grouped-filters/">M1.2 L3 — Grouped filters</a></li>
+<li><a href="/architect/audit-logging/">T3.M3.3 — Audit logging</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/bulk-membership/">Bulk membership</a> · <a href="/glossary/migration-prompt/">Migration prompt</a> · <a href="/glossary/member-list/">Member list</a> · <a href="/glossary/worker-pool/">Worker pool</a></p>

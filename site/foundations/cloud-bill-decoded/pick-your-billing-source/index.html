@@ -450,7 +450,7 @@
 </tbody>
 </table>
 <h3 id="one-non-obvious-rule">One non-obvious rule</h3>
-<p><strong>The bill you read is one day behind reality.</strong> Every source listed here has 24-hour lag minimum, and the first few hours of "yesterday" are often still being written. If a tool claims real-time cost data, it is either calculating from pricing APIs (not billing — that is rack rate, not actual cost) or quietly extrapolating. Both are useful, but neither is the bill. ZopNight is explicit about this: the <strong>Rack Rate</strong> column is calculated live, and the <strong>Billing Cost</strong> column reflects the lagged actual data. (See <a href="../M0.4_rack_rate_vs_billing/L1_rack_rate.md">L1 of M0.4</a> for the full two-source model.)</p>
+<p><strong>The bill you read is one day behind reality.</strong> Every source listed here has 24-hour lag minimum, and the first few hours of "yesterday" are often still being written. If a tool claims real-time cost data, it is either calculating from pricing APIs (not billing — that is rack rate, not actual cost) or quietly extrapolating. Both are useful, but neither is the bill. ZopNight is explicit about this: the <strong>Rack Rate</strong> column is calculated live, and the <strong>Billing Cost</strong> column reflects the lagged actual data. (See <a href="/foundations/rack-rate-vs-billing/rack-rate/">L1 of M0.4</a> for the full two-source model.)</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
 <p>The same question, "What did EC2 cost yesterday across all my accounts?" answered three ways:</p>
@@ -514,7 +514,7 @@ WHERE service.description = &#39;Compute Engine&#39;
 <p>A. The RI is broken B. The engineer queried ActualCost. Reservations show $0 there at subscription scope. The right column is AmortizedCost. C. Cost Management has a 48-hour lag and the data is not yet posted D. Azure does not report RI cost at all</p>
 <details>
 <summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Azure's ActualCost column reflects the moment of purchase, which is when the reservation was bought, not when it was consumed. The AmortizedCost column distributes the purchase across the term and shows the effective daily cost per consuming resource. This is Azure's most common FinOps trap. (See <a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">M0.4 L3</a> for the full treatment.)</p>
+<p><strong>Correct: B.</strong> Azure's ActualCost column reflects the moment of purchase, which is when the reservation was bought, not when it was consumed. The AmortizedCost column distributes the purchase across the term and shows the effective daily cost per consuming resource. This is Azure's most common FinOps trap. (See <a href="/foundations/rack-rate-vs-billing/amortized-azure/">M0.4 L3</a> for the full treatment.)</p>
 </details>
 <h3 id="q3">Q3</h3>
 <p>The team wants to ingest yesterday's per-resource AWS bill into an external FinOps tool every morning. Which source is built for that?</p>
@@ -535,14 +535,14 @@ WHERE service.description = &#39;Compute Engine&#39;
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L1_what_is_in_a_cloud_bill.md">L1 — What's actually in a cloud bill</a> <em>(previous)</em></li>
-<li><a href="L3_granularity_vs_timeliness.md">L3 — Granularity vs. timeliness</a> <em>(next)</em></li>
-<li><a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">T0.M0.4.L3 — Amortized cost: Azure's gotcha</a></li>
-<li><a href="../../T3_zopnight_architect/M3.5_showback/L1_pick_the_dimension.md">T3.M3.5.L1 — Showback design: pick the dimension</a></li>
+<li><a href="/foundations/cloud-bill-decoded/what-is-in-a-cloud-bill/">L1 — What's actually in a cloud bill</a> <em>(previous)</em></li>
+<li><a href="/foundations/cloud-bill-decoded/granularity-vs-timeliness/">L3 — Granularity vs. timeliness</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/amortized-azure/">T0.M0.4.L3 — Amortized cost: Azure's gotcha</a></li>
+<li><a href="/architect/showback/pick-dimension/">T3.M3.5.L1 — Showback design: pick the dimension</a></li>
 </ul>
 <h2 id="rule-references">Rule references</h2>
 <ul>
-<li><a href="../../../reference/rules/RC-002.md"><code>RC-002</code> Orphaned EBS Volume</a> — uses CUR resource IDs to detect orphans</li>
+<li><code>RC-002</code> Orphaned EBS Volume — uses CUR resource IDs to detect orphans</li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/cur/">CUR</a> · <a href="/glossary/cost-explorer/">Cost Explorer</a> · <a href="/glossary/amortized-cost/">Amortized cost</a> · <a href="/glossary/bigquery-billing-export/">BigQuery billing export</a> · <a href="/glossary/unblended-cost/">Unblended cost</a> · <a href="/glossary/ri-distribution-columns/">RI distribution columns</a></p>

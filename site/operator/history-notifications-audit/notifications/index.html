@@ -449,7 +449,7 @@ Budget threshold crossed                            WARNING
 Schedule action retry exhausted                      CRITICAL
 Discovery sync failed                                WARNING
 Permission Denied (new gap detected)                 WARNING</code></pre>
-<p>The severity is configurable per event type (see <a href="L4_severity_routing.md">L4</a>). The default is sensible for most teams.</p>
+<p>The severity is configurable per event type (see <a href="/operator/history-notifications-audit/severity-routing/">L4</a>). The default is sensible for most teams.</p>
 <h3 id="routing-rules">Routing rules</h3>
 <p>Each channel can subscribe to a subset of events. Common patterns:</p>
 <pre><code>CHANNEL                          SUBSCRIBES TO
@@ -516,7 +516,7 @@ Detected:    2 minutes ago
 <p>Three principles:</p>
 <p><strong>1. Separate INFO from CRITICAL/WARNING.</strong> Don't put all notifications in one channel. INFO events (successful scheduled actions) are useful for ops awareness but noisy if mixed with real alerts. Two channels: one for INFO, one for actionable events.</p>
 <p><strong>2. Scope tightly.</strong> A team's channel should not receive notifications about other teams' resources. Use group-based routing.</p>
-<p><strong>3. Tune severity.</strong> If your team finds a specific event type is firing too noisily, downgrade the severity in the org settings (see <a href="L4_severity_routing.md">L4</a>).</p>
+<p><strong>3. Tune severity.</strong> If your team finds a specific event type is firing too noisily, downgrade the severity in the org settings (see <a href="/operator/history-notifications-audit/severity-routing/">L4</a>).</p>
 <p>The default routing is conservative — most teams need to tune it down, not up, as their channels mature.</p>
 <h3 id="what-zopnight-does-not-notify">What ZopNight does NOT notify</h3>
 <p>A few deliberate non-notifications:</p>
@@ -608,8 +608,8 @@ MONTH 1:
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_severity_routing.md">L4 — Notification severity and routing</a> <em>(next)</em></li>
-<li><a href="L5_audit_logs.md">L5 — Where audit logs live</a></li>
+<li><a href="/operator/history-notifications-audit/severity-routing/">L4 — Notification severity and routing</a> <em>(next)</em></li>
+<li><a href="/operator/history-notifications-audit/audit-logs/">L5 — Where audit logs live</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/notification-channel/">Notification channel</a> · <a href="/glossary/webhook/">Webhook</a> · <a href="/glossary/routing-rule/">Routing rule</a> · <a href="/glossary/alert-fatigue/">Alert fatigue</a></p>

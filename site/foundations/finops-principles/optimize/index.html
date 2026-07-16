@@ -434,17 +434,17 @@
 3. Rate optimize       5–25% of bill      Weeks–months    Medium–High
 4. Architect / design  varies (5–50%+)    Quarters         High</code></pre>
 <h3 id="lever-1-eliminate-waste">Lever 1 — Eliminate waste</h3>
-<p>Stop paying for things nobody uses. Scheduling non-prod off-hours, terminating idle resources, releasing orphan storage, cleaning forgotten snapshots, deleting unused Elastic IPs. This is the <a href="../M0.1_cloud_bill_decoded/L5_ten_cost_mistakes.md">Top 10 from M0.1 L5</a>.</p>
+<p>Stop paying for things nobody uses. Scheduling non-prod off-hours, terminating idle resources, releasing orphan storage, cleaning forgotten snapshots, deleting unused Elastic IPs. This is the <a href="/foundations/cloud-bill-decoded/ten-cost-mistakes/">Top 10 from M0.1 L5</a>.</p>
 <p><strong>Why first:</strong> lowest risk, fastest payback, no architectural debate. Stopping a dev environment at night does not require a redesign. The savings hit the next bill.</p>
 <p><strong>Where it ends:</strong> when the avoidable-spend KPI drops below 5–8 percent of bill. Below that, the remaining waste is in the architecture, not in operations.</p>
 <h3 id="lever-2-rightsize">Lever 2 — Rightsize</h3>
 <p>Run things at the right size. Drop oversized instances a class or two. Move RDS instances down a tier when CPU and connections are persistently low. Switch EBS from <code>gp2</code> to <code>gp3</code> (same performance, lower cost). Move under-utilized K8s workloads to lower requests / limits.</p>
-<p><strong>Why second:</strong> higher reasoning load than waste elimination but still mostly mechanical. The rules engine (<a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">T2.M2.1</a>) computes most rightsizing candidates automatically. The remaining question is workload risk tolerance.</p>
+<p><strong>Why second:</strong> higher reasoning load than waste elimination but still mostly mechanical. The rules engine (<a href="/engineer/rule-library/">T2.M2.1</a>) computes most rightsizing candidates automatically. The remaining question is workload risk tolerance.</p>
 <p><strong>Where it gets hard:</strong> rightsizing databases (cannot be auto-remediated, must be done in a maintenance window) and rightsizing workloads with bursty traffic (the P99, not the average, defines the floor).</p>
 <h3 id="lever-3-rate-optimize">Lever 3 — Rate optimize</h3>
 <p>Pay less per unit. Reserved Instances, Savings Plans, Committed Use Discounts (CUDs), Spot, Azure Hybrid Benefit. Negotiate enterprise discount programs. Move steady workloads from on-demand to commitment-backed pricing.</p>
 <p><strong>Why third, not first:</strong> commitments only pay back on workloads you actually run for the full term. Committing to capacity you then schedule off is a value-destroying move. The right sequence is <em>schedule first → rightsize → commit on the proven floor.</em></p>
-<p><strong>Where it gets dangerous:</strong> over-commitment. A 1-year RI on capacity you only run six months returns negative ROI. A 3-year RI on the wrong instance family compounds the mistake. (See <a href="../M0.3_scheduling_vs_commitments/L2_commitments.md">M0.3 L2</a> and <a href="../../T4_finops_mastery/M4.7_commitments_demystified/00_README.md">T4.M4.7</a>.)</p>
+<p><strong>Where it gets dangerous:</strong> over-commitment. A 1-year RI on capacity you only run six months returns negative ROI. A 3-year RI on the wrong instance family compounds the mistake. (See <a href="/foundations/scheduling-vs-commitments/commitments/">M0.3 L2</a> and <a href="/finops-mastery/commitments-demystified/">T4.M4.7</a>.)</p>
 <h3 id="lever-4-architect-design">Lever 4 — Architect / design</h3>
 <p>Change the workload to cost less. Replace a 24/7 service with a serverless equivalent that scales to zero. Move an analytics pipeline from EMR to Athena. Re-implement a real-time feature as event-driven. Decompose a monolith so non-critical paths can run on cheaper compute.</p>
 <p><strong>Why last:</strong> highest impact ceiling, highest risk, longest time-to-value. An architectural change touches code, deployment, on-call, SLOs. The ROI calculation must account for engineering time.</p>
@@ -537,9 +537,9 @@ LEVER 4 — Architect/design
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_operate.md">L4 — Operate: the discipline that beats one-shot wins</a> <em>(next)</em></li>
-<li><a href="../M0.3_scheduling_vs_commitments/00_README.md">M0.3 — Why scheduling beats commitments</a></li>
-<li><a href="../../T4_finops_mastery/M4.7_commitments_demystified/00_README.md">T4.M4.7 — Commitments demystified</a></li>
+<li><a href="/foundations/finops-principles/operate/">L4 — Operate: the discipline that beats one-shot wins</a> <em>(next)</em></li>
+<li><a href="/foundations/scheduling-vs-commitments/">M0.3 — Why scheduling beats commitments</a></li>
+<li><a href="/finops-mastery/commitments-demystified/">T4.M4.7 — Commitments demystified</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/optimize/">Optimize</a> · <a href="/glossary/eliminate-waste/">Eliminate waste</a> · <a href="/glossary/rightsize/">Rightsize</a> · <a href="/glossary/rate-optimize/">Rate optimize</a> · <a href="/glossary/architect-design-lever/">Architect-design lever</a></p>

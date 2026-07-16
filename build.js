@@ -211,7 +211,7 @@ const stripLessonHeaderBlock = (md) => {
 };
 
 // Minimal markdown → HTML renderer
-function renderMarkdown(md) {
+function renderMarkdown(md, srcPath) {
   md = stripFrontmatter(md);
   // Strip the lesson "header block" — H1, § signature, hr, ## Outcome + outcome para,
   // hr, metadata table, hr — all rendered separately in the lesson template.
@@ -243,26 +243,43 @@ function renderMarkdown(md) {
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, txt, url) => {
       // Glossary term: lessons author them as relative .md paths
       // (../../../reference/glossary/<slug>.md). Rewrite to the
-      // generated per-term page so the link actually resolves.
+      // generated per-term page so the link actually resolves. The per-term
+      // page is keyed by the slug of the DISPLAY text (see buildGlossaryIndex),
+      // so slug the display text here — slugging the filename ("oauth.md")
+      // instead produced /glossary/oauth/ while the page lived at
+      // /glossary/oauth-2-0/, a 404. Guard against terms that never produced
+      // a page (GLOSSARY_SLUGS) and fall back to plain prose.
       const glossaryM = url.match(/reference\/glossary\/([^)\/]+?)\.md$/i);
       if (glossaryM) {
-        return `<a href="${BASE}/glossary/${slugify(glossaryM[1])}/">${txt}</a>`;
-      }
-      // Cross-repo references into the original authoring environment
-      // (e.g. ../../../../USE-CASES.md, ../../../../../All Research/...).
-      // Those targets don't exist in this repo, so a rendered href would
-      // be a dead link. Glossary links resolve at three levels up (handled
-      // above); anything reaching four-or-more levels up escapes the repo.
-      // Render the link text as plain prose. The lesson source is left
-      // byte-for-byte intact (the CHANGES.md "tracks unchanged" invariant).
-      if (/^(?:\.\.\/){4,}/.test(url)) {
+        const textSlug = slugify(txt);
+        const fileSlug = slugify(glossaryM[1]);
+        if (typeof GLOSSARY_SLUGS === 'undefined') {
+          return `<a href="${BASE}/glossary/${textSlug}/">${txt}</a>`;
+        }
+        if (GLOSSARY_SLUGS.has(textSlug)) return `<a href="${BASE}/glossary/${textSlug}/">${txt}</a>`;
+        if (GLOSSARY_SLUGS.has(fileSlug)) return `<a href="${BASE}/glossary/${fileSlug}/">${txt}</a>`;
         return txt;
       }
-      // Cross-lesson reference: lessons sometimes author L1_foo.md etc.
-      // Leave these alone for now — they'd need full-path resolution.
       const isExternal = /^https?:\/\//.test(url);
-      const target = isExternal ? ' target="_blank" rel="noopener"' : '';
-      return `<a href="${url}"${target}>${txt}</a>`;
+      if (isExternal) return `<a href="${url}" target="_blank" rel="noopener">${txt}</a>`;
+      if (/^(mailto:|tel:|#)/.test(url)) return `<a href="${url}">${txt}</a>`;
+      // Cross-lesson / cross-module reference authored as a relative .md path
+      // (../M3.3_.../L1_foo.md, ../../T4_.../00_README.md). Resolve it against
+      // the lesson-source index to the generated page URL. Anything that does
+      // not resolve — renamed modules, deleted lessons, cross-repo escapes
+      // like ../../../../USE-CASES.md, quiz stubs that were never authored — is
+      // rendered as plain prose so the site never emits a dead internal href.
+      // The lesson source is left byte-for-byte intact.
+      const mdM = url.match(/\.md(#.*)?$/i);
+      if (mdM && typeof LESSON_URL_BY_SRC !== 'undefined' && srcPath) {
+        const rel = url.replace(/#.*$/, '');
+        const abs = path.normalize(path.join(path.dirname(srcPath), rel));
+        const resolved = LESSON_URL_BY_SRC.get(abs);
+        if (resolved) return `<a href="${resolved}">${txt}</a>`;
+        return txt;
+      }
+      if (mdM) return txt; // .md link with no resolution context: never emit dead href
+      return `<a href="${url}">${txt}</a>`;
     });
     return text;
   };
@@ -1689,7 +1706,7 @@ function renderModule(track, mod) {
 }
 
 function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
-  const contentHTML = renderMarkdown(lesson.raw);
+  const contentHTML = renderMarkdown(lesson.raw, lesson.path);
 
   // Sidebar: all lessons in this module
   const sidebarLessons = mod.lessons.map(l => `
@@ -1853,6 +1870,35 @@ for (const track of tracks) {
         track, mod, lesson,
       });
     }
+  }
+}
+
+// Source-path -> generated-URL index, so inline cross-lesson/cross-module .md
+// links in lesson prose resolve to the real page instead of a dead .md href.
+// Keyed by normalized absolute path of the lesson file (and each module's
+// 00_README.md). Declared with var so renderMarkdown's typeof guards behave if
+// it is ever invoked before this point.
+var LESSON_URL_BY_SRC = new Map();
+for (const track of tracks) {
+  const trackReadme = path.normalize(path.join(TRACKS_DIR, track.dir, '00_README.md'));
+  LESSON_URL_BY_SRC.set(trackReadme, `${BASE}/${track.slug}/`);
+  for (const mod of track.modules) {
+    const modReadme = path.normalize(path.join(TRACKS_DIR, track.dir, mod.dir, '00_README.md'));
+    LESSON_URL_BY_SRC.set(modReadme, `${BASE}/${track.slug}/${mod.slug}/`);
+    for (const lesson of mod.lessons) {
+      LESSON_URL_BY_SRC.set(path.normalize(lesson.path), `${BASE}/${track.slug}/${mod.slug}/${lesson.slug}/`);
+    }
+  }
+}
+
+// Set of glossary slugs that will actually get a generated per-term page.
+// buildGlossaryIndex keys pages by slug(display-text) of every
+// [term](../../../reference/glossary/*.md) link, so mirror that here and let
+// renderInline drop links to terms that never produce a page.
+var GLOSSARY_SLUGS = new Set();
+for (const a of allLessons) {
+  for (const m of a.lesson.raw.matchAll(/\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/reference\/glossary\/[^)]+\.md\)/g)) {
+    GLOSSARY_SLUGS.add(slugify(m[1].trim()));
   }
 }
 
@@ -2566,8 +2612,9 @@ function renderPathsIndex() {
 }
 
 function renderPath(p) {
-  const parsed = parsePathFile(path.join(ROOT, 'paths', p.file));
-  const bodyHTML = renderMarkdown(parsed.bodyMd);
+  const pathSrc = path.join(ROOT, 'paths', p.file);
+  const parsed = parsePathFile(pathSrc);
+  const bodyHTML = renderMarkdown(parsed.bodyMd, pathSrc);
 
   const body = `
 <section class="breadcrumb">
