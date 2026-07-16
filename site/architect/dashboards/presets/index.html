@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -598,27 +598,33 @@ YOUR PERSONAL BOOKMARK / preferred view:
 <p>If your team has mixed roles, the org default usually pairs with personal bookmarks for individuals.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The Executive preset is best for:</p>
-<p>A. Day-to-day engineering work B. Leadership and finance — high-level cost trend, top costly resources, budget health, savings achieved. No deep technical detail; designed for monthly review meetings, not daily ops. C. Engineering team D. Audit reviewers</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Leadership and finance audience. Designed for high-level review, not deep drill.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The FinOps preset includes:</p>
-<p>A. Just cost trend B. Cost Flow Sankey, team showback, budget vs spend, tag coverage, anomalies, unit economics, recommendations summary. The practitioner's working canvas — everything the FinOps Lead needs in one view. C. Per-resource only D. Random widgets</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> FinOps-specific surfaces optimized for daily practitioner work.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Customizing a preset:</p>
-<p>A. Edits the preset for all users B. Requires cloning — presets are immutable templates. Clone creates a new saved dashboard; modify the clone freely. The original preset remains untouched. This pattern lets ZopNight update presets without breaking customer customizations. C. Not possible D. Per-user</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Clone pattern preserves preset immutability. L2 covers the cloning workflow.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The Executive preset is best for:</p>
+    <button class="opt"><span class="letter">A</span>Day-to-day engineering work</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Leadership and finance — high-level cost trend, top costly resources, budget health, savings achieved. No deep technical detail; designed for monthly review meetings, not daily ops.</button>
+    <button class="opt"><span class="letter">C</span>Engineering team</button>
+    <button class="opt"><span class="letter">D</span>Audit reviewers</button>
+    <div class="explain"><strong>Correct: B.</strong> Leadership and finance audience. Designed for high-level review, not deep drill.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The FinOps preset includes:</p>
+    <button class="opt"><span class="letter">A</span>Just cost trend</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Cost Flow Sankey, team showback, budget vs spend, tag coverage, anomalies, unit economics, recommendations summary. The practitioner's working canvas — everything the FinOps Lead needs in one view.</button>
+    <button class="opt"><span class="letter">C</span>Per-resource only</button>
+    <button class="opt"><span class="letter">D</span>Random widgets</button>
+    <div class="explain"><strong>Correct: B.</strong> FinOps-specific surfaces optimized for daily practitioner work.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Customizing a preset:</p>
+    <button class="opt"><span class="letter">A</span>Edits the preset for all users</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Requires cloning — presets are immutable templates. Clone creates a new saved dashboard; modify the clone freely. The original preset remains untouched. This pattern lets ZopNight update presets without breaking customer customizations.</button>
+    <button class="opt"><span class="letter">C</span>Not possible</button>
+    <button class="opt"><span class="letter">D</span>Per-user</button>
+    <div class="explain"><strong>Correct: B.</strong> Clone pattern preserves preset immutability. L2 covers the cloning workflow.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Browse presets at <a href="https://app.zopnight.com/dashboards" target="_blank" rel="noopener">Dashboards</a>. Each preset has a "Use this preset" button that makes it your current view. To customize, click "Clone preset" — this creates a saved dashboard you can edit. The org default (L4) is set per org by an Admin.</p>
@@ -665,6 +671,25 @@ YOUR PERSONAL BOOKMARK / preferred view:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -879,6 +904,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

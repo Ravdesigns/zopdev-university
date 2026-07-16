@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -599,27 +599,33 @@ __________________________________________________________</code></pre>
 <p>If you cannot fill in the JTBD and Description, the role is not yet justified.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A FinOps Analyst needs all the Editor permissions but cannot manage cloud-account credentials. The best approach:</p>
-<p>A. Use Editor and trust the user not to rotate credentials B. Build a custom role with all Editor policies EXCEPT <code>cloud-account:create</code>, <code>cloud-account:update</code>, and <code>cloud-account:delete</code>. Save with a clear description. C. Promote to Admin temporarily D. Use Viewer and grant exceptions per task</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> "Editor minus specific actions" is the most common custom-role pattern. Trust is not a control; explicit exclusion is.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team has 12 custom roles, several differing by only one policy. The most likely root cause:</p>
-<p>A. The team genuinely has 12 distinct job functions B. Over-customization. Each new request became a role. The fix is quarterly consolidation — cluster similar roles, archive unused ones, get back to 3-5 custom roles. C. The system roles are inadequate D. Compliance requires per-person roles</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 12 custom roles in a single team is a maintenance burden and an audit problem. Quarterly review with hard consolidation is the corrective.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Custom role policies are:</p>
-<p>A. A separate system from the policy table used by system roles B. Drawn from the same 15-entity policy table. System roles and custom roles share the policy primitives, which means a custom role can be expressed as "system role X plus/minus these specific policies" — useful for documentation. C. Customizable down to specific resources D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> One policy table, shared primitives. Custom roles are subsets/supersets expressed in the same vocabulary.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A FinOps Analyst needs all the Editor permissions but cannot manage cloud-account credentials. The best approach:</p>
+    <button class="opt"><span class="letter">A</span>Use Editor and trust the user not to rotate credentials</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Build a custom role with all Editor policies EXCEPT <code>cloud-account:create</code>, <code>cloud-account:update</code>, and <code>cloud-account:delete</code>. Save with a clear description.</button>
+    <button class="opt"><span class="letter">C</span>Promote to Admin temporarily</button>
+    <button class="opt"><span class="letter">D</span>Use Viewer and grant exceptions per task</button>
+    <div class="explain"><strong>Correct: B.</strong> "Editor minus specific actions" is the most common custom-role pattern. Trust is not a control; explicit exclusion is.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team has 12 custom roles, several differing by only one policy. The most likely root cause:</p>
+    <button class="opt"><span class="letter">A</span>The team genuinely has 12 distinct job functions</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Over-customization. Each new request became a role. The fix is quarterly consolidation — cluster similar roles, archive unused ones, get back to 3-5 custom roles.</button>
+    <button class="opt"><span class="letter">C</span>The system roles are inadequate</button>
+    <button class="opt"><span class="letter">D</span>Compliance requires per-person roles</button>
+    <div class="explain"><strong>Correct: B.</strong> 12 custom roles in a single team is a maintenance burden and an audit problem. Quarterly review with hard consolidation is the corrective.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Custom role policies are:</p>
+    <button class="opt"><span class="letter">A</span>A separate system from the policy table used by system roles</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Drawn from the same 15-entity policy table. System roles and custom roles share the policy primitives, which means a custom role can be expressed as "system role X plus/minus these specific policies" — useful for documentation.</button>
+    <button class="opt"><span class="letter">C</span>Customizable down to specific resources</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> One policy table, shared primitives. Custom roles are subsets/supersets expressed in the same vocabulary.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Build custom roles in <a href="https://app.zopnight.com/settings/roles/new" target="_blank" rel="noopener">Settings → Roles → New Custom Role</a>. The policy picker lists all 15 entities; check the actions you want; the Effective Permissions panel previews the resulting policy set. Save with a description.</p>
@@ -666,6 +672,25 @@ __________________________________________________________</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -880,6 +905,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

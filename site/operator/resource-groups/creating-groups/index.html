@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -554,27 +554,33 @@ test group. Confirm the name-confirmation pattern. Note the 30-day
 restore window. Restore the group to practice that flow.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team deletes a group. The 30-day window allows:</p>
-<p>A. The group to keep operating in the background B. The group to be restored as if no deletion happened, including members and attachments. After 30 days, the group is purged permanently and cannot be restored. C. AWS notifications to fire D. Budget tracking to continue</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Soft-delete is recoverable. The 30-day window is a safety net for accidental deletes. After that, the group is permanently gone (members and attachments are not).</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team renames a group from "dev-cluster" to "dev-platform-eu." Past audit logs:</p>
-<p>A. Are deleted B. Preserve the original name for that point in time. New events use the new name. The rename is not retroactive in the audit history. C. Are renamed retroactively D. Become unsearchable</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Audit history is immutable. The old name persists in historical records; the new name applies to future events. This is the standard pattern for renames in audit-friendly systems.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A group has 34 members, 1 attached schedule, 1 attached budget. Soft-deleting the group has what immediate effect on members?</p>
-<p>A. Members are deleted from ZopNight B. Members continue to exist as resources in the resource table. They are removed from the group, so the schedule no longer applies via the group. The budget for the group is removed. If the schedule had per-resource attachments too, those persist independently. C. Members are stopped D. Members are duplicated</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Members are independent of the group. Soft-deleting the group is metadata-only — it does not modify resources. The attachment relationship is what changes.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team deletes a group. The 30-day window allows:</p>
+    <button class="opt"><span class="letter">A</span>The group to keep operating in the background</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The group to be restored as if no deletion happened, including members and attachments. After 30 days, the group is purged permanently and cannot be restored.</button>
+    <button class="opt"><span class="letter">C</span>AWS notifications to fire</button>
+    <button class="opt"><span class="letter">D</span>Budget tracking to continue</button>
+    <div class="explain"><strong>Correct: B.</strong> Soft-delete is recoverable. The 30-day window is a safety net for accidental deletes. After that, the group is permanently gone (members and attachments are not).</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team renames a group from "dev-cluster" to "dev-platform-eu." Past audit logs:</p>
+    <button class="opt"><span class="letter">A</span>Are deleted</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Preserve the original name for that point in time. New events use the new name. The rename is not retroactive in the audit history.</button>
+    <button class="opt"><span class="letter">C</span>Are renamed retroactively</button>
+    <button class="opt"><span class="letter">D</span>Become unsearchable</button>
+    <div class="explain"><strong>Correct: B.</strong> Audit history is immutable. The old name persists in historical records; the new name applies to future events. This is the standard pattern for renames in audit-friendly systems.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A group has 34 members, 1 attached schedule, 1 attached budget. Soft-deleting the group has what immediate effect on members?</p>
+    <button class="opt"><span class="letter">A</span>Members are deleted from ZopNight</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Members continue to exist as resources in the resource table. They are removed from the group, so the schedule no longer applies via the group. The budget for the group is removed. If the schedule had per-resource attachments too, those persist independently.</button>
+    <button class="opt"><span class="letter">C</span>Members are stopped</button>
+    <button class="opt"><span class="letter">D</span>Members are duplicated</button>
+    <div class="explain"><strong>Correct: B.</strong> Members are independent of the group. Soft-deleting the group is metadata-only — it does not modify resources. The attachment relationship is what changes.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Group lifecycle operations:</p>
@@ -625,6 +631,25 @@ restore window. Restore the group to practice that flow.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -839,6 +864,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

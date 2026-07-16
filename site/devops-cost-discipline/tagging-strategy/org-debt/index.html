@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -655,27 +655,33 @@ POST-CLEANUP (6 months later):
 <p>A 20-minute audit shows you the cleanup ROI clearly. If the ROI is <6-month payback, fund it.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Tag policy as informal agreement vs as code:</p>
-<p>A. Same B. Code is enforceable in CI; informal agreements decay. Code prevents drift; informal needs constant policing. Treat tag policy the same way you treat any other infrastructure-as-code: versioned, reviewed, tested, enforced. C. Random D. Code is harder</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Code is enforceable; informal agreements drift.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Tag coverage of 73% is:</p>
-<p>A. Acceptable B. Below the 90% target. Causes report unreliability and showback gaps. With 73% coverage, 27% of spend is unattributed, so any team or service breakdown built on it has material gaps; chargeback disputes follow. Worth investing to bring up. C. Random D. Excellent</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Below 90% is meaningful debt.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Value variants like "prod" vs "Production" vs "PROD":</p>
-<p>A. Trivial B. Significant — different values are treated as different attribution entities in cost reports. "prod" + "Production" appear as two separate environments. Standardize to one canonical value (lowercase by convention). C. Random D. Doesn't matter</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Variants split attribution.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Tag policy as informal agreement vs as code:</p>
+    <button class="opt"><span class="letter">A</span>Same</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Code is enforceable in CI; informal agreements decay. Code prevents drift; informal needs constant policing. Treat tag policy the same way you treat any other infrastructure-as-code: versioned, reviewed, tested, enforced.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Code is harder</button>
+    <div class="explain"><strong>Correct: B.</strong> Code is enforceable; informal agreements drift.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Tag coverage of 73% is:</p>
+    <button class="opt"><span class="letter">A</span>Acceptable</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Below the 90% target. Causes report unreliability and showback gaps. With 73% coverage, 27% of spend is unattributed, so any team or service breakdown built on it has material gaps; chargeback disputes follow. Worth investing to bring up.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Excellent</button>
+    <div class="explain"><strong>Correct: B.</strong> Below 90% is meaningful debt.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Value variants like "prod" vs "Production" vs "PROD":</p>
+    <button class="opt"><span class="letter">A</span>Trivial</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Significant — different values are treated as different attribution entities in cost reports. "prod" + "Production" appear as two separate environments. Standardize to one canonical value (lowercase by convention).</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Doesn't matter</button>
+    <div class="explain"><strong>Correct: B.</strong> Variants split attribution.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Open ZopNight → Insights → Tag Coverage to see your org's posture. Insights → Tag Drift shows variants in use. The next 4 lessons cover the implementation: MVT (L2), inheritance (L3), drift detection (L4), reorg-proof tags (L5).</p>
@@ -723,6 +729,25 @@ POST-CLEANUP (6 months later):
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -937,6 +962,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

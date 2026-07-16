@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -707,27 +707,33 @@ REFLECTION:
 <p>20 minutes per investment for the rigorous version. Many teams discover they're paying for reliability they don't need.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A multi-AZ RDS for a non-prod workload:</p>
-<p>A. Always justified for safety B. Rarely justified. Non-prod outage costs ~$0; Multi-AZ adds 50-100% to RDS cost. Move to single-AZ unless there's a specific reason (test fidelity for HA testing, etc.). The math is clear: no benefit, real cost. C. Random D. Required for production patterns</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Reliability investment must match impact. Non-prod = no benefit.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A payment system with 4 hours expected annual downtime at $5K/hour cost. Multi-AZ at $400/mo:</p>
-<p>A. Skip; too expensive B. Worth it. Annual benefit: 4 × $5,000 = $20,000. Annual cost: $4,800. Ratio: 4×. Plus catastrophic-protection value. Clearly justified. C. Random D. Always skip multi-AZ</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Justified by impact math.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Cross-region replication "just in case":</p>
-<p>A. Always good for resilience B. Often over-investment without specific reason. Need: compliance requirement, true cross-region resilience need, customer SLA commitment, regulatory data residency. Otherwise: costly without value. The "just in case" framing usually signals undisciplined investment. C. Random D. Cheap insurance</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Specific business case required; "just in case" usually wasteful.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A multi-AZ RDS for a non-prod workload:</p>
+    <button class="opt"><span class="letter">A</span>Always justified for safety</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Rarely justified. Non-prod outage costs ~$0; Multi-AZ adds 50-100% to RDS cost. Move to single-AZ unless there's a specific reason (test fidelity for HA testing, etc.). The math is clear: no benefit, real cost.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Required for production patterns</button>
+    <div class="explain"><strong>Correct: B.</strong> Reliability investment must match impact. Non-prod = no benefit.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A payment system with 4 hours expected annual downtime at $5K/hour cost. Multi-AZ at $400/mo:</p>
+    <button class="opt"><span class="letter">A</span>Skip; too expensive</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Worth it. Annual benefit: 4 × $5,000 = $20,000. Annual cost: $4,800. Ratio: 4×. Plus catastrophic-protection value. Clearly justified.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Always skip multi-AZ</button>
+    <div class="explain"><strong>Correct: B.</strong> Justified by impact math.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Cross-region replication "just in case":</p>
+    <button class="opt"><span class="letter">A</span>Always good for resilience</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Often over-investment without specific reason. Need: compliance requirement, true cross-region resilience need, customer SLA commitment, regulatory data residency. Otherwise: costly without value. The "just in case" framing usually signals undisciplined investment.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Cheap insurance</button>
+    <div class="explain"><strong>Correct: B.</strong> Specific business case required; "just in case" usually wasteful.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Calculate breakeven per workload. Define service tiers; match reliability to tier. Quarterly audit for over-investment.</p>
@@ -774,6 +780,25 @@ REFLECTION:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -988,6 +1013,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

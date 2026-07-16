@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -618,27 +618,33 @@ DATA SOURCE for the denominator:
 <p>If you cannot write the definition in one specific sentence, the denominator isn't ready. Lock it first.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A SaaS company with monthly subscription pricing. Best denominator:</p>
-<p>A. Bytes processed B. MAU or paying users. SaaS pricing is tied to the subscriber base; MAU reflects the engaged customer base, paying users reflects revenue directly. Both work; pick based on what leadership values. C. Page views D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> MAU or paying users for SaaS. Either reflects business value.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>An e-commerce platform's best denominator:</p>
-<p>A. Page views B. Orders (or GMV). Revenue-generating events. Page views measure activity, not value; an order is the unit of value. C. Sessions D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Orders or GMV for e-commerce. Tied to revenue.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Cost-per-MAU trending from $7 to $11. Interpretation:</p>
-<p>A. Healthy growth B. Cost is growing faster than the user base. Either an efficiency loss (waste accumulating) or pre-revenue growth (new features added before users monetize). Investigate to determine which; the metric alone doesn't say. C. Optimal D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Unit-cost trend up = inefficiency or pre-revenue growth. The fix depends on the cause.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A SaaS company with monthly subscription pricing. Best denominator:</p>
+    <button class="opt"><span class="letter">A</span>Bytes processed</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>MAU or paying users. SaaS pricing is tied to the subscriber base; MAU reflects the engaged customer base, paying users reflects revenue directly. Both work; pick based on what leadership values.</button>
+    <button class="opt"><span class="letter">C</span>Page views</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> MAU or paying users for SaaS. Either reflects business value.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">An e-commerce platform's best denominator:</p>
+    <button class="opt"><span class="letter">A</span>Page views</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Orders (or GMV). Revenue-generating events. Page views measure activity, not value; an order is the unit of value.</button>
+    <button class="opt"><span class="letter">C</span>Sessions</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Orders or GMV for e-commerce. Tied to revenue.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Cost-per-MAU trending from $7 to $11. Interpretation:</p>
+    <button class="opt"><span class="letter">A</span>Healthy growth</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Cost is growing faster than the user base. Either an efficiency loss (waste accumulating) or pre-revenue growth (new features added before users monetize). Investigate to determine which; the metric alone doesn't say.</button>
+    <button class="opt"><span class="letter">C</span>Optimal</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Unit-cost trend up = inefficiency or pre-revenue growth. The fix depends on the cause.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Define your denominator at <a href="https://app.zopnight.com/settings/unit-metrics" target="_blank" rel="noopener">Settings → Unit Metrics</a>. Configure data ingest per M3.5.L6. The overlay activates on <a href="https://app.zopnight.com/reports/cost-trend" target="_blank" rel="noopener">Reports → Cost Trend</a> and <a href="https://app.zopnight.com/reports/unit-economics" target="_blank" rel="noopener">Reports → Unit Economics</a>.</p>
@@ -686,6 +692,25 @@ DATA SOURCE for the denominator:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -900,6 +925,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

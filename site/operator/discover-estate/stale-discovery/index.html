@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -536,27 +536,33 @@ or any manual action on production, hit Manual refresh first.
 The 60-90 seconds is cheap.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team is about to bulk-stop 47 production-adjacent resources. The Last Discovery timestamp shows "5 hours ago." Best practice:</p>
-<p>A. Proceed; 5 hours is recent B. Click Manual refresh first. The minute of refresh time is cheap insurance against acting on stale state. After refresh completes, re-verify the resource list still shows the intended targets. C. Wait for the next scheduled sync D. Use the cloud console</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Refresh-before-act is the rule for high-stakes operations. Five hours is borderline; the bulk size and production-adjacency make refresh worth it.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A specific GCP project shows "Last sync: 31 hours ago" and "Degraded" status. The expected diagnosis path:</p>
-<p>A. ZopNight is broken B. Open the GCP account from the Cloud Accounts page. Read the sync status panel. The Permission Visibility drawer will show which specific call is failing. Most common: a revoked service account key or a removed Workload Identity binding. Re-add the credential. C. Wait three days D. Replace ZopNight</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> "Degraded" + 31 hours is a clear signal that the sync is failing, not just behind. The diagnostic path is the Cloud Accounts page → sync status → Permission Visibility.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>"Don't act on stale data" most directly motivates:</p>
-<p>A. Always wait 24 hours before any action B. Refresh before high-stakes actions (bulk operations, production resources, anything irreversible). For low-stakes browsing and reporting, the default 6-hour cadence is fine. C. Disable schedules D. Manual everything</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The rule is graduated — refresh for stakes, not for everything. Reporting and browsing tolerate 6-hour staleness; production actions don't.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team is about to bulk-stop 47 production-adjacent resources. The Last Discovery timestamp shows "5 hours ago." Best practice:</p>
+    <button class="opt"><span class="letter">A</span>Proceed; 5 hours is recent</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Click Manual refresh first. The minute of refresh time is cheap insurance against acting on stale state. After refresh completes, re-verify the resource list still shows the intended targets.</button>
+    <button class="opt"><span class="letter">C</span>Wait for the next scheduled sync</button>
+    <button class="opt"><span class="letter">D</span>Use the cloud console</button>
+    <div class="explain"><strong>Correct: B.</strong> Refresh-before-act is the rule for high-stakes operations. Five hours is borderline; the bulk size and production-adjacency make refresh worth it.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A specific GCP project shows "Last sync: 31 hours ago" and "Degraded" status. The expected diagnosis path:</p>
+    <button class="opt"><span class="letter">A</span>ZopNight is broken</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Open the GCP account from the Cloud Accounts page. Read the sync status panel. The Permission Visibility drawer will show which specific call is failing. Most common: a revoked service account key or a removed Workload Identity binding. Re-add the credential.</button>
+    <button class="opt"><span class="letter">C</span>Wait three days</button>
+    <button class="opt"><span class="letter">D</span>Replace ZopNight</button>
+    <div class="explain"><strong>Correct: B.</strong> "Degraded" + 31 hours is a clear signal that the sync is failing, not just behind. The diagnostic path is the Cloud Accounts page → sync status → Permission Visibility.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">"Don't act on stale data" most directly motivates:</p>
+    <button class="opt"><span class="letter">A</span>Always wait 24 hours before any action</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Refresh before high-stakes actions (bulk operations, production resources, anything irreversible). For low-stakes browsing and reporting, the default 6-hour cadence is fine.</button>
+    <button class="opt"><span class="letter">C</span>Disable schedules</button>
+    <button class="opt"><span class="letter">D</span>Manual everything</button>
+    <div class="explain"><strong>Correct: B.</strong> The rule is graduated — refresh for stakes, not for everything. Reporting and browsing tolerate 6-hour staleness; production actions don't.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The freshness signal is in two places:</p>
@@ -608,6 +614,25 @@ The 60-90 seconds is cheap.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -822,6 +847,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -490,27 +490,33 @@ MONTHLY SETTLED       3–10 days    Per resource     &quot;What is the final
 <p>If the live rack rate is <strong>lower</strong> than the billed-cost-times-days estimate, the instance was running fewer hours than wall-clock would suggest (a schedule fired) or the rate card published today differs from yesterday's (rare but happens at major price changes).</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A vendor advertises "real-time cloud cost." This is most accurately interpreted as:</p>
-<p>A. Cloud providers publish hourly bills now B. The vendor is computing live rack rate from the pricing API. The actual bill is still 24+ hours lagged. C. The vendor has direct access to AWS internal metering D. The vendor is approximating, badly</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Live cost is always calculated, not billed. Providers do not publish sub-daily bills. A is wrong (no provider does this). C is fantasy (no vendor has internal metering access). D is too cynical — calculated live cost is a real and useful number; it is just not the bill.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team reports that their FinOps tool shows $14,000 spent today, but the AWS console shows $11,200 for the month so far including today. Which is most likely true?</p>
-<p>A. The FinOps tool is broken B. The console is showing billed cost (post-discount, lagged); the FinOps tool is showing live rack rate (pre-discount). Both are correct. C. AWS Cost Explorer is broken D. The team is using the wrong AWS account</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> This is the textbook live-vs-billed mismatch. The gap of ~25% is consistent with typical effective discount (RI + Savings Plan + sustained-use). The team needs to read which column they are looking at.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Budget variance reports should be sourced from which band?</p>
-<p>A. Live calculated B. Daily billing (rolled to month-to-date) C. Monthly settled D. Whichever is highest</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Budgets are set against billed amounts. Daily billing rolled MTD is the correct match. Monthly settled is too late for in-flight management. Live calculated is rack rate, mismatched against a billed budget.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A vendor advertises "real-time cloud cost." This is most accurately interpreted as:</p>
+    <button class="opt"><span class="letter">A</span>Cloud providers publish hourly bills now</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The vendor is computing live rack rate from the pricing API. The actual bill is still 24+ hours lagged.</button>
+    <button class="opt"><span class="letter">C</span>The vendor has direct access to AWS internal metering</button>
+    <button class="opt"><span class="letter">D</span>The vendor is approximating, badly</button>
+    <div class="explain"><strong>Correct: B.</strong> Live cost is always calculated, not billed. Providers do not publish sub-daily bills. A is wrong (no provider does this). C is fantasy (no vendor has internal metering access). D is too cynical — calculated live cost is a real and useful number; it is just not the bill.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team reports that their FinOps tool shows $14,000 spent today, but the AWS console shows $11,200 for the month so far including today. Which is most likely true?</p>
+    <button class="opt"><span class="letter">A</span>The FinOps tool is broken</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The console is showing billed cost (post-discount, lagged); the FinOps tool is showing live rack rate (pre-discount). Both are correct.</button>
+    <button class="opt"><span class="letter">C</span>AWS Cost Explorer is broken</button>
+    <button class="opt"><span class="letter">D</span>The team is using the wrong AWS account</button>
+    <div class="explain"><strong>Correct: B.</strong> This is the textbook live-vs-billed mismatch. The gap of ~25% is consistent with typical effective discount (RI + Savings Plan + sustained-use). The team needs to read which column they are looking at.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Budget variance reports should be sourced from which band?</p>
+    <button class="opt"><span class="letter">A</span>Live calculated</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Daily billing (rolled to month-to-date)</button>
+    <button class="opt"><span class="letter">C</span>Monthly settled</button>
+    <button class="opt"><span class="letter">D</span>Whichever is highest</button>
+    <div class="explain"><strong>Correct: B.</strong> Budgets are set against billed amounts. Daily billing rolled MTD is the correct match. Monthly settled is too late for in-flight management. Live calculated is rack rate, mismatched against a billed budget.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight separates the two bands explicitly on every report. The Reports header carries a <strong>Cost Source</strong> label — <code>Unblended Cost</code> when billing sync is active, <code>Rack Rate</code> when not. The Reports → Trend chart can split a data point into <code>actualCostUsd</code> and <code>calculatedCostUsd</code> so the gap is visible.</p>
@@ -562,6 +568,25 @@ MONTHLY SETTLED       3–10 days    Per resource     &quot;What is the final
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -776,6 +801,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

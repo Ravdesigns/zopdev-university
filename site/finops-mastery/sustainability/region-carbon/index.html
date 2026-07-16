@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -708,27 +708,33 @@ If migrate: schedule pilot for: __________</code></pre>
 <p>If you can move even one batch workload to a cleaner region, the carbon impact is often the largest single sustainability win available.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>us-east-1 vs eu-north-1 for the same workload:</p>
-<p>A. Same carbon B. eu-north-1 is approximately 7× cleaner due to hydroelectric grid (50 vs 350 gCO2/kWh). Same compute, dramatically lower carbon. Potential cost impact: minor (typically ±5-10%). Region migration is one of the highest-leverage carbon decisions available. C. us-east-1 is cleaner D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Grid mix dominates. ~7× difference for the same compute.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>ML training latency-sensitive vs not:</p>
-<p>A. ML is always latency-sensitive B. Async / batch ML training is NOT latency-sensitive (output is consumed asynchronously; training can take hours-to-days). Real-time inference IS latency-sensitive (output drives user experience). Apply carbon-aware to batch; not to inference. C. Random D. Same</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Batch is flexible; inference is latency-bound. Different optimization strategies.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Region migration for carbon:</p>
-<p>A. Always trivial — just change a config B. Requires planning: compliance, latency, cost, service availability all need checking. But for batch workloads with no constraints, the carbon impact (often 70-90% reduction) typically justifies the work. Migrations typically take 2-4 weeks per workload. C. Always too risky D. Never works</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Plan carefully; the impact is typically large for batch workloads.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">us-east-1 vs eu-north-1 for the same workload:</p>
+    <button class="opt"><span class="letter">A</span>Same carbon</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>eu-north-1 is approximately 7× cleaner due to hydroelectric grid (50 vs 350 gCO2/kWh). Same compute, dramatically lower carbon. Potential cost impact: minor (typically ±5-10%). Region migration is one of the highest-leverage carbon decisions available.</button>
+    <button class="opt"><span class="letter">C</span>us-east-1 is cleaner</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Grid mix dominates. ~7× difference for the same compute.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">ML training latency-sensitive vs not:</p>
+    <button class="opt"><span class="letter">A</span>ML is always latency-sensitive</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Async / batch ML training is NOT latency-sensitive (output is consumed asynchronously; training can take hours-to-days). Real-time inference IS latency-sensitive (output drives user experience). Apply carbon-aware to batch; not to inference.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Same</button>
+    <div class="explain"><strong>Correct: B.</strong> Batch is flexible; inference is latency-bound. Different optimization strategies.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Region migration for carbon:</p>
+    <button class="opt"><span class="letter">A</span>Always trivial — just change a config</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Requires planning: compliance, latency, cost, service availability all need checking. But for batch workloads with no constraints, the carbon impact (often 70-90% reduction) typically justifies the work. Migrations typically take 2-4 weeks per workload.</button>
+    <button class="opt"><span class="letter">C</span>Always too risky</button>
+    <button class="opt"><span class="letter">D</span>Never works</button>
+    <div class="explain"><strong>Correct: B.</strong> Plan carefully; the impact is typically large for batch workloads.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Annual region carbon audit. Prioritize batch / async workloads for migration. Track per-workload carbon in your sustainability report.</p>
@@ -776,6 +782,25 @@ If migrate: schedule pilot for: __________</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -990,6 +1015,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

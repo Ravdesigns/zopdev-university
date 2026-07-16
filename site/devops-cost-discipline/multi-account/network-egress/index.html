@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -749,27 +749,33 @@ CULTURAL OUTCOMES:
 <p>A 30-minute audit reveals the egress opportunities. Most teams find $2K-$10K/mo in fixable costs.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>S3 API calls from EC2 without a VPC endpoint:</p>
-<p>A. Free B. Routes through internet egress (~$0.09/GB outbound) OR through NAT Gateway ($0.045/GB processed). Add Gateway endpoint for S3 = $0/GB (free). 5-minute change; can save thousands/month. C. Random D. Same as endpoint</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Add Gateway endpoint; massive savings, trivial effort.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Cross-region real-time replication of non-critical data:</p>
-<p>A. Always good for resilience B. Often wasteful. Real-time replication of 10TB = $900+/mo cross-region transfer. Daily snapshot of same: $30/mo. The 30× cost difference must be justified by actual RPO requirements. For non-critical: switch to async/snapshot. C. Random D. Required for compliance</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Use-case dependent; often wasteful for non-critical data.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>NAT Gateway for VPC endpoint-eligible traffic:</p>
-<p>A. Optimal pattern B. Anti-pattern. NAT GW charges $0.045/GB processed. Gateway endpoints (S3, DynamoDB) are free. Interface endpoints are $0.01/GB. Switch the traffic to endpoints. Typical savings: $500-$3000/mo per VPC. C. Random D. Required for security</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Use VPC endpoints; NAT for traffic that can't use them.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">S3 API calls from EC2 without a VPC endpoint:</p>
+    <button class="opt"><span class="letter">A</span>Free</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Routes through internet egress (~$0.09/GB outbound) OR through NAT Gateway ($0.045/GB processed). Add Gateway endpoint for S3 = $0/GB (free). 5-minute change; can save thousands/month.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Same as endpoint</button>
+    <div class="explain"><strong>Correct: B.</strong> Add Gateway endpoint; massive savings, trivial effort.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Cross-region real-time replication of non-critical data:</p>
+    <button class="opt"><span class="letter">A</span>Always good for resilience</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Often wasteful. Real-time replication of 10TB = $900+/mo cross-region transfer. Daily snapshot of same: $30/mo. The 30× cost difference must be justified by actual RPO requirements. For non-critical: switch to async/snapshot.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Required for compliance</button>
+    <div class="explain"><strong>Correct: B.</strong> Use-case dependent; often wasteful for non-critical data.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">NAT Gateway for VPC endpoint-eligible traffic:</p>
+    <button class="opt"><span class="letter">A</span>Optimal pattern</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Anti-pattern. NAT GW charges $0.045/GB processed. Gateway endpoints (S3, DynamoDB) are free. Interface endpoints are $0.01/GB. Switch the traffic to endpoints. Typical savings: $500-$3000/mo per VPC.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Required for security</button>
+    <div class="explain"><strong>Correct: B.</strong> Use VPC endpoints; NAT for traffic that can't use them.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Quarterly network audit. Top 3 patterns: VPC endpoints, Transit Gateway, PrivateLink. Make cross-region decisions explicit per service tier.</p>
@@ -817,6 +823,25 @@ CULTURAL OUTCOMES:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -1031,6 +1056,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

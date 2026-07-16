@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -675,27 +675,33 @@ NEXT TABLETOP EXERCISE date:    __________</code></pre>
 <p>If your team doesn't have a matrix today, write the first draft now. Iterate after the first month of use.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Without explicit escalation:</p>
-<p>A. Response is faster — less bureaucracy B. Diffusion of responsibility = slower response. Each person assumes someone else is handling. Anomalies grow during the gap. The matrix is the structural fix; without it, even motivated teams default to inaction at 3 AM. C. Random outcome D. Quieter on-call</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Diffusion is the canonical on-call failure mode. The matrix prevents it.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A first responder's authority to cut resources:</p>
-<p>A. Unbounded — they can always cut B. Varies by severity. Warning: investigate only, no auto-cut. Critical: cut where safe (with audit log entry). Emergency: cut immediately + escalate to leadership. The bounds are explicit per severity, documented in the matrix. C. Random D. Never</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Severity-bound authority. The bounds are what make the matrix actionable.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A critical anomaly with 4-hour SLA, still unresolved at 6 hours:</p>
-<p>A. Continue investigating B. Escalate. SLA missed is the explicit trigger to escalate UP one level. The escalation isn't punishment; it's recognition that the next-tier responder has more authority or context to resolve. Continuing past SLA without escalating breaks the matrix discipline. C. Reset the SLA clock D. Wait for it to fix itself</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Escalate on SLA miss. The trigger is automatic; the responder doesn't decide whether to escalate, they just do.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Without explicit escalation:</p>
+    <button class="opt"><span class="letter">A</span>Response is faster — less bureaucracy</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Diffusion of responsibility = slower response. Each person assumes someone else is handling. Anomalies grow during the gap. The matrix is the structural fix; without it, even motivated teams default to inaction at 3 AM.</button>
+    <button class="opt"><span class="letter">C</span>Random outcome</button>
+    <button class="opt"><span class="letter">D</span>Quieter on-call</button>
+    <div class="explain"><strong>Correct: B.</strong> Diffusion is the canonical on-call failure mode. The matrix prevents it.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A first responder's authority to cut resources:</p>
+    <button class="opt"><span class="letter">A</span>Unbounded — they can always cut</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Varies by severity. Warning: investigate only, no auto-cut. Critical: cut where safe (with audit log entry). Emergency: cut immediately + escalate to leadership. The bounds are explicit per severity, documented in the matrix.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Never</button>
+    <div class="explain"><strong>Correct: B.</strong> Severity-bound authority. The bounds are what make the matrix actionable.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A critical anomaly with 4-hour SLA, still unresolved at 6 hours:</p>
+    <button class="opt"><span class="letter">A</span>Continue investigating</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Escalate. SLA missed is the explicit trigger to escalate UP one level. The escalation isn't punishment; it's recognition that the next-tier responder has more authority or context to resolve. Continuing past SLA without escalating breaks the matrix discipline.</button>
+    <button class="opt"><span class="letter">C</span>Reset the SLA clock</button>
+    <button class="opt"><span class="letter">D</span>Wait for it to fix itself</button>
+    <div class="explain"><strong>Correct: B.</strong> Escalate on SLA miss. The trigger is automatic; the responder doesn't decide whether to escalate, they just do.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Document your matrix in your team's runbook. Configure ZopNight's notification channels (<a href="https://app.zopnight.com/settings/notifications" target="_blank" rel="noopener">Settings → Notifications</a>) to mirror the matrix — right severity goes to the right channel goes to the right person.</p>
@@ -742,6 +748,25 @@ NEXT TABLETOP EXERCISE date:    __________</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -956,6 +981,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

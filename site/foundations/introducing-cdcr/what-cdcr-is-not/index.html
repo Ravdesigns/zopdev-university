@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -533,27 +533,33 @@ WHAT TRIGGERS A REVIEW OF THESE BOUNDARIES:
 <p>Hand this document to leadership before the CDCR pitch. It prevents the "expected everything, got something specific" reaction.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A leadership member says: "Now that we have CDCR, we can disband the FinOps team." Most accurate response:</p>
-<p>A. Yes, the tool handles it B. No — CDCR handles operational findings (levers 1 and 2). Architectural decisions, commitment design, forecasting, cross-team arbitration, and judgment calls on approval-gated remediations all still require humans. The FinOps team's role shifts toward higher-leverage work; it does not disappear. C. Yes, after one year D. Yes, except for finance</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> CDCR shifts the team's work — it does not eliminate it. The right framing is leverage, not replacement.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team enables auto-remediation on every rule, including database changes. The system blocks the database rules. The team escalates: "ZopNight is broken." Most accurate response:</p>
-<p>A. Escalate to support B. The database denylist is intentional and hardcoded. The system will not auto-mutate customer databases under any setting. This is the safety architecture, not a bug. Database optimization recommendations remain show-only. C. Disable the denylist D. Use a different tool</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The denylist is documented and intentional. It is a feature, not a defect.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The four boundaries of CDCR are:</p>
-<p>A. Cost, performance, reliability, security B. Not autopilot for everything · Not bypass for change management · Not a substitute for cost ownership · Not a single-vendor lock C. Discovery, recommendation, remediation, audit D. AWS, GCP, Azure, other</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The four boundaries are the explicit "is nots" defined in this lesson. Each one prevents a specific failure mode of the CDCR pitch.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A leadership member says: "Now that we have CDCR, we can disband the FinOps team." Most accurate response:</p>
+    <button class="opt"><span class="letter">A</span>Yes, the tool handles it</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No — CDCR handles operational findings (levers 1 and 2). Architectural decisions, commitment design, forecasting, cross-team arbitration, and judgment calls on approval-gated remediations all still require humans. The FinOps team's role shifts toward higher-leverage work; it does not disappear.</button>
+    <button class="opt"><span class="letter">C</span>Yes, after one year</button>
+    <button class="opt"><span class="letter">D</span>Yes, except for finance</button>
+    <div class="explain"><strong>Correct: B.</strong> CDCR shifts the team's work — it does not eliminate it. The right framing is leverage, not replacement.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team enables auto-remediation on every rule, including database changes. The system blocks the database rules. The team escalates: "ZopNight is broken." Most accurate response:</p>
+    <button class="opt"><span class="letter">A</span>Escalate to support</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The database denylist is intentional and hardcoded. The system will not auto-mutate customer databases under any setting. This is the safety architecture, not a bug. Database optimization recommendations remain show-only.</button>
+    <button class="opt"><span class="letter">C</span>Disable the denylist</button>
+    <button class="opt"><span class="letter">D</span>Use a different tool</button>
+    <div class="explain"><strong>Correct: B.</strong> The denylist is documented and intentional. It is a feature, not a defect.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The four boundaries of CDCR are:</p>
+    <button class="opt"><span class="letter">A</span>Cost, performance, reliability, security</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Not autopilot for everything · Not bypass for change management · Not a substitute for cost ownership · Not a single-vendor lock</button>
+    <button class="opt"><span class="letter">C</span>Discovery, recommendation, remediation, audit</button>
+    <button class="opt"><span class="letter">D</span>AWS, GCP, Azure, other</button>
+    <div class="explain"><strong>Correct: B.</strong> The four boundaries are the explicit "is nots" defined in this lesson. Each one prevents a specific failure mode of the CDCR pitch.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The boundaries are reflected in ZopNight's product:</p>
@@ -615,6 +621,25 @@ WHAT TRIGGERS A REVIEW OF THESE BOUNDARIES:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -829,6 +854,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

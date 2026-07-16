@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -648,27 +648,33 @@ IF FAILED at any step:
 <p>If all three tests pass, your setup is working. Onward to M6.4 recipes.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>After updating Claude Desktop's MCP config, what's required for it to see the change?</p>
-<p>A. Nothing — picks up automatically B. Full restart of Claude Desktop. Closing the window isn't enough; need Cmd+Q (macOS) or File→Quit (Windows/Linux) to fully terminate, then relaunch. Reload-after-config is a common gotcha. C. System reboot D. Reinstall the app</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Full restart picks up config. Closing the window is not enough.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The PAT used for MCP can be:</p>
-<p>A. Configured for write access if needed B. Always read-only. By design; cannot be configured otherwise. The architectural read-only contract (M6.1.L2) extends to PAT scope. Even an admin-tier user's MCP PAT is read-only. C. Random D. Both read and write</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Read-only. The constraint is architectural.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The configuration file path on macOS:</p>
-<p>A. /etc/claude/config.json B. ~/Library/Application Support/Claude/claude_desktop_config.json. Standard macOS user-config path. Same logical location on Windows (%APPDATA%) and Linux (~/.config/Claude/). C. /tmp/claude.json D. Custom random location</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Standard macOS path. Use the OS-appropriate path for Windows/Linux.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">After updating Claude Desktop's MCP config, what's required for it to see the change?</p>
+    <button class="opt"><span class="letter">A</span>Nothing — picks up automatically</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Full restart of Claude Desktop. Closing the window isn't enough; need Cmd+Q (macOS) or File→Quit (Windows/Linux) to fully terminate, then relaunch. Reload-after-config is a common gotcha.</button>
+    <button class="opt"><span class="letter">C</span>System reboot</button>
+    <button class="opt"><span class="letter">D</span>Reinstall the app</button>
+    <div class="explain"><strong>Correct: B.</strong> Full restart picks up config. Closing the window is not enough.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The PAT used for MCP can be:</p>
+    <button class="opt"><span class="letter">A</span>Configured for write access if needed</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Always read-only. By design; cannot be configured otherwise. The architectural read-only contract (M6.1.L2) extends to PAT scope. Even an admin-tier user's MCP PAT is read-only.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Both read and write</button>
+    <div class="explain"><strong>Correct: B.</strong> Read-only. The constraint is architectural.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The configuration file path on macOS:</p>
+    <button class="opt"><span class="letter">A</span>/etc/claude/config.json</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>~/Library/Application Support/Claude/claude_desktop_config.json. Standard macOS user-config path. Same logical location on Windows (%APPDATA%) and Linux (~/.config/Claude/).</button>
+    <button class="opt"><span class="letter">C</span>/tmp/claude.json</button>
+    <button class="opt"><span class="letter">D</span>Custom random location</button>
+    <div class="explain"><strong>Correct: B.</strong> Standard macOS path. Use the OS-appropriate path for Windows/Linux.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Documentation: <a href="https://docs.zopnight.com/mcp/claude-desktop" target="_blank" rel="noopener">docs.zopnight.com/mcp/claude-desktop</a>. Generate PAT in <a href="https://app.zopnight.com/settings/pats" target="_blank" rel="noopener">Settings → Personal Access Tokens</a>.</p>
@@ -716,6 +722,25 @@ IF FAILED at any step:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -930,6 +955,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

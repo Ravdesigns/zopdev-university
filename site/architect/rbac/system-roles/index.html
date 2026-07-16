@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -542,27 +542,33 @@ Admin #3 (name): __________ Required Admin capability: __________</code></pre>
 <p>A clean output: every Admin has a specific reason. A messy output: Admins for whom no Admin-only capability is required.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A FinOps Analyst needs to view recommendations and dismiss them, but NOT apply them (each apply is high-risk and goes through a separate approval). The right role:</p>
-<p>A. Editor — gives full access B. Custom role — Viewer + <code>recommendation:update</code>, without <code>recommendation:update</code>. The system roles don't fit exactly; this is the 20% custom case. Document the role in the role description. C. Admin D. Viewer (with a separate process for dismissals)</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> This is a textbook custom-role case. The system roles are tiered — Editor includes apply. Removing just apply means a custom role. Always document the <em>why</em> in the role's description field so reviewers in 6 months understand the intent.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A new engineer joins. The right starting role is:</p>
-<p>A. Admin so they can do anything during onboarding B. Editor — most engineers need to create/modify resources. Promote to Admin only when there is a specific admin-tier need (managing roles, rotating cloud creds). C. Viewer — they need read-only first D. Random — pick one and adjust</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Editor is the default for engineers. Admin is reserved for people who manage RBAC and cloud account credentials. The principle: start at the smallest role that lets the person do their job; promote on demonstrated need.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>An organization has 8 Admins out of 20 users. The most likely explanation:</p>
-<p>A. The org needs all of them B. Role design has leaked — Editor is probably too restrictive somewhere, so people got promoted to Admin as a workaround. Audit the recent admin-tier actions; in most cases, 1-2 missing Editor capabilities would solve the issue. C. The product requires it D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 40% Admin density is a red flag. The fix is usually a small Editor adjustment or a focused custom role, not blanket Admin grants. Quarterly RBAC reviews catch this pattern.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A FinOps Analyst needs to view recommendations and dismiss them, but NOT apply them (each apply is high-risk and goes through a separate approval). The right role:</p>
+    <button class="opt"><span class="letter">A</span>Editor — gives full access</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Custom role — Viewer + <code>recommendation:update</code>, without <code>recommendation:update</code>. The system roles don't fit exactly; this is the 20% custom case. Document the role in the role description.</button>
+    <button class="opt"><span class="letter">C</span>Admin</button>
+    <button class="opt"><span class="letter">D</span>Viewer (with a separate process for dismissals)</button>
+    <div class="explain"><strong>Correct: B.</strong> This is a textbook custom-role case. The system roles are tiered — Editor includes apply. Removing just apply means a custom role. Always document the <em>why</em> in the role's description field so reviewers in 6 months understand the intent.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A new engineer joins. The right starting role is:</p>
+    <button class="opt"><span class="letter">A</span>Admin so they can do anything during onboarding</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Editor — most engineers need to create/modify resources. Promote to Admin only when there is a specific admin-tier need (managing roles, rotating cloud creds).</button>
+    <button class="opt"><span class="letter">C</span>Viewer — they need read-only first</button>
+    <button class="opt"><span class="letter">D</span>Random — pick one and adjust</button>
+    <div class="explain"><strong>Correct: B.</strong> Editor is the default for engineers. Admin is reserved for people who manage RBAC and cloud account credentials. The principle: start at the smallest role that lets the person do their job; promote on demonstrated need.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">An organization has 8 Admins out of 20 users. The most likely explanation:</p>
+    <button class="opt"><span class="letter">A</span>The org needs all of them</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Role design has leaked — Editor is probably too restrictive somewhere, so people got promoted to Admin as a workaround. Audit the recent admin-tier actions; in most cases, 1-2 missing Editor capabilities would solve the issue.</button>
+    <button class="opt"><span class="letter">C</span>The product requires it</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> 40% Admin density is a red flag. The fix is usually a small Editor adjustment or a focused custom role, not blanket Admin grants. Quarterly RBAC reviews catch this pattern.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Assign system roles in <a href="https://app.zopnight.com/settings/users" target="_blank" rel="noopener">Settings → Users</a>. For each user, the assignment screen shows the effective policy set so you can confirm before saving.</p>
@@ -609,6 +615,25 @@ Admin #3 (name): __________ Required Admin capability: __________</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -823,6 +848,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

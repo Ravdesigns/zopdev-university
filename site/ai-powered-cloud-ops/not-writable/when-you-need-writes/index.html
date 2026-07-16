@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -722,27 +722,33 @@ REFLECTION:
 <p>Mapping actions to surfaces is a 5-minute exercise; saves hours of friction over the quarter.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Agent suggests stopping one resource. Best write path:</p>
-<p>A. Via MCP B. ZopNight UI (one-off, low cognitive overhead, full audit). MCP is read-only by design. API is the alternative for scripted/bulk actions. C. Random D. AWS CLI directly</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> UI for one-off. The 30 seconds of review is the safeguard.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Recurring write action (delete unattached EBS weekly):</p>
-<p>A. Manual every time B. Auto-remediation rule. Define once; ZopNight applies on schedule with audit. No human-in-loop for the certified rule. See M5.3.L4 for the full pattern. C. Random D. Skip</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Auto-rem rule. Manual repetition is the anti-pattern.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Persistent infrastructure right-sizing:</p>
-<p>A. UI for one-off B. Terraform/IaC + PR. Audit + reproducibility + cost estimate pre-merge (M5.6.L3). Without IaC path, the next <code>terraform apply</code> reverts the manual change. C. Random D. Cloud CLI</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> IaC path for IaC-managed resources.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Agent suggests stopping one resource. Best write path:</p>
+    <button class="opt"><span class="letter">A</span>Via MCP</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>ZopNight UI (one-off, low cognitive overhead, full audit). MCP is read-only by design. API is the alternative for scripted/bulk actions.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>AWS CLI directly</button>
+    <div class="explain"><strong>Correct: B.</strong> UI for one-off. The 30 seconds of review is the safeguard.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Recurring write action (delete unattached EBS weekly):</p>
+    <button class="opt"><span class="letter">A</span>Manual every time</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Auto-remediation rule. Define once; ZopNight applies on schedule with audit. No human-in-loop for the certified rule. See M5.3.L4 for the full pattern.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Skip</button>
+    <div class="explain"><strong>Correct: B.</strong> Auto-rem rule. Manual repetition is the anti-pattern.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Persistent infrastructure right-sizing:</p>
+    <button class="opt"><span class="letter">A</span>UI for one-off</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Terraform/IaC + PR. Audit + reproducibility + cost estimate pre-merge (M5.6.L3). Without IaC path, the next <code>terraform apply</code> reverts the manual change.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Cloud CLI</button>
+    <div class="explain"><strong>Correct: B.</strong> IaC path for IaC-managed resources.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Match the write to the surface. Don't fight read-only MCP — work <em>with</em> the agent + 5-surface architecture. Reframe imperative prompts ("stop X") into investigative ones ("should I stop X?").</p>
@@ -789,6 +795,25 @@ REFLECTION:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -1003,6 +1028,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -588,27 +588,33 @@ USER C — Admin role, allResources
 <p>This exercise builds intuition for which policies gate which UI surfaces.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A button is hidden because the user lacks permission. The user constructs the API call manually using a script. What happens?</p>
-<p>A. The script succeeds because the frontend was the only check B. The gateway rejects with 403 Forbidden. Frontend gating is UX; gateway enforcement is security. The script will see the same authorization failure as a clicked button would. C. The script gets cached approval D. Random behavior</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> This is the canonical test of the security model. Frontend gates are user-facing; the gateway is the authoritative authorization point. Scripts cannot bypass it because they cannot avoid the gateway.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The "Access restricted" panel includes:</p>
-<p>A. Just a generic "not allowed" error B. The specific policy required, the user's current role, and (if scope-relevant) the scope state. Specific enough that the user can request the right access without a support back-and-forth. C. A stack trace D. The raw 403 response</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Specific, actionable error messages are a UX investment that reduces support load and surfaces role-design problems faster.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The <code>usePermission()</code> hook reads from:</p>
-<p>A. An API call to the gateway on every check B. The session token (JWT or session cookie), decoded once at login and cached. O(1) lookup per check. No per-render API roundtrip. C. A local config file D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Caching the policy set at session start is what makes the hook fast enough to use on every gated element. The cache is invalidated when the session token is refreshed (typical lifetime: 8 hours).</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A button is hidden because the user lacks permission. The user constructs the API call manually using a script. What happens?</p>
+    <button class="opt"><span class="letter">A</span>The script succeeds because the frontend was the only check</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The gateway rejects with 403 Forbidden. Frontend gating is UX; gateway enforcement is security. The script will see the same authorization failure as a clicked button would.</button>
+    <button class="opt"><span class="letter">C</span>The script gets cached approval</button>
+    <button class="opt"><span class="letter">D</span>Random behavior</button>
+    <div class="explain"><strong>Correct: B.</strong> This is the canonical test of the security model. Frontend gates are user-facing; the gateway is the authoritative authorization point. Scripts cannot bypass it because they cannot avoid the gateway.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The "Access restricted" panel includes:</p>
+    <button class="opt"><span class="letter">A</span>Just a generic "not allowed" error</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The specific policy required, the user's current role, and (if scope-relevant) the scope state. Specific enough that the user can request the right access without a support back-and-forth.</button>
+    <button class="opt"><span class="letter">C</span>A stack trace</button>
+    <button class="opt"><span class="letter">D</span>The raw 403 response</button>
+    <div class="explain"><strong>Correct: B.</strong> Specific, actionable error messages are a UX investment that reduces support load and surfaces role-design problems faster.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The <code>usePermission()</code> hook reads from:</p>
+    <button class="opt"><span class="letter">A</span>An API call to the gateway on every check</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The session token (JWT or session cookie), decoded once at login and cached. O(1) lookup per check. No per-render API roundtrip.</button>
+    <button class="opt"><span class="letter">C</span>A local config file</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Caching the policy set at session start is what makes the hook fast enough to use on every gated element. The cache is invalidated when the session token is refreshed (typical lifetime: 8 hours).</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The hook is invoked by every gated component already; no per-feature configuration needed. As an admin, validate the gates work by inspecting a Viewer's perspective in a private browser window.</p>
@@ -658,6 +664,25 @@ USER C — Admin role, allResources
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -872,6 +897,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

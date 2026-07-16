@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -673,27 +673,33 @@ RESULT:
 <p>A 10-minute exercise per StatefulSet. Most production stateful: don't schedule. Most non-prod: candidate.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Scheduling a production database StatefulSet to zero is:</p>
-<p>A. Standard practice B. Dangerous. Risk of outage and potential data corruption. Production stateful workloads should not be scheduled. Even with terminationGracePeriodSeconds, in-flight transactions could fail. Service outage = customer impact. C. Required for FinOps D. Up to the user</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Production stateful = don't schedule.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>StatefulSet scaling order is:</p>
-<p>A. Random B. Ordered: scale-down terminates in reverse (sts-2 → sts-1 → sts-0); scale-up creates in order (sts-0 → sts-1 → sts-2). Ordered scaling is a defining feature; takes longer than parallel Deployment scaling. C. Parallel D. Forward only</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Ordered scaling is a defining feature.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A safe StatefulSet to schedule has:</p>
-<p>A. Production data B. Non-prod environment + reconstructible data + tolerable restart latency + non-critical PVCs + no critical off-hours connections. Safe pattern requires ALL of these. Any uncertainty → don't schedule. C. Critical data D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Safe pattern requires all four.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Scheduling a production database StatefulSet to zero is:</p>
+    <button class="opt"><span class="letter">A</span>Standard practice</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Dangerous. Risk of outage and potential data corruption. Production stateful workloads should not be scheduled. Even with terminationGracePeriodSeconds, in-flight transactions could fail. Service outage = customer impact.</button>
+    <button class="opt"><span class="letter">C</span>Required for FinOps</button>
+    <button class="opt"><span class="letter">D</span>Up to the user</button>
+    <div class="explain"><strong>Correct: B.</strong> Production stateful = don't schedule.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">StatefulSet scaling order is:</p>
+    <button class="opt"><span class="letter">A</span>Random</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Ordered: scale-down terminates in reverse (sts-2 → sts-1 → sts-0); scale-up creates in order (sts-0 → sts-1 → sts-2). Ordered scaling is a defining feature; takes longer than parallel Deployment scaling.</button>
+    <button class="opt"><span class="letter">C</span>Parallel</button>
+    <button class="opt"><span class="letter">D</span>Forward only</button>
+    <div class="explain"><strong>Correct: B.</strong> Ordered scaling is a defining feature.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A safe StatefulSet to schedule has:</p>
+    <button class="opt"><span class="letter">A</span>Production data</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Non-prod environment + reconstructible data + tolerable restart latency + non-critical PVCs + no critical off-hours connections. Safe pattern requires ALL of these. Any uncertainty → don't schedule.</button>
+    <button class="opt"><span class="letter">C</span>Critical data</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Safe pattern requires all four.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>StatefulSet scheduling is on the StatefulSet's detail page. Carefully evaluate the checklist before scheduling.</p>
@@ -742,6 +748,25 @@ RESULT:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -956,6 +981,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

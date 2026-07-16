@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -715,27 +715,33 @@ POSTMORTEM action items:
 <p>If you've never decomposed an overrun this way, expect the next overrun to be harder — most overruns are mixed, and the decomposition is the discipline that gets the right response.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Budget exceeded by $50K due to a marketing campaign that brought $500K revenue:</p>
-<p>A. Enforce — cut cost B. Raise — legitimate investment with positive ROI. Document the decision; review for sustainability after the campaign ends; if pattern continues, baseline updated for next quarter. C. Random D. Wait until next month</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Raise for legitimate value with positive ROI.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Budget exceeded due to runaway autoscaler:</p>
-<p>A. Raise the budget B. Enforce — fix the autoscaler. Don't raise budget to accommodate waste; that normalizes the issue and the same problem recurs next month. Fix the root cause; document the lesson; prevent recurrence. C. Random D. Ignore</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Enforce for waste. Raising would normalize the failure mode.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A mixed scenario (some legitimate growth, some waste):</p>
-<p>A. Raise for everything to avoid disputes B. Decompose. Raise for the legitimate portion; enforce on the waste portion. Common pattern in real-world overruns. The decomposition is what makes the response proportionate. C. Random D. Enforce all</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Decompose and address each portion correctly.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Budget exceeded by $50K due to a marketing campaign that brought $500K revenue:</p>
+    <button class="opt"><span class="letter">A</span>Enforce — cut cost</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Raise — legitimate investment with positive ROI. Document the decision; review for sustainability after the campaign ends; if pattern continues, baseline updated for next quarter.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Wait until next month</button>
+    <div class="explain"><strong>Correct: B.</strong> Raise for legitimate value with positive ROI.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Budget exceeded due to runaway autoscaler:</p>
+    <button class="opt"><span class="letter">A</span>Raise the budget</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Enforce — fix the autoscaler. Don't raise budget to accommodate waste; that normalizes the issue and the same problem recurs next month. Fix the root cause; document the lesson; prevent recurrence.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Ignore</button>
+    <div class="explain"><strong>Correct: B.</strong> Enforce for waste. Raising would normalize the failure mode.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A mixed scenario (some legitimate growth, some waste):</p>
+    <button class="opt"><span class="letter">A</span>Raise for everything to avoid disputes</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Decompose. Raise for the legitimate portion; enforce on the waste portion. Common pattern in real-world overruns. The decomposition is what makes the response proportionate.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Enforce all</button>
+    <div class="explain"><strong>Correct: B.</strong> Decompose and address each portion correctly.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>For each budget overrun, investigate and decompose. Document the raise + enforce decisions in the budget's notes. ZopNight's audit log captures the budget adjustment with reason for compliance.</p>
@@ -782,6 +788,25 @@ POSTMORTEM action items:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -996,6 +1021,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

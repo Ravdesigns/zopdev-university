@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -678,27 +678,33 @@ MONTH 6    Workload retired. Time to remove ZopNight&#39;s policy.
 <p>A 15-minute exercise reveals the lifecycle mechanics.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A policy's previousConfig is captured on Apply because:</p>
-<p>A. For backups B. Remove uses it to restore the cloud-side state to its pre-ZopNight configuration. Byte-accurate restoration is the design goal. Without previousConfig, rollback would be incomplete. C. Performance optimization D. Cloud requires it</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Reversibility is the architectural goal.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Editing an adopted policy:</p>
-<p>A. Doesn't affect ownership B. Auto-promotes the policy from "adopted" to "recommended" — ZopNight now owns it. One-way transition. The Edit triggers ownership change; subsequent operations treat it as recommended. C. Deletes the policy D. Pauses it</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Edit-of-adopted = ownership change.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Pause and Remove differ how:</p>
-<p>A. Same action B. Pause keeps the cloud-side policy intact but ZopNight stops acting. Remove deletes ZopNight's policy and restores the previous cloud-side configuration. Reversibility scope differs. C. Random D. Pause is faster</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Reversibility scope differs.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A policy's previousConfig is captured on Apply because:</p>
+    <button class="opt"><span class="letter">A</span>For backups</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Remove uses it to restore the cloud-side state to its pre-ZopNight configuration. Byte-accurate restoration is the design goal. Without previousConfig, rollback would be incomplete.</button>
+    <button class="opt"><span class="letter">C</span>Performance optimization</button>
+    <button class="opt"><span class="letter">D</span>Cloud requires it</button>
+    <div class="explain"><strong>Correct: B.</strong> Reversibility is the architectural goal.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Editing an adopted policy:</p>
+    <button class="opt"><span class="letter">A</span>Doesn't affect ownership</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Auto-promotes the policy from "adopted" to "recommended" — ZopNight now owns it. One-way transition. The Edit triggers ownership change; subsequent operations treat it as recommended.</button>
+    <button class="opt"><span class="letter">C</span>Deletes the policy</button>
+    <button class="opt"><span class="letter">D</span>Pauses it</button>
+    <div class="explain"><strong>Correct: B.</strong> Edit-of-adopted = ownership change.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Pause and Remove differ how:</p>
+    <button class="opt"><span class="letter">A</span>Same action</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Pause keeps the cloud-side policy intact but ZopNight stops acting. Remove deletes ZopNight's policy and restores the previous cloud-side configuration. Reversibility scope differs.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Pause is faster</button>
+    <div class="explain"><strong>Correct: B.</strong> Reversibility scope differs.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Automation → Policies → click any policy → Apply / Pause / Resume / Remove actions. Each is one click.</p>
@@ -747,6 +753,25 @@ MONTH 6    Workload retired. Time to remove ZopNight&#39;s policy.
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -961,6 +986,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -729,27 +729,33 @@ func (r *IdleEC2) Evaluate(ctx context.Context, resource *Resource, history []St
 <p>The hands-on shows the interface boundary in action.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A rule needs CPU utilization to fire. It implements:</p>
-<p>A. Just Rule B. Rule + MetricsAware C. Rule + PricingAware D. Rule + MetricsAware + PricingAware</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B (or D if it also computes savings).</strong> MetricsAware is required for CPU data. PricingAware is required if it computes dollar savings (most cost-recovery rules also implement this).</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The recommender uses pre-computed storage with a cron-triggered evaluation rather than evaluating on every read. The main reason:</p>
-<p>A. Cost (fewer compute cycles) B. Read path is instant (no live evaluation). Better UX, scales to large estates. Pre-computation trades freshness (6-hour cadence) for instant UI. C. Required by AWS D. Backward compatibility</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Pre-computed = instant reads. The trade-off is freshness (6-hour cadence) for UX. The architecture optimizes for the common case (browsing recommendations) at the cost of edge cases (just-changed resources).</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>What does <code>Registry.ForResource(provider, type)</code> return?</p>
-<p>A. The list of rules indexed for that provider+type combination — O(1) lookup B. The list of resources C. A SQL query D. Nothing</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: A.</strong> The registry is the index of rules by provider+type for fast lookup during evaluation. Pre-indexed at startup; O(1) per query.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A rule needs CPU utilization to fire. It implements:</p>
+    <button class="opt"><span class="letter">A</span>Just Rule</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Rule + MetricsAware</button>
+    <button class="opt"><span class="letter">C</span>Rule + PricingAware</button>
+    <button class="opt"><span class="letter">D</span>Rule + MetricsAware + PricingAware</button>
+    <div class="explain"><strong>Correct: B (or D if it also computes savings).</strong> MetricsAware is required for CPU data. PricingAware is required if it computes dollar savings (most cost-recovery rules also implement this).</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The recommender uses pre-computed storage with a cron-triggered evaluation rather than evaluating on every read. The main reason:</p>
+    <button class="opt"><span class="letter">A</span>Cost (fewer compute cycles)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Read path is instant (no live evaluation). Better UX, scales to large estates. Pre-computation trades freshness (6-hour cadence) for instant UI.</button>
+    <button class="opt"><span class="letter">C</span>Required by AWS</button>
+    <button class="opt"><span class="letter">D</span>Backward compatibility</button>
+    <div class="explain"><strong>Correct: B.</strong> Pre-computed = instant reads. The trade-off is freshness (6-hour cadence) for UX. The architecture optimizes for the common case (browsing recommendations) at the cost of edge cases (just-changed resources).</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">What does <code>Registry.ForResource(provider, type)</code> return?</p>
+    <button class="opt" data-correct="1"><span class="letter">A</span>The list of rules indexed for that provider+type combination — O(1) lookup</button>
+    <button class="opt"><span class="letter">B</span>The list of resources</button>
+    <button class="opt"><span class="letter">C</span>A SQL query</button>
+    <button class="opt"><span class="letter">D</span>Nothing</button>
+    <div class="explain"><strong>Correct: A.</strong> The registry is the index of rules by provider+type for fast lookup during evaluation. Pre-indexed at startup; O(1) per query.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Rule definitions live in <code>backend/recommender/internal/rules/</code>. Each rule is a Go file. Customers don't modify rule code; behavior is tuned via severity overrides + auto-rem configuration in Settings.</p>
@@ -797,6 +803,25 @@ func (r *IdleEC2) Evaluate(ctx context.Context, resource *Resource, history []St
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -1011,6 +1036,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

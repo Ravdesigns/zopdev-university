@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -527,27 +527,33 @@ WEAKEST TWO: Anomaly Management, Forecasting
 <p>For each Crawl: what is the single highest-impact thing to do in the next 30 days that would move it to Walk? Write it. The 90-day plan is the consolidation of the answers.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team can pull the bill, has good dashboards, but cannot get any team to act on the data. The team is most likely at:</p>
-<p>A. Crawl B. Walk C. Run D. Walk on Inform, Crawl on Optimize</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: D.</strong> Per-capability assessment is the right model. Strong Inform with weak Optimize is the textbook profile of an organization stuck before Walk.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team reports: "We did an optimization sprint, saved $40K monthly, but six months later only $22K of those savings remain." Most likely stage:</p>
-<p>A. Crawl B. Walk C. Run D. Beyond Run</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> This is the classic Walk symptom — optimization happens, savings decay. Run organizations do not see this pattern because the Operate cadence holds the line.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A 90-day move-up plan should:</p>
-<p>A. Address all 22 capabilities at once B. Focus on the two worst capabilities and move them up one stage C. Wait until the next quarter to begin D. Hire a consultant first</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Narrow focus, recurring cadence. Trying to fix all 22 capabilities at once is the failure mode that produces nothing moving.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team can pull the bill, has good dashboards, but cannot get any team to act on the data. The team is most likely at:</p>
+    <button class="opt"><span class="letter">A</span>Crawl</button>
+    <button class="opt"><span class="letter">B</span>Walk</button>
+    <button class="opt"><span class="letter">C</span>Run</button>
+    <button class="opt" data-correct="1"><span class="letter">D</span>Walk on Inform, Crawl on Optimize</button>
+    <div class="explain"><strong>Correct: D.</strong> Per-capability assessment is the right model. Strong Inform with weak Optimize is the textbook profile of an organization stuck before Walk.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team reports: "We did an optimization sprint, saved $40K monthly, but six months later only $22K of those savings remain." Most likely stage:</p>
+    <button class="opt"><span class="letter">A</span>Crawl</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Walk</button>
+    <button class="opt"><span class="letter">C</span>Run</button>
+    <button class="opt"><span class="letter">D</span>Beyond Run</button>
+    <div class="explain"><strong>Correct: B.</strong> This is the classic Walk symptom — optimization happens, savings decay. Run organizations do not see this pattern because the Operate cadence holds the line.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A 90-day move-up plan should:</p>
+    <button class="opt"><span class="letter">A</span>Address all 22 capabilities at once</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Focus on the two worst capabilities and move them up one stage</button>
+    <button class="opt"><span class="letter">C</span>Wait until the next quarter to begin</button>
+    <button class="opt"><span class="letter">D</span>Hire a consultant first</button>
+    <div class="explain"><strong>Correct: B.</strong> Narrow focus, recurring cadence. Trying to fix all 22 capabilities at once is the failure mode that produces nothing moving.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight does not (yet) ship a self-assessment widget. The capability scoring is a manual exercise done annually or quarterly.</p>
@@ -598,6 +604,25 @@ WEAKEST TWO: Anomaly Management, Forecasting
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -812,6 +837,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

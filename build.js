@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const ROOT = __dirname;
 const TRACKS_DIR = path.join(ROOT, 'tracks');
@@ -17,6 +18,22 @@ const SITE_DIR = path.join(ROOT, 'site');
 //   BASE_URL=/resources/university node build.js
 const BASE = process.env.BASE_URL || '';
 const ABS_BASE = 'https://zop.dev/resources/university';
+
+// Cache-busting asset versions. styles.css/foot-globe.js are served with a
+// long "immutable" cache under a filename that never changes, so returning
+// visitors would otherwise keep a stale stylesheet across deploys and the
+// site could look broken. Append ?v=<content-hash> so every content change is
+// a fresh URL that bypasses the cache; unchanged files keep the same URL.
+function assetVer(relPath) {
+  try {
+    const buf = fs.readFileSync(path.join(SITE_DIR, relPath));
+    return crypto.createHash('sha256').update(buf).digest('hex').slice(0, 10);
+  } catch (e) { return ''; }
+}
+const CSS_VER = assetVer('assets/styles.css');
+const JS_VER = assetVer('assets/foot-globe.js');
+const CSS_HREF = `${BASE}/assets/styles.css${CSS_VER ? '?v=' + CSS_VER : ''}`;
+const JS_SRC = `${BASE}/assets/foot-globe.js${JS_VER ? '?v=' + JS_VER : ''}`;
 const u = (p) => BASE + p;
 
 // =============================================================
@@ -285,6 +302,65 @@ function renderUiMock(rawLines) {
 </div>\n`;
 }
 
+// Interactive multiple-choice "quick check". Lessons author these as:
+//   ### Q1
+//   <stem line(s)>
+//   A. option
+//   B. option
+//   C. option
+//   D. option
+//   <details><summary>Show answer</summary>
+//   **Correct: B.** explanation …
+//   </details>
+// Rendered as a clickable .check card (options grade green/red on click and
+// reveal the explanation) — the pattern from the lesson-design prototype —
+// instead of the run-on "A. … B. … C. …" paragraph + answer accordion.
+// The source .md is untouched. Returns { html, next } or null (fall back to
+// the normal heading/paragraph rendering) when the block does not match.
+function tryParseMcq(lines, startIdx, renderInline) {
+  if (!/^###\s+Q\d+\s*$/i.test(lines[startIdx])) return null;
+  let j = startIdx + 1;
+  while (j < lines.length && lines[j].trim() === '') j++;
+  const stem = [];
+  while (j < lines.length && lines[j].trim() !== '' && !/^[A-D]\.\s+/.test(lines[j])) {
+    stem.push(lines[j].trim()); j++;
+  }
+  while (j < lines.length && lines[j].trim() === '') j++;
+  const opts = [];
+  while (j < lines.length) {
+    const m = lines[j].match(/^([A-D])\.\s+(.+)$/);
+    if (!m) break;
+    opts.push({ letter: m[1], text: m[2].trim() });
+    j++;
+  }
+  if (stem.length === 0 || opts.length < 2) return null;
+  while (j < lines.length && lines[j].trim() === '') j++;
+  const explainLines = [];
+  if (j < lines.length && lines[j].trim().startsWith('<details>')) {
+    j++;
+    while (j < lines.length && !lines[j].trim().startsWith('</details>')) {
+      const t = lines[j].trim();
+      if (t === '' || t.startsWith('<summary') || t.startsWith('</summary')) { j++; continue; }
+      explainLines.push(lines[j]); j++;
+    }
+    if (j < lines.length && lines[j].trim().startsWith('</details>')) j++;
+  }
+  const joined = explainLines.join(' ').trim();
+  const cm = joined.match(/Correct:\s*([A-D])\b/i);
+  if (!cm) return null; // no answer key parsed — leave the block as authored
+  const correct = cm[1].toUpperCase();
+  const optsHTML = opts.map(o =>
+    `<button class="opt"${o.letter === correct ? ' data-correct="1"' : ''}><span class="letter">${o.letter}</span>${renderInline(o.text)}</button>`
+  ).join('\n    ');
+  const html = `<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">${renderInline(stem.join(' '))}</p>
+    ${optsHTML}
+    <div class="explain">${renderInline(joined)}</div>
+  </div>\n`;
+  return { html, next: j };
+}
+
 // Minimal markdown → HTML renderer
 let __dgmSeq = 0; // global sequence for namespacing inlined-diagram marker ids
 function renderMarkdown(md, srcPath) {
@@ -444,6 +520,17 @@ function renderMarkdown(md, srcPath) {
       if (inList) { out.push(`</${listType}>\n`); inList = false; }
       out.push('<hr>\n');
       i++; continue;
+    }
+
+    // Interactive MCQ quick-check (### Qn + options + answer details)
+    if (/^###\s+Q\d+\s*$/i.test(line)) {
+      const mcq = tryParseMcq(lines, i, renderInline);
+      if (mcq) {
+        if (paraBuf.length) { out.push(flushPara(paraBuf)); paraBuf = []; }
+        if (inList) { out.push(`</${listType}>\n`); inList = false; }
+        out.push(mcq.html);
+        i = mcq.next; continue;
+      }
     }
 
     // Headings
@@ -1265,7 +1352,7 @@ ${schema || ''}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="${BASE}/assets/styles.css">
+<link rel="stylesheet" href="${CSS_HREF}">
 <link rel="icon" type="image/svg+xml" href="${BASE}/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -1319,7 +1406,7 @@ ${hideUniNav ? '' : universityNav({ active: uniNav })}
 ${body}
 </main>
 ${footer()}
-<script defer src="${BASE}/assets/foot-globe.js"></script>
+<script defer src="${JS_SRC}"></script>
 </body>
 </html>`;
 }
@@ -1976,6 +2063,25 @@ function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -4232,7 +4338,8 @@ pageCount++;
   const previewIndexPath = path.join(ROOT, 'preview', 'index.html');
   if (fs.existsSync(previewIndexPath)) {
     let html = fs.readFileSync(previewIndexPath, 'utf8');
-    html = html.replace(/href="assets\/styles\.css"/g, 'href="/assets/styles.css"');
+    html = html.replace(/href="assets\/styles\.css"/g, `href="${CSS_HREF}"`);
+    html = html.replace(/src="assets\/foot-globe\.js"/g, `src="${JS_SRC}"`);
     html = html.replace(/href="lesson-t3-m3-1-l1\.html"/g, 'href="/architect/rbac/policy-table/"');
     writeFile(path.join(SITE_DIR, 'index.html'), html);
     console.log('✅ Homepage replaced with preview/index.html (bento + isometric)');

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -713,27 +713,33 @@ QUARTERLY METRICS REVIEW:
 <p>A 15-minute audit reveals the notification health. Quarterly tuning keeps it healthy.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team enables <code>REMEDIATION_NOTIFY_TERMINAL = true</code>. Most likely after a month they will:</p>
-<p>A. Keep it on permanently B. Disable it. Per-action success notifications become noise once trust is built. Failures and approvals continue notifying by default. Audit log preserves all events regardless. Verbose mode is a build-trust tool, not steady-state. C. Disable all notifications D. Page on-call instead</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Terminal verbosity is a build-trust tool, not a steady-state.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The audit log captures remediation events. If notifications are disabled, the audit log:</p>
-<p>A. Stops recording B. Continues to record everything regardless of notification settings. Audit log is the source of truth; notifications are a delivery mechanism. You can disable notifications without losing audit evidence. C. Records only failures D. Recorded selectively</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Audit log is independent of notifications.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A production-critical failure should:</p>
-<p>A. Send only to email (silent) B. Page on-call via PagerDuty webhook. Other notifications continue (Slack channel for team awareness). Silence is dangerous; over-paging is also dangerous; tune the criteria for production vs non-prod failures. C. Send to Slack only D. Be silent</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Page for production CRITICAL. Silence + over-paging both dangerous; tune.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team enables <code>REMEDIATION_NOTIFY_TERMINAL = true</code>. Most likely after a month they will:</p>
+    <button class="opt"><span class="letter">A</span>Keep it on permanently</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Disable it. Per-action success notifications become noise once trust is built. Failures and approvals continue notifying by default. Audit log preserves all events regardless. Verbose mode is a build-trust tool, not steady-state.</button>
+    <button class="opt"><span class="letter">C</span>Disable all notifications</button>
+    <button class="opt"><span class="letter">D</span>Page on-call instead</button>
+    <div class="explain"><strong>Correct: B.</strong> Terminal verbosity is a build-trust tool, not a steady-state.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The audit log captures remediation events. If notifications are disabled, the audit log:</p>
+    <button class="opt"><span class="letter">A</span>Stops recording</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Continues to record everything regardless of notification settings. Audit log is the source of truth; notifications are a delivery mechanism. You can disable notifications without losing audit evidence.</button>
+    <button class="opt"><span class="letter">C</span>Records only failures</button>
+    <button class="opt"><span class="letter">D</span>Recorded selectively</button>
+    <div class="explain"><strong>Correct: B.</strong> Audit log is independent of notifications.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A production-critical failure should:</p>
+    <button class="opt"><span class="letter">A</span>Send only to email (silent)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Page on-call via PagerDuty webhook. Other notifications continue (Slack channel for team awareness). Silence is dangerous; over-paging is also dangerous; tune the criteria for production vs non-prod failures.</button>
+    <button class="opt"><span class="letter">C</span>Send to Slack only</button>
+    <button class="opt"><span class="letter">D</span>Be silent</button>
+    <div class="explain"><strong>Correct: B.</strong> Page for production CRITICAL. Silence + over-paging both dangerous; tune.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Settings → Auto-Remediation → Notifications configures terminal notification policy. Routing rules then deliver to channels.</p>
@@ -785,6 +791,25 @@ QUARTERLY METRICS REVIEW:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -999,6 +1024,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

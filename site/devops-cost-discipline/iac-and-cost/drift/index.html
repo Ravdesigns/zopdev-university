@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -778,27 +778,33 @@ LONG-TERM TREND:
 <p>A 30-minute audit reveals the drift posture. Scheduled detection keeps it manageable.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Detected drift always requires:</p>
-<p>A. Immediate revert to IaC B. Investigation first. Drift could be: intentional (update IaC to match), accidental (revert via apply), unauthorized (investigate source + revert). Context matters. Defaulting to revert without thinking causes problems (lost legitimate changes). C. Random D. Ignore</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Context-driven response.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Pre-merge cost gate (Infracost):</p>
-<p>A. Slows down development B. Catches cost surprises before merge. Engineer sees "+$400/month" in PR comment. Reviewer can question expensive additions. Bad cost decisions caught at PR time; good ones documented. Earlier visibility = better decisions. C. Random D. Required by all teams</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Earlier visibility; better PR decisions.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Drift events >20 per 100 resources per week:</p>
-<p>A. Optimal IaC use B. Symptom of unhealthy IaC + manual change tension. Investigate sources: too many console operators, missing process discipline, broken automation, missing access controls. High drift erodes trust in IaC; address root causes. C. Random D. Acceptable for mature orgs</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> High drift = process problem; address root causes.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Detected drift always requires:</p>
+    <button class="opt"><span class="letter">A</span>Immediate revert to IaC</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Investigation first. Drift could be: intentional (update IaC to match), accidental (revert via apply), unauthorized (investigate source + revert). Context matters. Defaulting to revert without thinking causes problems (lost legitimate changes).</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Ignore</button>
+    <div class="explain"><strong>Correct: B.</strong> Context-driven response.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Pre-merge cost gate (Infracost):</p>
+    <button class="opt"><span class="letter">A</span>Slows down development</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Catches cost surprises before merge. Engineer sees "+$400/month" in PR comment. Reviewer can question expensive additions. Bad cost decisions caught at PR time; good ones documented. Earlier visibility = better decisions.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Required by all teams</button>
+    <div class="explain"><strong>Correct: B.</strong> Earlier visibility; better PR decisions.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Drift events >20 per 100 resources per week:</p>
+    <button class="opt"><span class="letter">A</span>Optimal IaC use</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Symptom of unhealthy IaC + manual change tension. Investigate sources: too many console operators, missing process discipline, broken automation, missing access controls. High drift erodes trust in IaC; address root causes.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Acceptable for mature orgs</button>
+    <div class="explain"><strong>Correct: B.</strong> High drift = process problem; address root causes.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Weekly drift audit. Pre-merge cost gate (Infracost). Scheduled CI drift detection. Documented response patterns.</p>
@@ -845,6 +851,25 @@ LONG-TERM TREND:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -1059,6 +1084,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

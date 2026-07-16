@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -661,27 +661,33 @@ QUARTERLY REVIEW scheduled? Yes / No
 <p>If you don't have effective-discount numbers per commitment, that's the first thing to fix — without them, you're operating blind.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The most common over-commitment pattern:</p>
-<p>A. Architectural mismatch B. Non-prod commitment. Buying RIs/CUDs for resources that should be scheduled off creates mathematically guaranteed under-utilization. Scheduled-off + committed = paying committed rate for hours the resource isn't running. C. Random D. Early commitment</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Non-prod is the classic trap. Schedule first; commit on the proven floor.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Peak-based commitment for a workload with intermittent spikes:</p>
-<p>A. Optimal — covers the worst case B. Wasteful. Most hours are below peak; commitment runs 24/7 but utilization is intermittent. Better: commit on the floor (steady demand); use on-demand for peak. The peak rarely justifies committed capacity. C. Random D. Required</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Floor-based commitment + on-demand peak is the right pattern.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Architectural mismatch from workload migration:</p>
-<p>A. Unavoidable B. Avoidable. Plan workload migrations BEFORE committing. If migrations are planned within the term, defer commitment or commit shorter (1-yr vs 3-yr). For mismatches that already happened: exchange (AWS allows), sell on marketplace, or accept and replan. C. Random D. Cloud provider's fault</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Plan ahead. The pattern is avoidable with disciplined commitment review.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The most common over-commitment pattern:</p>
+    <button class="opt"><span class="letter">A</span>Architectural mismatch</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Non-prod commitment. Buying RIs/CUDs for resources that should be scheduled off creates mathematically guaranteed under-utilization. Scheduled-off + committed = paying committed rate for hours the resource isn't running.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Early commitment</button>
+    <div class="explain"><strong>Correct: B.</strong> Non-prod is the classic trap. Schedule first; commit on the proven floor.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Peak-based commitment for a workload with intermittent spikes:</p>
+    <button class="opt"><span class="letter">A</span>Optimal — covers the worst case</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Wasteful. Most hours are below peak; commitment runs 24/7 but utilization is intermittent. Better: commit on the floor (steady demand); use on-demand for peak. The peak rarely justifies committed capacity.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Required</button>
+    <div class="explain"><strong>Correct: B.</strong> Floor-based commitment + on-demand peak is the right pattern.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Architectural mismatch from workload migration:</p>
+    <button class="opt"><span class="letter">A</span>Unavoidable</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Avoidable. Plan workload migrations BEFORE committing. If migrations are planned within the term, defer commitment or commit shorter (1-yr vs 3-yr). For mismatches that already happened: exchange (AWS allows), sell on marketplace, or accept and replan.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Cloud provider's fault</button>
+    <div class="explain"><strong>Correct: B.</strong> Plan ahead. The pattern is avoidable with disciplined commitment review.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Quarterly commitment audit. Annual portfolio retrospective. Track each commitment's effective discount over time; remediate when below 80% of published.</p>
@@ -728,6 +734,25 @@ QUARTERLY REVIEW scheduled? Yes / No
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -942,6 +967,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

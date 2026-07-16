@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -684,27 +684,33 @@ WHY:    __________</code></pre>
 <p>Compare with the FinOps function's top-down number for your team. Identify the largest difference and investigate.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Bottom-up vs top-down forecast:</p>
-<p>A. Same approach B. Bottom-up is detailed (team-level, line items); top-down is aggregate (org-level, growth rate). Use both; reconciliation between them surfaces real assumption differences and improves overall accuracy. Hybrid (L3) is the typical mature practice. C. Random D. Only use one</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Hybrid is best. Each method catches things the other misses.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Each team's bottom-up forecast typically:</p>
-<p>A. Overestimates growth B. Underestimates cost growth, overestimates own efficiency gains, forgets hidden costs (egress, monitoring, backup). Net bias is usually 5-15% under-forecasting. Apply a correction factor based on historical accuracy. C. Random D. Accurately reflects truth</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Bias toward optimism in self-forecasting. Correct via calibration.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Bottom-up forecast diverges from top-down by 15%:</p>
-<p>A. Pick whichever is lower B. Reconcile. Investigate which is closer to reality. Big divergence signals real assumption differences worth understanding — could be missing events (top-down higher), forgotten growth (bottom-up lower), or genuine new info. Use the discrepancy as an investigation prompt. C. Average them D. Use the top-down (it's leadership-driven)</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Reconcile to find truth. The reconciliation is the value of running both methods.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Bottom-up vs top-down forecast:</p>
+    <button class="opt"><span class="letter">A</span>Same approach</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Bottom-up is detailed (team-level, line items); top-down is aggregate (org-level, growth rate). Use both; reconciliation between them surfaces real assumption differences and improves overall accuracy. Hybrid (L3) is the typical mature practice.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Only use one</button>
+    <div class="explain"><strong>Correct: B.</strong> Hybrid is best. Each method catches things the other misses.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Each team's bottom-up forecast typically:</p>
+    <button class="opt"><span class="letter">A</span>Overestimates growth</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Underestimates cost growth, overestimates own efficiency gains, forgets hidden costs (egress, monitoring, backup). Net bias is usually 5-15% under-forecasting. Apply a correction factor based on historical accuracy.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Accurately reflects truth</button>
+    <div class="explain"><strong>Correct: B.</strong> Bias toward optimism in self-forecasting. Correct via calibration.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Bottom-up forecast diverges from top-down by 15%:</p>
+    <button class="opt"><span class="letter">A</span>Pick whichever is lower</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Reconcile. Investigate which is closer to reality. Big divergence signals real assumption differences worth understanding — could be missing events (top-down higher), forgotten growth (bottom-up lower), or genuine new info. Use the discrepancy as an investigation prompt.</button>
+    <button class="opt"><span class="letter">C</span>Average them</button>
+    <button class="opt"><span class="letter">D</span>Use the top-down (it's leadership-driven)</button>
+    <div class="explain"><strong>Correct: B.</strong> Reconcile to find truth. The reconciliation is the value of running both methods.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Run quarterly bottom-up + top-down reconciliation. Use the template in this lesson; pre-fill via ZopNight's forecast tool. Track team-level accuracy quarterly; calibrate biases.</p>
@@ -750,6 +756,25 @@ WHY:    __________</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -964,6 +989,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

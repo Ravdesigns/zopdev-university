@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -585,27 +585,33 @@ PLAN to connect:
 <p>If your team doesn't use any AI tool with MCP support, this track is still relevant background — but the practical setup waits until you adopt one.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>MCP enables AI agents to:</p>
-<p>A. Modify cloud resources (start/stop, scale, delete) B. Read-only access to ZopNight data via 43 tools across 12 categories. Mutations are not allowed — the contract is hardcoded into the protocol implementation, not a permission setting. The AI can answer questions and draft mutations; humans execute via the ZopNight UI. C. Replace dashboards D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Read-only access via 43 tools. The mutation prohibition is intentional architecture.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A natural-language query about cost savings from an engineer:</p>
-<p>A. Must reference the dashboard B. The agent calls MCP tools (list_idle_resources, get_top_recommendations) and answers in natural language with specifics. No manual data copying; no dashboard navigation. The AI assistant becomes the query layer over ZopNight. C. Requires manual paste from the UI D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Agent + MCP eliminates manual paste. The dashboard remains available; MCP just routes around it for query-style workflows.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>ZopNight's MCP server is:</p>
-<p>A. Configurable to read-write B. Read-only — hardcoded, not configurable per customer. The constraint is an architectural choice for safety: agents can hallucinate, so removing the ability to mutate eliminates the worst failure modes. Engineers can chain MCP reads with other tools (Slack, source control) for richer workflows. C. Random D. Customizable per-tier</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Read-only by design. The safety property is the foundation; M6.6 covers the architectural decision in depth.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">MCP enables AI agents to:</p>
+    <button class="opt"><span class="letter">A</span>Modify cloud resources (start/stop, scale, delete)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Read-only access to ZopNight data via 43 tools across 12 categories. Mutations are not allowed — the contract is hardcoded into the protocol implementation, not a permission setting. The AI can answer questions and draft mutations; humans execute via the ZopNight UI.</button>
+    <button class="opt"><span class="letter">C</span>Replace dashboards</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Read-only access via 43 tools. The mutation prohibition is intentional architecture.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A natural-language query about cost savings from an engineer:</p>
+    <button class="opt"><span class="letter">A</span>Must reference the dashboard</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The agent calls MCP tools (list_idle_resources, get_top_recommendations) and answers in natural language with specifics. No manual data copying; no dashboard navigation. The AI assistant becomes the query layer over ZopNight.</button>
+    <button class="opt"><span class="letter">C</span>Requires manual paste from the UI</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Agent + MCP eliminates manual paste. The dashboard remains available; MCP just routes around it for query-style workflows.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">ZopNight's MCP server is:</p>
+    <button class="opt"><span class="letter">A</span>Configurable to read-write</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Read-only — hardcoded, not configurable per customer. The constraint is an architectural choice for safety: agents can hallucinate, so removing the ability to mutate eliminates the worst failure modes. Engineers can chain MCP reads with other tools (Slack, source control) for richer workflows.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Customizable per-tier</button>
+    <div class="explain"><strong>Correct: B.</strong> Read-only by design. The safety property is the foundation; M6.6 covers the architectural decision in depth.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Read the MCP server's full tool documentation at <a href="https://docs.zopnight.com/mcp" target="_blank" rel="noopener">docs.zopnight.com/mcp</a>. Set up the server in your preferred AI tool (M6.2 covers each tool). Authenticate with a PAT (M6.3 covers PAT management).</p>
@@ -653,6 +659,25 @@ PLAN to connect:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -867,6 +892,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

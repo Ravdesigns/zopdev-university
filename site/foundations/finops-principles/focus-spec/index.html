@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -531,27 +531,33 @@ ORDER BY cost DESC;</code></pre>
 <p>If you do not have FOCUS access today: read the public schema reference at <https://focus.finops.org/> — particularly the column list — and identify which of your team's current cost queries would simplify with FOCUS.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>FOCUS is most accurately described as:</p>
-<p>A. A file format B. A column specification — a schema for cost data that works across providers C. A FinOps Foundation cert D. A SQL query engine</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> FOCUS is a schema spec. The file format (Parquet / CSV) and query engine (your own) are not part of the spec.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The <code>BilledCost</code> column in FOCUS most closely corresponds to:</p>
-<p>A. Live rack rate B. The lagged daily billing cost (post-discount) C. The forecasted spend D. The negotiated EDP discount</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> <code>BilledCost</code> is what the customer is invoiced. It is the post-discount, lagged billing cost. <code>ListCost</code> is rack rate. <code>EffectiveCost</code> is amortized cost.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>An organization runs on AWS, GCP, and Azure. The FinOps Analyst writes a cost query in FOCUS schema. The query:</p>
-<p>A. Will need to be rewritten per provider B. Should run unchanged once each provider's FOCUS export is wired up C. Will only work against AWS D. Will only work against the most recently adopted provider</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> That is the entire point of FOCUS — write once, run across providers.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">FOCUS is most accurately described as:</p>
+    <button class="opt"><span class="letter">A</span>A file format</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>A column specification — a schema for cost data that works across providers</button>
+    <button class="opt"><span class="letter">C</span>A FinOps Foundation cert</button>
+    <button class="opt"><span class="letter">D</span>A SQL query engine</button>
+    <div class="explain"><strong>Correct: B.</strong> FOCUS is a schema spec. The file format (Parquet / CSV) and query engine (your own) are not part of the spec.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The <code>BilledCost</code> column in FOCUS most closely corresponds to:</p>
+    <button class="opt"><span class="letter">A</span>Live rack rate</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The lagged daily billing cost (post-discount)</button>
+    <button class="opt"><span class="letter">C</span>The forecasted spend</button>
+    <button class="opt"><span class="letter">D</span>The negotiated EDP discount</button>
+    <div class="explain"><strong>Correct: B.</strong> <code>BilledCost</code> is what the customer is invoiced. It is the post-discount, lagged billing cost. <code>ListCost</code> is rack rate. <code>EffectiveCost</code> is amortized cost.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">An organization runs on AWS, GCP, and Azure. The FinOps Analyst writes a cost query in FOCUS schema. The query:</p>
+    <button class="opt"><span class="letter">A</span>Will need to be rewritten per provider</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Should run unchanged once each provider's FOCUS export is wired up</button>
+    <button class="opt"><span class="letter">C</span>Will only work against AWS</button>
+    <button class="opt"><span class="letter">D</span>Will only work against the most recently adopted provider</button>
+    <div class="explain"><strong>Correct: B.</strong> That is the entire point of FOCUS — write once, run across providers.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight reads provider-native billing data today (CUR for AWS, BigQuery billing for GCP, Cost Management amortized for Azure) and stores it in an internal schema that is <em>close to</em> FOCUS but not identical (the internal schema predates FOCUS adoption). The roadmap converges the internal schema toward FOCUS as the spec stabilizes and provider exports mature.</p>
@@ -607,6 +613,25 @@ ORDER BY cost DESC;</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -821,6 +846,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

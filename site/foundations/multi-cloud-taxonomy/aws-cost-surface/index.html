@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -509,27 +509,33 @@ TOTAL                           $182,000    100.0%</code></pre>
 <p>Sort by cost descending. Run the 60-second scan from §1. Note any anomalies — services higher than the typical ranges. The anomalies are your starting points.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team sees Data Transfer at 18% of their AWS bill. The most actionable hypothesis to investigate first:</p>
-<p>A. Cloud provider error B. NAT Gateway data-processing fees, internet egress to global users, or cross-region replication. Look at which destination type drives the most volume. C. EC2 is overcharging D. Increase the budget</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Data Transfer above 10% is unusual and merits investigation. The three driver classes are NAT processing, internet egress, and cross-region replication. Drill into the bytes-by-destination breakdown.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The "EC2-Other" line item on AWS bills typically includes:</p>
-<p>A. EBS, snapshots, and data transfer associated with EC2 instances B. Lambda C. EKS D. S3</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: A.</strong> "EC2-Other" rolls up EBS, snapshots, and EC2-attached data transfer. The naive question "how much does EC2 cost?" is answered by combining the EC2 service line with EC2-Other.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A bill shows CloudWatch at 7% of total. Most likely cause:</p>
-<p>A. CloudWatch is a normal cost B. High-cardinality custom metrics, uncapped log retention, or both. Audit the metric namespace count and per-metric cardinality, plus log group retention policies. C. AWS raised CloudWatch prices D. Disable monitoring</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 7% is on the high end for CloudWatch and almost always indicates cardinality or retention issues. The fix is cardinality discipline (label cardinality limits) and retention policy.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team sees Data Transfer at 18% of their AWS bill. The most actionable hypothesis to investigate first:</p>
+    <button class="opt"><span class="letter">A</span>Cloud provider error</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>NAT Gateway data-processing fees, internet egress to global users, or cross-region replication. Look at which destination type drives the most volume.</button>
+    <button class="opt"><span class="letter">C</span>EC2 is overcharging</button>
+    <button class="opt"><span class="letter">D</span>Increase the budget</button>
+    <div class="explain"><strong>Correct: B.</strong> Data Transfer above 10% is unusual and merits investigation. The three driver classes are NAT processing, internet egress, and cross-region replication. Drill into the bytes-by-destination breakdown.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The "EC2-Other" line item on AWS bills typically includes:</p>
+    <button class="opt" data-correct="1"><span class="letter">A</span>EBS, snapshots, and data transfer associated with EC2 instances</button>
+    <button class="opt"><span class="letter">B</span>Lambda</button>
+    <button class="opt"><span class="letter">C</span>EKS</button>
+    <button class="opt"><span class="letter">D</span>S3</button>
+    <div class="explain"><strong>Correct: A.</strong> "EC2-Other" rolls up EBS, snapshots, and EC2-attached data transfer. The naive question "how much does EC2 cost?" is answered by combining the EC2 service line with EC2-Other.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A bill shows CloudWatch at 7% of total. Most likely cause:</p>
+    <button class="opt"><span class="letter">A</span>CloudWatch is a normal cost</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>High-cardinality custom metrics, uncapped log retention, or both. Audit the metric namespace count and per-metric cardinality, plus log group retention policies.</button>
+    <button class="opt"><span class="letter">C</span>AWS raised CloudWatch prices</button>
+    <button class="opt"><span class="letter">D</span>Disable monitoring</button>
+    <div class="explain"><strong>Correct: B.</strong> 7% is on the high end for CloudWatch and almost always indicates cardinality or retention issues. The fix is cardinality discipline (label cardinality limits) and retention policy.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's <a href="https://app.zopnight.com/reports/costs" target="_blank" rel="noopener">Reports → Cost Breakdown</a> defaults to Layout: Provider→Account→Type→Team. Switching to "Provider→Account→Service→Team" gives a service-level breakdown across AWS accounts in seconds. Drill into any service node to see the underlying resources.</p>
@@ -575,6 +581,25 @@ TOTAL                           $182,000    100.0%</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -789,6 +814,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

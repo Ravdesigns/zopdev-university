@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -640,27 +640,33 @@ TOTAL DISRUPTION:
 <p>For new MCP rollouts, follow the 7-step pattern in the lesson.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>MCP for a new ZopNight org:</p>
-<p>A. Enabled by default — ready for agents B. Disabled by default. Opt-in via admin toggle. Forces a deliberate decision; reduces "we didn't realize AI was on" scenarios. The customer reads the docs, discusses internally, enables when ready. C. Always enabled (cannot disable) D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Disabled by default; opt-in. The deliberate process is the point.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Disabling the org toggle:</p>
-<p>A. Disrupts all non-MCP API calls too B. Only affects MCP. Non-MCP API + UI calls continue normally. The toggle's blast radius is bounded to MCP activity; other ZopNight operations are unaffected. This makes it safe to use as an emergency lever. C. Random D. Deletes all PATs</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Scoped impact — MCP only.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Who can toggle MCP access:</p>
-<p>A. Any engineer with a PAT B. Organization Admins and Owners. Members, Viewers, and custom roles without <code>org:update</code> policy cannot. The decision is intentionally restricted to privileged roles to prevent unilateral enablement. C. Random D. Anyone with a PAT</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Privileged role required.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">MCP for a new ZopNight org:</p>
+    <button class="opt"><span class="letter">A</span>Enabled by default — ready for agents</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Disabled by default. Opt-in via admin toggle. Forces a deliberate decision; reduces "we didn't realize AI was on" scenarios. The customer reads the docs, discusses internally, enables when ready.</button>
+    <button class="opt"><span class="letter">C</span>Always enabled (cannot disable)</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Disabled by default; opt-in. The deliberate process is the point.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Disabling the org toggle:</p>
+    <button class="opt"><span class="letter">A</span>Disrupts all non-MCP API calls too</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Only affects MCP. Non-MCP API + UI calls continue normally. The toggle's blast radius is bounded to MCP activity; other ZopNight operations are unaffected. This makes it safe to use as an emergency lever.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Deletes all PATs</button>
+    <div class="explain"><strong>Correct: B.</strong> Scoped impact — MCP only.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Who can toggle MCP access:</p>
+    <button class="opt"><span class="letter">A</span>Any engineer with a PAT</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Organization Admins and Owners. Members, Viewers, and custom roles without <code>org:update</code> policy cannot. The decision is intentionally restricted to privileged roles to prevent unilateral enablement.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Anyone with a PAT</button>
+    <div class="explain"><strong>Correct: B.</strong> Privileged role required.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Org-level MCP toggle is the foundation. Default disabled; opt-in deliberately. Document the four-layer compliance posture for CISO conversations.</p>
@@ -707,6 +713,25 @@ TOTAL DISRUPTION:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -921,6 +946,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

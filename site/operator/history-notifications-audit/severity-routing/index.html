@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -590,27 +590,33 @@ T+30 days After 30 more days:
 7. Save and observe over the next week.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team's #finops-alerts channel receives ~50 notifications per day, mostly successful scheduled actions (INFO). The team has stopped reading it. The right fix:</p>
-<p>A. Disable notifications B. Downgrade routing — #finops-alerts subscribes to WARNING+ only. Move INFO events to a separate #finops-info channel (opt-in). The actionable channel gets 5-15/day; the informational channel gets the rest. C. Increase the channel D. Set up an automation to summarize</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Severity-based routing solves alert fatigue. INFO does not belong with WARNING/CRITICAL in an actionable channel.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A non-prod cost anomaly fires as CRITICAL and pages the on-call engineer at 3 AM. The fix is:</p>
-<p>A. Disable cost anomaly notifications B. Downgrade non-prod cost anomalies to WARNING in org settings. Route WARNING to #finops-alerts (visible, not paging). Reserve CRITICAL for production anomalies that genuinely warrant a 3 AM page. C. Page during business hours only D. Tell the engineer to mute</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Severity should reflect business impact. Non-prod anomalies are visible but rarely page-worthy.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A compliance team needs every CRITICAL event sent to their SIEM for correlation. The right pattern:</p>
-<p>A. Send to compliance team's Slack channel B. Add a webhook channel pointing at the SIEM's ingest endpoint, subscribed to CRITICAL across all scopes. The SIEM ingests structured data and applies its own correlation rules. This decouples the data plane (ZopNight notifications) from the alerting plane (SIEM). C. CC the compliance team on every email D. Export to CSV manually</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Webhook to SIEM is the right pattern for compliance-driven alerting. Decoupled, scalable, and respects the SIEM as the canonical alerting tool.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team's #finops-alerts channel receives ~50 notifications per day, mostly successful scheduled actions (INFO). The team has stopped reading it. The right fix:</p>
+    <button class="opt"><span class="letter">A</span>Disable notifications</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Downgrade routing — #finops-alerts subscribes to WARNING+ only. Move INFO events to a separate #finops-info channel (opt-in). The actionable channel gets 5-15/day; the informational channel gets the rest.</button>
+    <button class="opt"><span class="letter">C</span>Increase the channel</button>
+    <button class="opt"><span class="letter">D</span>Set up an automation to summarize</button>
+    <div class="explain"><strong>Correct: B.</strong> Severity-based routing solves alert fatigue. INFO does not belong with WARNING/CRITICAL in an actionable channel.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A non-prod cost anomaly fires as CRITICAL and pages the on-call engineer at 3 AM. The fix is:</p>
+    <button class="opt"><span class="letter">A</span>Disable cost anomaly notifications</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Downgrade non-prod cost anomalies to WARNING in org settings. Route WARNING to #finops-alerts (visible, not paging). Reserve CRITICAL for production anomalies that genuinely warrant a 3 AM page.</button>
+    <button class="opt"><span class="letter">C</span>Page during business hours only</button>
+    <button class="opt"><span class="letter">D</span>Tell the engineer to mute</button>
+    <div class="explain"><strong>Correct: B.</strong> Severity should reflect business impact. Non-prod anomalies are visible but rarely page-worthy.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A compliance team needs every CRITICAL event sent to their SIEM for correlation. The right pattern:</p>
+    <button class="opt"><span class="letter">A</span>Send to compliance team's Slack channel</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Add a webhook channel pointing at the SIEM's ingest endpoint, subscribed to CRITICAL across all scopes. The SIEM ingests structured data and applies its own correlation rules. This decouples the data plane (ZopNight notifications) from the alerting plane (SIEM).</button>
+    <button class="opt"><span class="letter">C</span>CC the compliance team on every email</button>
+    <button class="opt"><span class="letter">D</span>Export to CSV manually</button>
+    <div class="explain"><strong>Correct: B.</strong> Webhook to SIEM is the right pattern for compliance-driven alerting. Decoupled, scalable, and respects the SIEM as the canonical alerting tool.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Severity and routing:</p>
@@ -660,6 +666,25 @@ T+30 days After 30 more days:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -874,6 +899,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

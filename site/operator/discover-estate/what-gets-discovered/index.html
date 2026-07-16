@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -564,27 +564,33 @@ If a resource type you know is in the cloud is NOT in the list:
      request if it&#39;s a frequent type.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A new EC2 instance was launched 15 minutes ago. The ZopNight resource list does not show it yet. The most likely cause:</p>
-<p>A. ZopNight is broken B. The 6-hour discovery cron has not run since the launch. Click Manual refresh to discover within 2–3 minutes, or wait for the next scheduled cron. C. The instance is in the wrong region D. Permission is denied</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Six-hour cron is the default. Manual refresh is the immediate path.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team uses AWS Resource Explorer 2 disabled (the customer hasn't enabled it). What happens to ZopNight discovery?</p>
-<p>A. Discovery fails completely B. Discovery falls back to per-service-only calls. Slower (more API calls, longer time), but functional. ZopNight recommends enabling RE2 in the customer's account for full performance. C. ZopNight cannot connect the account D. Only EC2 is discovered</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> RE2 is the primary path; per-service is the fallback. Both work; RE2 is faster and more consistent across services.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Which of these resource types are NOT discovered by ZopNight?</p>
-<p>A. EC2, RDS, S3 B. Lambda, EKS, ECS C. IAM users, secrets, certificates — these are out of scope for the resource list (IAM users flow through ownership detection, secrets and certificates are security artifacts not cost-relevant) D. Compute Engine, GKE, Cloud SQL</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: C.</strong> Exclusions are deliberate. ZopNight focuses on cost-relevant resources; security artifacts and identity principals are handled by other surfaces.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A new EC2 instance was launched 15 minutes ago. The ZopNight resource list does not show it yet. The most likely cause:</p>
+    <button class="opt"><span class="letter">A</span>ZopNight is broken</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The 6-hour discovery cron has not run since the launch. Click Manual refresh to discover within 2–3 minutes, or wait for the next scheduled cron.</button>
+    <button class="opt"><span class="letter">C</span>The instance is in the wrong region</button>
+    <button class="opt"><span class="letter">D</span>Permission is denied</button>
+    <div class="explain"><strong>Correct: B.</strong> Six-hour cron is the default. Manual refresh is the immediate path.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team uses AWS Resource Explorer 2 disabled (the customer hasn't enabled it). What happens to ZopNight discovery?</p>
+    <button class="opt"><span class="letter">A</span>Discovery fails completely</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Discovery falls back to per-service-only calls. Slower (more API calls, longer time), but functional. ZopNight recommends enabling RE2 in the customer's account for full performance.</button>
+    <button class="opt"><span class="letter">C</span>ZopNight cannot connect the account</button>
+    <button class="opt"><span class="letter">D</span>Only EC2 is discovered</button>
+    <div class="explain"><strong>Correct: B.</strong> RE2 is the primary path; per-service is the fallback. Both work; RE2 is faster and more consistent across services.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Which of these resource types are NOT discovered by ZopNight?</p>
+    <button class="opt"><span class="letter">A</span>EC2, RDS, S3</button>
+    <button class="opt"><span class="letter">B</span>Lambda, EKS, ECS</button>
+    <button class="opt" data-correct="1"><span class="letter">C</span>IAM users, secrets, certificates — these are out of scope for the resource list (IAM users flow through ownership detection, secrets and certificates are security artifacts not cost-relevant)</button>
+    <button class="opt"><span class="letter">D</span>Compute Engine, GKE, Cloud SQL</button>
+    <div class="explain"><strong>Correct: C.</strong> Exclusions are deliberate. ZopNight focuses on cost-relevant resources; security artifacts and identity principals are handled by other surfaces.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The Resources page is the primary discovery surface:</p>
@@ -636,6 +642,25 @@ If a resource type you know is in the cloud is NOT in the list:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -850,6 +875,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

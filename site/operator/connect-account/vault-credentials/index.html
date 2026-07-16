@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -501,27 +501,33 @@ If any element is missing or behaves unexpectedly, escalate. The
 vault model has specific guarantees and any deviation is a bug.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A Security team asks: "What happens to a credential after rotation?" Most accurate answer:</p>
-<p>A. It is immediately deleted B. It is marked deprecated and kept available for 24 hours so in-flight operations can complete, then deleted from the vault C. It is archived indefinitely D. It is encrypted again</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The 24-hour overlap is intentional — lets in-flight syncs and executions finish on the old credential before deletion. Zero downtime rotation depends on this.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A Security team asks: "Can a ZopNight engineer decrypt our credential to help debug?" Most accurate answer:</p>
-<p>A. Yes, on request B. No. Decryption keys are not accessible from engineering tooling. Production debugging that requires credential access goes through a documented break-glass procedure with multi-party approval, logged in the security audit trail. This is required for SOC 2. C. Only for premium customers D. Yes, after written consent</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Engineer access to customer credentials is structurally restricted, not policy-restricted. The break-glass procedure is the only path and it is audited.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team revokes a credential by accident. The right recovery procedure is:</p>
-<p>A. Un-revoke through the UI B. Create a new credential in the cloud provider and connect it. Revocation is intentionally one-way; un-revoking would defeat the security purpose. C. File a support ticket to restore D. The credential is unrecoverable, recreate the cloud account</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Revocation cannot be undone — that is the security guarantee. The recovery path is to create a new credential. ZopNight detects the same underlying cloud account and re-attaches.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A Security team asks: "What happens to a credential after rotation?" Most accurate answer:</p>
+    <button class="opt"><span class="letter">A</span>It is immediately deleted</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>It is marked deprecated and kept available for 24 hours so in-flight operations can complete, then deleted from the vault</button>
+    <button class="opt"><span class="letter">C</span>It is archived indefinitely</button>
+    <button class="opt"><span class="letter">D</span>It is encrypted again</button>
+    <div class="explain"><strong>Correct: B.</strong> The 24-hour overlap is intentional — lets in-flight syncs and executions finish on the old credential before deletion. Zero downtime rotation depends on this.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A Security team asks: "Can a ZopNight engineer decrypt our credential to help debug?" Most accurate answer:</p>
+    <button class="opt"><span class="letter">A</span>Yes, on request</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No. Decryption keys are not accessible from engineering tooling. Production debugging that requires credential access goes through a documented break-glass procedure with multi-party approval, logged in the security audit trail. This is required for SOC 2.</button>
+    <button class="opt"><span class="letter">C</span>Only for premium customers</button>
+    <button class="opt"><span class="letter">D</span>Yes, after written consent</button>
+    <div class="explain"><strong>Correct: B.</strong> Engineer access to customer credentials is structurally restricted, not policy-restricted. The break-glass procedure is the only path and it is audited.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team revokes a credential by accident. The right recovery procedure is:</p>
+    <button class="opt"><span class="letter">A</span>Un-revoke through the UI</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Create a new credential in the cloud provider and connect it. Revocation is intentionally one-way; un-revoking would defeat the security purpose.</button>
+    <button class="opt"><span class="letter">C</span>File a support ticket to restore</button>
+    <button class="opt"><span class="letter">D</span>The credential is unrecoverable, recreate the cloud account</button>
+    <div class="explain"><strong>Correct: B.</strong> Revocation cannot be undone — that is the security guarantee. The recovery path is to create a new credential. ZopNight detects the same underlying cloud account and re-attaches.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>To audit the vault model on your own deployment:</p>
@@ -571,6 +577,25 @@ vault model has specific guarantees and any deviation is a bug.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -785,6 +810,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

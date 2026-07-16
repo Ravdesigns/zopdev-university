@@ -1195,6 +1195,43 @@ body.drawer-open { overflow: hidden; }
 .lesson-content details > * + * { margin-top: 8px; }
 .lesson-content details p:first-of-type { margin-top: 12px; }
 
+/* Interactive quick-check MCQ (rendered from authored ### Qn blocks).
+   Dark-theme adaptation of the lesson-design prototype's .check. */
+.check {
+  border: 1px solid var(--g-300);
+  background: var(--g-50);
+  margin: 28px 0;
+  padding: 20px 22px 22px;
+}
+.check-tag {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--g-600);
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px;
+}
+.check-sq { width: 9px; height: 9px; background: var(--zop-orange); flex: none; }
+.check-q { font-weight: 600; color: var(--ink); margin: 0 0 14px; font-size: 16px; line-height: 1.5; }
+.check .opt {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  border: 1px solid var(--line); background: var(--paper);
+  padding: 11px 14px; margin-bottom: 8px;
+  font-family: var(--font-body); font-size: 15px; color: var(--ink);
+  transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.check .opt:hover:not(:disabled) { border-color: var(--g-500); }
+.check .opt .letter { font-family: var(--mono); color: var(--g-500); margin-right: 10px; }
+.check .opt.correct { border-color: var(--zop-green); background: rgba(127, 178, 54, 0.14); }
+.check .opt.correct .letter { color: var(--zop-green); }
+.check .opt.wrong { border-color: #c65a3a; background: rgba(198, 90, 58, 0.16); }
+.check .opt.wrong .letter { color: #d47a5c; }
+.check .opt:disabled { cursor: default; }
+.check .explain {
+  display: none; margin-top: 12px; padding: 13px 15px;
+  border-left: 3px solid var(--zop-orange); background: var(--g-100);
+  font-size: 15px; line-height: 1.6; color: var(--g-700);
+}
+.check .explain.show { display: block; }
+.check .explain strong { color: var(--ink); }
+
 /* Grouped-dropdown UI mock (rendered from authored ASCII by renderUiMock).
    Dark-theme adaptation of the lesson-design prototype's .uimock. */
 .uimock {

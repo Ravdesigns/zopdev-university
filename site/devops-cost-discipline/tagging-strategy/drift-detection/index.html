@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -711,27 +711,33 @@ LOG entry to #finops-weekly:
 <p>A 30-minute audit reveals the drift posture. Weekly cadence keeps it stable.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>ZopNight detects tag drift via:</p>
-<p>A. Real-time event stream B. Discovery cron (every 6h). Drift surfaces in the next sync after the change. Fast enough that drift is caught within a day, slow enough to batch resolutions in the Friday review. C. Random D. Always immediate</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 6-hour cadence; same-day detection.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A drift event caused by Terraform CI updating tag values:</p>
-<p>A. Resolve as "Trust ZopNight" B. Likely "Trust cloud" — Terraform is the legitimate source of truth in this case. Update ZopNight's expected to match. If the CI change was wrong, fix the IaC; but generally CI-driven changes are legitimate. C. Random D. Reject the change</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Source of truth wins. Terraform = legitimate source.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team with a consistent 5%+ drift rate week over week:</p>
-<p>A. Random fluctuation B. Tagging discipline breakdown. Structural issue — investigate sources: bad IaC, frequent manual changes, missing cloud policy, multi-team conflict. The 5% rate compounds; address root cause not symptoms. C. Random D. Fine; tags drift</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Structural issue at 5%+. Address root cause.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">ZopNight detects tag drift via:</p>
+    <button class="opt"><span class="letter">A</span>Real-time event stream</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Discovery cron (every 6h). Drift surfaces in the next sync after the change. Fast enough that drift is caught within a day, slow enough to batch resolutions in the Friday review.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Always immediate</button>
+    <div class="explain"><strong>Correct: B.</strong> 6-hour cadence; same-day detection.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A drift event caused by Terraform CI updating tag values:</p>
+    <button class="opt"><span class="letter">A</span>Resolve as "Trust ZopNight"</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Likely "Trust cloud" — Terraform is the legitimate source of truth in this case. Update ZopNight's expected to match. If the CI change was wrong, fix the IaC; but generally CI-driven changes are legitimate.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Reject the change</button>
+    <div class="explain"><strong>Correct: B.</strong> Source of truth wins. Terraform = legitimate source.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team with a consistent 5%+ drift rate week over week:</p>
+    <button class="opt"><span class="letter">A</span>Random fluctuation</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Tagging discipline breakdown. Structural issue — investigate sources: bad IaC, frequent manual changes, missing cloud policy, multi-team conflict. The 5% rate compounds; address root cause not symptoms.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Fine; tags drift</button>
+    <div class="explain"><strong>Correct: B.</strong> Structural issue at 5%+. Address root cause.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Weekly drift review (15-30 minutes typically). Resolve drift events with the right pattern. Investigate the source for unauthorized changes. Tune detection cadence for your scale.</p>
@@ -779,6 +785,25 @@ LOG entry to #finops-weekly:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -993,6 +1018,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

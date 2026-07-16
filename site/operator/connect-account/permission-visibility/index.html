@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -552,27 +552,33 @@ POST-FIX:  Estate coverage: 100%, $1,840/mo recommendation surfaced</code></pre>
 <p>The goal is to know the coverage state, not to close every gap. A team that knowingly excludes a service is far better off than one that doesn't know it has a gap.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team's ZopNight monthly cost report is 8% lower than their AWS invoice. The first thing to check is:</p>
-<p>A. ZopNight is broken B. The Permission Visibility drawer. If 8% of the estate is missing because of IAM gaps, the report will be 8% low. Close the IAM gaps via the suggested CloudFormation snippets and re-run discovery. C. Currency conversion D. The AWS invoice is wrong</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Permission Visibility is built exactly for this audit. A non-zero Denied count explains coverage gaps that lead to under-reporting.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A new region is enabled in the customer's AWS account. The Permission Visibility drawer shows the new region as Unknown for several resource types. The cause:</p>
-<p>A. ZopNight is failing B. The 6-hour discovery cron hasn't run since the region was enabled. Either wait for the next cron or click Manual refresh to re-attempt immediately. Unknown is a transient state; it resolves to Granted or Denied after one attempt. C. The credential is invalid D. The region is unsupported</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Unknown is a "not yet attempted" or "inconclusive response" state. The fix is just to trigger a new discovery, which Manual refresh does immediately.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A SOC 2 auditor asks for evidence of "complete cloud inventory coverage." Most defensible response:</p>
-<p>A. Run a Python script B. Screenshot the Permission Visibility drawer showing All Granted across all categories. This is reproducible by the auditor (they can request a fresh view) and ties cleanly to the underlying credential / policy. C. Refer the auditor to AWS D. Manually count resources</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The drawer is the audit evidence. It is generated from the discovery service's logs, reproducible on demand, and tied to a specific credential.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team's ZopNight monthly cost report is 8% lower than their AWS invoice. The first thing to check is:</p>
+    <button class="opt"><span class="letter">A</span>ZopNight is broken</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The Permission Visibility drawer. If 8% of the estate is missing because of IAM gaps, the report will be 8% low. Close the IAM gaps via the suggested CloudFormation snippets and re-run discovery.</button>
+    <button class="opt"><span class="letter">C</span>Currency conversion</button>
+    <button class="opt"><span class="letter">D</span>The AWS invoice is wrong</button>
+    <div class="explain"><strong>Correct: B.</strong> Permission Visibility is built exactly for this audit. A non-zero Denied count explains coverage gaps that lead to under-reporting.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A new region is enabled in the customer's AWS account. The Permission Visibility drawer shows the new region as Unknown for several resource types. The cause:</p>
+    <button class="opt"><span class="letter">A</span>ZopNight is failing</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The 6-hour discovery cron hasn't run since the region was enabled. Either wait for the next cron or click Manual refresh to re-attempt immediately. Unknown is a transient state; it resolves to Granted or Denied after one attempt.</button>
+    <button class="opt"><span class="letter">C</span>The credential is invalid</button>
+    <button class="opt"><span class="letter">D</span>The region is unsupported</button>
+    <div class="explain"><strong>Correct: B.</strong> Unknown is a "not yet attempted" or "inconclusive response" state. The fix is just to trigger a new discovery, which Manual refresh does immediately.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A SOC 2 auditor asks for evidence of "complete cloud inventory coverage." Most defensible response:</p>
+    <button class="opt"><span class="letter">A</span>Run a Python script</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Screenshot the Permission Visibility drawer showing All Granted across all categories. This is reproducible by the auditor (they can request a fresh view) and ties cleanly to the underlying credential / policy.</button>
+    <button class="opt"><span class="letter">C</span>Refer the auditor to AWS</button>
+    <button class="opt"><span class="letter">D</span>Manually count resources</button>
+    <div class="explain"><strong>Correct: B.</strong> The drawer is the audit evidence. It is generated from the discovery service's logs, reproducible on demand, and tied to a specific credential.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The Permission Visibility surface is:</p>
@@ -625,6 +631,25 @@ POST-FIX:  Estate coverage: 100%, $1,840/mo recommendation surfaced</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -839,6 +864,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -662,27 +662,33 @@ PRESENTATION CHECK:
 <p>If you cannot fit the slide on one screen, the message is buried. Trim until it lands.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A finance presentation of unit economics should:</p>
-<p>A. Include all the technical detail B. Be a story with four sections: what happened, why, what's next, ask. Crisp; one slide; leads with the conclusion. Detail is in the appendix or available on request. The audience reads the headline first; only the most-engaged go deeper. C. Random D. Engineering-level methodology</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Story structure. Crisp. Detail in appendix.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Engineering jargon in a CFO meeting:</p>
-<p>A. Shows expertise B. Loses audience. Translate to business terms (efficiency, trend, drivers, range). The CFO does not need to know what RBAC is; they need to know whether cost-per-user is improving and by how much. Translation is part of the job, not a compromise of rigor. C. Required for accuracy D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Translate jargon. Rigor comes from the underlying data, not the technical vocabulary.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A forecast with wide confidence band shown to leadership:</p>
-<p>A. Hide the uncertainty for clarity B. Communicate honestly. "Forecast: $11, range $10-$12, depending on launch impact." Honest about uncertainty builds trust over time as actuals fall within the band. Trust erodes when forecasts presented as certainties miss. C. Just point estimate D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Honest about uncertainty. Range with most-likely; this is the mature finance posture.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A finance presentation of unit economics should:</p>
+    <button class="opt"><span class="letter">A</span>Include all the technical detail</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Be a story with four sections: what happened, why, what's next, ask. Crisp; one slide; leads with the conclusion. Detail is in the appendix or available on request. The audience reads the headline first; only the most-engaged go deeper.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Engineering-level methodology</button>
+    <div class="explain"><strong>Correct: B.</strong> Story structure. Crisp. Detail in appendix.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Engineering jargon in a CFO meeting:</p>
+    <button class="opt"><span class="letter">A</span>Shows expertise</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Loses audience. Translate to business terms (efficiency, trend, drivers, range). The CFO does not need to know what RBAC is; they need to know whether cost-per-user is improving and by how much. Translation is part of the job, not a compromise of rigor.</button>
+    <button class="opt"><span class="letter">C</span>Required for accuracy</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Translate jargon. Rigor comes from the underlying data, not the technical vocabulary.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A forecast with wide confidence band shown to leadership:</p>
+    <button class="opt"><span class="letter">A</span>Hide the uncertainty for clarity</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Communicate honestly. "Forecast: $11, range $10-$12, depending on launch impact." Honest about uncertainty builds trust over time as actuals fall within the band. Trust erodes when forecasts presented as certainties miss.</button>
+    <button class="opt"><span class="letter">C</span>Just point estimate</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Honest about uncertainty. Range with most-likely; this is the mature finance posture.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Build the canonical one-slide report (<a href="https://app.zopnight.com/reports/unit-economics" target="_blank" rel="noopener">Reports → Unit Economics → Export</a>). Use it for monthly finance reviews; expand for quarterly board reports.</p>
@@ -732,6 +738,25 @@ PRESENTATION CHECK:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -946,6 +971,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

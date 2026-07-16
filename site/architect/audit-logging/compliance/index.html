@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -651,27 +651,33 @@ QUERY OWNER (who runs it for the audit): __________</code></pre>
 <p>If you cannot map a control to a query, that is a real gap — either the control is not actually mediated by ZopNight (it lives elsewhere), or it is, and you need a query that did not exist before.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A SOC 2 auditor asks "Show me 3 examples of approval-gated remediations." The audit log can:</p>
-<p>A. Not help — approvals are out of scope B. Filter <code>path</code> contains <code>/remediations/.../approve</code>, method = POST. Return any sample of 3 from the result set. Each entry shows the user, the action, the resource, the response — reproducible evidence the auditor can re-run. C. Only show that it happened, not the details D. Only show via cloud audit logs</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Direct query produces direct evidence. The auditor can re-run the query (with read access) for reproducibility.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The audit log captures decisions and the reasoning behind them:</p>
-<p>A. Yes, with explicit "reason" field on every entry B. No — the audit log captures <em>what</em> happened (the API calls). The <em>why</em> (intent, deliberation, judgment) lives in supplementary sources: Slack threads, ticket comments, change requests. Compliance evidence usually requires combining both. C. Only for high-risk actions D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> What, not why. Compliance audits assemble evidence from multiple sources — the audit log is one input.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>For a financial-services org with a 7-year retention requirement:</p>
-<p>A. The default 1-year retention is sufficient B. Configure long-term retention. ZopNight's primary store supports indefinite retention; cost-aware orgs configure a retention cutoff and export aged entries to S3/GCS or to a SIEM with long-term storage. WORM storage is sometimes required for financial frameworks. C. Cannot be done in ZopNight D. Use cloud-side audit only</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Long retention is configurable. The choice between in-place retention (simple, more storage cost) and SIEM export (more setup, often cheaper at year+ horizons) depends on the org.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A SOC 2 auditor asks "Show me 3 examples of approval-gated remediations." The audit log can:</p>
+    <button class="opt"><span class="letter">A</span>Not help — approvals are out of scope</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Filter <code>path</code> contains <code>/remediations/.../approve</code>, method = POST. Return any sample of 3 from the result set. Each entry shows the user, the action, the resource, the response — reproducible evidence the auditor can re-run.</button>
+    <button class="opt"><span class="letter">C</span>Only show that it happened, not the details</button>
+    <button class="opt"><span class="letter">D</span>Only show via cloud audit logs</button>
+    <div class="explain"><strong>Correct: B.</strong> Direct query produces direct evidence. The auditor can re-run the query (with read access) for reproducibility.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The audit log captures decisions and the reasoning behind them:</p>
+    <button class="opt"><span class="letter">A</span>Yes, with explicit "reason" field on every entry</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No — the audit log captures <em>what</em> happened (the API calls). The <em>why</em> (intent, deliberation, judgment) lives in supplementary sources: Slack threads, ticket comments, change requests. Compliance evidence usually requires combining both.</button>
+    <button class="opt"><span class="letter">C</span>Only for high-risk actions</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> What, not why. Compliance audits assemble evidence from multiple sources — the audit log is one input.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">For a financial-services org with a 7-year retention requirement:</p>
+    <button class="opt"><span class="letter">A</span>The default 1-year retention is sufficient</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Configure long-term retention. ZopNight's primary store supports indefinite retention; cost-aware orgs configure a retention cutoff and export aged entries to S3/GCS or to a SIEM with long-term storage. WORM storage is sometimes required for financial frameworks.</button>
+    <button class="opt"><span class="letter">C</span>Cannot be done in ZopNight</button>
+    <button class="opt"><span class="letter">D</span>Use cloud-side audit only</button>
+    <div class="explain"><strong>Correct: B.</strong> Long retention is configurable. The choice between in-place retention (simple, more storage cost) and SIEM export (more setup, often cheaper at year+ horizons) depends on the org.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Pre-built compliance reports live at <a href="https://app.zopnight.com/settings/compliance" target="_blank" rel="noopener">Settings → Compliance Reports</a> — one-click generation for SOC 2, ISO 27001, quarterly RBAC review, and others. For framework-specific needs, build saved searches that match each control mapping.</p>
@@ -722,6 +728,25 @@ QUERY OWNER (who runs it for the audit): __________</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -936,6 +961,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

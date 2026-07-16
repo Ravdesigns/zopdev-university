@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -605,27 +605,33 @@ This is the exact form an auditor or incident responder would see.</code></pre>
 <p>If your team has been using body-capture mode without realizing it, this exercise often surprises people with how much detail is preserved.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A request body contains a cloud credential. The audit log stores:</p>
-<p>A. The full credential — needed for forensics B. <code>[REDACTED]</code> in place of the credential field; other fields stored unchanged. Redaction happens at the middleware before storage and is irreversible. The cloud credential itself is in the encrypted cloud-account record, not in the audit log. C. Encrypted credential D. Random masking</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Redaction at storage time is irreversible by design. Audit logs should never become a credential-leak vector.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A request body of 200 KB is sent. What lands in the audit log?</p>
-<p>A. The full 200 KB B. The first 64 KB plus a <code>[BODY TRUNCATED — original size 200 KB]</code> marker. The truncation marker is itself part of the audit entry, so an investigator knows the body was larger than what's shown. C. Rejected at the gateway D. Random sampling</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Truncation with explicit marker preserves the most-useful prefix without letting outlier payloads inflate storage.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Body capture applies to GET requests:</p>
-<p>A. Yes, with the same redaction B. No — body capture only applies to mutations (POST/PUT/PATCH/DELETE). GETs are not logged at all (except failed/denied reads). The capture middleware short-circuits on GET methods. C. Only successful GETs D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Mutations-only is the canonical scope. Body capture inherits this scope; GETs are excluded entirely.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A request body contains a cloud credential. The audit log stores:</p>
+    <button class="opt"><span class="letter">A</span>The full credential — needed for forensics</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span><code>[REDACTED]</code> in place of the credential field; other fields stored unchanged. Redaction happens at the middleware before storage and is irreversible. The cloud credential itself is in the encrypted cloud-account record, not in the audit log.</button>
+    <button class="opt"><span class="letter">C</span>Encrypted credential</button>
+    <button class="opt"><span class="letter">D</span>Random masking</button>
+    <div class="explain"><strong>Correct: B.</strong> Redaction at storage time is irreversible by design. Audit logs should never become a credential-leak vector.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A request body of 200 KB is sent. What lands in the audit log?</p>
+    <button class="opt"><span class="letter">A</span>The full 200 KB</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The first 64 KB plus a <code>[BODY TRUNCATED — original size 200 KB]</code> marker. The truncation marker is itself part of the audit entry, so an investigator knows the body was larger than what's shown.</button>
+    <button class="opt"><span class="letter">C</span>Rejected at the gateway</button>
+    <button class="opt"><span class="letter">D</span>Random sampling</button>
+    <div class="explain"><strong>Correct: B.</strong> Truncation with explicit marker preserves the most-useful prefix without letting outlier payloads inflate storage.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Body capture applies to GET requests:</p>
+    <button class="opt"><span class="letter">A</span>Yes, with the same redaction</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No — body capture only applies to mutations (POST/PUT/PATCH/DELETE). GETs are not logged at all (except failed/denied reads). The capture middleware short-circuits on GET methods.</button>
+    <button class="opt"><span class="letter">C</span>Only successful GETs</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Mutations-only is the canonical scope. Body capture inherits this scope; GETs are excluded entirely.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Click any audit-log entry in <a href="https://app.zopnight.com/settings/audit-log" target="_blank" rel="noopener">Settings → Audit Log</a> to read the full body. The API endpoint <a href="https://docs.zopnight.com/api/audit" target="_blank" rel="noopener"><code>/v1/audit/logs/{id}</code></a> returns the same data including <code>body</code> and <code>response_body</code> fields.</p>
@@ -672,6 +678,25 @@ This is the exact form an auditor or incident responder would see.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -886,6 +911,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

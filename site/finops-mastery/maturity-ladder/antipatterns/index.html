@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -675,27 +675,33 @@ STRUCTURAL FIX for each:
 <p>The discipline is to fix anti-patterns one or two at a time, not chase all of them. Structural change takes commitment.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A Walk org's most common anti-pattern:</p>
-<p>A. Cloud provider choice B. Sprint-driven optimization. One-time effort produces savings that decay over the following 6-12 months. The fix is weekly Operate cadence — structural change, not bigger sprints. Without the cadence, the same anti-pattern resurfaces every year. C. Random D. Tool choice</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Sprint vs sustained is the Walk pattern. The cadence fix is structural.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A Crawl org buying reservations without modeling:</p>
-<p>A. Best practice B. Anti-pattern. Reservations need post-schedule floor analysis. Pre-Walk orgs lack the operational discipline to compute that floor reliably. Result: over-commitment that gets harder to unwind. Defer commitment purchases until basic discipline (scheduling, tagging, weekly cadence) is in place. C. Required by AWS D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Over-commitment trap. Schedule first; commit later.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The fix for any anti-pattern is:</p>
-<p>A. Exhortation — "try harder" B. Structural change. New cadence, new ownership, new tooling, new policy, new data model. Exhortation produces brief improvement followed by reversion. Structure produces sustained change. C. Random D. Cloud upgrade</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Structural change. Effort doesn't fix structure.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A Walk org's most common anti-pattern:</p>
+    <button class="opt"><span class="letter">A</span>Cloud provider choice</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Sprint-driven optimization. One-time effort produces savings that decay over the following 6-12 months. The fix is weekly Operate cadence — structural change, not bigger sprints. Without the cadence, the same anti-pattern resurfaces every year.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Tool choice</button>
+    <div class="explain"><strong>Correct: B.</strong> Sprint vs sustained is the Walk pattern. The cadence fix is structural.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A Crawl org buying reservations without modeling:</p>
+    <button class="opt"><span class="letter">A</span>Best practice</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Anti-pattern. Reservations need post-schedule floor analysis. Pre-Walk orgs lack the operational discipline to compute that floor reliably. Result: over-commitment that gets harder to unwind. Defer commitment purchases until basic discipline (scheduling, tagging, weekly cadence) is in place.</button>
+    <button class="opt"><span class="letter">C</span>Required by AWS</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Over-commitment trap. Schedule first; commit later.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The fix for any anti-pattern is:</p>
+    <button class="opt"><span class="letter">A</span>Exhortation — "try harder"</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Structural change. New cadence, new ownership, new tooling, new policy, new data model. Exhortation produces brief improvement followed by reversion. Structure produces sustained change.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Cloud upgrade</button>
+    <div class="explain"><strong>Correct: B.</strong> Structural change. Effort doesn't fix structure.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Audit your org with the checklist above. Pick 1-2 anti-patterns; design structural fixes; commit to a quarter of work on each. Resist the temptation to address all anti-patterns at once — focus is what makes structural change land.</p>
@@ -742,6 +748,25 @@ STRUCTURAL FIX for each:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -956,6 +981,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

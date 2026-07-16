@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -611,27 +611,33 @@ WHY:    __________________________________________________________</code></pre>
 <p>Most questions have a clear best layout. If multiple layouts seem equally useful, the question is probably broad — narrow it first, then re-evaluate.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Question: "Is our K8s spend dominated by EKS or GKE?" Best layout:</p>
-<p>A. Default — provider only B. By Service — shows EKS, GKE, AKS as distinct columns in the cascade, with their individual subtotals. Default would group them all as "Type = K8s" without distinguishing. C. By Region D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> By Service for service-level breakdown.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Switching layout while drilled into a node:</p>
-<p>A. Preserves the drill B. Resets the drill. Layout defines structure; drill is within-structure navigation. The drilled value doesn't have meaning in a different layout's cascade. Reset prevents inconsistent state. Reset is the trade for layout flexibility. C. Random D. Errors out</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Resets drill. The trade-off is intentional.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The 5 layouts are:</p>
-<p>A. Customizable by the user B. Predefined by ZopNight — Default, By Service, By Region, By Purchase Type, By Resource. The constraint serves learnability + comparability across the team. Fully custom would require column-builder UX and would fragment team conventions. C. Per-user customizable D. Per-team customizable</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Predefined set. The constraint helps.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Question: "Is our K8s spend dominated by EKS or GKE?" Best layout:</p>
+    <button class="opt"><span class="letter">A</span>Default — provider only</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>By Service — shows EKS, GKE, AKS as distinct columns in the cascade, with their individual subtotals. Default would group them all as "Type = K8s" without distinguishing.</button>
+    <button class="opt"><span class="letter">C</span>By Region</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> By Service for service-level breakdown.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Switching layout while drilled into a node:</p>
+    <button class="opt"><span class="letter">A</span>Preserves the drill</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Resets the drill. Layout defines structure; drill is within-structure navigation. The drilled value doesn't have meaning in a different layout's cascade. Reset prevents inconsistent state. Reset is the trade for layout flexibility.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Errors out</button>
+    <div class="explain"><strong>Correct: B.</strong> Resets drill. The trade-off is intentional.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The 5 layouts are:</p>
+    <button class="opt"><span class="letter">A</span>Customizable by the user</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Predefined by ZopNight — Default, By Service, By Region, By Purchase Type, By Resource. The constraint serves learnability + comparability across the team. Fully custom would require column-builder UX and would fragment team conventions.</button>
+    <button class="opt"><span class="letter">C</span>Per-user customizable</button>
+    <button class="opt"><span class="letter">D</span>Per-team customizable</button>
+    <div class="explain"><strong>Correct: B.</strong> Predefined set. The constraint helps.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Switch layouts in <a href="https://app.zopnight.com/reports/cost-flow" target="_blank" rel="noopener">Reports → Cost Flow</a> via the layout dropdown at the top of the Sankey. The URL updates to reflect the selected layout; share the URL to share the view.</p>
@@ -678,6 +684,25 @@ WHY:    __________________________________________________________</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -892,6 +917,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

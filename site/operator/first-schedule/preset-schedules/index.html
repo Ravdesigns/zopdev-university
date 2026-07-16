@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -564,27 +564,33 @@ If the preset doesn&#39;t match your team&#39;s working hours:
 - The grid updates as you type</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The Business Hours preset has three crons. The third is a redundant weekend stop. The reason it exists:</p>
-<p>A. Backwards compatibility B. Belt-and-suspenders — catches the case where a manual start fires on Friday evening and would otherwise leave the resource running all weekend. Idempotent on already-stopped resources. C. Performance D. Required by AWS</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The belt-and-suspenders weekend stop is defensive. It does nothing in the normal case (resource already stopped from Friday 8 PM); it catches the edge case of a manual override or late start.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team applies the Peak Hours preset to their production EC2 fleet. They start seeing customer impact at 10:30 PM each day. Most likely cause:</p>
-<p>A. The preset is broken B. Peak Hours stops at 10 PM. If the production fleet has actual traffic past 10 PM, the preset is the wrong tool. Production should not be on a start/stop schedule unless explicitly non-24/7. Use autoscaling or a different preset. C. The cron is off by an hour D. DST shift</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Peak Hours is for capacity above the always-on floor, not for the floor itself. Production typically needs an always-on baseline with scale-out triggers, not a start/stop schedule.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team in Asia/Kolkata applies the Business Hours preset. They forget to change the timezone from the default (which is the customer's primary timezone, e.g., America/New_York). The likely outcome:</p>
-<p>A. Works fine B. The schedule fires at 8 AM and 8 PM America/New_York — which is 5:30 PM and 5:30 AM Asia/Kolkata. The Kolkata team finds resources stopping mid-afternoon and starting at dawn. The fix is to set the timezone to Asia/Kolkata. C. The schedule doesn't fire D. AWS rejects the timezone</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Timezone is per-schedule. A team that doesn't change it after applying a preset will see crons fire in the default timezone. The grid (L3) would catch this before save — the visual would show "stop at 5:30 PM" not "stop at 8 PM" in the team's local time.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The Business Hours preset has three crons. The third is a redundant weekend stop. The reason it exists:</p>
+    <button class="opt"><span class="letter">A</span>Backwards compatibility</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Belt-and-suspenders — catches the case where a manual start fires on Friday evening and would otherwise leave the resource running all weekend. Idempotent on already-stopped resources.</button>
+    <button class="opt"><span class="letter">C</span>Performance</button>
+    <button class="opt"><span class="letter">D</span>Required by AWS</button>
+    <div class="explain"><strong>Correct: B.</strong> The belt-and-suspenders weekend stop is defensive. It does nothing in the normal case (resource already stopped from Friday 8 PM); it catches the edge case of a manual override or late start.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team applies the Peak Hours preset to their production EC2 fleet. They start seeing customer impact at 10:30 PM each day. Most likely cause:</p>
+    <button class="opt"><span class="letter">A</span>The preset is broken</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Peak Hours stops at 10 PM. If the production fleet has actual traffic past 10 PM, the preset is the wrong tool. Production should not be on a start/stop schedule unless explicitly non-24/7. Use autoscaling or a different preset.</button>
+    <button class="opt"><span class="letter">C</span>The cron is off by an hour</button>
+    <button class="opt"><span class="letter">D</span>DST shift</button>
+    <div class="explain"><strong>Correct: B.</strong> Peak Hours is for capacity above the always-on floor, not for the floor itself. Production typically needs an always-on baseline with scale-out triggers, not a start/stop schedule.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team in Asia/Kolkata applies the Business Hours preset. They forget to change the timezone from the default (which is the customer's primary timezone, e.g., America/New_York). The likely outcome:</p>
+    <button class="opt"><span class="letter">A</span>Works fine</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The schedule fires at 8 AM and 8 PM America/New_York — which is 5:30 PM and 5:30 AM Asia/Kolkata. The Kolkata team finds resources stopping mid-afternoon and starting at dawn. The fix is to set the timezone to Asia/Kolkata.</button>
+    <button class="opt"><span class="letter">C</span>The schedule doesn't fire</button>
+    <button class="opt"><span class="letter">D</span>AWS rejects the timezone</button>
+    <div class="explain"><strong>Correct: B.</strong> Timezone is per-schedule. A team that doesn't change it after applying a preset will see crons fire in the default timezone. The grid (L3) would catch this before save — the visual would show "stop at 5:30 PM" not "stop at 8 PM" in the team's local time.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Presets are in the schedule create dialog:</p>
@@ -635,6 +641,25 @@ If the preset doesn&#39;t match your team&#39;s working hours:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -849,6 +874,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

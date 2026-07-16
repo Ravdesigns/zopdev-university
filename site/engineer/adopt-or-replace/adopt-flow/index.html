@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -622,27 +622,33 @@ RESULTS:
 <p>A 10-minute exercise reveals the adopt flow's safety.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>What cloud API mutations happen during Adopt?</p>
-<p>A. ZopNight modifies the policies B. Zero — Adopt is "observe only." The cloud-side state is unchanged. ZopNight reads the config; stores it; never mutates. This is the architectural guarantee that makes Adopt safe. C. ZopNight creates a copy D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Zero mutation is the design.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Removing an adopted policy:</p>
-<p>A. Restores the original config B. No-op for cloud-side state (nothing was changed); only deletes the ZopNight tracking record. Adopt was no-op; Remove is no-op too. Cloud-side scaling continues as it was. C. Deletes the policy D. Triggers an error</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Adopt was no-op; Remove is no-op too.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Adopted policy recommendations are:</p>
-<p>A. Auto-applied B. Advisory — the user sees the recommendation. Applying it auto-promotes the policy to recommended and triggers cloud mutation only after explicit user action. ZopNight never modifies adopted policies without explicit consent. C. Hidden D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Advisory only, requires explicit user action.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">What cloud API mutations happen during Adopt?</p>
+    <button class="opt"><span class="letter">A</span>ZopNight modifies the policies</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Zero — Adopt is "observe only." The cloud-side state is unchanged. ZopNight reads the config; stores it; never mutates. This is the architectural guarantee that makes Adopt safe.</button>
+    <button class="opt"><span class="letter">C</span>ZopNight creates a copy</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Zero mutation is the design.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Removing an adopted policy:</p>
+    <button class="opt"><span class="letter">A</span>Restores the original config</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No-op for cloud-side state (nothing was changed); only deletes the ZopNight tracking record. Adopt was no-op; Remove is no-op too. Cloud-side scaling continues as it was.</button>
+    <button class="opt"><span class="letter">C</span>Deletes the policy</button>
+    <button class="opt"><span class="letter">D</span>Triggers an error</button>
+    <div class="explain"><strong>Correct: B.</strong> Adopt was no-op; Remove is no-op too.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Adopted policy recommendations are:</p>
+    <button class="opt"><span class="letter">A</span>Auto-applied</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Advisory — the user sees the recommendation. Applying it auto-promotes the policy to recommended and triggers cloud mutation only after explicit user action. ZopNight never modifies adopted policies without explicit consent.</button>
+    <button class="opt"><span class="letter">C</span>Hidden</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Advisory only, requires explicit user action.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The Adopt wizard option is in Automation → Policies → New Policy. Source = adopted shows on the policy detail page.</p>
@@ -689,6 +695,25 @@ RESULTS:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -903,6 +928,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

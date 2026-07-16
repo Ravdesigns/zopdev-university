@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -632,27 +632,33 @@ VARIANCE check against previous quarter&#39;s forecast:
 <p>If you don't have a previous forecast to check against, start producing forecasts now. Variance analysis becomes possible after 2-3 cycles.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Driver-based forecasting (vs extrapolation):</p>
-<p>A. Same accuracy B. More accurate. Forecasts cost and the denominator separately, combining them. Accounts for planned events (launches, optimizations, user growth) that extrapolation cannot see. Extrapolation is fine for first sketches; driver-based is for committed forecasts. C. Random D. Worse</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Driver-based is more accurate because it incorporates known future events.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team's cost-per-MAU rising as a new feature scales:</p>
-<p>A. Always bad B. Often acceptable. New features add cost before users grow to match. Monitor; if the pattern continues 6+ months without MAU growth catching up, investigate. Short-term cost-per-MAU rise during feature ramp-up is normal economics. C. Random D. Always good</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Temporary increase during ramp-up is acceptable; sustained increase warrants investigation.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Forecast accuracy at year-ahead horizon:</p>
-<p>A. ±2% — same as month-ahead B. ±20-30%. Long-horizon forecasts have high uncertainty (many unknowns: launches, growth, optimization, market). Communicate this band honestly. Audience trust improves when uncertainty is acknowledged and actual outcomes fall within the band; trust erodes when forecasts are presented as certainties. C. ±5% D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Long horizon = wider band. Honest communication of uncertainty builds trust.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Driver-based forecasting (vs extrapolation):</p>
+    <button class="opt"><span class="letter">A</span>Same accuracy</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>More accurate. Forecasts cost and the denominator separately, combining them. Accounts for planned events (launches, optimizations, user growth) that extrapolation cannot see. Extrapolation is fine for first sketches; driver-based is for committed forecasts.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Worse</button>
+    <div class="explain"><strong>Correct: B.</strong> Driver-based is more accurate because it incorporates known future events.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team's cost-per-MAU rising as a new feature scales:</p>
+    <button class="opt"><span class="letter">A</span>Always bad</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Often acceptable. New features add cost before users grow to match. Monitor; if the pattern continues 6+ months without MAU growth catching up, investigate. Short-term cost-per-MAU rise during feature ramp-up is normal economics.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Always good</button>
+    <div class="explain"><strong>Correct: B.</strong> Temporary increase during ramp-up is acceptable; sustained increase warrants investigation.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Forecast accuracy at year-ahead horizon:</p>
+    <button class="opt"><span class="letter">A</span>±2% — same as month-ahead</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>±20-30%. Long-horizon forecasts have high uncertainty (many unknowns: launches, growth, optimization, market). Communicate this band honestly. Audience trust improves when uncertainty is acknowledged and actual outcomes fall within the band; trust erodes when forecasts are presented as certainties.</button>
+    <button class="opt"><span class="letter">C</span>±5%</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Long horizon = wider band. Honest communication of uncertainty builds trust.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Build your quarterly forecast at <a href="https://app.zopnight.com/reports/unit-economics" target="_blank" rel="noopener">Reports → Unit Economics → Forecast</a> (the forecast overlay). Configure driver-based inputs; use scenarios for budget planning.</p>
@@ -700,6 +706,25 @@ VARIANCE check against previous quarter&#39;s forecast:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -914,6 +939,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

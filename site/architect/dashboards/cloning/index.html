@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -632,27 +632,33 @@ SET AS ORG DEFAULT?    Yes / No (why?)</code></pre>
 <p>If you can't finish this exercise in 5 minutes, the preset was close to your needs. That's a healthy sign — the presets are designed to be close to common needs.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team wants to remove "Showback by Team" from the FinOps preset:</p>
-<p>A. Edit the preset directly B. Clone the preset first; modify the clone; save under a new name. Presets are immutable templates that can be re-cloned from the latest version; clones are the customer's customization surface. This pattern lets ZopNight update presets without breaking customer dashboards. C. File a feature request D. Cannot be done</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Clone, then modify. The pattern is fundamental to dashboard architecture.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Per-user dashboard customization:</p>
-<p>A. Supported in V1 B. NOT supported in V1. Dashboards are org-shared. Users can bookmark their preferred saved dashboard and switch via the header switcher, but cannot create private dashboards. Future versions may add per-user customization. C. Per-team only D. Per-role only</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Org-shared model in V1. Bookmarks give per-user flexibility on top of shared dashboards.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Per-org dashboard limits:</p>
-<p>A. Unlimited B. 50 dashboards, 50 widgets per dashboard, 4 KiB per widget config, 64 KiB total layout. Soft warning at 75%, hard limit at 100%. The limits protect performance and prevent dashboard proliferation. Most customers do not approach these caps. C. 10 dashboards D. Per-tier limits</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Defined caps. Consolidation, not expansion, is the answer when approaching limits.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team wants to remove "Showback by Team" from the FinOps preset:</p>
+    <button class="opt"><span class="letter">A</span>Edit the preset directly</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Clone the preset first; modify the clone; save under a new name. Presets are immutable templates that can be re-cloned from the latest version; clones are the customer's customization surface. This pattern lets ZopNight update presets without breaking customer dashboards.</button>
+    <button class="opt"><span class="letter">C</span>File a feature request</button>
+    <button class="opt"><span class="letter">D</span>Cannot be done</button>
+    <div class="explain"><strong>Correct: B.</strong> Clone, then modify. The pattern is fundamental to dashboard architecture.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Per-user dashboard customization:</p>
+    <button class="opt"><span class="letter">A</span>Supported in V1</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>NOT supported in V1. Dashboards are org-shared. Users can bookmark their preferred saved dashboard and switch via the header switcher, but cannot create private dashboards. Future versions may add per-user customization.</button>
+    <button class="opt"><span class="letter">C</span>Per-team only</button>
+    <button class="opt"><span class="letter">D</span>Per-role only</button>
+    <div class="explain"><strong>Correct: B.</strong> Org-shared model in V1. Bookmarks give per-user flexibility on top of shared dashboards.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Per-org dashboard limits:</p>
+    <button class="opt"><span class="letter">A</span>Unlimited</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>50 dashboards, 50 widgets per dashboard, 4 KiB per widget config, 64 KiB total layout. Soft warning at 75%, hard limit at 100%. The limits protect performance and prevent dashboard proliferation. Most customers do not approach these caps.</button>
+    <button class="opt"><span class="letter">C</span>10 dashboards</button>
+    <button class="opt"><span class="letter">D</span>Per-tier limits</button>
+    <div class="explain"><strong>Correct: B.</strong> Defined caps. Consolidation, not expansion, is the answer when approaching limits.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Clone presets at <a href="https://app.zopnight.com/dashboards" target="_blank" rel="noopener">Dashboards</a> → preset → "Clone preset" button. The clone editor supports drag-and-drop widget arrangement, per-widget configuration, and save-as-default.</p>
@@ -699,6 +705,25 @@ SET AS ORG DEFAULT?    Yes / No (why?)</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -913,6 +938,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

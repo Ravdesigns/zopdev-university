@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -677,27 +677,33 @@ NO INCIDENTS</code></pre>
 <p>A 15-minute exercise reveals the dependency map.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A Job runs at 2 AM but the cluster is scheduled off 8 PM - 8 AM. What happens?</p>
-<p>A. Job runs anyway B. Job fails. The cluster needs to be running for the Job. Use Pattern A (schedule cluster overlap), B (wake cluster for Job time), or C (use Job cluster). Cluster availability is the dependency. C. Random D. Discovery error</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Cluster availability is the dependency.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Pattern C (Job clusters) is best for:</p>
-<p>A. All workloads B. Workloads with sporadic Job runs and no need for cluster state between runs. Each Job creates its own cluster, runs, terminates. Independent of any scheduled cluster. C. Random D. ML training only</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Sporadic + no state = Job cluster.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>ZopNight detects a schedule-vs-Job conflict at attachment time. What does it do?</p>
-<p>A. Refuses to attach B. Shows a warning listing the affected Jobs. User chooses: cancel, or attach anyway (and resolve the conflict separately). The warning catches the issue before the actual conflict. C. Auto-creates an override D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Warning + explicit choice.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A Job runs at 2 AM but the cluster is scheduled off 8 PM - 8 AM. What happens?</p>
+    <button class="opt"><span class="letter">A</span>Job runs anyway</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Job fails. The cluster needs to be running for the Job. Use Pattern A (schedule cluster overlap), B (wake cluster for Job time), or C (use Job cluster). Cluster availability is the dependency.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Discovery error</button>
+    <div class="explain"><strong>Correct: B.</strong> Cluster availability is the dependency.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Pattern C (Job clusters) is best for:</p>
+    <button class="opt"><span class="letter">A</span>All workloads</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Workloads with sporadic Job runs and no need for cluster state between runs. Each Job creates its own cluster, runs, terminates. Independent of any scheduled cluster.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>ML training only</button>
+    <div class="explain"><strong>Correct: B.</strong> Sporadic + no state = Job cluster.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">ZopNight detects a schedule-vs-Job conflict at attachment time. What does it do?</p>
+    <button class="opt"><span class="letter">A</span>Refuses to attach</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Shows a warning listing the affected Jobs. User chooses: cancel, or attach anyway (and resolve the conflict separately). The warning catches the issue before the actual conflict.</button>
+    <button class="opt"><span class="letter">C</span>Auto-creates an override</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Warning + explicit choice.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's attachment flow checks for Job dependencies on Databricks clusters and warns. Schedule design considers the dependency map.</p>
@@ -747,6 +753,25 @@ NO INCIDENTS</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -961,6 +986,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -670,27 +670,33 @@ OUTCOMES (post-implementation):
 <p>A 15-minute exercise per workload. Most workloads: routing captures 60-80%.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A workload with 70% simple queries currently using Opus. Best optimization:</p>
-<p>A. Continue Opus B. Route simple queries to Haiku. Estimate cost reduction at ~85%. Implementation: add a router (which itself uses Haiku for classification). 70% × ~18.75x cost difference = massive savings. C. Random D. Switch to manual</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Mixed routing.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A workload requires complex multi-step reasoning. Best model:</p>
-<p>A. Haiku B. Stay on Opus or use Sonnet. Reasoning quality matters more than cost. The use case justifies the premium model. C. Titan D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Quality wins.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The cost difference between Opus and Haiku for typical queries:</p>
-<p>A. Negligible B. ~18.75x — Opus costs $15/$75 per M tokens; Haiku costs $0.80/$4. The factor is dramatic. This is why model selection matters so much for cost. C. ~10x D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> ~18.75x is the typical gap.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A workload with 70% simple queries currently using Opus. Best optimization:</p>
+    <button class="opt"><span class="letter">A</span>Continue Opus</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Route simple queries to Haiku. Estimate cost reduction at ~85%. Implementation: add a router (which itself uses Haiku for classification). 70% × ~18.75x cost difference = massive savings.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Switch to manual</button>
+    <div class="explain"><strong>Correct: B.</strong> Mixed routing.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A workload requires complex multi-step reasoning. Best model:</p>
+    <button class="opt"><span class="letter">A</span>Haiku</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Stay on Opus or use Sonnet. Reasoning quality matters more than cost. The use case justifies the premium model.</button>
+    <button class="opt"><span class="letter">C</span>Titan</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Quality wins.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The cost difference between Opus and Haiku for typical queries:</p>
+    <button class="opt"><span class="letter">A</span>Negligible</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>~18.75x — Opus costs $15/$75 per M tokens; Haiku costs $0.80/$4. The factor is dramatic. This is why model selection matters so much for cost.</button>
+    <button class="opt"><span class="letter">C</span>~10x</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> ~18.75x is the typical gap.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Mixed routing requires application changes. ZopNight's RC-1603 recommendation provides the savings estimate and which model categories to route to.</p>
@@ -737,6 +743,25 @@ OUTCOMES (post-implementation):
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -951,6 +976,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

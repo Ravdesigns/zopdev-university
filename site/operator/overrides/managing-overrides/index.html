@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -578,27 +578,33 @@ T+1 min   Engineer closes the page, confident the overrides reflect reality.</co
    will follow the schedule&#39;s next cron firing).</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A force-on override was set for a 72-hour demo. The demo ended after 18 hours. The most cost-aware action is:</p>
-<p>A. Wait for expiry B. Cancel the override immediately. This frees the schedule to fire its next stop cron and recovers the avoidable hours. Without cancel, the resources stay on for 54 unneeded hours. C. Modify the expiry to a shorter value D. Apply a new override</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Cancel early. Modifying expiry is not exposed (intentionally), so the team uses cancel. The cancellation reason documents the situation for audit purposes.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team needs to "extend" an override past its original expiry. The right approach is:</p>
-<p>A. Click Extend B. Cancel the current override (with a documented reason). Create a new override with the new expiry. This forces a re-documentation step that an Extend button would not. C. Modify the expiry D. Disable the schedule instead</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Extend is not exposed. The cancel-and-recreate pattern preserves audit-log clarity ("override #1 cancelled, override #2 created") over a silent extend.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The Expired tab shows overrides retained for 90 days. For older history:</p>
-<p>A. The data is gone B. The Audit Log preserves override events (set, cancel, expire) indefinitely. Use the audit log for historical analysis older than 90 days. C. AWS holds the data D. Cannot be queried</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The Expired tab is a convenience archive; the Audit Log is the permanent record. See T3.M3.3.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A force-on override was set for a 72-hour demo. The demo ended after 18 hours. The most cost-aware action is:</p>
+    <button class="opt"><span class="letter">A</span>Wait for expiry</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Cancel the override immediately. This frees the schedule to fire its next stop cron and recovers the avoidable hours. Without cancel, the resources stay on for 54 unneeded hours.</button>
+    <button class="opt"><span class="letter">C</span>Modify the expiry to a shorter value</button>
+    <button class="opt"><span class="letter">D</span>Apply a new override</button>
+    <div class="explain"><strong>Correct: B.</strong> Cancel early. Modifying expiry is not exposed (intentionally), so the team uses cancel. The cancellation reason documents the situation for audit purposes.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team needs to "extend" an override past its original expiry. The right approach is:</p>
+    <button class="opt"><span class="letter">A</span>Click Extend</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Cancel the current override (with a documented reason). Create a new override with the new expiry. This forces a re-documentation step that an Extend button would not.</button>
+    <button class="opt"><span class="letter">C</span>Modify the expiry</button>
+    <button class="opt"><span class="letter">D</span>Disable the schedule instead</button>
+    <div class="explain"><strong>Correct: B.</strong> Extend is not exposed. The cancel-and-recreate pattern preserves audit-log clarity ("override #1 cancelled, override #2 created") over a silent extend.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The Expired tab shows overrides retained for 90 days. For older history:</p>
+    <button class="opt"><span class="letter">A</span>The data is gone</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The Audit Log preserves override events (set, cancel, expire) indefinitely. Use the audit log for historical analysis older than 90 days.</button>
+    <button class="opt"><span class="letter">C</span>AWS holds the data</button>
+    <button class="opt"><span class="letter">D</span>Cannot be queried</button>
+    <div class="explain"><strong>Correct: B.</strong> The Expired tab is a convenience archive; the Audit Log is the permanent record. See T3.M3.3.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Override management:</p>
@@ -649,6 +655,25 @@ T+1 min   Engineer closes the page, confident the overrides reflect reality.</co
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -863,6 +888,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

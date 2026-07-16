@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -520,27 +520,33 @@ NET BILLING COST                       $______</code></pre>
 <p>If the team has never done this, the first pass takes 2–4 hours. Once a SQL template exists, it is a 5-minute recompute each month. Worth the investment.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team sees their AWS bill is 38% below rack rate. Most likely contributors:</p>
-<p>A. Pure on-demand savings B. Some combination of Spot, Reserved Instances or Savings Plans, sustained-use (if GCP), Azure Hybrid Benefit (if Azure), and EDP — typically RIs/SPs are the biggest single layer C. A vendor error D. Free trial</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 38% effective discount is consistent with strong RI/SP coverage plus some Spot. The team should decompose to know which layers contribute how much, so they can model renewal impact.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A 3-yr Reserved Instance expires next month. The Finance team asks "what happens to our bill?" The right answer is informed by:</p>
-<p>A. Looking at the total bill change B. Decomposing the current bill by layer, identifying the RI layer contribution, and modelling the bump that occurs when those instances revert to on-demand C. Calling AWS support D. Buying a new RI immediately</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Layer decomposition lets you model the exact bump. Without it, the team is guessing.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The "Unblended Cost" column in AWS CUR most closely corresponds to:</p>
-<p>A. Rack rate B. Billing cost (post-discount, pre-credit, pre-tax) C. The full invoice including tax D. The negotiated EDP rate</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> <code>UnblendedCost</code> is the cost after discounts but typically before credits and tax. The full invoice includes those.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team sees their AWS bill is 38% below rack rate. Most likely contributors:</p>
+    <button class="opt"><span class="letter">A</span>Pure on-demand savings</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Some combination of Spot, Reserved Instances or Savings Plans, sustained-use (if GCP), Azure Hybrid Benefit (if Azure), and EDP — typically RIs/SPs are the biggest single layer</button>
+    <button class="opt"><span class="letter">C</span>A vendor error</button>
+    <button class="opt"><span class="letter">D</span>Free trial</button>
+    <div class="explain"><strong>Correct: B.</strong> 38% effective discount is consistent with strong RI/SP coverage plus some Spot. The team should decompose to know which layers contribute how much, so they can model renewal impact.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A 3-yr Reserved Instance expires next month. The Finance team asks "what happens to our bill?" The right answer is informed by:</p>
+    <button class="opt"><span class="letter">A</span>Looking at the total bill change</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Decomposing the current bill by layer, identifying the RI layer contribution, and modelling the bump that occurs when those instances revert to on-demand</button>
+    <button class="opt"><span class="letter">C</span>Calling AWS support</button>
+    <button class="opt"><span class="letter">D</span>Buying a new RI immediately</button>
+    <div class="explain"><strong>Correct: B.</strong> Layer decomposition lets you model the exact bump. Without it, the team is guessing.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The "Unblended Cost" column in AWS CUR most closely corresponds to:</p>
+    <button class="opt"><span class="letter">A</span>Rack rate</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Billing cost (post-discount, pre-credit, pre-tax)</button>
+    <button class="opt"><span class="letter">C</span>The full invoice including tax</button>
+    <button class="opt"><span class="letter">D</span>The negotiated EDP rate</button>
+    <div class="explain"><strong>Correct: B.</strong> <code>UnblendedCost</code> is the cost after discounts but typically before credits and tax. The full invoice includes those.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's <a href="https://app.zopnight.com/reports/costs" target="_blank" rel="noopener">Reports → Cost Breakdown → Layout: Purchase Type</a> splits the bill by purchase type (OnDemand, Reservation, SavingsPlan, Spot, etc.) so the commitment / spot layers are visible at a glance.</p>
@@ -586,6 +592,25 @@ NET BILLING COST                       $______</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -800,6 +825,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

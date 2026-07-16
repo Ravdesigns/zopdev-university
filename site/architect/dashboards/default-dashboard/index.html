@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -629,27 +629,33 @@ DOCUMENTATION:
 <p>If your org has changed the default more than twice in the past year, you might be over-tuning. Pick one default and let bookmarks handle individual preferences.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A user wants a different default than the org's:</p>
-<p>A. They cannot — the org default is forced B. They can bookmark their preferred dashboard. The org default is the landing page for users without a bookmark; the bookmark overrides for the individual user. The two coexist. Most mature orgs have a default plus per-user bookmarks. C. Random D. Requires admin help</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Personal bookmarks coexist with the org default. Default for newcomers; bookmark for everyone else.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Changing the org default:</p>
-<p>A. Affects only new users B. Affects all users immediately. Existing users without bookmarks land on the new default on their next /dashboard visit. Users with bookmarks are unaffected (their bookmark overrides). The change is audited in M3.3 audit log. C. Random D. Takes effect at midnight</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> All users (without bookmarks) immediately. Reversible if the change is wrong.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The default can point to:</p>
-<p>A. Only a preset key B. Either a preset key (executive / engineering / finops / all_widgets) OR a UUID of a saved customized dashboard. Most mature orgs use a UUID after they have cloned and customized a preset. Newer orgs typically use a preset key. C. Multiple dashboards D. Per-role defaults</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Preset key or UUID. Two ways to point at the default; both work the same from the user's perspective.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A user wants a different default than the org's:</p>
+    <button class="opt"><span class="letter">A</span>They cannot — the org default is forced</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>They can bookmark their preferred dashboard. The org default is the landing page for users without a bookmark; the bookmark overrides for the individual user. The two coexist. Most mature orgs have a default plus per-user bookmarks.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Requires admin help</button>
+    <div class="explain"><strong>Correct: B.</strong> Personal bookmarks coexist with the org default. Default for newcomers; bookmark for everyone else.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Changing the org default:</p>
+    <button class="opt"><span class="letter">A</span>Affects only new users</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Affects all users immediately. Existing users without bookmarks land on the new default on their next /dashboard visit. Users with bookmarks are unaffected (their bookmark overrides). The change is audited in M3.3 audit log.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Takes effect at midnight</button>
+    <div class="explain"><strong>Correct: B.</strong> All users (without bookmarks) immediately. Reversible if the change is wrong.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The default can point to:</p>
+    <button class="opt"><span class="letter">A</span>Only a preset key</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Either a preset key (executive / engineering / finops / all_widgets) OR a UUID of a saved customized dashboard. Most mature orgs use a UUID after they have cloned and customized a preset. Newer orgs typically use a preset key.</button>
+    <button class="opt"><span class="letter">C</span>Multiple dashboards</button>
+    <button class="opt"><span class="letter">D</span>Per-role defaults</button>
+    <div class="explain"><strong>Correct: B.</strong> Preset key or UUID. Two ways to point at the default; both work the same from the user's perspective.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Set the org default at <a href="https://app.zopnight.com/dashboards" target="_blank" rel="noopener">Dashboards → preset/dashboard → "Set as org default"</a>. The change requires <code>dashboard:update</code> policy (typically Admin).</p>
@@ -699,6 +705,25 @@ DOCUMENTATION:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -913,6 +938,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

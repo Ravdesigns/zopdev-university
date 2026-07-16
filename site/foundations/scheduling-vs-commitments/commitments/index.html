@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -551,27 +551,33 @@ EXPECTED EFFECTIVE DISCOUNT
    worth the flexibility loss. Stay on-demand on this workload.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team buys a 3-yr RI at 50% rate-card discount, but uses it only 65% of hours. Effective discount:</p>
-<p>A. 50% B. 32.5% C. 65% D. 17.5%</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Effective = 50% × 0.65 × 1.0 = 32.5%. The 50% number is the rate-card maximum, not what is realized.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A FinOps Analyst proposes buying a 1-yr Savings Plan calibrated to current peak compute usage. The defensible counter-proposal is:</p>
-<p>A. Buy two SPs B. Calibrate to the post-schedule, post-rightsizing floor — not current peak. Layer on-demand and Spot above the committed floor. C. Wait for next year D. Use Spot for everything</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> This is the textbook commitment mistake (peak vs. floor). The fix is layered design: commit on the floor, on-demand above, spot where safe.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A 1-yr RI at 40% discount needs roughly what utilization to break even against pure on-demand?</p>
-<p>A. 40% B. 60% C. 71.4% D. 100%</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Break-even utilization = 1 - discount = 1 - 0.40 = 60%. Use less than 60% of the committed hours and the unused commitment costs more than the discount earned. This is a utilization threshold, not a coverage one: under-coverage never loses money.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team buys a 3-yr RI at 50% rate-card discount, but uses it only 65% of hours. Effective discount:</p>
+    <button class="opt"><span class="letter">A</span>50%</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>32.5%</button>
+    <button class="opt"><span class="letter">C</span>65%</button>
+    <button class="opt"><span class="letter">D</span>17.5%</button>
+    <div class="explain"><strong>Correct: B.</strong> Effective = 50% × 0.65 × 1.0 = 32.5%. The 50% number is the rate-card maximum, not what is realized.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A FinOps Analyst proposes buying a 1-yr Savings Plan calibrated to current peak compute usage. The defensible counter-proposal is:</p>
+    <button class="opt"><span class="letter">A</span>Buy two SPs</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Calibrate to the post-schedule, post-rightsizing floor — not current peak. Layer on-demand and Spot above the committed floor.</button>
+    <button class="opt"><span class="letter">C</span>Wait for next year</button>
+    <button class="opt"><span class="letter">D</span>Use Spot for everything</button>
+    <div class="explain"><strong>Correct: B.</strong> This is the textbook commitment mistake (peak vs. floor). The fix is layered design: commit on the floor, on-demand above, spot where safe.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A 1-yr RI at 40% discount needs roughly what utilization to break even against pure on-demand?</p>
+    <button class="opt"><span class="letter">A</span>40%</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>60%</button>
+    <button class="opt"><span class="letter">C</span>71.4%</button>
+    <button class="opt"><span class="letter">D</span>100%</button>
+    <div class="explain"><strong>Correct: B.</strong> Break-even utilization = 1 - discount = 1 - 0.40 = 60%. Use less than 60% of the committed hours and the unused commitment costs more than the discount earned. This is a utilization threshold, not a coverage one: under-coverage never loses money.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's <a href="https://app.zopnight.com/reports/costs" target="_blank" rel="noopener">Reports → Purchase Type</a> breakdown shows the current mix of on-demand / commitment / spot across the estate. The Sankey view splits any service column by purchase type.</p>
@@ -617,6 +623,25 @@ EXPECTED EFFECTIVE DISCOUNT
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -831,6 +856,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -612,27 +612,33 @@ PITFALL CHECK:
 <p>If the grand total doesn't match the org budget, fix the math before proceeding. The pyramid only works when the levels reconcile.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Team budgets sum to $1.2M, org budget is $1M. Mismatch:</p>
-<p>A. Acceptable for buffer B. Over-allocation. Either reduce team budgets or raise org budget. The two must agree — if teams each think they have $X and collectively spend $X+$Y, the org budget overrun is guaranteed. Reconcile before publishing. C. Random D. Cloud limits</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Allocations must add up. Mismatch is a math error to fix, not a buffer.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Per-team budgets without org rollup:</p>
-<p>A. Optimal for engineering focus B. Misses the org-level picture. Variance in one team is invisible at the org level; cross-team patterns are missed; exec-level totals unclear. Pyramid structure provides both views — team for accountability, org for strategic. C. Random D. Better than nothing</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Pyramid is the structure that handles both levels.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Monthly variance analysis at the pyramid:</p>
-<p>A. Skip — wait for quarter B. Investigate variance at each level: which team(s) drove the gap, which causes (legitimate growth vs waste), document for next month's planning. The pyramid's value comes from the analysis at each level. C. Random D. Only at org level</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Variance analysis is the operate cadence at every level.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Team budgets sum to $1.2M, org budget is $1M. Mismatch:</p>
+    <button class="opt"><span class="letter">A</span>Acceptable for buffer</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Over-allocation. Either reduce team budgets or raise org budget. The two must agree — if teams each think they have $X and collectively spend $X+$Y, the org budget overrun is guaranteed. Reconcile before publishing.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Cloud limits</button>
+    <div class="explain"><strong>Correct: B.</strong> Allocations must add up. Mismatch is a math error to fix, not a buffer.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Per-team budgets without org rollup:</p>
+    <button class="opt"><span class="letter">A</span>Optimal for engineering focus</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Misses the org-level picture. Variance in one team is invisible at the org level; cross-team patterns are missed; exec-level totals unclear. Pyramid structure provides both views — team for accountability, org for strategic.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Better than nothing</button>
+    <div class="explain"><strong>Correct: B.</strong> Pyramid is the structure that handles both levels.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Monthly variance analysis at the pyramid:</p>
+    <button class="opt"><span class="letter">A</span>Skip — wait for quarter</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Investigate variance at each level: which team(s) drove the gap, which causes (legitimate growth vs waste), document for next month's planning. The pyramid's value comes from the analysis at each level.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Only at org level</button>
+    <div class="explain"><strong>Correct: B.</strong> Variance analysis is the operate cadence at every level.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Build the pyramid at <a href="https://app.zopnight.com/settings/budgets" target="_blank" rel="noopener">Settings → Budgets</a>. Start with team budgets; aggregate to BU; check the org sum reconciles.</p>
@@ -679,6 +685,25 @@ PITFALL CHECK:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -893,6 +918,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

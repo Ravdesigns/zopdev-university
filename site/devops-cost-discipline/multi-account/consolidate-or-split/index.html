@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -774,27 +774,33 @@ OUTCOME:
 <p>A 30-minute audit reveals the consolidation/split opportunities. Most orgs find $2K-$10K/mo in cleanup potential.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Two accounts with similar purpose (e.g., two dev accounts for the same team):</p>
-<p>A. Always keep separate B. Consider consolidation. Operational overhead of two similar accounts often exceeds the isolation benefit. Verify: same team, same purpose, no compliance reason to separate. Merge with clear naming for the consolidated account. C. Random D. Always merge</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Consolidate similar; reduce operational drag.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>An account approaching cloud quota limits (e.g., 100 RDS instance limit):</p>
-<p>A. Wait for AWS to raise quota B. Split — distribute resources across multiple accounts. Each account has its own quotas. AWS quota increases work for many limits but not all; split is the durable solution for ongoing growth. C. Random D. Always consolidate</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Split for quotas; durable solution.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Production account merging with development:</p>
-<p>A. Sometimes OK at small scale B. Almost never — production isolation matters even at small scale. Different security posture, different compliance scope, different blast radius. Production stays separate as the immutable boundary. The flexibility is in NON-prod consolidation. C. Random D. Always fine if you tag well</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Production stays separate as immutable boundary.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Two accounts with similar purpose (e.g., two dev accounts for the same team):</p>
+    <button class="opt"><span class="letter">A</span>Always keep separate</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Consider consolidation. Operational overhead of two similar accounts often exceeds the isolation benefit. Verify: same team, same purpose, no compliance reason to separate. Merge with clear naming for the consolidated account.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Always merge</button>
+    <div class="explain"><strong>Correct: B.</strong> Consolidate similar; reduce operational drag.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">An account approaching cloud quota limits (e.g., 100 RDS instance limit):</p>
+    <button class="opt"><span class="letter">A</span>Wait for AWS to raise quota</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Split — distribute resources across multiple accounts. Each account has its own quotas. AWS quota increases work for many limits but not all; split is the durable solution for ongoing growth.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Always consolidate</button>
+    <div class="explain"><strong>Correct: B.</strong> Split for quotas; durable solution.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Production account merging with development:</p>
+    <button class="opt"><span class="letter">A</span>Sometimes OK at small scale</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Almost never — production isolation matters even at small scale. Different security posture, different compliance scope, different blast radius. Production stays separate as the immutable boundary. The flexibility is in NON-prod consolidation.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Always fine if you tag well</button>
+    <div class="explain"><strong>Correct: B.</strong> Production stays separate as immutable boundary.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Annual account review (2-3 weeks of focused work). Plan migrations with clear ROI. Production never consolidates; non-prod flexes.</p>
@@ -845,6 +851,25 @@ OUTCOME:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -1059,6 +1084,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

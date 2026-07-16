@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -684,27 +684,33 @@ T+18s     WORKFLOW COMPLETE
 <p>A 10-minute hands-on builds intuition for the workflow timing.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The precondition step's purpose:</p>
-<p>A. Authorize the user B. Confirm the recommendation is still valid (resource state hasn't changed). Prevents acting on stale findings. If someone already terminated the resource manually, precondition catches that; "already remediated" instead of failing. C. Encrypt the credentials D. Notify the team</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Precondition guards against stale findings; idempotency starts here.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A remediation's action step succeeds but validation fails. What happens:</p>
-<p>A. Workflow restarts from precondition B. Marked "applied but unverified," notifies the team. The cloud reports the change went through but ZopNight can't confirm — could be eventual consistency. Human investigates; can manually close. C. Reverted automatically D. Logged silently with no notification</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Honest about the gap. Human investigates the rare cases.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The total typical time for an auto-remediation without approval:</p>
-<p>A. <1 second B. 10-15 seconds for simple resources (EC2 stop); 30-60 seconds for RDS terminations; 3-6 minutes for K8s clusters. Resource type drives duration; cloud API latency is the bottleneck. C. Always under 60 seconds D. Several hours</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Resource type drives duration.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The precondition step's purpose:</p>
+    <button class="opt"><span class="letter">A</span>Authorize the user</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Confirm the recommendation is still valid (resource state hasn't changed). Prevents acting on stale findings. If someone already terminated the resource manually, precondition catches that; "already remediated" instead of failing.</button>
+    <button class="opt"><span class="letter">C</span>Encrypt the credentials</button>
+    <button class="opt"><span class="letter">D</span>Notify the team</button>
+    <div class="explain"><strong>Correct: B.</strong> Precondition guards against stale findings; idempotency starts here.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A remediation's action step succeeds but validation fails. What happens:</p>
+    <button class="opt"><span class="letter">A</span>Workflow restarts from precondition</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Marked "applied but unverified," notifies the team. The cloud reports the change went through but ZopNight can't confirm — could be eventual consistency. Human investigates; can manually close.</button>
+    <button class="opt"><span class="letter">C</span>Reverted automatically</button>
+    <button class="opt"><span class="letter">D</span>Logged silently with no notification</button>
+    <div class="explain"><strong>Correct: B.</strong> Honest about the gap. Human investigates the rare cases.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The total typical time for an auto-remediation without approval:</p>
+    <button class="opt"><span class="letter">A</span><1 second</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>10-15 seconds for simple resources (EC2 stop); 30-60 seconds for RDS terminations; 3-6 minutes for K8s clusters. Resource type drives duration; cloud API latency is the bottleneck.</button>
+    <button class="opt"><span class="letter">C</span>Always under 60 seconds</button>
+    <button class="opt"><span class="letter">D</span>Several hours</button>
+    <div class="explain"><strong>Correct: B.</strong> Resource type drives duration.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Remediation workflow visible in real time on the recommendation card during apply. Per-action audit log entry covers the full step trace.</p>
@@ -753,6 +759,25 @@ T+18s     WORKFLOW COMPLETE
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -967,6 +992,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

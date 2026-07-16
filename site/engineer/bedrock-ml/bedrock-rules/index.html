@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -673,27 +673,33 @@ DECISION: continue with same rules quarterly
 <p>A 15-minute audit identifies the highest-ROI Bedrock optimizations.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>model-selection recommendation. The savings come from:</p>
-<p>A. Using fewer tokens B. Routing workload to a cheaper model for queries that don't need top-tier capability. Most workloads can save 60-80%. The cost difference between Opus and Haiku is ~18.75x per token; routing captures most of that. C. Disabling Bedrock D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Model routing.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Prompt caching (RC-1606) is best for:</p>
-<p>A. All workloads B. Workloads with repeated context (system prompts, RAG templates). Caching reduces the input token cost by ~90% on the repeated portion. Best for chatbots, batch processing, multi-turn conversations. C. None D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Cacheable patterns.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>ZopNight auto-remediates Bedrock rules:</p>
-<p>A. Yes B. No — Bedrock optimization requires customer-side code/config changes. ZopNight surfaces opportunities with savings numbers; team's ML engineers execute. ML workloads are application-specific; ZopNight stays advisory. C. Random D. Approval-gated</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Customer execution.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">model-selection recommendation. The savings come from:</p>
+    <button class="opt"><span class="letter">A</span>Using fewer tokens</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Routing workload to a cheaper model for queries that don't need top-tier capability. Most workloads can save 60-80%. The cost difference between Opus and Haiku is ~18.75x per token; routing captures most of that.</button>
+    <button class="opt"><span class="letter">C</span>Disabling Bedrock</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Model routing.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Prompt caching (RC-1606) is best for:</p>
+    <button class="opt"><span class="letter">A</span>All workloads</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Workloads with repeated context (system prompts, RAG templates). Caching reduces the input token cost by ~90% on the repeated portion. Best for chatbots, batch processing, multi-turn conversations.</button>
+    <button class="opt"><span class="letter">C</span>None</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Cacheable patterns.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">ZopNight auto-remediates Bedrock rules:</p>
+    <button class="opt"><span class="letter">A</span>Yes</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No — Bedrock optimization requires customer-side code/config changes. ZopNight surfaces opportunities with savings numbers; team's ML engineers execute. ML workloads are application-specific; ZopNight stays advisory.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Approval-gated</button>
+    <div class="explain"><strong>Correct: B.</strong> Customer execution.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Bedrock rules in Recommendations filtered by RC-16xx.</p>
@@ -740,6 +746,25 @@ DECISION: continue with same rules quarterly
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -954,6 +979,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

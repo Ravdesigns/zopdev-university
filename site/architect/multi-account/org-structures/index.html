@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -628,27 +628,33 @@ TOTAL ZopNight cloud-accounts: _____
 <p>If your ZopNight cloud-account count is lower than your actual cloud-side count, some accounts are not connected — investigate.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>For AWS Organizations, ZopNight connects:</p>
-<p>A. To each account individually B. To the management account via cross-account assume-role across all member accounts. One management-side connection point; one IAM role per member account; ZopNight discovers all of them. CloudFormation StackSet is the standard deployment vehicle for the per-account IAM roles. C. Via VPC peering D. Region-by-region</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Org-level connection with assume-role is the canonical pattern. It scales — adding a new AWS account means deploying the IAM role to it (auto-deployed via StackSet) and ZopNight picks it up.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A GCP service account at the organization level with organization-viewer role:</p>
-<p>A. Cannot access projects B. Has read access to all projects in the org (and any new projects added later). ZopNight uses this single credential to discover and report across the entire GCP footprint. No per-project credential required. C. Needs additional per-project credentials D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Org-level access cascades. This is the GCP advantage over AWS for centralized discovery — fewer credentials to manage.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Azure Management Groups:</p>
-<p>A. Are flat (no hierarchy) B. Form a hierarchy: tenant → MG → subscription. Policies, role assignments, and tags at higher levels apply to all descendants. ZopNight respects this hierarchy in its reporting and discovery. C. Are deprecated D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> MGs are Azure's hierarchical primitive. The root MG is implicit; everything else nests beneath it.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">For AWS Organizations, ZopNight connects:</p>
+    <button class="opt"><span class="letter">A</span>To each account individually</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>To the management account via cross-account assume-role across all member accounts. One management-side connection point; one IAM role per member account; ZopNight discovers all of them. CloudFormation StackSet is the standard deployment vehicle for the per-account IAM roles.</button>
+    <button class="opt"><span class="letter">C</span>Via VPC peering</button>
+    <button class="opt"><span class="letter">D</span>Region-by-region</button>
+    <div class="explain"><strong>Correct: B.</strong> Org-level connection with assume-role is the canonical pattern. It scales — adding a new AWS account means deploying the IAM role to it (auto-deployed via StackSet) and ZopNight picks it up.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A GCP service account at the organization level with organization-viewer role:</p>
+    <button class="opt"><span class="letter">A</span>Cannot access projects</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Has read access to all projects in the org (and any new projects added later). ZopNight uses this single credential to discover and report across the entire GCP footprint. No per-project credential required.</button>
+    <button class="opt"><span class="letter">C</span>Needs additional per-project credentials</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Org-level access cascades. This is the GCP advantage over AWS for centralized discovery — fewer credentials to manage.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Azure Management Groups:</p>
+    <button class="opt"><span class="letter">A</span>Are flat (no hierarchy)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Form a hierarchy: tenant → MG → subscription. Policies, role assignments, and tags at higher levels apply to all descendants. ZopNight respects this hierarchy in its reporting and discovery.</button>
+    <button class="opt"><span class="letter">C</span>Are deprecated</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> MGs are Azure's hierarchical primitive. The root MG is implicit; everything else nests beneath it.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Inspect your hierarchy in <a href="https://app.zopnight.com/settings/cloud-accounts" target="_blank" rel="noopener">Settings → Cloud Accounts</a>. The "Org tree" view shows the connected accounts grouped by their cloud-side hierarchy with per-node spend rollup. Use this view as the canonical map of your cloud estate.</p>
@@ -695,6 +701,25 @@ TOTAL ZopNight cloud-accounts: _____
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -909,6 +934,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

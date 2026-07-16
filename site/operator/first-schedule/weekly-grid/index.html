@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -537,27 +537,33 @@ Save. The schedule covers the intent fully.</code></pre>
 7. Save the corrected schedule.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The 24-hour weekly grid renders the schedule in:</p>
-<p>A. UTC always B. The schedule's IANA timezone — so a team in Asia/Kolkata sees the grid relative to their local time, not UTC C. The viewer's local timezone D. America/New_York</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Grid renders in the schedule's IANA timezone. Crons are interpreted in that timezone; the grid displays the same way.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A schedule has <code>0 8 <em> </em> 1-5</code> start and <code>0 18 <em> </em> 1-5</code> stop. A resource is running Friday at 9 PM (it was started manually). The schedule next fires Monday at 8 AM. Between Friday 8 PM and Monday 8 AM, the resource state:</p>
-<p>A. Stops automatically Friday at 8 PM B. Stays running. No stop cron fires between Friday 8 PM (after the stop cron) and Monday 8 AM. The fix is to add a belt-and-suspenders weekend stop cron (e.g., "0 0 <em> </em> 0,6"). C. Stops at midnight automatically D. Stops at noon Sunday</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Cron does not "track" state across firings. A manual start outside the cron firing windows persists until another cron stops it. Belt-and-suspenders weekend stops are the fix.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The grid shows two ON triggers at 08:00 and 09:00 on the same weekday. Most likely cause:</p>
-<p>A. The cron is firing twice B. Two redundant start crons exist. One at "0 8 <em> </em> 1-5" and another at "0 9 <em> </em> 1-5." Remove the second; it adds no value and produces noise in the action log. C. The IAM is misconfigured D. The schedule is broken</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Two start crons firing at different times within the same ON window are redundant. The second start is a no-op on an already-running resource. Remove for cleanliness.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The 24-hour weekly grid renders the schedule in:</p>
+    <button class="opt"><span class="letter">A</span>UTC always</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The schedule's IANA timezone — so a team in Asia/Kolkata sees the grid relative to their local time, not UTC</button>
+    <button class="opt"><span class="letter">C</span>The viewer's local timezone</button>
+    <button class="opt"><span class="letter">D</span>America/New_York</button>
+    <div class="explain"><strong>Correct: B.</strong> Grid renders in the schedule's IANA timezone. Crons are interpreted in that timezone; the grid displays the same way.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A schedule has <code>0 8 <em> </em> 1-5</code> start and <code>0 18 <em> </em> 1-5</code> stop. A resource is running Friday at 9 PM (it was started manually). The schedule next fires Monday at 8 AM. Between Friday 8 PM and Monday 8 AM, the resource state:</p>
+    <button class="opt"><span class="letter">A</span>Stops automatically Friday at 8 PM</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Stays running. No stop cron fires between Friday 8 PM (after the stop cron) and Monday 8 AM. The fix is to add a belt-and-suspenders weekend stop cron (e.g., "0 0 <em> </em> 0,6").</button>
+    <button class="opt"><span class="letter">C</span>Stops at midnight automatically</button>
+    <button class="opt"><span class="letter">D</span>Stops at noon Sunday</button>
+    <div class="explain"><strong>Correct: B.</strong> Cron does not "track" state across firings. A manual start outside the cron firing windows persists until another cron stops it. Belt-and-suspenders weekend stops are the fix.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The grid shows two ON triggers at 08:00 and 09:00 on the same weekday. Most likely cause:</p>
+    <button class="opt"><span class="letter">A</span>The cron is firing twice</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Two redundant start crons exist. One at "0 8 <em> </em> 1-5" and another at "0 9 <em> </em> 1-5." Remove the second; it adds no value and produces noise in the action log.</button>
+    <button class="opt"><span class="letter">C</span>The IAM is misconfigured</button>
+    <button class="opt"><span class="letter">D</span>The schedule is broken</button>
+    <div class="explain"><strong>Correct: B.</strong> Two start crons firing at different times within the same ON window are redundant. The second start is a no-op on an already-running resource. Remove for cleanliness.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The grid is a first-class part of the schedule create / edit flow:</p>
@@ -607,6 +613,25 @@ Save. The schedule covers the intent fully.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -821,6 +846,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

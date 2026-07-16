@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -657,27 +657,33 @@ BREAK-EVEN check:
 <p>If your utilization is below break-even, the commitment is losing money vs on-demand. Investigate.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Coverage 80%, utilization 95%, published discount 40%. Effective discount is:</p>
-<p>A. 40% (the published rate) B. 30.4% (40% × 0.8 × 0.95). The formula compounds: every percentage of missed coverage and missed utilization multiplies into the effective discount. Quoting the published rate as savings is fiction; quoting the effective rate is honest. C. 76% D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 30.4%. The effective discount is the headline times coverage times utilization.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>1-year RI at 40% discount. Break-even utilization:</p>
-<p>A. 40% B. 60% — calculation: 1 - 0.40 = 0.60. Below 60% utilization (using less than 60% of the committed hours), the RI loses money vs pure on-demand. The bigger the discount, the looser the threshold; a 40% discount needs 60% utilization, a 20% discount needs 80%. C. 71.4% D. 100%</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Break-even utilization = 1 - discount. Memorize this; it's the floor below which you're losing money. It is a utilization threshold (used / purchased), not a coverage one: under-coverage never loses money.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The biggest improvement lever for effective discount:</p>
-<p>A. Cloud provider raising the published discount B. Increasing coverage (commit more of the proven floor) AND increasing utilization (don't schedule covered capacity off). Both compound in the formula. Coverage is usually the bigger lever for under-committed customers; utilization is usually the bigger lever for over-committed customers. C. Reducing the discount percentage D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Coverage AND utilization. Both are levers; track both monthly.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Coverage 80%, utilization 95%, published discount 40%. Effective discount is:</p>
+    <button class="opt"><span class="letter">A</span>40% (the published rate)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>30.4% (40% × 0.8 × 0.95). The formula compounds: every percentage of missed coverage and missed utilization multiplies into the effective discount. Quoting the published rate as savings is fiction; quoting the effective rate is honest.</button>
+    <button class="opt"><span class="letter">C</span>76%</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> 30.4%. The effective discount is the headline times coverage times utilization.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">1-year RI at 40% discount. Break-even utilization:</p>
+    <button class="opt"><span class="letter">A</span>40%</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>60% — calculation: 1 - 0.40 = 0.60. Below 60% utilization (using less than 60% of the committed hours), the RI loses money vs pure on-demand. The bigger the discount, the looser the threshold; a 40% discount needs 60% utilization, a 20% discount needs 80%.</button>
+    <button class="opt"><span class="letter">C</span>71.4%</button>
+    <button class="opt"><span class="letter">D</span>100%</button>
+    <div class="explain"><strong>Correct: B.</strong> Break-even utilization = 1 - discount. Memorize this; it's the floor below which you're losing money. It is a utilization threshold (used / purchased), not a coverage one: under-coverage never loses money.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The biggest improvement lever for effective discount:</p>
+    <button class="opt"><span class="letter">A</span>Cloud provider raising the published discount</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Increasing coverage (commit more of the proven floor) AND increasing utilization (don't schedule covered capacity off). Both compound in the formula. Coverage is usually the bigger lever for under-committed customers; utilization is usually the bigger lever for over-committed customers.</button>
+    <button class="opt"><span class="letter">C</span>Reducing the discount percentage</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Coverage AND utilization. Both are levers; track both monthly.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Track coverage and utilization quarterly in <a href="https://app.zopnight.com/reports/commitments" target="_blank" rel="noopener">ZopNight's Commitment Coverage report</a>. Re-baseline commitments before renewal; verify break-even is well above the required threshold.</p>
@@ -724,6 +730,25 @@ BREAK-EVEN check:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -938,6 +963,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -589,27 +589,33 @@ UNTAGGED RESOURCES (estimated count): _____
 <p>The untagged-resource count is the team-scope hygiene number to track quarterly. Healthy orgs trend toward zero.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A user has <code>team_id = platform</code> and <code>allResources = false</code>. What do they see?</p>
-<p>A. Nothing — the scope is restrictive B. Only resources tagged <code>team=platform</code> (and resources in platform-owned resource groups). Computed at request time from team membership. C. All resources in the org D. Only resources they created</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Team scoping computes <code>resourceIds</code> from team membership + tags + group assignments. Adding a new platform-tagged resource immediately becomes visible.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A FinOps lead needs to see cost across all teams but should not manage RBAC. Best approach:</p>
-<p>A. Grant the Admin role B. Custom "Cross-team Viewer" role (view-only across operational entities) with <code>allResources=true</code>. The role excludes role/user/cloud-account management. Scope grants visibility; role limits capability. C. Multiple team memberships across every team D. Editor with a manual filter</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The combination of a narrow custom role and broad scope is the cleanest way to express "broad view, narrow capability." Admin would over-grant; multi-team is brittle as teams are added.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The scope state <code>[]</code> (empty list) means:</p>
-<p>A. All resources are visible B. Total isolation — user sees no resources. Common for newly-invited users between role assignment and team assignment. Safe default that prevents accidental visibility. C. A bug in scope computation D. Equivalent to <code>nil</code></p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Empty-list is a deliberate state. It produces a <code>WHERE id IN ()</code> query — valid SQL, zero results. Different from <code>nil</code> (no filter, sees everything).</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A user has <code>team_id = platform</code> and <code>allResources = false</code>. What do they see?</p>
+    <button class="opt"><span class="letter">A</span>Nothing — the scope is restrictive</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Only resources tagged <code>team=platform</code> (and resources in platform-owned resource groups). Computed at request time from team membership.</button>
+    <button class="opt"><span class="letter">C</span>All resources in the org</button>
+    <button class="opt"><span class="letter">D</span>Only resources they created</button>
+    <div class="explain"><strong>Correct: B.</strong> Team scoping computes <code>resourceIds</code> from team membership + tags + group assignments. Adding a new platform-tagged resource immediately becomes visible.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A FinOps lead needs to see cost across all teams but should not manage RBAC. Best approach:</p>
+    <button class="opt"><span class="letter">A</span>Grant the Admin role</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Custom "Cross-team Viewer" role (view-only across operational entities) with <code>allResources=true</code>. The role excludes role/user/cloud-account management. Scope grants visibility; role limits capability.</button>
+    <button class="opt"><span class="letter">C</span>Multiple team memberships across every team</button>
+    <button class="opt"><span class="letter">D</span>Editor with a manual filter</button>
+    <div class="explain"><strong>Correct: B.</strong> The combination of a narrow custom role and broad scope is the cleanest way to express "broad view, narrow capability." Admin would over-grant; multi-team is brittle as teams are added.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The scope state <code>[]</code> (empty list) means:</p>
+    <button class="opt"><span class="letter">A</span>All resources are visible</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Total isolation — user sees no resources. Common for newly-invited users between role assignment and team assignment. Safe default that prevents accidental visibility.</button>
+    <button class="opt"><span class="letter">C</span>A bug in scope computation</button>
+    <button class="opt"><span class="letter">D</span>Equivalent to <code>nil</code></button>
+    <div class="explain"><strong>Correct: B.</strong> Empty-list is a deliberate state. It produces a <code>WHERE id IN ()</code> query — valid SQL, zero results. Different from <code>nil</code> (no filter, sees everything).</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Manage team scopes in <a href="https://app.zopnight.com/settings/teams" target="_blank" rel="noopener">Settings → Teams</a>. Add users to teams; tag resources with <code>team=&lt;name&gt;</code> for automatic membership; the resource-group editor lets you assign resources without tags when team ownership is implicit.</p>
@@ -656,6 +662,25 @@ UNTAGGED RESOURCES (estimated count): _____
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -870,6 +895,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

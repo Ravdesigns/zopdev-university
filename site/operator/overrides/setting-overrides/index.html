@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -564,27 +564,33 @@ T+8 hrs   Schedule resumes normal operation.</code></pre>
 <p>The hands-on takes longer than the 6 minutes if you wait for expiry. The mechanics are quick; the verification is what takes the clock.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>An override expires while a resource is in the "wrong" state for what the schedule would normally enforce. What happens?</p>
-<p>A. The schedule immediately transitions the resource B. The resource stays in its current state until the schedule's next cron fires for that resource. Override expiry only removes the override; it does not actively transition the resource. C. An error fires D. The override is recreated</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Override expiry is metadata. The next cron firing on the resource is what restores normal scheduled behavior.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team needs to set an override that expires in 90 days. The resource's max override duration is 7 days. What happens?</p>
-<p>A. The override is created with 90-day expiry B. The create is rejected. The team can either reduce the duration to <=7 days, have an admin raise that resource's cap, or use a schedule edit instead (for changes longer than the max). C. The override expires after 7 days D. ZopNight warns but accepts</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Max Override Duration is a guardrail. The intent: anything longer than the cap is probably a schedule edit, not an override.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A force-on override is active on a resource. The user manually clicks Stop. What happens?</p>
-<p>A. The stop is rejected (override is forcing on) B. The stop succeeds — the override prevents the SCHEDULE from acting, not the user from acting manually. After the stop, the resource is off, but the override prevents the schedule from re-starting it during the override window. C. The override is automatically removed D. An error fires</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Overrides scope to schedule behavior, not to manual actions. The user keeps agency.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">An override expires while a resource is in the "wrong" state for what the schedule would normally enforce. What happens?</p>
+    <button class="opt"><span class="letter">A</span>The schedule immediately transitions the resource</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The resource stays in its current state until the schedule's next cron fires for that resource. Override expiry only removes the override; it does not actively transition the resource.</button>
+    <button class="opt"><span class="letter">C</span>An error fires</button>
+    <button class="opt"><span class="letter">D</span>The override is recreated</button>
+    <div class="explain"><strong>Correct: B.</strong> Override expiry is metadata. The next cron firing on the resource is what restores normal scheduled behavior.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team needs to set an override that expires in 90 days. The resource's max override duration is 7 days. What happens?</p>
+    <button class="opt"><span class="letter">A</span>The override is created with 90-day expiry</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The create is rejected. The team can either reduce the duration to <=7 days, have an admin raise that resource's cap, or use a schedule edit instead (for changes longer than the max).</button>
+    <button class="opt"><span class="letter">C</span>The override expires after 7 days</button>
+    <button class="opt"><span class="letter">D</span>ZopNight warns but accepts</button>
+    <div class="explain"><strong>Correct: B.</strong> Max Override Duration is a guardrail. The intent: anything longer than the cap is probably a schedule edit, not an override.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A force-on override is active on a resource. The user manually clicks Stop. What happens?</p>
+    <button class="opt"><span class="letter">A</span>The stop is rejected (override is forcing on)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The stop succeeds — the override prevents the SCHEDULE from acting, not the user from acting manually. After the stop, the resource is off, but the override prevents the schedule from re-starting it during the override window.</button>
+    <button class="opt"><span class="letter">C</span>The override is automatically removed</button>
+    <button class="opt"><span class="letter">D</span>An error fires</button>
+    <div class="explain"><strong>Correct: B.</strong> Overrides scope to schedule behavior, not to manual actions. The user keeps agency.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Override configuration:</p>
@@ -635,6 +641,25 @@ T+8 hrs   Schedule resumes normal operation.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -849,6 +874,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

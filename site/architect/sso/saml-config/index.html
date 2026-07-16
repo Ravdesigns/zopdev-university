@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -587,27 +587,33 @@ Has the configuration been tested in the last 90 days?  Yes / No
 <p>If you do not have SAML configured yet, sketch the values you would use given your IdP choice (from L1).</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>SAML in ZopNight matches users to IdP by:</p>
-<p>A. Username B. Email domain. Each domain has its own SAML config; the user's domain determines which IdP they are redirected to. This enables multi-domain orgs to use different IdPs per domain. C. Geographic region D. Username + region</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Email domain is the routing key. This is what enables multi-IdP configurations after acquisitions or for partner federations.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A SAML assertion fails validation with "Invalid signature." Most likely cause:</p>
-<p>A. User typed wrong password B. The IdP's signing cert does not match the cert stored in ZopNight. Most common after a cert renewal at the IdP that did not propagate. Re-upload the cert (or re-fetch metadata URL). C. Cloud provider error D. User does not exist</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Signature validation is purely between IdP and ZopNight; user credentials are not part of the check. Cert mismatch is the textbook cause; cert expiry is a related cause with the same symptom.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A new user signs in via SAML for the first time. What happens?</p>
-<p>A. Manual ZopNight account creation is required first B. Account is auto-provisioned on successful SAML. User attributes (email, name, optionally team) flow from the IdP. The user is added to the org and lands in the default role configured for SAML-provisioned users. C. Admin must approve D. The user is rejected on first login</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Auto-provisioning on first SSO is the standard pattern. The default role for new SAML users is configured in Settings → Authentication → SAML → Default role. Group-based team assignment happens at the same time if <code>groups</code> claim is mapped.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">SAML in ZopNight matches users to IdP by:</p>
+    <button class="opt"><span class="letter">A</span>Username</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Email domain. Each domain has its own SAML config; the user's domain determines which IdP they are redirected to. This enables multi-domain orgs to use different IdPs per domain.</button>
+    <button class="opt"><span class="letter">C</span>Geographic region</button>
+    <button class="opt"><span class="letter">D</span>Username + region</button>
+    <div class="explain"><strong>Correct: B.</strong> Email domain is the routing key. This is what enables multi-IdP configurations after acquisitions or for partner federations.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A SAML assertion fails validation with "Invalid signature." Most likely cause:</p>
+    <button class="opt"><span class="letter">A</span>User typed wrong password</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The IdP's signing cert does not match the cert stored in ZopNight. Most common after a cert renewal at the IdP that did not propagate. Re-upload the cert (or re-fetch metadata URL).</button>
+    <button class="opt"><span class="letter">C</span>Cloud provider error</button>
+    <button class="opt"><span class="letter">D</span>User does not exist</button>
+    <div class="explain"><strong>Correct: B.</strong> Signature validation is purely between IdP and ZopNight; user credentials are not part of the check. Cert mismatch is the textbook cause; cert expiry is a related cause with the same symptom.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A new user signs in via SAML for the first time. What happens?</p>
+    <button class="opt"><span class="letter">A</span>Manual ZopNight account creation is required first</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Account is auto-provisioned on successful SAML. User attributes (email, name, optionally team) flow from the IdP. The user is added to the org and lands in the default role configured for SAML-provisioned users.</button>
+    <button class="opt"><span class="letter">C</span>Admin must approve</button>
+    <button class="opt"><span class="letter">D</span>The user is rejected on first login</button>
+    <div class="explain"><strong>Correct: B.</strong> Auto-provisioning on first SSO is the standard pattern. The default role for new SAML users is configured in Settings → Authentication → SAML → Default role. Group-based team assignment happens at the same time if <code>groups</code> claim is mapped.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Manage SAML configurations in <a href="https://app.zopnight.com/settings/authentication/saml" target="_blank" rel="noopener">Settings → Authentication → SAML</a>. The page lists each per-domain config with status, cert expiry, last-tested date, and a "Test" button. Cert expiry warnings appear in the admin dashboard 30 days before expiry.</p>
@@ -654,6 +660,25 @@ Has the configuration been tested in the last 90 days?  Yes / No
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -868,6 +893,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

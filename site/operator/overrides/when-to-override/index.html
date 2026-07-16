@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -560,27 +560,33 @@ For your real estate, do not apply unless the scenario is real.
 Practice the decision; the apply is L2.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team needs staging to stay running this weekend for a customer demo. The right tool is:</p>
-<p>A. Edit the schedule to remove the weekend stop crons B. Apply a force-on override on the staging group, expiring Monday at the normal start time. Document the reason. The schedule reverts to normal control after expiry. C. Manually start the resources Saturday morning D. Disable the schedule</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Override is the right tool for a time-bounded exception. Edit (A) is overkill for a one-weekend need. Manual (C) won't work because the schedule's Friday 8 PM stop already fired. Disable (D) loses the schedule entirely.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A force-on override is set on a resource that has no schedule attached. What happens?</p>
-<p>A. The override does nothing B. The override force-keeps the resource ON until expiry — even without a schedule, an override is a state assertion. After expiry, the override is removed; the resource state is unchanged (still on, unless someone else stops it). C. The override is rejected D. The override creates a schedule</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Overrides are independent of schedules. A force-on without a schedule still asserts the ON state for the window. After expiry, no state change happens (unlike with a schedule, where the schedule's crons resume).</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team sets an override "for this weekend" without an expiry. What does ZopNight do?</p>
-<p>A. Accepts it indefinitely B. Rejects the override — expiry is required on every override. The team must pick an explicit expiry time. This is intentional to prevent forgotten overrides. C. Sets expiry to 1 hour D. Warns but accepts</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Required expiry is the design choice. Forgotten overrides are the canonical operational hazard; mandatory expiry prevents them.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team needs staging to stay running this weekend for a customer demo. The right tool is:</p>
+    <button class="opt"><span class="letter">A</span>Edit the schedule to remove the weekend stop crons</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Apply a force-on override on the staging group, expiring Monday at the normal start time. Document the reason. The schedule reverts to normal control after expiry.</button>
+    <button class="opt"><span class="letter">C</span>Manually start the resources Saturday morning</button>
+    <button class="opt"><span class="letter">D</span>Disable the schedule</button>
+    <div class="explain"><strong>Correct: B.</strong> Override is the right tool for a time-bounded exception. Edit (A) is overkill for a one-weekend need. Manual (C) won't work because the schedule's Friday 8 PM stop already fired. Disable (D) loses the schedule entirely.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A force-on override is set on a resource that has no schedule attached. What happens?</p>
+    <button class="opt"><span class="letter">A</span>The override does nothing</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The override force-keeps the resource ON until expiry — even without a schedule, an override is a state assertion. After expiry, the override is removed; the resource state is unchanged (still on, unless someone else stops it).</button>
+    <button class="opt"><span class="letter">C</span>The override is rejected</button>
+    <button class="opt"><span class="letter">D</span>The override creates a schedule</button>
+    <div class="explain"><strong>Correct: B.</strong> Overrides are independent of schedules. A force-on without a schedule still asserts the ON state for the window. After expiry, no state change happens (unlike with a schedule, where the schedule's crons resume).</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team sets an override "for this weekend" without an expiry. What does ZopNight do?</p>
+    <button class="opt"><span class="letter">A</span>Accepts it indefinitely</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Rejects the override — expiry is required on every override. The team must pick an explicit expiry time. This is intentional to prevent forgotten overrides.</button>
+    <button class="opt"><span class="letter">C</span>Sets expiry to 1 hour</button>
+    <button class="opt"><span class="letter">D</span>Warns but accepts</button>
+    <div class="explain"><strong>Correct: B.</strong> Required expiry is the design choice. Forgotten overrides are the canonical operational hazard; mandatory expiry prevents them.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Overrides live in:</p>
@@ -632,6 +638,25 @@ Practice the decision; the apply is L2.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -846,6 +871,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -686,27 +686,33 @@ IF this cause recurs, what&#39;s the structural fix (not the immediate one)?
 <p>If you can't fit the anomaly to one of the top 10, you may be looking at a rare cause OR you may be misreading the signature. Cross-check with the ZopNight Anomaly drawer's suggested cause.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The most-common single cause of cost anomalies:</p>
-<p>A. Cloud-side rate changes B. Forgotten resources (running long-term without cleanup). Accounts for ~25% of anomalies across customers. The investigation pattern: check state history for the spiking resource, find last user activity in the audit log, check tag freshness. C. Compromised credentials D. Acquired entity's spend</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Forgotten resources are #1. Workload creation > cleanup discipline; the asymmetry compounds over months.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Compromised credentials as a cause:</p>
-<p>A. Never happens B. About 10% of cases — bad actors provision rogue resources, often spike rapidly. The signature is unusual regions/services or fast velocity. Response involves security team, not just FinOps. Real but minority compared to operational causes. C. The most common cause D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Real but ~10% of total. The fast velocity makes it look more dominant than it is statistically.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Skipping root-cause analysis and just terminating the affected resource:</p>
-<p>A. Efficient — saves investigation time B. Same anomaly type recurs. Without root cause, the structural condition that produced the anomaly persists. The discipline is: every anomaly, even a quick one, gets a documented cause and (where applicable) a structural fix. C. Random D. Time-saving and harmless</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Root-cause discipline breaks the cycle. Without it, you respond to the same anomaly class repeatedly.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The most-common single cause of cost anomalies:</p>
+    <button class="opt"><span class="letter">A</span>Cloud-side rate changes</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Forgotten resources (running long-term without cleanup). Accounts for ~25% of anomalies across customers. The investigation pattern: check state history for the spiking resource, find last user activity in the audit log, check tag freshness.</button>
+    <button class="opt"><span class="letter">C</span>Compromised credentials</button>
+    <button class="opt"><span class="letter">D</span>Acquired entity's spend</button>
+    <div class="explain"><strong>Correct: B.</strong> Forgotten resources are #1. Workload creation > cleanup discipline; the asymmetry compounds over months.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Compromised credentials as a cause:</p>
+    <button class="opt"><span class="letter">A</span>Never happens</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>About 10% of cases — bad actors provision rogue resources, often spike rapidly. The signature is unusual regions/services or fast velocity. Response involves security team, not just FinOps. Real but minority compared to operational causes.</button>
+    <button class="opt"><span class="letter">C</span>The most common cause</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Real but ~10% of total. The fast velocity makes it look more dominant than it is statistically.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Skipping root-cause analysis and just terminating the affected resource:</p>
+    <button class="opt"><span class="letter">A</span>Efficient — saves investigation time</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Same anomaly type recurs. Without root cause, the structural condition that produced the anomaly persists. The discipline is: every anomaly, even a quick one, gets a documented cause and (where applicable) a structural fix.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Time-saving and harmless</button>
+    <div class="explain"><strong>Correct: B.</strong> Root-cause discipline breaks the cycle. Without it, you respond to the same anomaly class repeatedly.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Use the ZopNight Anomaly drawer's suggested cause as a starting hypothesis. Verify against the data (Cost Flow, state history, audit log). Document the actual cause in the audit log entry.</p>
@@ -753,6 +759,25 @@ IF this cause recurs, what&#39;s the structural fix (not the immediate one)?
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -967,6 +992,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

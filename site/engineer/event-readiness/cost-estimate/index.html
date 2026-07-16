@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -677,27 +677,33 @@ POST-EVENT (Dec 1):
 <p>A 10-minute exercise builds the cost-justification muscle.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The cost-estimate badge <code>isEstimated = YES</code> indicates:</p>
-<p>A. Bug B. Best-effort cost estimate. Actual cost can vary ±15% (or larger). Estimates improve as events are executed and rate data improves. Common for first-time events; rare for repeated events. C. Always wrong D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Estimate confidence; not a guarantee.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team sees a ±25% band on a large 7-day event. The interpretation:</p>
-<p>A. Estimate is bad B. Larger events with longer duration have more uncertainty. Pricing changes, spot variation, and event extension all compound. The band reflects this. Plan for upper bound. C. Cancel D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Longer/larger = wider band.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team's Event Readiness ROI calculation: $5K estimate vs $80K expected revenue impact. The ROI:</p>
-<p>A. Approve B. 16x ROI is strong. Worth approving. The estimate is small relative to the value of avoiding latency-driven customer experience issues. Document the math for future events. C. Reject D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Strong ROI; approve.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The cost-estimate badge <code>isEstimated = YES</code> indicates:</p>
+    <button class="opt"><span class="letter">A</span>Bug</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Best-effort cost estimate. Actual cost can vary ±15% (or larger). Estimates improve as events are executed and rate data improves. Common for first-time events; rare for repeated events.</button>
+    <button class="opt"><span class="letter">C</span>Always wrong</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Estimate confidence; not a guarantee.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team sees a ±25% band on a large 7-day event. The interpretation:</p>
+    <button class="opt"><span class="letter">A</span>Estimate is bad</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Larger events with longer duration have more uncertainty. Pricing changes, spot variation, and event extension all compound. The band reflects this. Plan for upper bound.</button>
+    <button class="opt"><span class="letter">C</span>Cancel</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Longer/larger = wider band.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team's Event Readiness ROI calculation: $5K estimate vs $80K expected revenue impact. The ROI:</p>
+    <button class="opt"><span class="letter">A</span>Approve</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>16x ROI is strong. Worth approving. The estimate is small relative to the value of avoiding latency-driven customer experience issues. Document the math for future events.</button>
+    <button class="opt"><span class="letter">C</span>Reject</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Strong ROI; approve.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Cost estimate appears in Event Readiness wizard. Breakdown by target. Confidence band shown explicitly.</p>
@@ -748,6 +754,25 @@ POST-EVENT (Dec 1):
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -962,6 +987,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

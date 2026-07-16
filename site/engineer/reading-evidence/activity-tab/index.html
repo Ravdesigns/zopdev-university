@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -688,27 +688,33 @@ TIMELINE:
 <p>10 minutes per high-value recommendation. Confidence in decisions = faster apply rate.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A stopped EC2 has CPU = 0% and the Recent Activity tab shows 0 human operations in 90 days. Confidence to terminate:</p>
-<p>A. Low B. High — multiple sources confirm abandonment. Safe to apply with snapshot-first. The triple-check (status + age + activity) is the canonical high-confidence pattern. Plus snapshot makes it reversible. C. Medium D. Cannot determine without more data</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Multiple data sources agreeing is the canonical high-confidence signal.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The Recent Activity tab is most useful for:</p>
-<p>A. Real-time monitoring of busy production resources B. Confirming abandonment of stopped or rarely-used resources. Best for low-activity scenarios where metrics alone don't tell the story. Orphans, idle, archived resources are the sweet spot. C. Performance debugging D. Security incidents</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Best for low-activity scenarios; metrics tell you behavior, activity tells you lifecycle.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The activity-sync cron runs at:</p>
-<p>A. Every 5 minutes B. Daily at 06:00 UTC — fetches the previous day's activity log. Raw activity-log API too expensive for higher frequency. Cost optimization tolerates daily cadence. C. Real-time D. Manually triggered</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Daily sync. The cadence balances freshness with API rate limits.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A stopped EC2 has CPU = 0% and the Recent Activity tab shows 0 human operations in 90 days. Confidence to terminate:</p>
+    <button class="opt"><span class="letter">A</span>Low</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>High — multiple sources confirm abandonment. Safe to apply with snapshot-first. The triple-check (status + age + activity) is the canonical high-confidence pattern. Plus snapshot makes it reversible.</button>
+    <button class="opt"><span class="letter">C</span>Medium</button>
+    <button class="opt"><span class="letter">D</span>Cannot determine without more data</button>
+    <div class="explain"><strong>Correct: B.</strong> Multiple data sources agreeing is the canonical high-confidence signal.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The Recent Activity tab is most useful for:</p>
+    <button class="opt"><span class="letter">A</span>Real-time monitoring of busy production resources</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Confirming abandonment of stopped or rarely-used resources. Best for low-activity scenarios where metrics alone don't tell the story. Orphans, idle, archived resources are the sweet spot.</button>
+    <button class="opt"><span class="letter">C</span>Performance debugging</button>
+    <button class="opt"><span class="letter">D</span>Security incidents</button>
+    <div class="explain"><strong>Correct: B.</strong> Best for low-activity scenarios; metrics tell you behavior, activity tells you lifecycle.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The activity-sync cron runs at:</p>
+    <button class="opt"><span class="letter">A</span>Every 5 minutes</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Daily at 06:00 UTC — fetches the previous day's activity log. Raw activity-log API too expensive for higher frequency. Cost optimization tolerates daily cadence.</button>
+    <button class="opt"><span class="letter">C</span>Real-time</button>
+    <button class="opt"><span class="letter">D</span>Manually triggered</button>
+    <div class="explain"><strong>Correct: B.</strong> Daily sync. The cadence balances freshness with API rate limits.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Recent Activity is in the Evidence panel on relevant rules. For deeper investigation, Resource detail → Activity tab shows the full operation history.</p>
@@ -755,6 +761,25 @@ TIMELINE:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -969,6 +994,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

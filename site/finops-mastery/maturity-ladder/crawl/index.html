@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -646,27 +646,33 @@ FIRST MOVE-UP ACTION:
 <p>If you checked fewer than 2 symptoms, you're past Crawl. Move to L2 (Walk).</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Crawl is defined by:</p>
-<p>A. No data at all B. Visibility without action. The org has dashboards and reports, but consistently cannot get teams to act on the findings. The information exists in places that don't change behavior. C. Mature operations D. Just commitments</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Visibility vs action is the Crawl signature. The fix is operating model, not more data.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The first move-up action from Crawl is typically:</p>
-<p>A. Buy reservations B. Establish team-level cost ownership. Each team gets a dashboard, a designated cost owner, and cost in their regular metrics. Everything else depends on this — without ownership, dashboards go unread, recs unactioned, schedules un-built. C. Hire a FinOps consultant D. Quarterly cost reviews</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Ownership is the leverage point. The other three move-up actions all assume ownership exists.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Typical Crawl → Walk timeline:</p>
-<p>A. 1 day B. 60-90 days of deliberate work across the four move-up actions. Faster than that is usually superficial; slower than that means the work isn't focused. C. 1 year D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 2-3 months with focus. Each move-up action takes 2-4 weeks of focused effort.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Crawl is defined by:</p>
+    <button class="opt"><span class="letter">A</span>No data at all</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Visibility without action. The org has dashboards and reports, but consistently cannot get teams to act on the findings. The information exists in places that don't change behavior.</button>
+    <button class="opt"><span class="letter">C</span>Mature operations</button>
+    <button class="opt"><span class="letter">D</span>Just commitments</button>
+    <div class="explain"><strong>Correct: B.</strong> Visibility vs action is the Crawl signature. The fix is operating model, not more data.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The first move-up action from Crawl is typically:</p>
+    <button class="opt"><span class="letter">A</span>Buy reservations</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Establish team-level cost ownership. Each team gets a dashboard, a designated cost owner, and cost in their regular metrics. Everything else depends on this — without ownership, dashboards go unread, recs unactioned, schedules un-built.</button>
+    <button class="opt"><span class="letter">C</span>Hire a FinOps consultant</button>
+    <button class="opt"><span class="letter">D</span>Quarterly cost reviews</button>
+    <div class="explain"><strong>Correct: B.</strong> Ownership is the leverage point. The other three move-up actions all assume ownership exists.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Typical Crawl → Walk timeline:</p>
+    <button class="opt"><span class="letter">A</span>1 day</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>60-90 days of deliberate work across the four move-up actions. Faster than that is usually superficial; slower than that means the work isn't focused.</button>
+    <button class="opt"><span class="letter">C</span>1 year</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> 2-3 months with focus. Each move-up action takes 2-4 weeks of focused effort.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Self-assess at <a href="https://app.zopnight.com/settings/maturity" target="_blank" rel="noopener">Settings → Maturity</a> (if available in your tier) or use the informal checklist above. The maturity dashboard surfaces top 3 gaps with specific next-action recommendations.</p>
@@ -714,6 +720,25 @@ FIRST MOVE-UP ACTION:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -928,6 +953,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

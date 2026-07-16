@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -786,27 +786,33 @@ saved per week. 26 hours per year. The skill paid for itself in week 1.</code></
 <p>The first skill takes 30 minutes. The 5th takes 5 minutes. Build the muscle.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A reusable skill is:</p>
-<p>A. Just a saved prompt B. A markdown file with structured instructions invoked by name; same input → same output; versioned in git; shared with team. The shift is from prompts-as-text-snippets to prompts-as-software. C. Random D. Code</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Prompts-as-software. The skill is the unit of leverage.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A well-designed reusable skill:</p>
-<p>A. Is broad and flexible B. Specific in scope, parametrized for variation, output-format prescriptive, idempotent. Like a good function: single responsibility, clear contract, predictable output. C. Random D. Vague is fine</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Software-engineering discipline applies to skills.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Versioning skills:</p>
-<p>A. Don't bother B. Use git for version history. Add maintainer + last-reviewed in the frontmatter. Quarterly review (M6.5.L4). Treat skills as code — they're part of the team's tool belt. C. Random D. Each engineer edits independently</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Skills are code; track them like code.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A reusable skill is:</p>
+    <button class="opt"><span class="letter">A</span>Just a saved prompt</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>A markdown file with structured instructions invoked by name; same input → same output; versioned in git; shared with team. The shift is from prompts-as-text-snippets to prompts-as-software.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Code</button>
+    <div class="explain"><strong>Correct: B.</strong> Prompts-as-software. The skill is the unit of leverage.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A well-designed reusable skill:</p>
+    <button class="opt"><span class="letter">A</span>Is broad and flexible</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Specific in scope, parametrized for variation, output-format prescriptive, idempotent. Like a good function: single responsibility, clear contract, predictable output.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Vague is fine</button>
+    <div class="explain"><strong>Correct: B.</strong> Software-engineering discipline applies to skills.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Versioning skills:</p>
+    <button class="opt"><span class="letter">A</span>Don't bother</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Use git for version history. Add maintainer + last-reviewed in the frontmatter. Quarterly review (M6.5.L4). Treat skills as code — they're part of the team's tool belt.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Each engineer edits independently</button>
+    <div class="explain"><strong>Correct: B.</strong> Skills are code; track them like code.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Build 1-3 reusable skills for your team this week. Commit to repo (<code>.claude/skills/</code>). Document the description well. Have a teammate run them. Iterate.</p>
@@ -853,6 +859,25 @@ saved per week. 26 hours per year. The skill paid for itself in week 1.</code></
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -1067,6 +1092,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

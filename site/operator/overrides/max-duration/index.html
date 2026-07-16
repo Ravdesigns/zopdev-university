@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -536,27 +536,33 @@ For non-admin users: review the caps (read-only access) and use
 them to inform your override decisions.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team needs to keep a non-prod environment running for a 2-week sprint. The resource's max override duration is 7 days. The right approach:</p>
-<p>A. Set two consecutive 7-day overrides B. The 2-week sprint is too long for an override. Edit the schedule to skip the weekend stops for those two weeks (a schedule edit), or reduce the schedule's active hours during the sprint, then revert after. C. Raise the resource's max-duration cap D. Manually start resources every day</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Two weeks is structurally a schedule edit, not an override. The cap correctly redirects the team to the right tool.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A user sets an override with 5-day expiry. The resource's max override duration is 7 days. What happens:</p>
-<p>A. Rejected B. Accepted — 5 days is within the 7-day cap. Validation only fires when the expiry exceeds the cap. C. Warns the user D. Capped automatically</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The cap is the maximum, not a target. Anything within the cap is valid.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A SOC 2 auditor asks: "How do you prevent indefinite policy bypasses?" The defensible response includes:</p>
-<p>A. "We trust our engineers" B. The per-resource Max Override Duration cap (settable per resource and group, with 0 disabling overrides entirely on a resource), the required expiry on every override, and the audit log of all override events. Together these are a testable control. C. "Overrides cannot exist" D. "We don't use overrides"</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The cap is one part of a layered control: required expiry, audit log, admin-only policy changes. Together they form a testable answer to "how is this prevented?"</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team needs to keep a non-prod environment running for a 2-week sprint. The resource's max override duration is 7 days. The right approach:</p>
+    <button class="opt"><span class="letter">A</span>Set two consecutive 7-day overrides</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The 2-week sprint is too long for an override. Edit the schedule to skip the weekend stops for those two weeks (a schedule edit), or reduce the schedule's active hours during the sprint, then revert after.</button>
+    <button class="opt"><span class="letter">C</span>Raise the resource's max-duration cap</button>
+    <button class="opt"><span class="letter">D</span>Manually start resources every day</button>
+    <div class="explain"><strong>Correct: B.</strong> Two weeks is structurally a schedule edit, not an override. The cap correctly redirects the team to the right tool.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A user sets an override with 5-day expiry. The resource's max override duration is 7 days. What happens:</p>
+    <button class="opt"><span class="letter">A</span>Rejected</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Accepted — 5 days is within the 7-day cap. Validation only fires when the expiry exceeds the cap.</button>
+    <button class="opt"><span class="letter">C</span>Warns the user</button>
+    <button class="opt"><span class="letter">D</span>Capped automatically</button>
+    <div class="explain"><strong>Correct: B.</strong> The cap is the maximum, not a target. Anything within the cap is valid.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A SOC 2 auditor asks: "How do you prevent indefinite policy bypasses?" The defensible response includes:</p>
+    <button class="opt"><span class="letter">A</span>"We trust our engineers"</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The per-resource Max Override Duration cap (settable per resource and group, with 0 disabling overrides entirely on a resource), the required expiry on every override, and the audit log of all override events. Together these are a testable control.</button>
+    <button class="opt"><span class="letter">C</span>"Overrides cannot exist"</button>
+    <button class="opt"><span class="letter">D</span>"We don't use overrides"</button>
+    <div class="explain"><strong>Correct: B.</strong> The cap is one part of a layered control: required expiry, audit log, admin-only policy changes. Together they form a testable answer to "how is this prevented?"</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Max Override Duration is in:</p>
@@ -609,6 +615,25 @@ them to inform your override decisions.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -823,6 +848,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

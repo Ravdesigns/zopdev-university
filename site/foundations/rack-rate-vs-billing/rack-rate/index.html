@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -524,27 +524,33 @@ curl -s &#39;https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/c
 <p>The number in step 3 is your realized rate-card discount on this resource. Anything above 25% is significant — usually means commitment coverage is active.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team stops a dev EC2 instance overnight. The instance was covered by a 1-yr Savings Plan at 30% effective discount. The savings claim should be quoted at:</p>
-<p>A. Discounted rate × hours saved B. Rack rate × hours saved — because the SP discount applied to running hours, not saved hours C. Either, they are the same D. Nothing, the SP keeps billing</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Rack rate is the right number for savings claims. The SP discount applied to hours the resource was running, not to hours that were avoided.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>For a budget conversation with the CFO, the right column is:</p>
-<p>A. Rack rate B. Billing cost (post-discount, unblended) C. Either D. List price minus 10%</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Budgets are set against what the company actually pays. Rack rate overstates and confuses the conversation.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A vendor advertises "60% savings." Investigation reveals the savings number is computed against rack rate, while the customer's actual bill was already 35% below rack rate via existing RIs. The realized savings on the actual bill is most accurately:</p>
-<p>A. 60% B. ~38% — because the rack-rate savings are diluted by the existing discount stack C. 0%, the vendor is lying D. 95%</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Rack-rate savings × (1 − existing discount) = 60% × (1 − 0.35) = 39%. The vendor's claim is not lying but is incomplete. Always model realized savings against the actual bill, not the rack rate.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team stops a dev EC2 instance overnight. The instance was covered by a 1-yr Savings Plan at 30% effective discount. The savings claim should be quoted at:</p>
+    <button class="opt"><span class="letter">A</span>Discounted rate × hours saved</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Rack rate × hours saved — because the SP discount applied to running hours, not saved hours</button>
+    <button class="opt"><span class="letter">C</span>Either, they are the same</button>
+    <button class="opt"><span class="letter">D</span>Nothing, the SP keeps billing</button>
+    <div class="explain"><strong>Correct: B.</strong> Rack rate is the right number for savings claims. The SP discount applied to hours the resource was running, not to hours that were avoided.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">For a budget conversation with the CFO, the right column is:</p>
+    <button class="opt"><span class="letter">A</span>Rack rate</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Billing cost (post-discount, unblended)</button>
+    <button class="opt"><span class="letter">C</span>Either</button>
+    <button class="opt"><span class="letter">D</span>List price minus 10%</button>
+    <div class="explain"><strong>Correct: B.</strong> Budgets are set against what the company actually pays. Rack rate overstates and confuses the conversation.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A vendor advertises "60% savings." Investigation reveals the savings number is computed against rack rate, while the customer's actual bill was already 35% below rack rate via existing RIs. The realized savings on the actual bill is most accurately:</p>
+    <button class="opt"><span class="letter">A</span>60%</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>~38% — because the rack-rate savings are diluted by the existing discount stack</button>
+    <button class="opt"><span class="letter">C</span>0%, the vendor is lying</button>
+    <button class="opt"><span class="letter">D</span>95%</button>
+    <div class="explain"><strong>Correct: B.</strong> Rack-rate savings × (1 − existing discount) = 60% × (1 − 0.35) = 39%. The vendor's claim is not lying but is incomplete. Always model realized savings against the actual bill, not the rack rate.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight surfaces rack rate explicitly on every report. The Cost Source label on the Reports header tells you which column you are looking at:</p>
@@ -594,6 +600,25 @@ curl -s &#39;https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/c
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -808,6 +833,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -508,29 +508,33 @@
 <p>Or in the AWS Console: Cost Explorer → Reports → New report → Group by Usage Type → Filter by Resource = <code>&lt;your instance ID&gt;</code>.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Your m5.large EC2 instance shows <strong>$122 in EC2 charges last month.</strong> What is the most accurate estimate of what that instance actually costs your business?</p>
-<p>A. Exactly $122 B. Less than $122 — you have an RI C. Likely 25 to 60 percent higher than $122, because EBS, snapshots, network, and CloudWatch also charge against this instance D. Impossible to determine without more data</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: C.</strong> A single instance generates four to six bill rows. The EC2 charge covers compute time only. EBS storage, snapshot storage, data transfer, and CloudWatch metric / log storage charge separately. The true cost is the sum of all rows tied to that resource, and it sits 25 to 60 percent above the EC2-row figure on most production instances.</p>
-<p>A is wrong — almost no instance costs only the EC2 row. B may be true but isn't what the question asked. RIs change <em>what you paid</em>, not <em>what the instance costs your business</em>. D is too cautious. You can determine it; you just need to look at all four categories.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A workload's bill is 25% "Moved bytes." Which is most likely true?</p>
-<p>A. The estate uses spot instances B. The estate is K8s-heavy C. The estate has cross-region replication, global users served from one region, or NAT-Gateway-routed egress D. The estate uses serverless</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: C.</strong> None of A, B, or D directly drives network egress. Compute purchase type (spot, RI, savings plan) controls the compute-time row, not the moved-bytes row. K8s skews compute, not network, unless the cluster spans zones (cross-AZ traffic is charged on AWS, GCP, and Azure alike). Serverless can skew toward API requests but not moved bytes. The three drivers of high moved-bytes bills are inter-region replication, internet egress to global users, and NAT Gateway data-processing.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>You hear: "Killing this idle EC2 will save the company $69 a month." What's the safest, most accurate response?</p>
-<p>A. "Great, kill it." B. "Not enough — also kill the attached EBS volume, the snapshots, and the CloudWatch alarms. The actual savings is likely $90 to $110." C. "It won't save anything because we have a reserved instance covering it." D. "We can't kill it; production depends on it."</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Killing only the compute row leaves stored bytes (EBS volume + snapshots) and observability (CloudWatch) still billing. The right move is to release everything attached to that instance, which gets you the true category-1-plus-2-plus-4 savings — typically 25 to 60 percent more than the EC2 charge alone.</p>
-<p>C is a separate question (RIs don't auto-cancel when the instance terminates; they keep billing until expiry). D is a workload question, not a cost question.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Your m5.large EC2 instance shows <strong>$122 in EC2 charges last month.</strong> What is the most accurate estimate of what that instance actually costs your business?</p>
+    <button class="opt"><span class="letter">A</span>Exactly $122</button>
+    <button class="opt"><span class="letter">B</span>Less than $122 — you have an RI</button>
+    <button class="opt" data-correct="1"><span class="letter">C</span>Likely 25 to 60 percent higher than $122, because EBS, snapshots, network, and CloudWatch also charge against this instance</button>
+    <button class="opt"><span class="letter">D</span>Impossible to determine without more data</button>
+    <div class="explain"><strong>Correct: C.</strong> A single instance generates four to six bill rows. The EC2 charge covers compute time only. EBS storage, snapshot storage, data transfer, and CloudWatch metric / log storage charge separately. The true cost is the sum of all rows tied to that resource, and it sits 25 to 60 percent above the EC2-row figure on most production instances. A is wrong — almost no instance costs only the EC2 row. B may be true but isn't what the question asked. RIs change <em>what you paid</em>, not <em>what the instance costs your business</em>. D is too cautious. You can determine it; you just need to look at all four categories.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A workload's bill is 25% "Moved bytes." Which is most likely true?</p>
+    <button class="opt"><span class="letter">A</span>The estate uses spot instances</button>
+    <button class="opt"><span class="letter">B</span>The estate is K8s-heavy</button>
+    <button class="opt" data-correct="1"><span class="letter">C</span>The estate has cross-region replication, global users served from one region, or NAT-Gateway-routed egress</button>
+    <button class="opt"><span class="letter">D</span>The estate uses serverless</button>
+    <div class="explain"><strong>Correct: C.</strong> None of A, B, or D directly drives network egress. Compute purchase type (spot, RI, savings plan) controls the compute-time row, not the moved-bytes row. K8s skews compute, not network, unless the cluster spans zones (cross-AZ traffic is charged on AWS, GCP, and Azure alike). Serverless can skew toward API requests but not moved bytes. The three drivers of high moved-bytes bills are inter-region replication, internet egress to global users, and NAT Gateway data-processing.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">You hear: "Killing this idle EC2 will save the company $69 a month." What's the safest, most accurate response?</p>
+    <button class="opt"><span class="letter">A</span>"Great, kill it."</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>"Not enough — also kill the attached EBS volume, the snapshots, and the CloudWatch alarms. The actual savings is likely $90 to $110."</button>
+    <button class="opt"><span class="letter">C</span>"It won't save anything because we have a reserved instance covering it."</button>
+    <button class="opt"><span class="letter">D</span>"We can't kill it; production depends on it."</button>
+    <div class="explain"><strong>Correct: B.</strong> Killing only the compute row leaves stored bytes (EBS volume + snapshots) and observability (CloudWatch) still billing. The right move is to release everything attached to that instance, which gets you the true category-1-plus-2-plus-4 savings — typically 25 to 60 percent more than the EC2 charge alone. C is a separate question (RIs don't auto-cancel when the instance terminates; they keep billing until expiry). D is a workload question, not a cost question.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>When your cloud account is connected to ZopNight, the four categories are visible at every level:</p>
@@ -588,6 +592,25 @@
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -802,6 +825,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

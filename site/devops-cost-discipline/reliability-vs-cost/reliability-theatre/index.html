@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -809,27 +809,33 @@ CALCULATED THEATRE:
 <p>A 30-minute audit reveals the theatre. The fix is gradual; impact is significant.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Multi-AZ read replicas without multi-AZ primary:</p>
-<p>A. Real HA B. Theatre. Read availability is good; write fail-over isn't (primary still single-AZ). Cost for partial protection. Either upgrade to multi-AZ primary OR accept single-AZ and remove the multi-AZ replica investment. Don't pay for the half-measure. C. Random D. Optimal pattern</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Partial protection. Fix or remove.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Untested backups for 2 years:</p>
-<p>A. Compliance-compliant B. Theatre — backups exist on paper. Untested = unknown reliability. In practice, backup systems that are never restore-tested frequently fail under real conditions. Annual restore test is essential. The backup is only as good as your last successful restore. C. Random D. Trustworthy if documented</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Test to verify; otherwise theatre.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>100 health checks per service with alerts on each:</p>
-<p>A. Comprehensive coverage B. Often theatre + alert fatigue. On-call mutes most alerts; real issues missed in noise. Focus on 5-10 critical golden-signal metrics (latency, traffic, errors, saturation). Tune thresholds to actual incidents. Quality over quantity reduces cost AND improves response. C. Random D. Required for SLO compliance</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Quality over quantity; reduces cost + improves response.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Multi-AZ read replicas without multi-AZ primary:</p>
+    <button class="opt"><span class="letter">A</span>Real HA</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Theatre. Read availability is good; write fail-over isn't (primary still single-AZ). Cost for partial protection. Either upgrade to multi-AZ primary OR accept single-AZ and remove the multi-AZ replica investment. Don't pay for the half-measure.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Optimal pattern</button>
+    <div class="explain"><strong>Correct: B.</strong> Partial protection. Fix or remove.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Untested backups for 2 years:</p>
+    <button class="opt"><span class="letter">A</span>Compliance-compliant</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Theatre — backups exist on paper. Untested = unknown reliability. In practice, backup systems that are never restore-tested frequently fail under real conditions. Annual restore test is essential. The backup is only as good as your last successful restore.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Trustworthy if documented</button>
+    <div class="explain"><strong>Correct: B.</strong> Test to verify; otherwise theatre.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">100 health checks per service with alerts on each:</p>
+    <button class="opt"><span class="letter">A</span>Comprehensive coverage</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Often theatre + alert fatigue. On-call mutes most alerts; real issues missed in noise. Focus on 5-10 critical golden-signal metrics (latency, traffic, errors, saturation). Tune thresholds to actual incidents. Quality over quantity reduces cost AND improves response.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Required for SLO compliance</button>
+    <div class="explain"><strong>Correct: B.</strong> Quality over quantity; reduces cost + improves response.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Quarterly reliability audit. Test each investment. Remove theatre; upgrade partial protection; document real protection.</p>
@@ -879,6 +885,25 @@ CALCULATED THEATRE:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -1093,6 +1118,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

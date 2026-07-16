@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -553,27 +553,33 @@ ANNUALIZED IMPROVEMENT: $319,200</code></pre>
 <p>The annualized cost of detect-only is the business case for CDCR investment.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team detects $40K/month in potential savings but only realizes $9K/month. The cost of detect-only operation is:</p>
-<p>A. $9K/month B. $31K/month — the gap between detected potential and realized savings C. $0 — they are realizing what they can D. $40K/month — the full potential</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The cost is the gap, not the realized or the potential. The gap is what CDCR closes.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A common objection to CDCR is "we just need more FinOps headcount to close tickets faster." Most defensible counter-argument:</p>
-<p>A. Headcount is expensive B. The math doesn't work — a FinOps engineer fully-loaded costs $150K+. Closing 250 tickets per month at $180 average savings produces $45K realized, less than the headcount cost. CDCR closes the loop without adding people; people focus on the ~10% requiring judgment. C. Engineers are scarce D. CDCR is a buzzword</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The math is the argument. Scaling FinOps by headcount alone hits diminishing returns fast. CDCR scales the act layer without scaling people.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team is at <$10K/month total cloud spend. The defensible posture is:</p>
-<p>A. Implement CDCR immediately B. Manual cost review weekly. CDCR's operational overhead is not paid back at small scale. Plain reading-and-acting is fine. C. Hire a FinOps consultant D. Switch clouds</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Honesty about scale. CDCR is a great fit above ~$50K/month. Below that, the discipline matters more than the tooling.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team detects $40K/month in potential savings but only realizes $9K/month. The cost of detect-only operation is:</p>
+    <button class="opt"><span class="letter">A</span>$9K/month</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>$31K/month — the gap between detected potential and realized savings</button>
+    <button class="opt"><span class="letter">C</span>$0 — they are realizing what they can</button>
+    <button class="opt"><span class="letter">D</span>$40K/month — the full potential</button>
+    <div class="explain"><strong>Correct: B.</strong> The cost is the gap, not the realized or the potential. The gap is what CDCR closes.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A common objection to CDCR is "we just need more FinOps headcount to close tickets faster." Most defensible counter-argument:</p>
+    <button class="opt"><span class="letter">A</span>Headcount is expensive</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The math doesn't work — a FinOps engineer fully-loaded costs $150K+. Closing 250 tickets per month at $180 average savings produces $45K realized, less than the headcount cost. CDCR closes the loop without adding people; people focus on the ~10% requiring judgment.</button>
+    <button class="opt"><span class="letter">C</span>Engineers are scarce</button>
+    <button class="opt"><span class="letter">D</span>CDCR is a buzzword</button>
+    <div class="explain"><strong>Correct: B.</strong> The math is the argument. Scaling FinOps by headcount alone hits diminishing returns fast. CDCR scales the act layer without scaling people.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team is at <$10K/month total cloud spend. The defensible posture is:</p>
+    <button class="opt"><span class="letter">A</span>Implement CDCR immediately</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Manual cost review weekly. CDCR's operational overhead is not paid back at small scale. Plain reading-and-acting is fine.</button>
+    <button class="opt"><span class="letter">C</span>Hire a FinOps consultant</button>
+    <button class="opt"><span class="letter">D</span>Switch clouds</button>
+    <div class="explain"><strong>Correct: B.</strong> Honesty about scale. CDCR is a great fit above ~$50K/month. Below that, the discipline matters more than the tooling.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's <a href="https://app.zopnight.com/recommendations" target="_blank" rel="noopener">Recommendations</a> page tracks both detected and remediated savings. The summary card shows:</p>
@@ -624,6 +630,25 @@ ANNUALIZED IMPROVEMENT: $319,200</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -838,6 +863,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

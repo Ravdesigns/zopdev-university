@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -687,27 +687,33 @@ IF VENDOR/HYBRID:
 <p>Don't sign a multi-year contract without going through this analysis.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Share-of-savings vendor at 25% fee, $500K savings vs baseline:</p>
-<p>A. Bad math — vendor took too much B. $375K net to customer. Reasonable if customer would not have achieved that savings in-house. The vendor takes 25% in exchange for taking the operational + judgment overhead. Compare against the alternative (in-house cost) before judging. C. Random D. Too expensive</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Net to customer is $375K. Compare against in-house alternative cost.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>For a $2M annual cloud spend with 30% in-house discount achievable:</p>
-<p>A. Always use vendor at this scale B. Consider in-house. At smaller spend, vendor fees may exceed the marginal savings improvement. The math turns on absolute dollar improvement, not percentage. Always run the specific math for your org. C. Always vendor D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Spend level matters. At smaller scales, in-house often wins.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A multi-year contract with a share-of-savings vendor:</p>
-<p>A. Always good — locks in lower fees B. Lock-in risk. Negotiate exit clauses; don't sign without an escape mechanism. Lock-in compounded over years can cost more than the savings if the vendor under-performs or the org's needs change. C. Random D. Doesn't matter</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Exit clauses matter. Multi-year without escape is the bad version.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Share-of-savings vendor at 25% fee, $500K savings vs baseline:</p>
+    <button class="opt"><span class="letter">A</span>Bad math — vendor took too much</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>$375K net to customer. Reasonable if customer would not have achieved that savings in-house. The vendor takes 25% in exchange for taking the operational + judgment overhead. Compare against the alternative (in-house cost) before judging.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Too expensive</button>
+    <div class="explain"><strong>Correct: B.</strong> Net to customer is $375K. Compare against in-house alternative cost.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">For a $2M annual cloud spend with 30% in-house discount achievable:</p>
+    <button class="opt"><span class="letter">A</span>Always use vendor at this scale</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Consider in-house. At smaller spend, vendor fees may exceed the marginal savings improvement. The math turns on absolute dollar improvement, not percentage. Always run the specific math for your org.</button>
+    <button class="opt"><span class="letter">C</span>Always vendor</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Spend level matters. At smaller scales, in-house often wins.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A multi-year contract with a share-of-savings vendor:</p>
+    <button class="opt"><span class="letter">A</span>Always good — locks in lower fees</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Lock-in risk. Negotiate exit clauses; don't sign without an escape mechanism. Lock-in compounded over years can cost more than the savings if the vendor under-performs or the org's needs change.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Doesn't matter</button>
+    <div class="explain"><strong>Correct: B.</strong> Exit clauses matter. Multi-year without escape is the bad version.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Evaluate vendor vs in-house annually. Don't auto-renew without comparison. ZopNight provides the data you need for the evaluation: current commitment portfolio, effective discounts, projected improvements.</p>
@@ -758,6 +764,25 @@ IF VENDOR/HYBRID:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -972,6 +997,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

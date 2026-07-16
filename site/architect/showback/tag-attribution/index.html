@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -635,27 +635,33 @@ If coverage is low (&lt;70%):
   Add the key to your tag taxonomy + IaC enforcement</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team wants to track "marketing campaign Q2" cost. Best dimension:</p>
-<p>A. Team B. Tag with custom key=campaign. Flexible attribution by business event. The campaign spans teams (engineering, marketing, ops); team attribution would split rather than aggregate. Tag attribution aggregates the entire campaign correctly. C. Account isolation D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Campaigns cross teams; tags are the right dimension. The Q2 campaign tag aggregates regardless of which team provisioned the resource.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Cloud-native tag vs ZopNight auto-tag attribution:</p>
-<p>A. Different surfaces — one for each B. Same surface — both contribute to the same <code>cost_allocation_daily</code> table; the <code>dimension_source</code> column distinguishes provenance. Reports can filter to only cloud-native (stricter) or include auto-tags (more coverage). Auto-tags require customer acceptance before they take effect. C. Cloud-native only D. Auto-tags are read-only previews</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Both contribute equally once accepted. Provenance is tracked for audit.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Tag coverage at 65%. The impact on attribution:</p>
-<p>A. Nothing — 65% is fine B. Reports show 35% Unattributed for that tag key. Tag-driven attribution misses 35% of spend. Worth investing to lift coverage via auto-tagger, manual cleanup, and IaC enforcement. The remaining 35% becomes an Unattributed bucket in any Tags report filtered to that key. C. Random D. Reports still 100% accurate</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Coverage limits report reliability for that dimension. The unattributed portion is real spend that cannot be sliced by the chosen tag.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team wants to track "marketing campaign Q2" cost. Best dimension:</p>
+    <button class="opt"><span class="letter">A</span>Team</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Tag with custom key=campaign. Flexible attribution by business event. The campaign spans teams (engineering, marketing, ops); team attribution would split rather than aggregate. Tag attribution aggregates the entire campaign correctly.</button>
+    <button class="opt"><span class="letter">C</span>Account isolation</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Campaigns cross teams; tags are the right dimension. The Q2 campaign tag aggregates regardless of which team provisioned the resource.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Cloud-native tag vs ZopNight auto-tag attribution:</p>
+    <button class="opt"><span class="letter">A</span>Different surfaces — one for each</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Same surface — both contribute to the same <code>cost_allocation_daily</code> table; the <code>dimension_source</code> column distinguishes provenance. Reports can filter to only cloud-native (stricter) or include auto-tags (more coverage). Auto-tags require customer acceptance before they take effect.</button>
+    <button class="opt"><span class="letter">C</span>Cloud-native only</button>
+    <button class="opt"><span class="letter">D</span>Auto-tags are read-only previews</button>
+    <div class="explain"><strong>Correct: B.</strong> Both contribute equally once accepted. Provenance is tracked for audit.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Tag coverage at 65%. The impact on attribution:</p>
+    <button class="opt"><span class="letter">A</span>Nothing — 65% is fine</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Reports show 35% Unattributed for that tag key. Tag-driven attribution misses 35% of spend. Worth investing to lift coverage via auto-tagger, manual cleanup, and IaC enforcement. The remaining 35% becomes an Unattributed bucket in any Tags report filtered to that key.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Reports still 100% accurate</button>
+    <div class="explain"><strong>Correct: B.</strong> Coverage limits report reliability for that dimension. The unattributed portion is real spend that cannot be sliced by the chosen tag.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Query tag attribution at <a href="https://app.zopnight.com/reports/tags" target="_blank" rel="noopener">Reports → Tags</a> — pick a key, optionally a value, optionally combine with team. The auto-tagger surfaces predictions at <a href="https://app.zopnight.com/settings/auto-tags" target="_blank" rel="noopener">Settings → Auto-tags</a> for accept/reject.</p>
@@ -703,6 +709,25 @@ If coverage is low (&lt;70%):
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -917,6 +942,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

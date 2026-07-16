@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -536,27 +536,33 @@ SCENARIO 4: Correct configuration — AHB + Deallocate 5 nightly
    &lt;85% utilization — these are over-commitment in progress.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team reports: "We stopped our Azure VMs but the bill did not drop." Most likely cause:</p>
-<p>A. Azure bills with a 30-day lag B. The VMs are "Stopped" but not "Deallocated." Compute keeps billing. Use the Deallocate operation to fully release the compute allocation. C. The team stopped the wrong VMs D. Azure raised prices</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> This is the canonical Azure trap. Stop without Deallocate keeps the compute allocation, which keeps billing.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team has on-prem Windows Server licenses with Software Assurance. They have not opted in to Azure Hybrid Benefit on their Windows VMs. The defensible savings opportunity:</p>
-<p>A. ~5% off Windows VM costs B. ~36% off Windows VM costs (and ~55% off SQL Server portions) C. ~85% off everything D. None</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> AHB is a substantial discount that requires opt-in per resource. Worth the effort.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A reservation utilization report shows 62% utilization on a 3-year Azure Reservation. The defensible action:</p>
-<p>A. Buy more reservations B. Investigate — 62% utilization means 38% of the committed capacity is unused. The reservation may need to be exchanged for a different SKU, scope, or term. Use the exchange option before more capacity erodes. C. Cancel and refund D. Wait for term expiry</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 62% utilization is below break-even on a 3-yr reservation. Azure allows exchanging reservations (with restrictions) — investigate whether the workload moved to a different SKU and the reservation can be re-scoped.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team reports: "We stopped our Azure VMs but the bill did not drop." Most likely cause:</p>
+    <button class="opt"><span class="letter">A</span>Azure bills with a 30-day lag</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The VMs are "Stopped" but not "Deallocated." Compute keeps billing. Use the Deallocate operation to fully release the compute allocation.</button>
+    <button class="opt"><span class="letter">C</span>The team stopped the wrong VMs</button>
+    <button class="opt"><span class="letter">D</span>Azure raised prices</button>
+    <div class="explain"><strong>Correct: B.</strong> This is the canonical Azure trap. Stop without Deallocate keeps the compute allocation, which keeps billing.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team has on-prem Windows Server licenses with Software Assurance. They have not opted in to Azure Hybrid Benefit on their Windows VMs. The defensible savings opportunity:</p>
+    <button class="opt"><span class="letter">A</span>~5% off Windows VM costs</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>~36% off Windows VM costs (and ~55% off SQL Server portions)</button>
+    <button class="opt"><span class="letter">C</span>~85% off everything</button>
+    <button class="opt"><span class="letter">D</span>None</button>
+    <div class="explain"><strong>Correct: B.</strong> AHB is a substantial discount that requires opt-in per resource. Worth the effort.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A reservation utilization report shows 62% utilization on a 3-year Azure Reservation. The defensible action:</p>
+    <button class="opt"><span class="letter">A</span>Buy more reservations</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Investigate — 62% utilization means 38% of the committed capacity is unused. The reservation may need to be exchanged for a different SKU, scope, or term. Use the exchange option before more capacity erodes.</button>
+    <button class="opt"><span class="letter">C</span>Cancel and refund</button>
+    <button class="opt"><span class="letter">D</span>Wait for term expiry</button>
+    <div class="explain"><strong>Correct: B.</strong> 62% utilization is below break-even on a 3-yr reservation. Azure allows exchanging reservations (with restrictions) — investigate whether the workload moved to a different SKU and the reservation can be re-scoped.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's Azure integration handles:</p>
@@ -608,6 +614,25 @@ SCENARIO 4: Correct configuration — AHB + Deallocate 5 nightly
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -822,6 +847,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -678,27 +678,33 @@ OUTCOME:
 <p>A 15-minute exercise builds confidence in the reversibility.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>What gets saved during Replace?</p>
-<p>A. Nothing B. The full cloud-side state (scalable_target, all policies' raw_spec, scheduled actions) in previousConfig.existingPolicies — byte-accurate. Saved before any cloud mutation, so restore is always possible. C. Just min/max D. A snapshot</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Full configuration saved for byte-accurate restore.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team runs Remove on a replaced policy. The cloud-side state after Remove:</p>
-<p>A. Empty (no scaling) B. Identical to pre-Replace — the saved previousConfig is restored bit-for-bit. Byte-accurate restore is the design. The whole point of Replace is that Remove fully reverses it. C. Modified D. Mixed</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Byte-accurate restore is the design.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A Replace operation fails on cloud API after the first deletion. The cloud-side is now inconsistent. What does ZopNight do?</p>
-<p>A. Discard the saved config B. The saved previousConfig.existingPolicies is preserved. The operator can retry Remove (or Replace) to either: restore via Remove using saved config, or proceed with Replace from the partial state. Saved config is preserved; retries are idempotent. C. Crash D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Saved config is preserved; retries are idempotent.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">What gets saved during Replace?</p>
+    <button class="opt"><span class="letter">A</span>Nothing</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The full cloud-side state (scalable_target, all policies' raw_spec, scheduled actions) in previousConfig.existingPolicies — byte-accurate. Saved before any cloud mutation, so restore is always possible.</button>
+    <button class="opt"><span class="letter">C</span>Just min/max</button>
+    <button class="opt"><span class="letter">D</span>A snapshot</button>
+    <div class="explain"><strong>Correct: B.</strong> Full configuration saved for byte-accurate restore.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team runs Remove on a replaced policy. The cloud-side state after Remove:</p>
+    <button class="opt"><span class="letter">A</span>Empty (no scaling)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Identical to pre-Replace — the saved previousConfig is restored bit-for-bit. Byte-accurate restore is the design. The whole point of Replace is that Remove fully reverses it.</button>
+    <button class="opt"><span class="letter">C</span>Modified</button>
+    <button class="opt"><span class="letter">D</span>Mixed</button>
+    <div class="explain"><strong>Correct: B.</strong> Byte-accurate restore is the design.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A Replace operation fails on cloud API after the first deletion. The cloud-side is now inconsistent. What does ZopNight do?</p>
+    <button class="opt"><span class="letter">A</span>Discard the saved config</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The saved previousConfig.existingPolicies is preserved. The operator can retry Remove (or Replace) to either: restore via Remove using saved config, or proceed with Replace from the partial state. Saved config is preserved; retries are idempotent.</button>
+    <button class="opt"><span class="letter">C</span>Crash</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Saved config is preserved; retries are idempotent.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Replace flow is in Automation → Policies → New Policy → wizard detects existing config. Pick Replace. Remove restores via the same surface.</p>
@@ -745,6 +751,25 @@ OUTCOME:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -959,6 +984,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

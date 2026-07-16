@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -658,27 +658,33 @@ EVIDENCE PANEL shows all this
 <p>A 10-minute exercise builds trust in the auto-tagger's reasoning.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The auto-tagger uses which approach?</p>
-<p>A. Machine learning B. Rule-based (naming patterns, existing tags, instance config, group context, account context) with composite scoring. Predictable and debuggable. Same inputs always produce same predictions. No black-box "magic." C. Random D. Pure heuristic (no scoring)</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Rule-based scoring; transparent and reproducible.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A resource named "prod-experiment-1" in a "dev-experiments" group, on a small instance. The prediction:</p>
-<p>A. env=prod (name signal wins) B. Composite favors dev — group context and instance type override the name signal. Confidence may be 60-70% for env=dev. Single-signal noise is corrected by composite scoring. C. Random D. env=prod always</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Composite signals correct single-signal noise.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A resource has env=prod tag, m5.4xlarge, multi-AZ, behind LB. noStop prediction:</p>
-<p>A. Random B. noStop=true with high confidence — all signals point to production criticality. The composite of signals (env=prod, multi-AZ, LB, large instance) overwhelmingly supports noStop=true. C. noStop=false D. Inconclusive</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Multiple signals align.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The auto-tagger uses which approach?</p>
+    <button class="opt"><span class="letter">A</span>Machine learning</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Rule-based (naming patterns, existing tags, instance config, group context, account context) with composite scoring. Predictable and debuggable. Same inputs always produce same predictions. No black-box "magic."</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Pure heuristic (no scoring)</button>
+    <div class="explain"><strong>Correct: B.</strong> Rule-based scoring; transparent and reproducible.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A resource named "prod-experiment-1" in a "dev-experiments" group, on a small instance. The prediction:</p>
+    <button class="opt"><span class="letter">A</span>env=prod (name signal wins)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Composite favors dev — group context and instance type override the name signal. Confidence may be 60-70% for env=dev. Single-signal noise is corrected by composite scoring.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>env=prod always</button>
+    <div class="explain"><strong>Correct: B.</strong> Composite signals correct single-signal noise.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A resource has env=prod tag, m5.4xlarge, multi-AZ, behind LB. noStop prediction:</p>
+    <button class="opt"><span class="letter">A</span>Random</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>noStop=true with high confidence — all signals point to production criticality. The composite of signals (env=prod, multi-AZ, LB, large instance) overwhelmingly supports noStop=true.</button>
+    <button class="opt"><span class="letter">C</span>noStop=false</button>
+    <button class="opt"><span class="letter">D</span>Inconclusive</button>
+    <div class="explain"><strong>Correct: B.</strong> Multiple signals align.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The auto-tagger's signals are visible in the inference panel. Customer can see exactly why a prediction was made.</p>
@@ -725,6 +731,25 @@ EVIDENCE PANEL shows all this
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -939,6 +964,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

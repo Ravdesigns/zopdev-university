@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -662,27 +662,33 @@ COMPARISON:
 <p>A 10-minute exercise per cluster. Track cycle for first week.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Databricks autoterm vs ZopNight scheduling:</p>
-<p>A. Conflict B. Complement — autoterm handles mid-day idle; ZopNight handles daily lifecycle. Both work in parallel. The two layers cover different cost optimization concerns: idle (autoterm) and daily window (ZopNight). C. Same thing D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Complementary layers.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A cluster takes 3 minutes to start. Schedule cron should fire:</p>
-<p>A. At the moment users need it B. ~3-5 minutes earlier than user need (to account for startup latency). Schedule the start cron a few minutes ahead so cluster is ready when users arrive. Otherwise: brief wait at 8 AM. C. 30 minutes earlier D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Schedule a few minutes ahead for startup.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team uses cluster past the schedule's stop time. The schedule fires and stops it:</p>
-<p>A. ZopNight backs off B. Stop fires regardless. The Override system is the explicit mechanism for "keep this running past the schedule" — use that instead of relying on the schedule to detect activity. Schedules are explicit; activity detection is autoterm's job. C. Random D. Discovery fails</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Schedule fires. Override is the explicit "keep running" tool.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Databricks autoterm vs ZopNight scheduling:</p>
+    <button class="opt"><span class="letter">A</span>Conflict</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Complement — autoterm handles mid-day idle; ZopNight handles daily lifecycle. Both work in parallel. The two layers cover different cost optimization concerns: idle (autoterm) and daily window (ZopNight).</button>
+    <button class="opt"><span class="letter">C</span>Same thing</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Complementary layers.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A cluster takes 3 minutes to start. Schedule cron should fire:</p>
+    <button class="opt"><span class="letter">A</span>At the moment users need it</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>~3-5 minutes earlier than user need (to account for startup latency). Schedule the start cron a few minutes ahead so cluster is ready when users arrive. Otherwise: brief wait at 8 AM.</button>
+    <button class="opt"><span class="letter">C</span>30 minutes earlier</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Schedule a few minutes ahead for startup.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team uses cluster past the schedule's stop time. The schedule fires and stops it:</p>
+    <button class="opt"><span class="letter">A</span>ZopNight backs off</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Stop fires regardless. The Override system is the explicit mechanism for "keep this running past the schedule" — use that instead of relying on the schedule to detect activity. Schedules are explicit; activity detection is autoterm's job.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Discovery fails</button>
+    <div class="explain"><strong>Correct: B.</strong> Schedule fires. Override is the explicit "keep running" tool.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Cluster scheduling is per-cluster. Attach via the cluster's detail page.</p>
@@ -729,6 +735,25 @@ COMPARISON:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -943,6 +968,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -688,27 +688,33 @@ T+1 month  Re-check at next monthly review:
 <p>A 15-minute audit reveals the DLQ health. Monthly review keeps it bounded.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A rule that needs pricing data but has none:</p>
-<p>A. Fires anyway with a $0 savings B. Creates a pricing-gap DLQ entry; the affected card shows "pending pricing data" rather than failing silently. The DLQ visibility is the design choice over silent miss. Customer sees the gap; can choose how to act. C. Fails the entire evaluation cycle D. Is automatically dismissed</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> DLQ visibility over silent miss; trust through transparency.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A new AWS instance type lands. ZopNight's recommendation engine:</p>
-<p>A. Recognizes it immediately B. Likely creates DLQ entries until the next pricing-sync cron (weekly) picks up the rates. After sync runs, replay job drains the backlog. The new SKU appears in recommendations once rates are in pricing_cache. C. Cannot handle new types D. Requires manual coding</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Pricing-sync is the data source; rules adapt automatically once rates land.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A persistent gap on a high-volume SKU (Azure Premium_LRS in eastus2) should be:</p>
-<p>A. Ignored B. Filed as an issue with ZopNight engineering. Persistent gaps on high-volume SKUs are structural, not transient. Engineering investigates the pricing-sync coverage. Don't wait for it to resolve on its own. C. Dismissed D. Worked around manually per resource</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> High-volume gaps merit engineering attention.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A rule that needs pricing data but has none:</p>
+    <button class="opt"><span class="letter">A</span>Fires anyway with a $0 savings</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Creates a pricing-gap DLQ entry; the affected card shows "pending pricing data" rather than failing silently. The DLQ visibility is the design choice over silent miss. Customer sees the gap; can choose how to act.</button>
+    <button class="opt"><span class="letter">C</span>Fails the entire evaluation cycle</button>
+    <button class="opt"><span class="letter">D</span>Is automatically dismissed</button>
+    <div class="explain"><strong>Correct: B.</strong> DLQ visibility over silent miss; trust through transparency.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A new AWS instance type lands. ZopNight's recommendation engine:</p>
+    <button class="opt"><span class="letter">A</span>Recognizes it immediately</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Likely creates DLQ entries until the next pricing-sync cron (weekly) picks up the rates. After sync runs, replay job drains the backlog. The new SKU appears in recommendations once rates are in pricing_cache.</button>
+    <button class="opt"><span class="letter">C</span>Cannot handle new types</button>
+    <button class="opt"><span class="letter">D</span>Requires manual coding</button>
+    <div class="explain"><strong>Correct: B.</strong> Pricing-sync is the data source; rules adapt automatically once rates land.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A persistent gap on a high-volume SKU (Azure Premium_LRS in eastus2) should be:</p>
+    <button class="opt"><span class="letter">A</span>Ignored</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Filed as an issue with ZopNight engineering. Persistent gaps on high-volume SKUs are structural, not transient. Engineering investigates the pricing-sync coverage. Don't wait for it to resolve on its own.</button>
+    <button class="opt"><span class="letter">C</span>Dismissed</button>
+    <button class="opt"><span class="letter">D</span>Worked around manually per resource</button>
+    <div class="explain"><strong>Correct: B.</strong> High-volume gaps merit engineering attention.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>DLQ surface: <code>/internal/pricing-gap-dlq</code> (admin-only). Monthly review recommended.</p>
@@ -755,6 +761,25 @@ T+1 month  Re-check at next monthly review:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -969,6 +994,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

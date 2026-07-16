@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -553,27 +553,33 @@ EXERCISE 3: Untagged resources across all clouds
 <p>Each exercise is 2 minutes. The point is to internalize that the filter UI handles most cost-discovery questions.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A user selects two AWS accounts. The Type dropdown now shows only 47 types instead of the full 191. This is:</p>
-<p>A. A bug B. Intentional — cascade filtering. Type values are narrowed to types present in the selected accounts. This prevents "I filtered by X and got zero" confusion. C. A limitation D. A different version of ZopNight</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Cascade is by design. Type values are scoped to what is actually present in the current account selection.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A user wants "all running Kubernetes workloads across all clouds." The most efficient filter construction is:</p>
-<p>A. Filter per cloud separately, then combine B. Type Category = Kubernetes (one click checks all K8s-category types across providers). Then Status = Running. Two filters total. C. Write a query in HogQL D. Use the search bar</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Category-level selection in the grouped Type dropdown is the right tool. One click handles cross-provider K8s types.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The Account dropdown does NOT cascade-narrow when other filters are applied. Why:</p>
-<p>A. A bug B. So the user can re-broaden the account selection without first clearing other filters. The account list always shows all available accounts, sourced from a separate unfiltered API call. C. Performance D. Backward compatibility</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Deliberate UX. The account dropdown is the broadest filter; allowing the user to re-broaden without first clearing downstream filters is a usability choice.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A user selects two AWS accounts. The Type dropdown now shows only 47 types instead of the full 191. This is:</p>
+    <button class="opt"><span class="letter">A</span>A bug</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Intentional — cascade filtering. Type values are narrowed to types present in the selected accounts. This prevents "I filtered by X and got zero" confusion.</button>
+    <button class="opt"><span class="letter">C</span>A limitation</button>
+    <button class="opt"><span class="letter">D</span>A different version of ZopNight</button>
+    <div class="explain"><strong>Correct: B.</strong> Cascade is by design. Type values are scoped to what is actually present in the current account selection.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A user wants "all running Kubernetes workloads across all clouds." The most efficient filter construction is:</p>
+    <button class="opt"><span class="letter">A</span>Filter per cloud separately, then combine</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Type Category = Kubernetes (one click checks all K8s-category types across providers). Then Status = Running. Two filters total.</button>
+    <button class="opt"><span class="letter">C</span>Write a query in HogQL</button>
+    <button class="opt"><span class="letter">D</span>Use the search bar</button>
+    <div class="explain"><strong>Correct: B.</strong> Category-level selection in the grouped Type dropdown is the right tool. One click handles cross-provider K8s types.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The Account dropdown does NOT cascade-narrow when other filters are applied. Why:</p>
+    <button class="opt"><span class="letter">A</span>A bug</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>So the user can re-broaden the account selection without first clearing other filters. The account list always shows all available accounts, sourced from a separate unfiltered API call.</button>
+    <button class="opt"><span class="letter">C</span>Performance</button>
+    <button class="opt"><span class="letter">D</span>Backward compatibility</button>
+    <div class="explain"><strong>Correct: B.</strong> Deliberate UX. The account dropdown is the broadest filter; allowing the user to re-broaden without first clearing downstream filters is a usability choice.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The Resources page exposes the filter UI:</p>
@@ -623,6 +629,25 @@ EXERCISE 3: Untagged resources across all clouds
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -837,6 +862,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

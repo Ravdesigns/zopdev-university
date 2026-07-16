@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -631,27 +631,33 @@ OUTCOME:
 <p>A 10-minute exercise reveals the hierarchy + schedulable surface.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A DaemonSet appears in the cluster's workload list. Can you attach a schedule?</p>
-<p>A. Yes B. No — DaemonSets are non-schedulable by design (one pod per node). The Attach Schedule button is disabled with tooltip explaining why. Scheduling a DaemonSet would break the per-node guarantee. C. With Admin permission D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> DaemonSets are explicitly non-schedulable.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Filtering K8s workloads by namespace is useful because:</p>
-<p>A. Performance B. Namespace is the natural attribution boundary in K8s — production/staging/dev typically separated by namespace. Filtering by namespace gives quick access to environment-scoped workloads. Plus combining with labels narrows further. C. AWS requires D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Namespace = environment boundary in most K8s setups.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The number of clicks from estate-wide view to a specific deployment:</p>
-<p>A. 10+ B. 3 (cluster → workload → attach schedule). The hierarchy is predictable; navigation fast. Three-click drill matches typical FinOps workflow. C. 5 D. 7</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Three-click drill.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A DaemonSet appears in the cluster's workload list. Can you attach a schedule?</p>
+    <button class="opt"><span class="letter">A</span>Yes</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No — DaemonSets are non-schedulable by design (one pod per node). The Attach Schedule button is disabled with tooltip explaining why. Scheduling a DaemonSet would break the per-node guarantee.</button>
+    <button class="opt"><span class="letter">C</span>With Admin permission</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> DaemonSets are explicitly non-schedulable.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Filtering K8s workloads by namespace is useful because:</p>
+    <button class="opt"><span class="letter">A</span>Performance</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Namespace is the natural attribution boundary in K8s — production/staging/dev typically separated by namespace. Filtering by namespace gives quick access to environment-scoped workloads. Plus combining with labels narrows further.</button>
+    <button class="opt"><span class="letter">C</span>AWS requires</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Namespace = environment boundary in most K8s setups.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The number of clicks from estate-wide view to a specific deployment:</p>
+    <button class="opt"><span class="letter">A</span>10+</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>3 (cluster → workload → attach schedule). The hierarchy is predictable; navigation fast. Three-click drill matches typical FinOps workflow.</button>
+    <button class="opt"><span class="letter">C</span>5</button>
+    <button class="opt"><span class="letter">D</span>7</button>
+    <div class="explain"><strong>Correct: B.</strong> Three-click drill.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>K8s workload navigation is in Resources page → filter type=EKS/GKE/AKS → drill into cluster.</p>
@@ -699,6 +705,25 @@ OUTCOME:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -913,6 +938,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

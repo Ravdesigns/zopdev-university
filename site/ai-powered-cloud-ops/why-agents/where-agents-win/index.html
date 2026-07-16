@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -672,27 +672,33 @@ For UI-fit tasks: bookmark the dashboard view.</code></pre>
 <p>Honest assessment: half the time the UI is faster. That's fine — apply the agent where it wins.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Best agent use case for cloud cost:</p>
-<p>A. Killing 100 idle resources B. Multi-step research synthesizing across data sources (cost + audit + recommendations) and writing a structured answer. The agent's strength is chaining multiple sources and synthesizing; bulk operations belong in the UI. C. Replacing dashboards entirely D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Synthesis is where LLMs shine. UI for bulk; agent for multi-source research.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Bad agent use case:</p>
-<p>A. Drafting an incident postmortem B. Looking at a single chart for a quick number. UI / visual pattern recognition beats agent description for visual data. When the answer is one click in the dashboard, click the dashboard. C. Cross-surface research D. New-engineer onboarding questions</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Use the UI for visual. Don't make the agent earn its keep on trivial work.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>For hard math (forecasting, anomaly statistics):</p>
-<p>A. Ask the agent B. Use the platform's models. Don't ask LLMs to do arithmetic on their own — they approximate and can be wrong. ZopNight's forecasting / anomaly detection / unit economics use deterministic models; route math through them. C. Random D. Ignore math; use intuition</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Math goes to models, not LLMs. The agent presents the math; doesn't compute it.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Best agent use case for cloud cost:</p>
+    <button class="opt"><span class="letter">A</span>Killing 100 idle resources</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Multi-step research synthesizing across data sources (cost + audit + recommendations) and writing a structured answer. The agent's strength is chaining multiple sources and synthesizing; bulk operations belong in the UI.</button>
+    <button class="opt"><span class="letter">C</span>Replacing dashboards entirely</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Synthesis is where LLMs shine. UI for bulk; agent for multi-source research.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Bad agent use case:</p>
+    <button class="opt"><span class="letter">A</span>Drafting an incident postmortem</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Looking at a single chart for a quick number. UI / visual pattern recognition beats agent description for visual data. When the answer is one click in the dashboard, click the dashboard.</button>
+    <button class="opt"><span class="letter">C</span>Cross-surface research</button>
+    <button class="opt"><span class="letter">D</span>New-engineer onboarding questions</button>
+    <div class="explain"><strong>Correct: B.</strong> Use the UI for visual. Don't make the agent earn its keep on trivial work.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">For hard math (forecasting, anomaly statistics):</p>
+    <button class="opt"><span class="letter">A</span>Ask the agent</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Use the platform's models. Don't ask LLMs to do arithmetic on their own — they approximate and can be wrong. ZopNight's forecasting / anomaly detection / unit economics use deterministic models; route math through them.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Ignore math; use intuition</button>
+    <div class="explain"><strong>Correct: B.</strong> Math goes to models, not LLMs. The agent presents the math; doesn't compute it.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Build an honest list of where agents help vs hurt for your workflows. Use the recipe library (M6.4) for proven patterns. Don't apply the agent to single-number queries; let the UI win where it wins.</p>
@@ -738,6 +744,25 @@ For UI-fit tasks: bookmark the dashboard view.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -952,6 +977,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

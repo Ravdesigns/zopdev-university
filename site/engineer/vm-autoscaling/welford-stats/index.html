@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -658,27 +658,33 @@ LESSONS:
 <p>A 15-minute exercise per workload. Most accept with minor tuning.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Smart-default target value for CPU-driven target tracking is set by:</p>
-<p>A. The mean CPU minus a fixed margin B. A 3-way tier on P95: >85% picks target 70, >60% picks 75, else 80. A hotter workload gets a lower target so it scales earlier; a cool one gets a higher target to avoid over-provisioning. C. The peak CPU D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The target is a fixed 3-tier step on P95 (70 / 75 / 80), not a "P95 minus margin" formula.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A workload with stddev 23% gets a 300-second cooldown. Why:</p>
-<p>A. Random B. High stddev = bursty workload. Longer cooldown prevents oscillation between scale-up and scale-down on transient metric spikes. Stddev correlates to volatility; volatility requires more cooldown. C. Cloud requires it D. Arbitrary choice</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Stddev correlates to volatility; volatility requires more cooldown.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Smart defaults are a starting point. They miss:</p>
-<p>A. Specific cloud regions B. Workload-specific context — seasonal spikes, SLA latency requirements, stateful warmup, traffic events, compliance constraints. Statistics don't know about external context. Operators add it through judgment. C. Math D. Nothing</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Statistics don't know external context; operators add it.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Smart-default target value for CPU-driven target tracking is set by:</p>
+    <button class="opt"><span class="letter">A</span>The mean CPU minus a fixed margin</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>A 3-way tier on P95: >85% picks target 70, >60% picks 75, else 80. A hotter workload gets a lower target so it scales earlier; a cool one gets a higher target to avoid over-provisioning.</button>
+    <button class="opt"><span class="letter">C</span>The peak CPU</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> The target is a fixed 3-tier step on P95 (70 / 75 / 80), not a "P95 minus margin" formula.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A workload with stddev 23% gets a 300-second cooldown. Why:</p>
+    <button class="opt"><span class="letter">A</span>Random</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>High stddev = bursty workload. Longer cooldown prevents oscillation between scale-up and scale-down on transient metric spikes. Stddev correlates to volatility; volatility requires more cooldown.</button>
+    <button class="opt"><span class="letter">C</span>Cloud requires it</button>
+    <button class="opt"><span class="letter">D</span>Arbitrary choice</button>
+    <div class="explain"><strong>Correct: B.</strong> Stddev correlates to volatility; volatility requires more cooldown.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Smart defaults are a starting point. They miss:</p>
+    <button class="opt"><span class="letter">A</span>Specific cloud regions</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Workload-specific context — seasonal spikes, SLA latency requirements, stateful warmup, traffic events, compliance constraints. Statistics don't know about external context. Operators add it through judgment.</button>
+    <button class="opt"><span class="letter">C</span>Math</button>
+    <button class="opt"><span class="letter">D</span>Nothing</button>
+    <div class="explain"><strong>Correct: B.</strong> Statistics don't know external context; operators add it.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Smart defaults exposed in Automation → Policies → New Policy → Quick Setup flow. Customer can override before saving.</p>
@@ -726,6 +732,25 @@ LESSONS:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -940,6 +965,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

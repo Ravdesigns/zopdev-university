@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -574,27 +574,33 @@ If a step fails, read the error. Most failures are:
   - Dependency mismatch (reorder)</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The default sequencing order (auto) starts:</p>
-<p>A. Compute first, then storage, then app B. Storage first (DBs, persistent disks, caches), compute second (VMs, container nodes), app last (load balancers, autoscalers, Lambda concurrency). Stop reverses the order. C. All at once D. In random order</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Storage → compute → app for start. Reverse for stop. Matches the typical layered-architecture dependency assumption.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team's app servers fail to start because their ElastiCache takes 90 seconds to warm up. The right fix is:</p>
-<p>A. Auto-sequencing is broken B. Switch to custom sequencing with a per-step delay of >90 seconds between cache and app servers. Auto handled the tier order correctly; the warm-up requirement was the gap. C. Restart the app servers manually D. Disable the cache</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Auto-sequencing handled tier order. The fix is per-step delay tuning, which is a custom-sequence feature.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A step in a sequence fails. The expected behavior is:</p>
-<p>A. The sequence continues with the next step B. The sequence pauses, the failure is logged with diagnostic detail, subsequent steps are NOT attempted, and the team is notified. Halt-and-diagnose is the default. C. The entire group is stopped D. The schedule deletes itself</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Halt-and-diagnose prevents cascading failures where the system would attempt to start dependent resources without their dependencies. The team investigates rather than mass-failures auto-cascading.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The default sequencing order (auto) starts:</p>
+    <button class="opt"><span class="letter">A</span>Compute first, then storage, then app</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Storage first (DBs, persistent disks, caches), compute second (VMs, container nodes), app last (load balancers, autoscalers, Lambda concurrency). Stop reverses the order.</button>
+    <button class="opt"><span class="letter">C</span>All at once</button>
+    <button class="opt"><span class="letter">D</span>In random order</button>
+    <div class="explain"><strong>Correct: B.</strong> Storage → compute → app for start. Reverse for stop. Matches the typical layered-architecture dependency assumption.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team's app servers fail to start because their ElastiCache takes 90 seconds to warm up. The right fix is:</p>
+    <button class="opt"><span class="letter">A</span>Auto-sequencing is broken</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Switch to custom sequencing with a per-step delay of >90 seconds between cache and app servers. Auto handled the tier order correctly; the warm-up requirement was the gap.</button>
+    <button class="opt"><span class="letter">C</span>Restart the app servers manually</button>
+    <button class="opt"><span class="letter">D</span>Disable the cache</button>
+    <div class="explain"><strong>Correct: B.</strong> Auto-sequencing handled tier order. The fix is per-step delay tuning, which is a custom-sequence feature.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A step in a sequence fails. The expected behavior is:</p>
+    <button class="opt"><span class="letter">A</span>The sequence continues with the next step</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The sequence pauses, the failure is logged with diagnostic detail, subsequent steps are NOT attempted, and the team is notified. Halt-and-diagnose is the default.</button>
+    <button class="opt"><span class="letter">C</span>The entire group is stopped</button>
+    <button class="opt"><span class="letter">D</span>The schedule deletes itself</button>
+    <div class="explain"><strong>Correct: B.</strong> Halt-and-diagnose prevents cascading failures where the system would attempt to start dependent resources without their dependencies. The team investigates rather than mass-failures auto-cascading.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Sequencing is configured per-group:</p>
@@ -648,6 +654,25 @@ If a step fails, read the error. Most failures are:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -862,6 +887,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

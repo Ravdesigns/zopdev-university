@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -663,27 +663,33 @@ OUTCOMES (1 month in):
 <p>A 15-minute optimization exercise per workload.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A workload has 25% sustained utilization on its provisioned throughput. The decision:</p>
-<p>A. Increase throughput B. Investigate over-provisioning — reduce throughput or switch to on-demand. RC-1601 likely surfaced this. 25% utilization is well below the 70% break-even; over-provisioned. C. Random D. Keep as is</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Over-provisioning at 25% utilization.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Provisioned throughput discount vs on-demand:</p>
-<p>A. Same price B. ~20-50% discount depending on commit length. 1-month: 20-30%; 6-month: 40-50%. Break-even at 50-70% utilization. Trade flexibility for cost. C. 90% discount D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 20-50% discount, utilization-dependent break-even.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A mature workload with predictable peak hours and idle off-hours:</p>
-<p>A. Provisioned 24/7 B. Provisioned during peak hours, scheduled off overnight. Hybrid pattern reduces cost significantly. Combines: lower base capacity + schedule discipline + on-demand fallback for bursts. C. On-demand always D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Schedule-aware provisioned.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A workload has 25% sustained utilization on its provisioned throughput. The decision:</p>
+    <button class="opt"><span class="letter">A</span>Increase throughput</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Investigate over-provisioning — reduce throughput or switch to on-demand. RC-1601 likely surfaced this. 25% utilization is well below the 70% break-even; over-provisioned.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Keep as is</button>
+    <div class="explain"><strong>Correct: B.</strong> Over-provisioning at 25% utilization.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Provisioned throughput discount vs on-demand:</p>
+    <button class="opt"><span class="letter">A</span>Same price</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>~20-50% discount depending on commit length. 1-month: 20-30%; 6-month: 40-50%. Break-even at 50-70% utilization. Trade flexibility for cost.</button>
+    <button class="opt"><span class="letter">C</span>90% discount</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> 20-50% discount, utilization-dependent break-even.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A mature workload with predictable peak hours and idle off-hours:</p>
+    <button class="opt"><span class="letter">A</span>Provisioned 24/7</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Provisioned during peak hours, scheduled off overnight. Hybrid pattern reduces cost significantly. Combines: lower base capacity + schedule discipline + on-demand fallback for bursts.</button>
+    <button class="opt"><span class="letter">C</span>On-demand always</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Schedule-aware provisioned.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>RC-1601/02 surfaces provisioned throughput optimization. Customer adjusts in Bedrock console.</p>
@@ -751,6 +757,25 @@ OUTCOMES (1 month in):
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -965,6 +990,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

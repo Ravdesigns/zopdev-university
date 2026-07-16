@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -547,27 +547,33 @@ WORKLOAD 3: ____________________
 <p>For each "schedule" decision, the next step is a real schedule. For each "commit" decision, the next step is the 60-day baselining rule before any purchase.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A workload runs continuously, the floor is predictable, and the burst is stateless / retryable. The right lever combination is:</p>
-<p>A. Schedule the workload off-hours B. Buy a 1-yr Savings Plan for everything C. Commit on the floor, use Spot for the stateless burst D. Pure on-demand for flexibility</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: C.</strong> This is the commit-floor + spot-burst pattern. Each layer gets the right instrument. (A is wrong because workload is 24/7; B is over-commitment because the burst is variable; D leaves savings on the table.)</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A new workload was launched 30 days ago. The engineering team proposes a 1-yr commitment to lock in savings. The right response:</p>
-<p>A. Agree B. Decline — apply the 60-day baselining rule. Schedule first if applicable, observe steady-state, then revisit at day 60. C. Buy a 3-yr commitment instead, for deeper savings D. Wait for the next quarter</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The 60-day baselining rule averts most over-commitment. 30 days is too early to commit on a new workload.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Production is rarely scheduled because:</p>
-<p>A. Production cannot be scheduled B. Customers do not respect schedules. Production is available continuously by default. Exceptions exist for explicitly non-24/7 products but are deliberate, not the default. C. Scheduling production is illegal D. Production should be on Spot</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Production scheduling is deliberate when it happens (some single-region tools, scheduled-availability SaaS), not a default move.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A workload runs continuously, the floor is predictable, and the burst is stateless / retryable. The right lever combination is:</p>
+    <button class="opt"><span class="letter">A</span>Schedule the workload off-hours</button>
+    <button class="opt"><span class="letter">B</span>Buy a 1-yr Savings Plan for everything</button>
+    <button class="opt" data-correct="1"><span class="letter">C</span>Commit on the floor, use Spot for the stateless burst</button>
+    <button class="opt"><span class="letter">D</span>Pure on-demand for flexibility</button>
+    <div class="explain"><strong>Correct: C.</strong> This is the commit-floor + spot-burst pattern. Each layer gets the right instrument. (A is wrong because workload is 24/7; B is over-commitment because the burst is variable; D leaves savings on the table.)</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A new workload was launched 30 days ago. The engineering team proposes a 1-yr commitment to lock in savings. The right response:</p>
+    <button class="opt"><span class="letter">A</span>Agree</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Decline — apply the 60-day baselining rule. Schedule first if applicable, observe steady-state, then revisit at day 60.</button>
+    <button class="opt"><span class="letter">C</span>Buy a 3-yr commitment instead, for deeper savings</button>
+    <button class="opt"><span class="letter">D</span>Wait for the next quarter</button>
+    <div class="explain"><strong>Correct: B.</strong> The 60-day baselining rule averts most over-commitment. 30 days is too early to commit on a new workload.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Production is rarely scheduled because:</p>
+    <button class="opt"><span class="letter">A</span>Production cannot be scheduled</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Customers do not respect schedules. Production is available continuously by default. Exceptions exist for explicitly non-24/7 products but are deliberate, not the default.</button>
+    <button class="opt"><span class="letter">C</span>Scheduling production is illegal</button>
+    <button class="opt"><span class="letter">D</span>Production should be on Spot</button>
+    <div class="explain"><strong>Correct: B.</strong> Production scheduling is deliberate when it happens (some single-region tools, scheduled-availability SaaS), not a default move.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's UI is the place this decision tree gets executed:</p>
@@ -622,6 +628,25 @@ WORKLOAD 3: ____________________
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -836,6 +861,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

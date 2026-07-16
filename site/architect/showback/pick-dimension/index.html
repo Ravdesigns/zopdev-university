@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -561,27 +561,33 @@ If you find yourself wanting &quot;all three dimensions for question 2&quot;,
 the question is probably actually multiple questions — split it.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>"Which team overspent against budget?" Best dimension:</p>
-<p>A. Organisation rollup B. Teams — the noun is "team," and budget data is team-scoped. Reports → Teams with the budget overlay surfaces who is over and by how much. C. Tags D. Random account</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Team-scoped question; Teams dimension. The budget data is team-attached in ZopNight.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>"Per-environment spend breakdown" requires:</p>
-<p>A. Organisation B. Tags with key=environment, group by value (dev/staging/prod). Environment isn't a team — it's an attribute that applies across teams. C. Teams D. Account isolation</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Environment is a tag-driven attribute; Tags is the right dimension. Multiple teams might have prod resources; tag attribution sums them.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A question requires "platform team's spend by cost-center":</p>
-<p>A. Single dimension B. Combined: filter to team=platform (Teams), group by tag cost-center (Tags). The Reports UI supports this composition via the "Group by" + filter chain. C. Cannot be answered D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Combined dimensions handle multi-attribute questions. One dimension filters; the other groups.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">"Which team overspent against budget?" Best dimension:</p>
+    <button class="opt"><span class="letter">A</span>Organisation rollup</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Teams — the noun is "team," and budget data is team-scoped. Reports → Teams with the budget overlay surfaces who is over and by how much.</button>
+    <button class="opt"><span class="letter">C</span>Tags</button>
+    <button class="opt"><span class="letter">D</span>Random account</button>
+    <div class="explain"><strong>Correct: B.</strong> Team-scoped question; Teams dimension. The budget data is team-attached in ZopNight.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">"Per-environment spend breakdown" requires:</p>
+    <button class="opt"><span class="letter">A</span>Organisation</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Tags with key=environment, group by value (dev/staging/prod). Environment isn't a team — it's an attribute that applies across teams.</button>
+    <button class="opt"><span class="letter">C</span>Teams</button>
+    <button class="opt"><span class="letter">D</span>Account isolation</button>
+    <div class="explain"><strong>Correct: B.</strong> Environment is a tag-driven attribute; Tags is the right dimension. Multiple teams might have prod resources; tag attribution sums them.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A question requires "platform team's spend by cost-center":</p>
+    <button class="opt"><span class="letter">A</span>Single dimension</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Combined: filter to team=platform (Teams), group by tag cost-center (Tags). The Reports UI supports this composition via the "Group by" + filter chain.</button>
+    <button class="opt"><span class="letter">C</span>Cannot be answered</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Combined dimensions handle multi-attribute questions. One dimension filters; the other groups.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Reports surfaces each dimension as a tab: <a href="https://app.zopnight.com/reports/org" target="_blank" rel="noopener">Reports → Org</a>, <a href="https://app.zopnight.com/reports/teams" target="_blank" rel="noopener">Reports → Teams</a>, <a href="https://app.zopnight.com/reports/tags" target="_blank" rel="noopener">Reports → Tags</a>. Filters apply consistently across all three.</p>
@@ -629,6 +635,25 @@ the question is probably actually multiple questions — split it.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -843,6 +868,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

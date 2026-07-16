@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -695,27 +695,33 @@ OUTCOME:
 <p>A 15-minute exercise builds the investigation muscle.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A spike's root cause analysis lists "new resource" at 65%. Best action:</p>
-<p>A. Move on B. Investigate by identifying the new resource (cloud account, UID, who provisioned). Verify or refute the top hypothesis. High probability candidate is the starting point; investigation confirms. C. Random D. Terminate everything</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Investigate the top candidate.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>The analysis returns no clear single cause. The system suggests:</p>
-<p>A. Random investigation B. Drill into smaller dimensions (team, resource-group) for finer-grained signals. The cause is likely distributed across many small contributors. The system flags this honestly rather than guessing. C. Ignore D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Drill finer.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Anomaly cost is up 300%. Analysis suggests #1 cause as "rate change" (40%). Investigation finds nothing changed. What next?</p>
-<p>A. Discount B. Examine causes #2 and #3 on the list. Probabilities are starting points, not certainties. Continue down the list until you find the actual cause. Often the cause is #2 or #3; sometimes it requires deeper investigation. C. Random D. Bug</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Move down the list.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A spike's root cause analysis lists "new resource" at 65%. Best action:</p>
+    <button class="opt"><span class="letter">A</span>Move on</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Investigate by identifying the new resource (cloud account, UID, who provisioned). Verify or refute the top hypothesis. High probability candidate is the starting point; investigation confirms.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Terminate everything</button>
+    <div class="explain"><strong>Correct: B.</strong> Investigate the top candidate.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The analysis returns no clear single cause. The system suggests:</p>
+    <button class="opt"><span class="letter">A</span>Random investigation</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Drill into smaller dimensions (team, resource-group) for finer-grained signals. The cause is likely distributed across many small contributors. The system flags this honestly rather than guessing.</button>
+    <button class="opt"><span class="letter">C</span>Ignore</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Drill finer.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Anomaly cost is up 300%. Analysis suggests #1 cause as "rate change" (40%). Investigation finds nothing changed. What next?</p>
+    <button class="opt"><span class="letter">A</span>Discount</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Examine causes #2 and #3 on the list. Probabilities are starting points, not certainties. Continue down the list until you find the actual cause. Often the cause is #2 or #3; sometimes it requires deeper investigation.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Bug</button>
+    <div class="explain"><strong>Correct: B.</strong> Move down the list.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Root cause analysis is on every anomaly card. Top 3 candidates with probabilities.</p>
@@ -762,6 +768,25 @@ OUTCOME:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -976,6 +1001,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

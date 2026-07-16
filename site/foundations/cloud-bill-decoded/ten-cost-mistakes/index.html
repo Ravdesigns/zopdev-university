@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -503,27 +503,33 @@ TOTAL avoidable                                $29,997           16.7%</code></p
 <p>For each "yes," write down the resource count and an estimate of monthly waste. Add the total. Compare to your monthly cloud bill. The ratio is your <strong>avoidable spend percentage</strong>. Healthy estates land at 5 percent. Untended estates land at 25 to 40 percent.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Of the ten mistakes, which one typically returns the largest absolute dollar savings in a mid-size estate?</p>
-<p>A. Unused Elastic IPs B. Idle compute (non-prod left running) C. Over-retained logs D. Public-internet egress for internal traffic</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Idle non-prod compute is consistently the largest single line, often 10–15% of total bill. Unused EIPs are individually trivial ($3.60 each). Logs and egress are real but typically smaller in absolute terms.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team finds 1,247 forgotten snapshots, $1,180 per month. They argue: "It's less than 1% of the bill, leave it." Best response:</p>
-<p>A. Agree, deprioritize B. Note that the snapshot pile grows over time. Setting a lifecycle policy is one-time work that prevents the cost from compounding. The action is policy-as-code, not policy-as-promise. C. Delete all snapshots immediately D. Buy bigger storage</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The savings number is real but small. The structural fix (lifecycle policy) costs almost nothing once and prevents the pile from doubling next year.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A FinOps team reports avoidable spend at 28% of bill. The CTO pushes back: "That's impossible." Most defensible response:</p>
-<p>A. The team is wrong B. 28% is on the high end of normal for untended estates. The fix is iterative — pick the top three mistakes by absolute dollar value and remediate those first. Re-baseline in 30 days. C. Buy a more expensive tool D. Outsource cloud management</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 28% is on the high end but plausible. The right move is sequenced remediation, not all-at-once. Most estates can close half the gap in 60 days with focused effort.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Of the ten mistakes, which one typically returns the largest absolute dollar savings in a mid-size estate?</p>
+    <button class="opt"><span class="letter">A</span>Unused Elastic IPs</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Idle compute (non-prod left running)</button>
+    <button class="opt"><span class="letter">C</span>Over-retained logs</button>
+    <button class="opt"><span class="letter">D</span>Public-internet egress for internal traffic</button>
+    <div class="explain"><strong>Correct: B.</strong> Idle non-prod compute is consistently the largest single line, often 10–15% of total bill. Unused EIPs are individually trivial ($3.60 each). Logs and egress are real but typically smaller in absolute terms.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team finds 1,247 forgotten snapshots, $1,180 per month. They argue: "It's less than 1% of the bill, leave it." Best response:</p>
+    <button class="opt"><span class="letter">A</span>Agree, deprioritize</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Note that the snapshot pile grows over time. Setting a lifecycle policy is one-time work that prevents the cost from compounding. The action is policy-as-code, not policy-as-promise.</button>
+    <button class="opt"><span class="letter">C</span>Delete all snapshots immediately</button>
+    <button class="opt"><span class="letter">D</span>Buy bigger storage</button>
+    <div class="explain"><strong>Correct: B.</strong> The savings number is real but small. The structural fix (lifecycle policy) costs almost nothing once and prevents the pile from doubling next year.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A FinOps team reports avoidable spend at 28% of bill. The CTO pushes back: "That's impossible." Most defensible response:</p>
+    <button class="opt"><span class="letter">A</span>The team is wrong</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>28% is on the high end of normal for untended estates. The fix is iterative — pick the top three mistakes by absolute dollar value and remediate those first. Re-baseline in 30 days.</button>
+    <button class="opt"><span class="letter">C</span>Buy a more expensive tool</button>
+    <button class="opt"><span class="letter">D</span>Outsource cloud management</button>
+    <div class="explain"><strong>Correct: B.</strong> 28% is on the high end but plausible. The right move is sequenced remediation, not all-at-once. Most estates can close half the gap in 60 days with focused effort.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight pre-computes all ten mistakes as a subset of its 450+ audit rules. The Recommendations page filters expose each one:</p>
@@ -583,6 +589,25 @@ TOTAL avoidable                                $29,997           16.7%</code></p
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -797,6 +822,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -564,27 +564,33 @@ You do not have to create the group right now — the exercise is
 about practicing group design. The mechanics are in L2.</code></pre>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team retires 4 old dev resources without removing them from their group. The likely consequence:</p>
-<p>A. The group breaks B. The resources are removed from discovery (since they don't exist in the cloud anymore). The group membership table auto-cleans on the next discovery sync. No action needed. C. The schedule fires errors forever D. The group must be recreated</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Discovery is the source of truth. Resources that no longer exist in the cloud are removed from the resource table, which auto-cascades to remove from groups. No manual cleanup needed.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team creates 250 groups, one per resource. Most accurate diagnosis:</p>
-<p>A. Excellent organization B. Anti-pattern — groups are not for single resources. The right granularity is 5-50 members per group. One-resource groups add overhead with no scaling benefit; reconsider the schema. C. Required for security D. Improves performance</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Too-many-tiny-groups defeats the purpose. Groups exist to manage many resources at once; a single-resource group is just an awkward per-resource attachment.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team wants to attach two schedules to one group ("weekday schedule" + "weekend schedule"). The defensible answer is:</p>
-<p>A. Yes, one group can carry many schedules B. No — a group can have at most one schedule attached. Use two crons in one schedule for weekday + weekend coverage. The crons combine in one schedule; the schedule attaches to the group. C. Create two groups with the same resources D. Use overrides</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> One group, one schedule (just like one resource, one schedule). The right design is two crons in one schedule that together cover both patterns. Multiple-schedule-per-group would invite the conflict-resolution complexity that exclusive membership avoids.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team retires 4 old dev resources without removing them from their group. The likely consequence:</p>
+    <button class="opt"><span class="letter">A</span>The group breaks</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The resources are removed from discovery (since they don't exist in the cloud anymore). The group membership table auto-cleans on the next discovery sync. No action needed.</button>
+    <button class="opt"><span class="letter">C</span>The schedule fires errors forever</button>
+    <button class="opt"><span class="letter">D</span>The group must be recreated</button>
+    <div class="explain"><strong>Correct: B.</strong> Discovery is the source of truth. Resources that no longer exist in the cloud are removed from the resource table, which auto-cascades to remove from groups. No manual cleanup needed.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team creates 250 groups, one per resource. Most accurate diagnosis:</p>
+    <button class="opt"><span class="letter">A</span>Excellent organization</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Anti-pattern — groups are not for single resources. The right granularity is 5-50 members per group. One-resource groups add overhead with no scaling benefit; reconsider the schema.</button>
+    <button class="opt"><span class="letter">C</span>Required for security</button>
+    <button class="opt"><span class="letter">D</span>Improves performance</button>
+    <div class="explain"><strong>Correct: B.</strong> Too-many-tiny-groups defeats the purpose. Groups exist to manage many resources at once; a single-resource group is just an awkward per-resource attachment.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team wants to attach two schedules to one group ("weekday schedule" + "weekend schedule"). The defensible answer is:</p>
+    <button class="opt"><span class="letter">A</span>Yes, one group can carry many schedules</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No — a group can have at most one schedule attached. Use two crons in one schedule for weekday + weekend coverage. The crons combine in one schedule; the schedule attaches to the group.</button>
+    <button class="opt"><span class="letter">C</span>Create two groups with the same resources</button>
+    <button class="opt"><span class="letter">D</span>Use overrides</button>
+    <div class="explain"><strong>Correct: B.</strong> One group, one schedule (just like one resource, one schedule). The right design is two crons in one schedule that together cover both patterns. Multiple-schedule-per-group would invite the conflict-resolution complexity that exclusive membership avoids.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Groups are managed in:</p>
@@ -635,6 +641,25 @@ about practicing group design. The mechanics are in L2.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -849,6 +874,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

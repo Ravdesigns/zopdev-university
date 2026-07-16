@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -503,27 +503,33 @@ Principle 6 (variable cost) — Is there a fixed-cost trap to avoid? ___</code><
 <p>If three or more cells are blank, the decision is not ready to make. Get the data, gather the people, then revisit.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>"FinOps is central. Cost ownership is central." This statement most directly violates which principle?</p>
-<p>A. Principle 1 (collaborate) B. Principle 3 (ownership) C. Principle 5 (centrally enabled) D. Principle 6 (variable cost)</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Principle 3 is explicit: ownership lives with the team that uses the resource. Central enables but does not own. (Principle 5 is the closest decoy but its statement is "centrally enabled," not "centrally owned" — exactly the distinction the principle is making.)</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A team's cost report is published monthly as a PDF. Which principle is undermined?</p>
-<p>A. Principle 2 (business value) B. Principle 4 (accessible, timely, accurate) C. Principle 5 (centrally enabled) D. Principle 6 (variable cost)</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Monthly PDFs are neither timely nor accessible. The team cannot act on data they cannot query, refreshed at a cadence that lets them respond.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The CFO asks: "Why is our bill up 12 percent quarter-over-quarter?" The best framing for the answer leans on which principle?</p>
-<p>A. Principle 1 (collaborate) B. Principle 2 (business value) C. Principle 4 (accessible, timely, accurate) D. Principle 6 (variable cost)</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> The answer must connect bill change to business value change. "Our bill is 12% higher; our MAU is 18% higher; our cost-per-MAU is down 5%" is a different conversation than "our bill is 12% higher, full stop."</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">"FinOps is central. Cost ownership is central." This statement most directly violates which principle?</p>
+    <button class="opt"><span class="letter">A</span>Principle 1 (collaborate)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Principle 3 (ownership)</button>
+    <button class="opt"><span class="letter">C</span>Principle 5 (centrally enabled)</button>
+    <button class="opt"><span class="letter">D</span>Principle 6 (variable cost)</button>
+    <div class="explain"><strong>Correct: B.</strong> Principle 3 is explicit: ownership lives with the team that uses the resource. Central enables but does not own. (Principle 5 is the closest decoy but its statement is "centrally enabled," not "centrally owned" — exactly the distinction the principle is making.)</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team's cost report is published monthly as a PDF. Which principle is undermined?</p>
+    <button class="opt"><span class="letter">A</span>Principle 2 (business value)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Principle 4 (accessible, timely, accurate)</button>
+    <button class="opt"><span class="letter">C</span>Principle 5 (centrally enabled)</button>
+    <button class="opt"><span class="letter">D</span>Principle 6 (variable cost)</button>
+    <div class="explain"><strong>Correct: B.</strong> Monthly PDFs are neither timely nor accessible. The team cannot act on data they cannot query, refreshed at a cadence that lets them respond.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The CFO asks: "Why is our bill up 12 percent quarter-over-quarter?" The best framing for the answer leans on which principle?</p>
+    <button class="opt"><span class="letter">A</span>Principle 1 (collaborate)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Principle 2 (business value)</button>
+    <button class="opt"><span class="letter">C</span>Principle 4 (accessible, timely, accurate)</button>
+    <button class="opt"><span class="letter">D</span>Principle 6 (variable cost)</button>
+    <div class="explain"><strong>Correct: B.</strong> The answer must connect bill change to business value change. "Our bill is 12% higher; our MAU is 18% higher; our cost-per-MAU is down 5%" is a different conversation than "our bill is 12% higher, full stop."</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's product surface aligns with the principles by design. Specific examples:</p>
@@ -574,6 +580,25 @@ Principle 6 (variable cost) — Is there a fixed-cost trap to avoid? ___</code><
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -788,6 +813,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

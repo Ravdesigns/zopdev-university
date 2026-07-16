@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -655,27 +655,33 @@ WEEKLY REVIEW scheduled?
 <p>If you don't have a weekly MCP review yet, this is a 10-minute habit worth establishing.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>MCP audit log captures:</p>
-<p>A. The engineer's full chat with the LLM B. Tool calls + filters + response metadata + status + user identity + PAT used. Not the LLM conversation or the engineer's prompt. The balance: see what the agent did; preserve the privacy of how the engineer phrased it. C. Random D. Nothing useful</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Tool calls, not chat. Audit-utility + privacy balance.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Anomaly detection on MCP usage:</p>
-<p>A. Not possible B. Yes — unusual times, new IPs, never-used tools, rate spikes, large unfiltered queries, post-deprovisioning usage. Wire to your SIEM with these rules; investigate matches. Each maps to a known attack pattern. C. Auto-blocks suspicious activity D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Detectable patterns. SIEM wiring is the implementation.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>MCP audit log retention by default:</p>
-<p>A. Forever B. 90 days; Enterprise plan extends to 1 year; SIEM export for longer (7+ years for some regulated industries). Configure the retention in Settings → Audit → MCP. C. 1 day D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 90 days default; extend via Enterprise or SIEM.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">MCP audit log captures:</p>
+    <button class="opt"><span class="letter">A</span>The engineer's full chat with the LLM</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Tool calls + filters + response metadata + status + user identity + PAT used. Not the LLM conversation or the engineer's prompt. The balance: see what the agent did; preserve the privacy of how the engineer phrased it.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Nothing useful</button>
+    <div class="explain"><strong>Correct: B.</strong> Tool calls, not chat. Audit-utility + privacy balance.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Anomaly detection on MCP usage:</p>
+    <button class="opt"><span class="letter">A</span>Not possible</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Yes — unusual times, new IPs, never-used tools, rate spikes, large unfiltered queries, post-deprovisioning usage. Wire to your SIEM with these rules; investigate matches. Each maps to a known attack pattern.</button>
+    <button class="opt"><span class="letter">C</span>Auto-blocks suspicious activity</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Detectable patterns. SIEM wiring is the implementation.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">MCP audit log retention by default:</p>
+    <button class="opt"><span class="letter">A</span>Forever</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>90 days; Enterprise plan extends to 1 year; SIEM export for longer (7+ years for some regulated industries). Configure the retention in Settings → Audit → MCP.</button>
+    <button class="opt"><span class="letter">C</span>1 day</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> 90 days default; extend via Enterprise or SIEM.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Weekly MCP audit review (10 minutes). SIEM export for long-term retention. Alert on the documented anomalies. Quarterly compliance report.</p>
@@ -722,6 +728,25 @@ WEEKLY REVIEW scheduled?
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -936,6 +961,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

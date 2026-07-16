@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -548,27 +548,33 @@ Three crons together produce an explicit, gap-free schedule.</code></pre>
 <p>ANSWERS in the footer of this lesson — try first.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>The cron <code>0 8 <em> </em> 1-5</code> fires:</p>
-<p>A. Every day at 8:00 AM B. Every weekday (Mon-Fri) at 8:00 AM in the schedule's IANA timezone C. The first five days of the month at 8:00 AM D. Five times at 8:00 AM</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Day-of-week 1-5 = Monday through Friday. The schedule's timezone handles DST transitions automatically.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A schedule has cron <code>0 20 <em> </em> 1-5</code> (stop at 8 PM weekdays) but no start cron. The likely outcome:</p>
-<p>A. Resources stop at 8 PM weekdays and never restart automatically (unless restarted manually or by another schedule) B. Resources start themselves at midnight C. The schedule is invalid D. Resources stop continuously</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: A.</strong> Cron fires only the stop action. No start cron means no automatic start. The resource stays stopped until manually restarted, an override fires, or another schedule starts it.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>The human-readable preview for <code>30 17 <em> </em> 1-5</code> reads:</p>
-<p>A. "every weekday at 5:30 PM" B. "every minute 30 of hour 17 on days 1 through 5" C. "the 30th of every month at 5 PM" D. "every 30 minutes at 5 PM"</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: A.</strong> Cronstrue translates cron to plain English. <code>30 17 <em> </em> 1-5</code> = minute 30, hour 17, every weekday → "every weekday at 5:30 PM".</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The cron <code>0 8 <em> </em> 1-5</code> fires:</p>
+    <button class="opt"><span class="letter">A</span>Every day at 8:00 AM</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Every weekday (Mon-Fri) at 8:00 AM in the schedule's IANA timezone</button>
+    <button class="opt"><span class="letter">C</span>The first five days of the month at 8:00 AM</button>
+    <button class="opt"><span class="letter">D</span>Five times at 8:00 AM</button>
+    <div class="explain"><strong>Correct: B.</strong> Day-of-week 1-5 = Monday through Friday. The schedule's timezone handles DST transitions automatically.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A schedule has cron <code>0 20 <em> </em> 1-5</code> (stop at 8 PM weekdays) but no start cron. The likely outcome:</p>
+    <button class="opt" data-correct="1"><span class="letter">A</span>Resources stop at 8 PM weekdays and never restart automatically (unless restarted manually or by another schedule)</button>
+    <button class="opt"><span class="letter">B</span>Resources start themselves at midnight</button>
+    <button class="opt"><span class="letter">C</span>The schedule is invalid</button>
+    <button class="opt"><span class="letter">D</span>Resources stop continuously</button>
+    <div class="explain"><strong>Correct: A.</strong> Cron fires only the stop action. No start cron means no automatic start. The resource stays stopped until manually restarted, an override fires, or another schedule starts it.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">The human-readable preview for <code>30 17 <em> </em> 1-5</code> reads:</p>
+    <button class="opt" data-correct="1"><span class="letter">A</span>"every weekday at 5:30 PM"</button>
+    <button class="opt"><span class="letter">B</span>"every minute 30 of hour 17 on days 1 through 5"</button>
+    <button class="opt"><span class="letter">C</span>"the 30th of every month at 5 PM"</button>
+    <button class="opt"><span class="letter">D</span>"every 30 minutes at 5 PM"</button>
+    <div class="explain"><strong>Correct: A.</strong> Cronstrue translates cron to plain English. <code>30 17 <em> </em> 1-5</code> = minute 30, hour 17, every weekday → "every weekday at 5:30 PM".</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Cron expressions are the universal scheduling notation:</p>
@@ -628,6 +634,25 @@ Three crons together produce an explicit, gap-free schedule.</code></pre>
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -842,6 +867,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -519,27 +519,33 @@ data        $   612.40
 <p>Time-bounded version: do this for the top 3 untagged resources only. Eight minutes, not eight hours.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A FinOps Analyst reports: "We can't attribute 18% of our cloud bill." The most accurate first response is:</p>
-<p>A. The cloud provider is hiding cost data B. The tag coverage is incomplete. Find the untagged resources by spend, then assign owners. C. Tags don't work at scale; use account boundaries D. Buy a more expensive FinOps tool</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> 18% Unattributed is high but not unusual. The fix is mechanical: list the untagged resources by spend, find the owners, apply the four MVT tags, and re-run the report.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A reorg renames "Growth" to "Monetization." The team field on existing resources is not updated. What is the immediate cost-reporting consequence?</p>
-<p>A. No consequence B. The cost of the old Growth team continues to show up under the old name, while new resources show under the new name. The combined team's spend appears split. C. The bill double-counts D. Tags become invalid</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Tag values are not retroactive. The old <code>team=growth</code> resources carry that value until updated. Reports will show two separate buckets that are the same team. The fix is a bulk tag update on existing resources at the time of the reorg.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A new tag policy requires <code>environment</code> to be lowercase. The CI policy is added today. What needs to happen?</p>
-<p>A. Nothing; new resources comply B. Run a one-time bulk update of existing resources (rename <code>Environment</code> to <code>environment</code>, normalize values to lowercase). Then the policy holds. C. Wait three months for old resources to be replaced D. Just live with the inconsistency</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> New policies on new resources do not retroactively fix old resources. A one-time reconciliation is required at the moment a policy changes.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A FinOps Analyst reports: "We can't attribute 18% of our cloud bill." The most accurate first response is:</p>
+    <button class="opt"><span class="letter">A</span>The cloud provider is hiding cost data</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The tag coverage is incomplete. Find the untagged resources by spend, then assign owners.</button>
+    <button class="opt"><span class="letter">C</span>Tags don't work at scale; use account boundaries</button>
+    <button class="opt"><span class="letter">D</span>Buy a more expensive FinOps tool</button>
+    <div class="explain"><strong>Correct: B.</strong> 18% Unattributed is high but not unusual. The fix is mechanical: list the untagged resources by spend, find the owners, apply the four MVT tags, and re-run the report.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A reorg renames "Growth" to "Monetization." The team field on existing resources is not updated. What is the immediate cost-reporting consequence?</p>
+    <button class="opt"><span class="letter">A</span>No consequence</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The cost of the old Growth team continues to show up under the old name, while new resources show under the new name. The combined team's spend appears split.</button>
+    <button class="opt"><span class="letter">C</span>The bill double-counts</button>
+    <button class="opt"><span class="letter">D</span>Tags become invalid</button>
+    <div class="explain"><strong>Correct: B.</strong> Tag values are not retroactive. The old <code>team=growth</code> resources carry that value until updated. Reports will show two separate buckets that are the same team. The fix is a bulk tag update on existing resources at the time of the reorg.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A new tag policy requires <code>environment</code> to be lowercase. The CI policy is added today. What needs to happen?</p>
+    <button class="opt"><span class="letter">A</span>Nothing; new resources comply</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Run a one-time bulk update of existing resources (rename <code>Environment</code> to <code>environment</code>, normalize values to lowercase). Then the policy holds.</button>
+    <button class="opt"><span class="letter">C</span>Wait three months for old resources to be replaced</button>
+    <button class="opt"><span class="letter">D</span>Just live with the inconsistency</button>
+    <div class="explain"><strong>Correct: B.</strong> New policies on new resources do not retroactively fix old resources. A one-time reconciliation is required at the moment a policy changes.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight's Reports page exposes the cost-attribution surface in three ways:</p>
@@ -592,6 +598,25 @@ data        $   612.40
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -806,6 +831,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

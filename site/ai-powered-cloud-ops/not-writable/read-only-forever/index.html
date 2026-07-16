@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -657,27 +657,33 @@ REFLECTION:
 <p>Most writes map cleanly to existing surfaces. The agent's job is to identify, not execute.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Can MCP modify a resource directly?</p>
-<p>A. Yes, with approval B. No — read-only by architectural design. Writes route through ZopNight UI, API, or auto-remediation. The agent identifies <em>what</em> to write; the human routes through the appropriate surface. There's no toggle to flip; it's a layer below permissions. C. Random D. Only via PAT</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Architectural read-only. No write API exists in MCP.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Why is MCP read-only?</p>
-<p>A. Performance B. Four reasons: safety (agents hallucinate; can't destroy what they can't touch), audit (mutations should be deliberate), predictability (clear customer story), compliance (simpler audit surface). The choice is deliberate; alternative surfaces exist for every write. C. Random D. Cost</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Safety + audit + predictability + compliance.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A team wants to schedule a resource based on agent analysis. The right path:</p>
-<p>A. Ask the agent to create the schedule B. Use the agent to identify resources + suggest schedule. Then engineer opens ZopNight UI to create the schedule definition (with approval if configured by org policy) and attach the resources. Audited end-to-end. Confirm afterward via MCP read. C. Random D. Terraform-only</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> UI is the canonical write surface for schedules; agent identifies, human applies.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Can MCP modify a resource directly?</p>
+    <button class="opt"><span class="letter">A</span>Yes, with approval</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No — read-only by architectural design. Writes route through ZopNight UI, API, or auto-remediation. The agent identifies <em>what</em> to write; the human routes through the appropriate surface. There's no toggle to flip; it's a layer below permissions.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Only via PAT</button>
+    <div class="explain"><strong>Correct: B.</strong> Architectural read-only. No write API exists in MCP.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Why is MCP read-only?</p>
+    <button class="opt"><span class="letter">A</span>Performance</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Four reasons: safety (agents hallucinate; can't destroy what they can't touch), audit (mutations should be deliberate), predictability (clear customer story), compliance (simpler audit surface). The choice is deliberate; alternative surfaces exist for every write.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Cost</button>
+    <div class="explain"><strong>Correct: B.</strong> Safety + audit + predictability + compliance.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team wants to schedule a resource based on agent analysis. The right path:</p>
+    <button class="opt"><span class="letter">A</span>Ask the agent to create the schedule</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Use the agent to identify resources + suggest schedule. Then engineer opens ZopNight UI to create the schedule definition (with approval if configured by org policy) and attach the resources. Audited end-to-end. Confirm afterward via MCP read.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Terraform-only</button>
+    <div class="explain"><strong>Correct: B.</strong> UI is the canonical write surface for schedules; agent identifies, human applies.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Trust the read-only contract. Routine writes through UI/API; MCP for queries. The 3-tool team (agent + UI + auto-rem) is the intended workflow.</p>
@@ -724,6 +730,25 @@ REFLECTION:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -938,6 +963,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

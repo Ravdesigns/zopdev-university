@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -648,27 +648,33 @@ UNIT COST:
 <p>If the numerator is more than 80% of total cloud, you're probably including too much. If less than 30%, you might be missing real user-serving cost.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A team includes ML training cost in cost-per-MAU. Likely consequence:</p>
-<p>A. More comprehensive metric B. ML training scales with ML workload (training runs, model size), not with MAU. Including it inflates cost-per-MAU artificially when training intensifies, and deflates it when training pauses — both unrelated to user-serving efficiency. Better: exclude or report separately as cost-per-training-run. C. Random D. Required</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Different scaling drivers; exclude. The metric should be sensitive to user-serving efficiency, not to ML training cadence.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Service-specific numerator vs Total cloud:</p>
-<p>A. Identical B. Service-specific is more actionable but misses indirect costs (DB, monitoring). Total is broader but inflated by unrelated cost. Use both: primary (service-specific) for engineering, secondary (total) for finance and leadership. Tracked together they paint the full picture. C. Random D. Worse</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Both have value at different audiences. Primary + secondary pattern.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>Drift in numerator definition over time:</p>
-<p>A. Doesn't matter for trends B. Makes trends meaningless. A 9% YoY improvement is meaningful only if the numerator definition was stable over the comparison period. Lock the definition; revise quarterly with explicit change-log entries; recompute prior periods under both definitions during transitions. C. Random D. Reduces accuracy slightly</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Stable definition matters. Drift invalidates trend analysis.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A team includes ML training cost in cost-per-MAU. Likely consequence:</p>
+    <button class="opt"><span class="letter">A</span>More comprehensive metric</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>ML training scales with ML workload (training runs, model size), not with MAU. Including it inflates cost-per-MAU artificially when training intensifies, and deflates it when training pauses — both unrelated to user-serving efficiency. Better: exclude or report separately as cost-per-training-run.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Required</button>
+    <div class="explain"><strong>Correct: B.</strong> Different scaling drivers; exclude. The metric should be sensitive to user-serving efficiency, not to ML training cadence.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Service-specific numerator vs Total cloud:</p>
+    <button class="opt"><span class="letter">A</span>Identical</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Service-specific is more actionable but misses indirect costs (DB, monitoring). Total is broader but inflated by unrelated cost. Use both: primary (service-specific) for engineering, secondary (total) for finance and leadership. Tracked together they paint the full picture.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Worse</button>
+    <div class="explain"><strong>Correct: B.</strong> Both have value at different audiences. Primary + secondary pattern.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Drift in numerator definition over time:</p>
+    <button class="opt"><span class="letter">A</span>Doesn't matter for trends</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Makes trends meaningless. A 9% YoY improvement is meaningful only if the numerator definition was stable over the comparison period. Lock the definition; revise quarterly with explicit change-log entries; recompute prior periods under both definitions during transitions.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Reduces accuracy slightly</button>
+    <div class="explain"><strong>Correct: B.</strong> Stable definition matters. Drift invalidates trend analysis.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Document the numerator scope in <a href="https://app.zopnight.com/settings/unit-metrics" target="_blank" rel="noopener">Settings → Unit Metrics → numerator config</a>. Re-evaluate the scope quarterly; log any changes in the change log.</p>
@@ -716,6 +722,25 @@ UNIT COST:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -930,6 +955,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

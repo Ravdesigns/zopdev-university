@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -669,27 +669,33 @@ ACTION PLAN:
 <p>If you have no yellow or red budgets, scan the green ones for sustained over-budgeting (budgets set too high). Those are worth tightening to free fiscal headroom.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A budget is yellow at 85% mid-period:</p>
-<p>A. Ignore until period-end B. Investigate whether the spend will continue at this rate (and exceed budget) or whether it will slow. Plan corrective action if continuing; document and monitor if one-off. Yellow is the early-warning state — it has more diagnostic value than red. C. Crisis mode D. Always escalate</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Yellow warrants investigation but not crisis response. The diagnostic value is highest here because the period is not yet decided.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A budget is red at 130% over. Diagnosis path:</p>
-<p>A. Question the budget setting B. Open the budget detail → Cost Trend for the period → identify the inflection point → Cost Flow Sankey to find the dominant dimension → drill to root cause (resource, change, anomaly) → take corrective action. The diagnosis is systematic, not just "the budget is wrong." C. Random D. Disable the budget</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Diagnose, don't disable. The budget signal is doing its job; the response should match.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A budget is green for 6 months in a row, always staying below 75%:</p>
-<p>A. The budget is poorly set B. Healthy steady-state. The team is comfortably within commitment. A reasonable secondary observation: the budget could possibly be tightened to free fiscal headroom for other priorities — but only after confirming the current state is intentional, not the result of a workload shrinking unexpectedly. C. Crisis D. Random</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Green is healthy; sustained low utilization is a signal to consider re-baselining the budget downward.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A budget is yellow at 85% mid-period:</p>
+    <button class="opt"><span class="letter">A</span>Ignore until period-end</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Investigate whether the spend will continue at this rate (and exceed budget) or whether it will slow. Plan corrective action if continuing; document and monitor if one-off. Yellow is the early-warning state — it has more diagnostic value than red.</button>
+    <button class="opt"><span class="letter">C</span>Crisis mode</button>
+    <button class="opt"><span class="letter">D</span>Always escalate</button>
+    <div class="explain"><strong>Correct: B.</strong> Yellow warrants investigation but not crisis response. The diagnostic value is highest here because the period is not yet decided.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A budget is red at 130% over. Diagnosis path:</p>
+    <button class="opt"><span class="letter">A</span>Question the budget setting</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Open the budget detail → Cost Trend for the period → identify the inflection point → Cost Flow Sankey to find the dominant dimension → drill to root cause (resource, change, anomaly) → take corrective action. The diagnosis is systematic, not just "the budget is wrong."</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Disable the budget</button>
+    <div class="explain"><strong>Correct: B.</strong> Diagnose, don't disable. The budget signal is doing its job; the response should match.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A budget is green for 6 months in a row, always staying below 75%:</p>
+    <button class="opt"><span class="letter">A</span>The budget is poorly set</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Healthy steady-state. The team is comfortably within commitment. A reasonable secondary observation: the budget could possibly be tightened to free fiscal headroom for other priorities — but only after confirming the current state is intentional, not the result of a workload shrinking unexpectedly.</button>
+    <button class="opt"><span class="letter">C</span>Crisis</button>
+    <button class="opt"><span class="letter">D</span>Random</button>
+    <div class="explain"><strong>Correct: B.</strong> Green is healthy; sustained low utilization is a signal to consider re-baselining the budget downward.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>The Budget Health dashboard widget surfaces signals at a glance (<a href="https://app.zopnight.com/dashboard" target="_blank" rel="noopener">app.zopnight.com/dashboard</a>). The full per-budget detail with diagnostic tools lives at <a href="https://app.zopnight.com/reports/budget-health" target="_blank" rel="noopener">Reports → Budget Health</a>.</p>
@@ -737,6 +743,25 @@ ACTION PLAN:
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -951,6 +976,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

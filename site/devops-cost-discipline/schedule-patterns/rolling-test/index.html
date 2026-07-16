@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -683,27 +683,33 @@ DECISION: roll out to other test environments
 <p>A 20-minute audit reveals the savings. Pilot one environment in a week.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A test environment used 10% of weekly hours:</p>
-<p>A. Always-on is right B. Rolling — large savings opportunity (60-80% cost reduction). Acceptable cold-start latency for test runs. Below 30% utilization = strong rolling candidate. C. Random D. Production-grade only</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Low utilization = strong rolling fit.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>Cold-start latency of 3 minutes per test run:</p>
-<p>A. Acceptable always B. Depends — for ad-hoc testing during work hours, fine (engineer context-switches). For tight feedback loops, painful. Mitigate with scheduled warm-up before known test windows, or use fast-start cluster mechanism (Fargate, Autopilot). C. Random D. Unacceptable always</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Depends on context; mitigation available.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A shared test environment across many teams (15+ users):</p>
-<p>A. Rolling fits perfectly B. Coordination overhead may make always-on the right call. Or: schedule + per-team time slots (complex). Otherwise: each team's tests trigger a schedule with handoff coordination. For very shared envs, often always-on is justified. C. Random D. Rolling always works</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Shared resources are different; coordination matters.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A test environment used 10% of weekly hours:</p>
+    <button class="opt"><span class="letter">A</span>Always-on is right</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Rolling — large savings opportunity (60-80% cost reduction). Acceptable cold-start latency for test runs. Below 30% utilization = strong rolling candidate.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Production-grade only</button>
+    <div class="explain"><strong>Correct: B.</strong> Low utilization = strong rolling fit.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Cold-start latency of 3 minutes per test run:</p>
+    <button class="opt"><span class="letter">A</span>Acceptable always</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Depends — for ad-hoc testing during work hours, fine (engineer context-switches). For tight feedback loops, painful. Mitigate with scheduled warm-up before known test windows, or use fast-start cluster mechanism (Fargate, Autopilot).</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Unacceptable always</button>
+    <div class="explain"><strong>Correct: B.</strong> Depends on context; mitigation available.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A shared test environment across many teams (15+ users):</p>
+    <button class="opt"><span class="letter">A</span>Rolling fits perfectly</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Coordination overhead may make always-on the right call. Or: schedule + per-team time slots (complex). Otherwise: each team's tests trigger a schedule with handoff coordination. For very shared envs, often always-on is justified.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Rolling always works</button>
+    <div class="explain"><strong>Correct: B.</strong> Shared resources are different; coordination matters.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight schedule + test framework integration. Document the pattern in team wiki. Mitigate cold-start with scheduled warm-up.</p>
@@ -751,6 +757,25 @@ DECISION: roll out to other test environments
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -965,6 +990,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

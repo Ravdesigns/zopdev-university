@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -693,27 +693,33 @@ DECISION: keep pattern; consider expanding to weeknight scaling too
 <p>A 30-minute audit identifies the candidates. Pilot one, then roll out.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>Scale-to-one vs scale-to-zero:</p>
-<p>A. Same thing B. Different. Scale-to-one keeps a warm instance for continued off-hours activity (cache, light traffic, quorum). Scale-to-zero fully stops (max savings, Monday cold-start). Pick scale-to-one when ANY weekend activity exists or warm cache matters. C. Random D. Scale-to-zero always better</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Different patterns; each fits different workloads.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A workload requires 3 replicas for quorum. Scale-to-one:</p>
-<p>A. OK B. Risky — quorum requires 3 minimum. Scale to MINIMUM SAFE COUNT (3), not 1. The pattern is "scale-to-minimum" for these workloads. Some systems like etcd, Kafka, ZooKeeper need N for safety. C. Random D. Required</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Respect quorum minimum. Scale to safe minimum, not 1.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A workload has occasional but real weekend traffic:</p>
-<p>A. Always-on B. Scale-to-one fits — handles the occasional traffic while reducing cost from always-6 to 1-replica-baseline. Better than scale-to-zero (which would drop or queue the traffic). Better than always-on (which wastes capacity during the light period). C. Random D. Schedule off entirely</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Middle ground; handles light traffic at low cost.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">Scale-to-one vs scale-to-zero:</p>
+    <button class="opt"><span class="letter">A</span>Same thing</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Different. Scale-to-one keeps a warm instance for continued off-hours activity (cache, light traffic, quorum). Scale-to-zero fully stops (max savings, Monday cold-start). Pick scale-to-one when ANY weekend activity exists or warm cache matters.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Scale-to-zero always better</button>
+    <div class="explain"><strong>Correct: B.</strong> Different patterns; each fits different workloads.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A workload requires 3 replicas for quorum. Scale-to-one:</p>
+    <button class="opt"><span class="letter">A</span>OK</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Risky — quorum requires 3 minimum. Scale to MINIMUM SAFE COUNT (3), not 1. The pattern is "scale-to-minimum" for these workloads. Some systems like etcd, Kafka, ZooKeeper need N for safety.</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Required</button>
+    <div class="explain"><strong>Correct: B.</strong> Respect quorum minimum. Scale to safe minimum, not 1.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A workload has occasional but real weekend traffic:</p>
+    <button class="opt"><span class="letter">A</span>Always-on</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>Scale-to-one fits — handles the occasional traffic while reducing cost from always-6 to 1-replica-baseline. Better than scale-to-zero (which would drop or queue the traffic). Better than always-on (which wastes capacity during the light period).</button>
+    <button class="opt"><span class="letter">C</span>Random</button>
+    <button class="opt"><span class="letter">D</span>Schedule off entirely</button>
+    <div class="explain"><strong>Correct: B.</strong> Middle ground; handles light traffic at low cost.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>ZopNight Schedules + Groups support per-workload scale-to-N. Pick the pattern based on actual weekend usage. Tune over 2-4 weeks.</p>
@@ -761,6 +767,25 @@ DECISION: keep pattern; consider expanding to weeknight scaling too
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -975,6 +1000,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>

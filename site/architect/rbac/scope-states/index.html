@@ -96,7 +96,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/styles.css?v=f9f249608e">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -580,27 +580,33 @@ USER 3: __________
 <p>If any expected ≠ actual, that user is in the wrong state. Common causes: team assignment missing, tag drift, custom role with unexpected <code>allResources=true</code>, stale session cache.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
-<h3 id="q1">Q1</h3>
-<p>A user is reported as "sees no resources." Their scope is <code>[]</code>. The right diagnosis:</p>
-<p>A. Bug in scope computation B. The user has no team assignment yet (or team has no resources). Assign them to a team with tagged resources; refresh permissions; they will see data. C. Their role is wrong D. Their cloud account is disconnected</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Empty scope = no team membership, common after invitation but before team setup. Role is unrelated; the role defines actions, not visibility.</p>
-</details>
-<h3 id="q2">Q2</h3>
-<p>A user has <code>scope = nil</code>. What does that mean?</p>
-<p>A. They are restricted B. No filter applied; the user sees every resource in the org. Typically Admins or users with explicit <code>allResources=true</code>. Verify this is intentional — <code>nil</code> over-grants if assigned by mistake. C. Bug D. Resources are being filtered out</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Nil = no scope filter. Verify the grant is intentional. The most common over-permission incident is <code>allResources=true</code> set on a custom role for "just this one user" and then never revoked.</p>
-</details>
-<h3 id="q3">Q3</h3>
-<p>A new user is invited, role assigned, but no team yet. Their initial scope state:</p>
-<p>A. nil (sees everything) B. <code>[]</code> (empty list — sees nothing). They can log in, see UI chrome, but no data leaks until a team is assigned. The UI shows an explicit "no resources scoped" message. C. Cannot log in D. Default to Admin</p>
-<details>
-<summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Empty list is the safe default during the onboarding gap. Login works; data is invisible; admin completes team assignment; next session refresh picks up resources.</p>
-</details>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A user is reported as "sees no resources." Their scope is <code>[]</code>. The right diagnosis:</p>
+    <button class="opt"><span class="letter">A</span>Bug in scope computation</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>The user has no team assignment yet (or team has no resources). Assign them to a team with tagged resources; refresh permissions; they will see data.</button>
+    <button class="opt"><span class="letter">C</span>Their role is wrong</button>
+    <button class="opt"><span class="letter">D</span>Their cloud account is disconnected</button>
+    <div class="explain"><strong>Correct: B.</strong> Empty scope = no team membership, common after invitation but before team setup. Role is unrelated; the role defines actions, not visibility.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A user has <code>scope = nil</code>. What does that mean?</p>
+    <button class="opt"><span class="letter">A</span>They are restricted</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span>No filter applied; the user sees every resource in the org. Typically Admins or users with explicit <code>allResources=true</code>. Verify this is intentional — <code>nil</code> over-grants if assigned by mistake.</button>
+    <button class="opt"><span class="letter">C</span>Bug</button>
+    <button class="opt"><span class="letter">D</span>Resources are being filtered out</button>
+    <div class="explain"><strong>Correct: B.</strong> Nil = no scope filter. Verify the grant is intentional. The most common over-permission incident is <code>allResources=true</code> set on a custom role for "just this one user" and then never revoked.</div>
+  </div>
+<div class="check">
+    <div class="check-tag"><span class="check-sq"></span>Quick check</div>
+    <p class="check-q">A new user is invited, role assigned, but no team yet. Their initial scope state:</p>
+    <button class="opt"><span class="letter">A</span>nil (sees everything)</button>
+    <button class="opt" data-correct="1"><span class="letter">B</span><code>[]</code> (empty list — sees nothing). They can log in, see UI chrome, but no data leaks until a team is assigned. The UI shows an explicit "no resources scoped" message.</button>
+    <button class="opt"><span class="letter">C</span>Cannot log in</button>
+    <button class="opt"><span class="letter">D</span>Default to Admin</button>
+    <div class="explain"><strong>Correct: B.</strong> Empty list is the safe default during the onboarding gap. Login works; data is invisible; admin completes team assignment; next session refresh picks up resources.</div>
+  </div>
 <hr>
 <h2 id="5-apply">5. Apply</h2>
 <p>Inspect any user's scope state at <a href="https://app.zopnight.com/settings/users" target="_blank" rel="noopener">Settings → Users → user detail → Effective Scope</a>. For ongoing hygiene, run a quarterly report of users in <code>nil</code> state (over-permissioned) and <code>[]</code> state (under-onboarded). Both should be small intentional populations.</p>
@@ -646,6 +652,25 @@ USER 3: __________
   </div>
 </div>
 
+<script>
+// Interactive quick-check MCQs: click an option to grade it (correct/wrong),
+// lock the choices, and reveal the explanation. Pure client-side.
+document.querySelectorAll('.check').forEach(function (box) {
+  var opts = box.querySelectorAll('.opt');
+  var explain = box.querySelector('.explain');
+  opts.forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      if (box.dataset.answered) return;
+      box.dataset.answered = '1';
+      var correct = opt.dataset.correct === '1';
+      opt.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) opts.forEach(function (o) { if (o.dataset.correct === '1') o.classList.add('correct'); });
+      opts.forEach(function (o) { o.disabled = true; });
+      if (explain) explain.classList.add('show');
+    });
+  });
+});
+</script>
 <script>
 // Generate TOC from rendered h2s
 document.addEventListener('DOMContentLoaded', function() {
@@ -860,6 +885,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </footer>
 </div>
-<script defer src="/assets/foot-globe.js"></script>
+<script defer src="/assets/foot-globe.js?v=d95f14de6b"></script>
 </body>
 </html>
