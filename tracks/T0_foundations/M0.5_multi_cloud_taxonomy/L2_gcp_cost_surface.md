@@ -48,7 +48,7 @@ RANK  SERVICE                          TYPICAL %  NOTES
 
 **Committed Use Discount (CUD).** GCP's equivalent of AWS Reserved Instances or Azure Reservations, but with two flavors. *Resource-based CUD* commits to a specific machine family in a specific region — up to 57% off for 3-year. *Spend-based CUD* commits to a dollar amount per hour — up to 28% off, more flexible, applies across families.
 
-**Spot (formerly Preemptible).** Stateless workload pricing. 60–91% off rate card. Up to 24-hour runtime (eviction is guaranteed at the 24-hour mark, often sooner). Best fit: batch jobs that checkpoint, K8s nodes that drain gracefully.
+**Spot (the successor to Preemptible).** Stateless workload pricing. 60–91% off rate card. Spot VMs have no maximum runtime: the old 24-hour cap was Preemptible-only. GCP can evict a Spot VM at any time (roughly 30 seconds notice) when it needs the capacity back, but a Spot VM that is never reclaimed keeps running. Best fit: batch jobs that checkpoint, K8s nodes that drain gracefully.
 
 ### The cross-zone chatter trap
 

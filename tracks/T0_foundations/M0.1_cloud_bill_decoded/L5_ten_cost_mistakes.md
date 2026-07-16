@@ -78,7 +78,7 @@ The most embarrassing one. Internal services calling each other through public D
 
 ### #10 Over-retained logs and metrics
 
-CloudWatch metric storage at 10 cents per metric per month, log ingestion at 50 cents per GB, log storage at 3 cents per GB-month. Default retention is "Never expire." A team that emits a custom metric per pod per minute, with 200 pods, costs $720 per month *forever*. Detection: log groups and metric namespaces with no retention policy and large monthly delta. Fix: set retention, prune what's not needed.
+CloudWatch custom metrics at 30 cents per metric per month, log ingestion at 50 cents per GB, log storage at 3 cents per GB-month. Default retention is "Never expire." A team that emits a custom metric per pod, with 200 pods, costs about $60 per month in metric charges *forever* (200 x $0.30), before log ingestion and storage. Detection: log groups and metric namespaces with no retention policy and large monthly delta. Fix: set retention, prune what's not needed.
 
 ---
 

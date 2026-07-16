@@ -80,7 +80,7 @@ Note `BilledCost` vs `EffectiveCost` vs `ListCost`. These are exactly the three 
 - **Microsoft Azure** ships FOCUS-aligned exports natively, opt-in.
 - **Oracle Cloud** publishes FOCUS-aligned exports.
 - **Google Cloud** offers FOCUS export from BigQuery billing data.
-- **AWS** has a published FOCUS converter and a roadmap for native export.
+- **AWS** ships a native FOCUS 1.0 export through Data Exports (generally available since 2024), so no converter is needed.
 - **Apptio, IBM, Vantage, CloudHealth** offer FOCUS-formatted output.
 - **FinOps tools (including ZopNight)** can ingest FOCUS or provider-native and emit FOCUS to a destination warehouse if requested.
 

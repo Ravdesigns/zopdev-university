@@ -52,7 +52,7 @@ SCHEDULE                       USEFUL HOURS/WK    SAVINGS
 Aggressive: 9–6, Mon–Fri               45         73%
 Standard:  8–8, Mon–Fri                60         64%
 Generous:  8 AM–10 PM, M-Sat           84         50%
-Always-on with weekend skip           144         14%
+Weekend skip (Sat + Sun off)          120         28.6%
 Always-on (no schedule)               168          0%
 ```
 
