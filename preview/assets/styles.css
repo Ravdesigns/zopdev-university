@@ -7393,7 +7393,12 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .hero { isolation: isolate; }
 .hero::before {
   content: ''; position: absolute; inset: 0; z-index: 0;
-  background: url('/assets/hero-bg.jpg') 24% center / 118% auto no-repeat;
+  /* Relative to this stylesheet's own location (/assets/), so it resolves
+     whether the site is mounted at root (Vercel) or under a subpath
+     (/resources/university/ on zop.dev). An absolute "/assets/…" broke the
+     hero image on the subpath deploy — styles.css loaded via the BASE-prefixed
+     <link>, but this static url() had no prefix and 404'd. */
+  background: url('hero-bg.jpg') 24% center / 118% auto no-repeat;
   filter: saturate(1.08) contrast(1.06) brightness(0.9);
   transform: scaleX(-1);
 }
