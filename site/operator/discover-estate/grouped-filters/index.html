@@ -439,21 +439,22 @@
 <p>The Resources page exposes a small number of filter dropdowns, each carrying significant power. Two are worth understanding deeply: <strong>Grouped Account</strong> and <strong>Grouped Type</strong>. Together they handle most filter intents without a query language.</p>
 <h3 id="grouped-account-dropdown">Grouped Account dropdown</h3>
 <p>Multi-cloud estates have many cloud accounts. A naive "select an account" dropdown becomes unusable past 20–30 accounts. ZopNight uses a <strong>grouped, multi-select</strong> dropdown:</p>
-<pre><code>[Cloud Accounts ▾]                          1 selected
-─────────────────────────────────────────────────────
-[ ] AWS                                     12 accounts
-    [✓] prod-aws-us              941614...
-    [ ] prod-aws-eu              182947...
-    [ ] staging-aws-us           294018...
-    [ ] dev-aws-shared           ...
-    ...
-[ ] GCP                                     8 projects
-    [ ] my-gcp-prod              
-    [ ] my-gcp-staging           
-    ...
-[ ] Azure                                   5 subscriptions
-    [ ] prod-azure-eu            
-    ...</code></pre>
+<div class="uimock" role="img" aria-label="Cloud Accounts dropdown">
+  <div class="uimock-bar"><span>Cloud Accounts ▾</span><span class="uimock-sel">1 selected</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ AWS</span><span class="uimock-ct">12 accounts</span></div>
+  <div class="uimock-item on"><span class="uimock-cb">✓</span><span class="uimock-nm">prod-aws-us</span><span class="uimock-id">941614...</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">prod-aws-eu</span><span class="uimock-id">182947...</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">staging-aws-us</span><span class="uimock-id">294018...</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">dev-aws-shared</span><span class="uimock-id">...</span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ GCP</span><span class="uimock-ct">8 projects</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">my-gcp-prod</span><span class="uimock-id"></span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">my-gcp-staging</span><span class="uimock-id"></span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Azure</span><span class="uimock-ct">5 subscriptions</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">prod-azure-eu</span><span class="uimock-id"></span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+</div>
 <p>Three behaviors matter:</p>
 <p><strong>1. Multi-select.</strong> Tick any combination of accounts across any provider. Filters are applied as a union.</p>
 <p><strong>2. Provider-group selection.</strong> Tick the provider header (e.g., "AWS") to select all AWS accounts at once. The backend receives <code>provider=AWS</code> (more efficient than enumerating all accounts).</p>
@@ -461,33 +462,34 @@
 <p>The dropdown handles the multi-account scale that flat dropdowns cannot.</p>
 <h3 id="grouped-type-dropdown">Grouped Type dropdown</h3>
 <p>The 380+ resource types fall into 9 categories. The Grouped Type dropdown organizes the type filter around these categories:</p>
-<pre><code>[Resource Types ▾]                          3 selected
-─────────────────────────────────────────────────────
-[ ] Compute                                 23 types
-    [✓] EC2                      AWS
-    [✓] Compute Engine           GCP
-    [ ] Azure VMs                Azure
-    [ ] ASG                      AWS
-    ...
-[ ] Kubernetes                              12 types
-    [ ] EKS                      AWS
-    [ ] GKE                      GCP
-    [ ] AKS                      Azure
-    [ ] Deployment               (all clouds)
-    [ ] StatefulSet              (all clouds)
-    [ ] CronJob                  (all clouds)
-    ...
-[ ] Database                                18 types
-    [✓] RDS                      AWS
-    [ ] Cloud SQL                GCP
-    [ ] Azure SQL                Azure
-    ...
-[ ] Storage                                 14 types
-[ ] Networking                              28 types
-[ ] Serverless                              7 types
-[ ] Data &amp; Analytics                        16 types
-[ ] ML &amp; AI                                 11 types
-[ ] Messaging                               9 types</code></pre>
+<div class="uimock" role="img" aria-label="Resource Types dropdown">
+  <div class="uimock-bar"><span>Resource Types ▾</span><span class="uimock-sel">3 selected</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Compute</span><span class="uimock-ct">23 types</span></div>
+  <div class="uimock-item on"><span class="uimock-cb">✓</span><span class="uimock-nm">EC2</span><span class="uimock-id">AWS</span></div>
+  <div class="uimock-item on"><span class="uimock-cb">✓</span><span class="uimock-nm">Compute Engine</span><span class="uimock-id">GCP</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">Azure VMs</span><span class="uimock-id">Azure</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">ASG</span><span class="uimock-id">AWS</span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Kubernetes</span><span class="uimock-ct">12 types</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">EKS</span><span class="uimock-id">AWS</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">GKE</span><span class="uimock-id">GCP</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">AKS</span><span class="uimock-id">Azure</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">Deployment</span><span class="uimock-id">(all clouds)</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">StatefulSet</span><span class="uimock-id">(all clouds)</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">CronJob</span><span class="uimock-id">(all clouds)</span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Database</span><span class="uimock-ct">18 types</span></div>
+  <div class="uimock-item on"><span class="uimock-cb">✓</span><span class="uimock-nm">RDS</span><span class="uimock-id">AWS</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">Cloud SQL</span><span class="uimock-id">GCP</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">Azure SQL</span><span class="uimock-id">Azure</span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Storage</span><span class="uimock-ct">14 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Networking</span><span class="uimock-ct">28 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Serverless</span><span class="uimock-ct">7 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Data &amp; Analytics</span><span class="uimock-ct">16 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ ML &amp; AI</span><span class="uimock-ct">11 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Messaging</span><span class="uimock-ct">9 types</span></div>
+</div>
 <p><strong>Category-level checkbox</strong> ticks every type in the category. <strong>Counts</strong> show how many types are in each category. These per-category counts reflect the common, schedulable types surfaced in the dropdown; they are representative, not the full 380+ discovered set, so they do not sum to 380+.</p>
 <p>Same component is reused on the Recommendations page for filtering rules by resource type — so muscle memory transfers.</p>
 <h3 id="cascade-filter-behavior">Cascade filter behavior</h3>

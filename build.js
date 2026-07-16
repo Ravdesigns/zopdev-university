@@ -236,6 +236,55 @@ function renderMetaVal(v) {
   return t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, txt, url) => resolveMdLink(txt, url));
 }
 
+// Render an authored ASCII "grouped dropdown" mock as a styled UI-mock
+// component (the pattern from the lesson design prototype). The source .md is
+// left byte-for-byte intact — only the rendered HTML upgrades from a raw
+// <pre> to the dropdown chrome. Fires ONLY when the block's first non-empty
+// line is a "[Label ▾]" bar AND it carries at least two "[ ]"/"[✓]" rows, so
+// the many other ASCII diagrams that merely contain "▾" are never touched.
+// Returns an HTML string, or null to fall back to <pre>.
+function renderUiMock(rawLines) {
+  const lines = rawLines.slice();
+  while (lines.length && lines[0].trim() === '') lines.shift();
+  while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+  if (!lines.length) return null;
+  const barM = lines[0].match(/^\s*\[(.+?)\s*▾\s*\]\s*(.*)$/);
+  if (!barM) return null;
+  const cbCount = lines.filter(l => /^\s*\[[ ✓xX]\]/.test(l)).length;
+  if (cbCount < 2) return null;
+
+  const barLabel = escapeHTML(barM[1].trim());
+  const barRight = escapeHTML(barM[2].trim());
+  const rows = [];
+  for (let k = 1; k < lines.length; k++) {
+    const raw = lines[k];
+    if (raw.trim() === '') continue;
+    // Skip a pure rule/separator line (box-drawing or dashes) — the styled
+    // bar already carries its own divider.
+    if (/^[\s─—–\-_=]+$/.test(raw)) continue;
+    const indented = /^\s/.test(raw);
+    const cbM = raw.match(/^(\s*)\[([^\]]*)\]\s*(.*)$/);
+    if (cbM) {
+      const on = /[✓xX]/.test(cbM[2]);
+      const parts = cbM[3].split(/\s{2,}/);
+      const nm = escapeHTML((parts.shift() || '').trim());
+      const right = escapeHTML(parts.join(' ').trim());
+      if (indented) {
+        rows.push(`<div class="uimock-item${on ? ' on' : ''}"><span class="uimock-cb">${on ? '✓' : '☐'}</span><span class="uimock-nm">${nm}</span><span class="uimock-id">${right}</span></div>`);
+      } else {
+        rows.push(`<div class="uimock-grp"><span class="uimock-gname">${on ? '✓ ' : '☐ '}${nm}</span><span class="uimock-ct">${right}</span></div>`);
+      }
+    } else {
+      // continuation marker (e.g. "...") — muted, no checkbox
+      rows.push(`<div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">${escapeHTML(raw.trim())}</span></div>`);
+    }
+  }
+  return `<div class="uimock" role="img" aria-label="${barLabel} dropdown">
+  <div class="uimock-bar"><span>${barLabel} ▾</span><span class="uimock-sel">${barRight}</span></div>
+  ${rows.join('\n  ')}
+</div>\n`;
+}
+
 // Minimal markdown → HTML renderer
 let __dgmSeq = 0; // global sequence for namespacing inlined-diagram marker ids
 function renderMarkdown(md, srcPath) {
@@ -334,7 +383,9 @@ function renderMarkdown(md, srcPath) {
         codeBuf = [];
       } else {
         inCode = false;
-        out.push(`<pre><code${codeLang ? ` class="lang-${codeLang}"` : ''}>${escapeHTML(codeBuf.join('\n'))}</code></pre>\n`);
+        const mock = renderUiMock(codeBuf);
+        if (mock) out.push(mock);
+        else out.push(`<pre><code${codeLang ? ` class="lang-${codeLang}"` : ''}>${escapeHTML(codeBuf.join('\n'))}</code></pre>\n`);
         codeBuf = [];
       }
       i++; continue;
