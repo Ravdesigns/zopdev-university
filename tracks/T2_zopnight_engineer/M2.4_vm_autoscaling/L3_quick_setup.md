@@ -58,7 +58,7 @@ When you click "Use smart defaults":
   Suggested Policy:
     Min capacity:    3
     Max capacity:   15
-    Target:         60% CPU
+    Target:         75% CPU
     Cooldown:      180s
     Mode:           autopilot (based on credential permission level)
 
@@ -90,9 +90,9 @@ The flow is fast by design. Smart defaults remove the friction.
 ```
 SETTING                          SET TO
 ─────────────────────────────────────────────────────────
-Min capacity                     P05-based (from L2)
-Max capacity                     P99 × 1.5 (from L2)
-Target value                     P95 - 5% (from L2)
+Min capacity                     from cpu.Avg (from L2)
+Max capacity                     max(count+2, ceil(count×P99/target×1.3)) (from L2)
+Target value                     3-way tier on P95: 70 / 75 / 80 (from L2)
 Cooldown                         180s (adjusted by stddev)
 Metric                           CPUUtilization (default for compute)
 Scaling model                     Target tracking
