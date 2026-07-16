@@ -68,17 +68,17 @@ Configuration content (replace placeholders with your values):
   "mcpServers": {
     "zopnight": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-client"],
+      "args": ["-y", "@zopnight/mcp-server"],
       "env": {
-        "ZOPNIGHT_PAT": "zn_pat_xxxxxxxxxxxxxx",
-        "ZOPNIGHT_ORG_ID": "org_abc123"
+        "ZN_PAT": "zn_pat_xxxxxxxxxxxxxx",
+        "ZN_ORG": "org_abc123"
       }
     }
   }
 }
 ```
 
-Replace `ZOPNIGHT_PAT` with the value copied from Step 1. Replace `ZOPNIGHT_ORG_ID` with your org ID (find in ZopNight Settings → Organization).
+Replace `ZN_PAT` with the value copied from Step 1. Replace `ZN_ORG` with your org ID (find in ZopNight Settings → Organization).
 
 If you already have other MCP servers configured (other vendors, your own MCPs), add the `zopnight` block to the existing `mcpServers` object without replacing them.
 
@@ -128,7 +128,7 @@ SYMPTOM                                FIX
                                        leading/trailing spaces or
                                        newlines)
                                        
-"Org not found"                          Verify ZOPNIGHT_ORG_ID matches
+"Org not found"                          Verify ZN_ORG matches
                                        your org's ID exactly
                                        
 "Network error"                          Check connectivity to ZopNight's
@@ -206,18 +206,18 @@ If you have access to multiple ZopNight orgs:
   "mcpServers": {
     "zopnight-acme": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-client"],
+      "args": ["-y", "@zopnight/mcp-server"],
       "env": {
-        "ZOPNIGHT_PAT": "zn_pat_aaa...",
-        "ZOPNIGHT_ORG_ID": "org_acme"
+        "ZN_PAT": "zn_pat_aaa...",
+        "ZN_ORG": "org_acme"
       }
     },
     "zopnight-staging": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-client"],
+      "args": ["-y", "@zopnight/mcp-server"],
       "env": {
-        "ZOPNIGHT_PAT": "zn_pat_bbb...",
-        "ZOPNIGHT_ORG_ID": "org_staging"
+        "ZN_PAT": "zn_pat_bbb...",
+        "ZN_ORG": "org_staging"
       }
     }
   }
@@ -245,10 +245,10 @@ T+1:00     Open terminal, edit Claude Desktop config:
               "mcpServers": {
                 "zopnight": {
                   "command": "npx",
-                  "args": ["-y", "@zopnight/mcp-client"],
+                  "args": ["-y", "@zopnight/mcp-server"],
                   "env": {
-                    "ZOPNIGHT_PAT": "zn_pat_8f9a3b...",
-                    "ZOPNIGHT_ORG_ID": "org_acme123"
+                    "ZN_PAT": "zn_pat_8f9a3b...",
+                    "ZN_ORG": "org_acme123"
                   }
                 }
               }

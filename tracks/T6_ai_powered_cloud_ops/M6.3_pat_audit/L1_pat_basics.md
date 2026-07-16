@@ -29,8 +29,10 @@ A PAT (Personal Access Token) is an opaque bearer credential that authenticates 
 ZOPNIGHT PAT PROPERTIES:
   Format:       zn_pat_xxxxxxxxxxxxxxxx (32-char identifier)
   Scope:        Read-only (cannot be changed; architectural)
-  Org-scoped:   Cannot access other orgs
-  User-scoped:  Inherits the user's policies
+  User-scoped:  Inherits the user's policies; the org is resolved
+                per call with a membership check, so one PAT reaches
+                every org the user belongs to (there is no org_id on
+                the token itself)
   Expiry:       7 to 365 days (90 days typical)
   Revocable:    Can be revoked anytime in Settings
   Tied to user: When user is removed, PAT deactivates

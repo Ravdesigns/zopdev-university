@@ -447,15 +447,15 @@ Linux:    ~/.config/Claude/claude_desktop_config.json</code></pre>
   &quot;mcpServers&quot;: {
     &quot;zopnight&quot;: {
       &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-client&quot;],
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
       &quot;env&quot;: {
-        &quot;ZOPNIGHT_PAT&quot;: &quot;zn_pat_xxxxxxxxxxxxxx&quot;,
-        &quot;ZOPNIGHT_ORG_ID&quot;: &quot;org_abc123&quot;
+        &quot;ZN_PAT&quot;: &quot;zn_pat_xxxxxxxxxxxxxx&quot;,
+        &quot;ZN_ORG&quot;: &quot;org_abc123&quot;
       }
     }
   }
 }</code></pre>
-<p>Replace <code>ZOPNIGHT_PAT</code> with the value copied from Step 1. Replace <code>ZOPNIGHT_ORG_ID</code> with your org ID (find in ZopNight Settings → Organization).</p>
+<p>Replace <code>ZN_PAT</code> with the value copied from Step 1. Replace <code>ZN_ORG</code> with your org ID (find in ZopNight Settings → Organization).</p>
 <p>If you already have other MCP servers configured (other vendors, your own MCPs), add the <code>zopnight</code> block to the existing <code>mcpServers</code> object without replacing them.</p>
 <h3 id="step-3-restart-claude-desktop">Step 3 — Restart Claude Desktop</h3>
 <p>Claude Desktop needs a <strong>full restart</strong> to load the MCP configuration. Quitting via the menu bar (Cmd+Q on macOS) is required; closing the window is not enough.</p>
@@ -490,7 +490,7 @@ TEST 3 — Cross-tool chain:
                                        leading/trailing spaces or
                                        newlines)
                                        
-&quot;Org not found&quot;                          Verify ZOPNIGHT_ORG_ID matches
+&quot;Org not found&quot;                          Verify ZN_ORG matches
                                        your org&#39;s ID exactly
                                        
 &quot;Network error&quot;                          Check connectivity to ZopNight&#39;s
@@ -549,18 +549,18 @@ ROTATE periodically (see M6.3):
   &quot;mcpServers&quot;: {
     &quot;zopnight-acme&quot;: {
       &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-client&quot;],
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
       &quot;env&quot;: {
-        &quot;ZOPNIGHT_PAT&quot;: &quot;zn_pat_aaa...&quot;,
-        &quot;ZOPNIGHT_ORG_ID&quot;: &quot;org_acme&quot;
+        &quot;ZN_PAT&quot;: &quot;zn_pat_aaa...&quot;,
+        &quot;ZN_ORG&quot;: &quot;org_acme&quot;
       }
     },
     &quot;zopnight-staging&quot;: {
       &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-client&quot;],
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
       &quot;env&quot;: {
-        &quot;ZOPNIGHT_PAT&quot;: &quot;zn_pat_bbb...&quot;,
-        &quot;ZOPNIGHT_ORG_ID&quot;: &quot;org_staging&quot;
+        &quot;ZN_PAT&quot;: &quot;zn_pat_bbb...&quot;,
+        &quot;ZN_ORG&quot;: &quot;org_staging&quot;
       }
     }
   }
@@ -581,10 +581,10 @@ T+1:00     Open terminal, edit Claude Desktop config:
               &quot;mcpServers&quot;: {
                 &quot;zopnight&quot;: {
                   &quot;command&quot;: &quot;npx&quot;,
-                  &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-client&quot;],
+                  &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
                   &quot;env&quot;: {
-                    &quot;ZOPNIGHT_PAT&quot;: &quot;zn_pat_8f9a3b...&quot;,
-                    &quot;ZOPNIGHT_ORG_ID&quot;: &quot;org_acme123&quot;
+                    &quot;ZN_PAT&quot;: &quot;zn_pat_8f9a3b...&quot;,
+                    &quot;ZN_ORG&quot;: &quot;org_acme123&quot;
                   }
                 }
               }
