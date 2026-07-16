@@ -1,4 +1,4 @@
-# Max override duration — the org policy
+# Max override duration: the per-resource cap
 
 § T1 · M1.5 · L4 of 4 · Operator tier · 9 min
 
