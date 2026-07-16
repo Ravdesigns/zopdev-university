@@ -326,6 +326,49 @@
 <section class="section">
   <div class="container">
     <div class="sec-head">
+      <div class="sec-meta">The big picture</div>
+      <div>
+        <h2>How this module fits together.</h2>
+        <p class="sub">The concept before the click-through.</p>
+      </div>
+    </div>
+    <div class="module-overview lesson-body">
+      <table>
+<thead>
+<tr><th>#</th><th>Recipe</th><th>Purpose</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>The oldest stopped EC2</td><td>Find the longest-stopped instance still costing money</td></tr>
+<tr><td>2</td><td>RDS instances not in Multi-AZ</td><td>List RDS not in Multi-AZ in prod</td></tr>
+<tr><td>3</td><td>Top 10 highest-savings recommendations</td><td>Sort recs by savings, top 10</td></tr>
+<tr><td>4</td><td>Who pays for what (by team)</td><td>Team-level showback for the month</td></tr>
+<tr><td>5</td><td>Which schedules failed last week</td><td>Find every failed schedule action</td></tr>
+<tr><td>6</td><td>Untagged spend by provider</td><td>Output untagged spend split by provider</td></tr>
+<tr><td>7</td><td>This week's cost anomalies</td><td>List anomalies + root causes</td></tr>
+<tr><td>8</td><td>Budget burn-down by team</td><td>Output budget burn-down for each team</td></tr>
+<tr><td>9</td><td>Idle Lambdas with concurrency</td><td>Lambdas with concurrency, no invocations</td></tr>
+<tr><td>10</td><td>Stopped resources still costing money</td><td>Paused-but-billed resources</td></tr>
+<tr><td>11</td><td>Region drift</td><td>Resources outside policy regions</td></tr>
+<tr><td>12</td><td>Departed-user-created resources</td><td>Resources owned by users who left</td></tr>
+<tr><td>13</td><td>Tag coverage trend</td><td>90-day tag coverage trend</td></tr>
+<tr><td>14</td><td>Recent override activity</td><td>Overrides created in last 7 days</td></tr>
+<tr><td>15</td><td>Ready-to-delete report</td><td>Orphans candidate for deletion</td></tr>
+</tbody>
+</table>
+<p>Each recipe is a worked example: the natural-language prompt, the MCP tools used, the expected output. Reusable across teams.</p>
+<pre><code>RECIPE FORMAT:
+  Intent:      Plain-English description of the query
+  Prompt:      What to type into the AI agent
+  MCP tools:   Which tools the agent will call
+  Output:      What the agent returns
+  Variations:  Other ways to ask the same question</code></pre>
+<p>§ Last reviewed 2026-05-20</p>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="sec-head">
       <div class="sec-meta">Lessons</div>
       <div>
         <h2>0 lessons.</h2>

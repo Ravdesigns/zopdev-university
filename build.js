@@ -1616,7 +1616,7 @@ ${lessons}
   <div class="container">
     <div class="track-hero-meta">${escapeHTML(track.eyebrow)}</div>
     <h1>${escapeHTML(track.title)}</h1>
-    <p class="track-hero-lead">${escapeHTML(track.desc)}</p>
+    <p class="track-hero-lead">${escapeHTML(stripMarkdown(track.desc))}</p>
     <div class="track-meta-row">
       <div class="item"><strong>Tier</strong>${escapeHTML(track.tier)}</div>
       <div class="item"><strong>Audience</strong>${escapeHTML(track.audience)}</div>
@@ -1701,6 +1701,53 @@ ${lessons}
   });
 }
 
+// Render the "big picture" prose from a module's 00_README.md — chiefly its
+// concept diagram — as an overview section on the module page. The full README
+// is not rendered: the header block, the "## Lessons" table (the page already
+// lists lessons as cards), the "## Module outcome" (it is the hero lead / desc),
+// the "## Module knowledge check" (internal chip mechanics) and the forward
+// "## What's next" section are all skipped, leaving the diagram and any framing
+// prose. Returns '' when nothing substantive remains.
+function renderModuleOverview(track, mod) {
+  const readmePath = path.join(TRACKS_DIR, track.dir, mod.dir, '00_README.md');
+  if (!fs.existsSync(readmePath)) return '';
+  const lines = fs.readFileSync(readmePath, 'utf8').split('\n');
+  // Match on the heading's leading phrase (allow trailing text like
+  // "Module knowledge check (10 questions)").
+  const SKIP = /^##\s+(lessons|module outcome|outcome|module knowledge check|knowledge check|what'?s?\s+next|what next)\b/i;
+  const kept = [];
+  let inSection = false, skipping = true; // skip the header block before the first ##
+  for (const line of lines) {
+    if (/^##\s+/.test(line)) {
+      inSection = true;
+      skipping = SKIP.test(line.trim());
+      continue; // drop the section-label heading itself; my sec-head titles the block
+    }
+    if (line.trim() === '---') continue; // drop hr separators
+    if (inSection && !skipping) kept.push(line);
+  }
+  const bodyMd = kept.join('\n').trim();
+  if (!bodyMd) return '';
+  const html = renderMarkdown(bodyMd, readmePath).trim();
+  // Nothing but a stray heading? Treat as empty (avoids an empty section box).
+  if (!/<(p|figure|ul|ol|table|pre)\b/.test(html)) return '';
+  return `
+<section class="section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-meta">The big picture</div>
+      <div>
+        <h2>How this module fits together.</h2>
+        <p class="sub">The concept before the click-through.</p>
+      </div>
+    </div>
+    <div class="module-overview lesson-body">
+      ${html}
+    </div>
+  </div>
+</section>`;
+}
+
 function renderModule(track, mod) {
   const lessonList = mod.lessons.map(l => `<a href="${BASE}/${track.slug}/${mod.slug}/${l.slug}/" class="m-row m-row--lesson">
   <span class="m-row-code">${escapeHTML(l.code)}</span>
@@ -1730,7 +1777,7 @@ function renderModule(track, mod) {
   <div class="container">
     <div class="track-hero-meta">${escapeHTML(track.code)} / ${escapeHTML(mod.code)}</div>
     <h1>${escapeHTML(mod.title)}</h1>
-    <p class="track-hero-lead">${escapeHTML(mod.desc || `${mod.lessons.length} lessons covering the practical patterns for ${mod.title.toLowerCase()}.`)}</p>
+    <p class="track-hero-lead">${escapeHTML(stripMarkdown(mod.desc) || `${mod.lessons.length} lessons covering the practical patterns for ${mod.title.toLowerCase()}.`)}</p>
     <div class="track-meta-row">
       <div class="item"><strong>Module</strong>${escapeHTML(mod.code)}</div>
       <div class="item"><strong>Lessons</strong>${mod.lessons.length}</div>
@@ -1738,7 +1785,7 @@ function renderModule(track, mod) {
     </div>
   </div>
 </section>
-
+${renderModuleOverview(track, mod)}
 <section class="section">
   <div class="container">
     <div class="sec-head">
@@ -2688,7 +2735,7 @@ function renderPath(p) {
   <div class="container">
     <div class="track-hero-meta">Learning path</div>
     <h1>${escapeHTML(p.title)}</h1>
-    ${parsed.outcome ? `<p class="track-hero-lead">${escapeHTML(parsed.outcome)}</p>` : ''}
+    ${parsed.outcome ? `<p class="track-hero-lead">${escapeHTML(stripMarkdown(parsed.outcome))}</p>` : ''}
     <div class="track-meta-row">
       <div class="item"><strong>Audience</strong>${escapeHTML(p.audience)}</div>
       <div class="item"><strong>Duration</strong>${escapeHTML(p.duration)}</div>
@@ -3190,7 +3237,7 @@ function renderArchitectPrep() {
   <div class="container">
     <div class="track-hero-meta">Certification prep / Application-based</div>
     <h1>How to prepare for the Architect credential.</h1>
-    ${outcome ? `<p class="track-hero-lead">${escapeHTML(outcome)}</p>` : ''}
+    ${outcome ? `<p class="track-hero-lead">${escapeHTML(stripMarkdown(outcome))}</p>` : ''}
     <p class="track-hero-lead exam-note">The Architect credential is not a multiple-choice exam. It is an application, a one-week take-home design exercise, and a 45-minute review interview with the editorial board. This page is the preparation guide, drawn from the certification brief.</p>
   </div>
 </section>
