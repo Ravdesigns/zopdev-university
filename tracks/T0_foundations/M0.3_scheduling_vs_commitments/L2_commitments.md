@@ -28,7 +28,7 @@ Cloud providers offer rate discounts in exchange for commitment. The deal: lock 
 ### The four commitment instruments
 
 ```
-INSTRUMENT          PROVIDER     SCOPE                       MAX DISCOUNT
+INSTRUMENT          PROVIDER     SCOPE                       TYPICAL (3YR NO-UP)
 ─────────────────────────────────────────────────────────────────────────
 Reserved Instance   AWS          Specific instance family    ~40% (3-yr)
 Savings Plan        AWS          Compute-broad ($/hr commit) ~30% (3-yr)

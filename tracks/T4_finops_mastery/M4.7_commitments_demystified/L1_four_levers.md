@@ -26,7 +26,7 @@ By the end of this lesson, you will be able to **distinguish** the four commitme
 The major clouds offer four commitment-style instruments that trade flexibility for discount. Knowing which fits which workload is the foundation of commitment portfolio strategy.
 
 ```
-INSTRUMENT      PROVIDER       SCOPE                       MAX DISCOUNT
+INSTRUMENT      PROVIDER       SCOPE                       TYPICAL (3YR NO-UP)
 ──────────────────────────────────────────────────────────────────────
 Reserved Inst   AWS             Specific instance family    ~40% (3-yr no-up)
                 Azure (similar) Specific SKU                ~38% (3-yr no-up)

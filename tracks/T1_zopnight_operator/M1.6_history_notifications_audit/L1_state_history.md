@@ -94,7 +94,7 @@ Three questions the history answers in <30 seconds:
 Open the resource → check the history → find the transition at 3 AM → read the trigger column. Most likely:
 
 - "Schedule: weekend-stop-all" → an aggressive weekend schedule fired
-- "Auto-remediation: RC-001 Idle EC2" → the rule fired
+- "Auto-remediation: RC-002 Orphaned EBS" → the rule fired
 - "Manual: api-call-from-user@team" → a human stopped it via API
 - "Override expired" → an override that was force-on expired, allowing the schedule to act
 

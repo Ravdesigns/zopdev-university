@@ -34,7 +34,7 @@ SCHEDULE             schedule:S1234 (business-hours-eu)   Cron in this schedule 
 MANUAL               manual:user@team.com                  Human action via UI or API
 OVERRIDE             override-applied: force-on...        Override took effect
                      override-expired                      Override timed out
-AUTO-REMEDIATION     auto-rem:RC-001 (Idle EC2)            Recommendation rule fired
+AUTO-REMEDIATION     auto-rem:RC-002 (Orphaned EBS)            Recommendation rule fired
 DRIFT                drift: cloud-side                    Cloud state changed outside ZopNight
 ```
 
@@ -82,13 +82,14 @@ Two related entries: when an override took effect and when it expired. Notice th
 ### Reading AUTO-REMEDIATION triggers
 
 ```
-2026-05-18 03:14 ET   Running → Stopped   auto-rem:RC-001 (Idle EC2)
-                                           (Recommendation:R-9999)
+2026-05-18 03:14 ET   Available → Deleted   auto-rem:RC-002 (Orphaned EBS)
+                                            (Recommendation:R-9999)
 ```
 
-- Recommendation rule `RC-001` (Idle EC2) fired auto-remediation
-- The transition stops the resource
+- Recommendation rule `RC-002` (Orphaned EBS volume) fired auto-remediation
+- The volume carried authoritative orphan evidence, so the delete ran
 - Click through to the recommendation card to see the evidence
+- (RC-001 Idle EC2 is advisory-only and never auto-remediates: it fires on already-stopped instances and recommends termination, so it is not an auto-rem example)
 
 Auto-remediation is a specific class of event — covered fully in [T2.M2.3](../../T2_zopnight_engineer/M2.3_auto_remediation/00_README.md). Visible to operators here for awareness.
 
