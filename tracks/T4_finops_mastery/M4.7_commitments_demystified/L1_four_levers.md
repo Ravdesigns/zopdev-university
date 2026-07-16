@@ -41,7 +41,7 @@ Spot            All three       Stateless workloads;        50-90% (no commit)
                                 interruptible
 ```
 
-The discounts above are best-case (3-year no-up-front for committed instruments; typical spot pricing for Spot). Real-world discount depends on customer's usage profile and commitment terms.
+The figures above are the 3-year **no-upfront** rates, a common middle choice, not the maxima. All-upfront terms go higher: 3-year RIs reach roughly 60–72%, and 3-year Compute Savings Plans ~50%+, depending on instrument, region, and payment option. Real-world discount depends on the customer's usage profile and commitment terms.
 
 ### Selection criteria
 

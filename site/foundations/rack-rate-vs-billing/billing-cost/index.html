@@ -445,15 +445,19 @@ NET = BILLING COST</code></pre>
 <p><strong>Layer 6 — Enterprise Discount Program (EDP).</strong> A negotiated additional discount, typically a single percentage off everything, in exchange for a multi-year minimum spend commitment. 1–10% range is common. EDPs are confidential and rarely visible to engineering teams; the FinOps team sees them in the billing data.</p>
 <p><strong>Layer 7 — Credits.</strong> Marketing credits, free-tier allowances, startup credits, education credits. Finite — consumed first, expire on a date. Visible as negative line items in the bill.</p>
 <p><strong>Layer 8 — Tax.</strong> Local tax (VAT, GST, state sales tax) is added on top of the discounted cost. Tax is positive — it increases the bill. Most cost analytics tools strip tax to focus on the controllable spend.</p>
-<h3 id="the-order-matters">The order matters</h3>
-<p>Layers stack multiplicatively, not additively. Example:</p>
-<pre><code>Rack rate                                                  $100
-After sustained-use (-25%)                                  $75
-After Spot (-70% of the remaining)                          $22.50
-After EDP (-3% on top)                                      $21.83
-After credits ($10 applied)                                 $11.83
-After tax (+5%)                                             $12.42</code></pre>
-<p>The mathematical effect of one discount on top of another diminishes the absolute dollar impact. A 30% sustained-use discount on top of a 70% Spot price moves the bill by less than 30% absolute, because there is less to discount.</p>
+<h3 id="what-stacks-and-what-does-not">What stacks, and what does not</h3>
+<p>Purchase-type discounts are <strong>mutually exclusive per resource-hour</strong>. Any given hour of a given resource is billed under exactly one model: on-demand, sustained-use, Spot, or a commitment (RI / SP / CUD). You cannot apply sustained-use AND Spot to the same hour. So these are not sequential multipliers on one unit; they partition the fleet, and each slice gets one model.</p>
+<p>Only three things act on the aggregate, after the per-hour price is set: EDP (a negotiated percentage off the whole invoice), credits (subtracted), and tax (added).</p>
+<pre><code>WHOLE-BILL DECOMPOSITION (illustrative, $100 of list-price usage)
+  $40 of it runs on Spot        -&gt; ~$12   (these hours are NOT also
+  $30 of it runs sustained-use  -&gt; ~$22    sustained-use or on-demand)
+  $30 of it runs on-demand      -&gt; $30
+  ────────────────────────────────────────
+  Subtotal (per-hour models)        ~$64
+  EDP (-3% on the aggregate)        ~$62
+  Credits ($10 applied)             ~$52
+  Tax (+5%)                         ~$55</code></pre>
+<p>The per-hour models split the fleet; only EDP, credits, and tax act on the total. Treating sustained-use and Spot as sequential multipliers on one unit overstates the discount, because no hour ever receives both.</p>
 <h3 id="where-the-gap-to-rack-rate-comes-from">Where the gap to rack rate comes from</h3>
 <p>For a specific resource, the gap between rack rate and billing cost decomposes into the contributing layers. AWS CUR exposes the decomposition through specific columns: <code>pricing/unit</code>, <code>reservation/EffectiveCost</code>, <code>savingsPlan/SavingsPlanEffectiveCost</code>, etc. GCP BigQuery export exposes <code>credits</code> with type breakdown. Azure Cost Management uses <code>BenefitName</code> to mark Hybrid Benefit applications.</p>
 <p>For most teams, the right level of decomposition is layer-level, not row-level. Knowing "we saw 35% effective discount this month, 22% from RIs, 8% from sustained-use, 5% from EDP" is more actionable than knowing the per-row breakdown.</p>

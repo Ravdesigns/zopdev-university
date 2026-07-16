@@ -76,7 +76,7 @@ If the answer to either is unknown, the surface is not yet earning its keep. Eit
 
 ### What "accurate" means in the Inform principle
 
-Principle 4 says cost data must be accessible, timely, and *accurate*. Accuracy in cloud cost is a band, not a point. Live calculated cost (rack rate) is accurate to within 5–15 percent of billed cost. Daily billing cost is accurate to within ~1 percent of monthly settled. Monthly settled is the closed invoice.
+Principle 4 says cost data must be accessible, timely, and *accurate*. Accuracy in cloud cost is a band, not a point. Live calculated cost is the list (rack) price: the calculation itself tracks the pricing API to within a few percent, but rack rate can sit 20–40 percent or more ABOVE billed cost, because the gap between them is exactly your discount stack (commitments, Spot, sustained-use, EDP). Do not read rack rate as within a few percent of what you pay. Daily billing cost is accurate to within ~1 percent of monthly settled. Monthly settled is the closed invoice.
 
 Each band serves a use. "Accurate" means knowing which band you are looking at and labelling it. (See [M0.1 L3](../M0.1_cloud_bill_decoded/L3_granularity_vs_timeliness.md).)
 
