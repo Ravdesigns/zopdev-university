@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>System roles — Viewer, Editor, Admin / ZopNight Architect / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **describe** the three system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.">
+<title>System roles: Viewer, Editor, Admin, SuperAdmin / ZopNight Architect / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to **describe** the four system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.">
 <link rel="canonical" href="https://zop.dev/resources/university/architect/rbac/system-roles/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -12,8 +12,8 @@
 <!-- Open Graph -->
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
-<meta property="og:title" content="System roles — Viewer, Editor, Admin / ZopNight Architect / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **describe** the three system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.">
+<meta property="og:title" content="System roles: Viewer, Editor, Admin, SuperAdmin / ZopNight Architect / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to **describe** the four system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.">
 <meta property="og:url" content="https://zop.dev/resources/university/architect/rbac/system-roles/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:locale" content="en_US">
@@ -21,15 +21,15 @@
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
-<meta name="twitter:title" content="System roles — Viewer, Editor, Admin / ZopNight Architect / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **describe** the three system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.">
+<meta name="twitter:title" content="System roles: Viewer, Editor, Admin, SuperAdmin / ZopNight Architect / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **describe** the four system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "name": "System roles — Viewer, Editor, Admin",
-  "description": "By the end of this lesson, you will be able to **describe** the three system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.",
+  "name": "System roles: Viewer, Editor, Admin, SuperAdmin",
+  "description": "By the end of this lesson, you will be able to **describe** the four system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.",
   "url": "https://zop.dev/resources/university/architect/rbac/system-roles/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Architect",
@@ -84,7 +84,7 @@
     {
       "@type": "ListItem",
       "position": 6,
-      "name": "System roles — Viewer, Editor, Admin",
+      "name": "System roles: Viewer, Editor, Admin, SuperAdmin",
       "item": "https://zop.dev/resources/university/architect/rbac/system-roles/"
     }
   ]
@@ -369,7 +369,7 @@
     <a href="/">University</a><span class="sep">›</span>
     <a href="/architect/">Architect</a><span class="sep">›</span>
     <a href="/architect/rbac/">RBAC</a><span class="sep">›</span>
-    <span class="current">System roles — Viewer, Editor, Admin</span>
+    <span class="current">System roles: Viewer, Editor, Admin, SuperAdmin</span>
   </div>
 </section>
 
@@ -384,7 +384,7 @@
 </a>
 <a href="/architect/rbac/system-roles/" class="current">
   <span class="num">L2</span>
-  <span>System roles — Viewer, Editor, Admin</span>
+  <span>System roles: Viewer, Editor, Admin, S…</span>
 </a>
 <a href="/architect/rbac/custom-roles/" class="">
   <span class="num">L3</span>
@@ -409,9 +409,9 @@
         <div class="lesson-id">
           <span>T3 / M3.1 / L2 of 6 / Architect tier / 9 min</span>
         </div>
-        <h1>System roles — Viewer, Editor, Admin</h1>
+        <h1>System roles: Viewer, Editor, Admin, SuperAdmin</h1>
       </header>
-      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>describe</strong> the three system roles, <strong>match</strong> a job function to the right system role, <strong>and recognize</strong> when a system role does not fit and a custom role is warranted.</p></div>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>describe</strong> the four system roles, <strong>match</strong> a job function to the right system role, <strong>and recognize</strong> when a system role does not fit and a custom role is warranted.</p></div>
       <div class="lesson-metabox"><dl>
 <dt>Tier</dt>
 <dd>Architect</dd>
@@ -420,22 +420,26 @@
 <dt>Personas</dt>
 <dd>Platform Engineer / Security/Compliance / FinOps Lead</dd>
 <dt>Prerequisites</dt>
-<dd>M3.1.L1 — the 15-entity policy table</dd>
+<dd>M3.1.L1 — the policy table</dd>
 <dt>Time</dt>
 <dd>9 minutes</dd>
 <dt>Bloom verb</dt>
 <dd>Describe (Understand), Match (Apply), Recognize (Analyze)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
-<p>ZopNight ships with three <strong>system roles</strong> — Viewer, Editor, Admin — designed to cover the common 80% of role assignments without custom-role work. They are pre-defined, version-controlled, and edited only by ZopNight engineering (customers cannot modify system roles; they can only assign them or build custom roles next to them).</p>
-<pre><code>ROLE      POLICY ACTIONS                            COVERAGE
-──────────────────────────────────────────────────────────────────
-Viewer    view only across all 15 entities         15 entities, view
-Editor    view + create + update + delete on       15 entities, CRUD
-          operational entities; view-only on
-          administrative ones
-Admin     full power across all 15 entities,       15 entities, all
-          including role + user + org management   actions</code></pre>
-<p>The progression is strictly additive. Viewer ⊂ Editor ⊂ Admin. An Editor can do everything a Viewer can; an Admin can do everything an Editor can. This means promoting a user from Viewer to Editor never removes a capability they had — it only adds. The same property holds for demotion: dropping from Admin to Editor only removes capabilities, never adds.</p>
+<p>ZopNight ships with <strong>four</strong> system roles — Viewer, Editor, Admin, and SuperAdmin (<code>default_roles.go</code>) — designed to cover the common 80% of role assignments without custom-role work. They are pre-defined, version-controlled, and edited only by ZopNight engineering (customers assign them or build custom roles next to them).</p>
+<pre><code>ROLE        POLICY ACTIONS                              COVERAGE
+──────────────────────────────────────────────────────────────────────
+Viewer      view only                                    read everything
+Editor      view + update on operational entities;       operate, not administer
+            view-only on administrative ones. NOTE: the
+            default Editor is view + update, NOT full
+            CRUD; create/delete on many entities is
+            reserved for Admin/SuperAdmin
+Admin       broad create / update / delete across        manage resources + config
+            resources and configuration
+SuperAdmin  everything Admin has, PLUS user, role,        the org owner
+            assignment, and organisation management</code></pre>
+<p>The progression is additive: Viewer ⊂ Editor ⊂ Admin ⊂ SuperAdmin. The key surprise is that <strong>user, role, and organisation administration lives at SuperAdmin, not Admin</strong> — a plain Admin cannot invite users or edit roles. Promoting up the chain only adds capabilities; demoting only removes them.</p>
 <h3 id="role-boundaries">Role boundaries</h3>
 <pre><code>VIEWER
   Read everything; modify nothing
@@ -444,22 +448,30 @@ Admin     full power across all 15 entities,       15 entities, all
   Use for: junior engineers, auditors, finance partners, executives
 
 EDITOR
-  Operational CRUD: schedules, overrides, recommendations, resource
-                    actions (start/stop), resource groups, notifications
-  Read-only on: roles, users, organisation, cloud-account credentials
-  Cannot: modify RBAC, invite/remove users, rotate cloud creds
+  view + update on operational entities: schedules, overrides,
+    recommendations (apply/dismiss = recommendation:update), resource
+    actions (start/stop), resource groups, notifications
+  NOT full CRUD by default: create/delete on many entities is reserved
+    for Admin / SuperAdmin
+  View-only on: roles, users, organisation, cloud-account credentials
   Use for: platform engineers, FinOps analysts, SREs
 
 ADMIN
-  Full control over all 15 entities, including:
-    - role:create, role:update, role:update
-    - user:create, user:delete
-    - cloud-account:update, cloud-account:delete
+  Broad create / update / delete across resources and configuration
+    (cloud-account:create/update/delete, schedules, budgets, dashboards,
+     autoscaler policies, and so on)
+  Does NOT include user / role / org administration
+  Use for: senior eng, ops leadership, platform owners
+
+SUPERADMIN
+  Everything Admin has, PLUS the administrative entities:
+    - role:create / role:update / role:delete
+    - user:create / user:update / user:delete
+    - assignment (assign roles to users)
     - organisation:update
-  Use for: senior eng, ops leadership, security/compliance leads,
-           designated FinOps owner</code></pre>
+  Use for: the designated org owner, security / compliance lead</code></pre>
 <h3 id="why-not-just-one-role-per-person">Why not just one role per person</h3>
-<p>Three roles handle most assignments because the cost-ops job ladder clusters into three tiers of need: read-only stakeholders (finance, exec, junior), operational practitioners (engineers, analysts), and administrative owners (leads, security). A role-per-person would explode into hundreds of policy combinations, half of them unused, none of them auditable.</p>
+<p>These four roles handle most assignments because the cost-ops job ladder clusters into three tiers of need: read-only stakeholders (finance, exec, junior), operational practitioners (engineers, analysts), and administrative owners (leads, security). A role-per-person would explode into hundreds of policy combinations, half of them unused, none of them auditable.</p>
 <p>The system-role design is a deliberate trade. You sacrifice some granularity (a FinOps Analyst who wants to dismiss but not apply recommendations needs a custom role) in exchange for a clear, auditable default. The custom-role path remains open for the 20% of cases that need it (covered in L3).</p>
 <h3 id="why-editor-cannot-manage-rbac">Why Editor cannot manage RBAC</h3>
 <p>The Editor role intentionally excludes role management. Editors can change cost (apply recommendations, edit schedules) but not change who can change cost. That separation prevents a compromised Editor account from escalating itself to Admin. It also means RBAC drift cannot happen silently — every role change is an Admin action and is audit-logged.</p>

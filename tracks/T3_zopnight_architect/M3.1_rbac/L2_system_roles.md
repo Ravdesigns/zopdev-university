@@ -1,4 +1,4 @@
-# System roles — Viewer, Editor, Admin
+# System roles: Viewer, Editor, Admin, SuperAdmin
 
 § T3 · M3.1 · L2 of 6 · Architect tier · 9 min
 
@@ -6,7 +6,7 @@
 
 ## Outcome
 
-By the end of this lesson, you will be able to **describe** the three system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.
+By the end of this lesson, you will be able to **describe** the four system roles, **match** a job function to the right system role, **and recognize** when a system role does not fit and a custom role is warranted.
 
 ---
 
@@ -15,7 +15,7 @@ By the end of this lesson, you will be able to **describe** the three system rol
 | **Tier** | Architect |
 | **JTBD** | "Assign every user to the smallest role that lets them do their job." |
 | **Personas** | Platform Engineer · Security/Compliance · FinOps Lead |
-| **Prerequisites** | M3.1.L1 — the 15-entity policy table |
+| **Prerequisites** | M3.1.L1 — the policy table |
 | **Time** | 9 minutes |
 | **Bloom verb** | Describe (Understand), Match (Apply), Recognize (Analyze) |
 
@@ -23,20 +23,24 @@ By the end of this lesson, you will be able to **describe** the three system rol
 
 ## 1. Concept
 
-ZopNight ships with three **system roles** — Viewer, Editor, Admin — designed to cover the common 80% of role assignments without custom-role work. They are pre-defined, version-controlled, and edited only by ZopNight engineering (customers cannot modify system roles; they can only assign them or build custom roles next to them).
+ZopNight ships with **four** system roles — Viewer, Editor, Admin, and SuperAdmin (`default_roles.go`) — designed to cover the common 80% of role assignments without custom-role work. They are pre-defined, version-controlled, and edited only by ZopNight engineering (customers assign them or build custom roles next to them).
 
 ```
-ROLE      POLICY ACTIONS                            COVERAGE
-──────────────────────────────────────────────────────────────────
-Viewer    view only across all 15 entities         15 entities, view
-Editor    view + create + update + delete on       15 entities, CRUD
-          operational entities; view-only on
-          administrative ones
-Admin     full power across all 15 entities,       15 entities, all
-          including role + user + org management   actions
+ROLE        POLICY ACTIONS                              COVERAGE
+──────────────────────────────────────────────────────────────────────
+Viewer      view only                                    read everything
+Editor      view + update on operational entities;       operate, not administer
+            view-only on administrative ones. NOTE: the
+            default Editor is view + update, NOT full
+            CRUD; create/delete on many entities is
+            reserved for Admin/SuperAdmin
+Admin       broad create / update / delete across        manage resources + config
+            resources and configuration
+SuperAdmin  everything Admin has, PLUS user, role,        the org owner
+            assignment, and organisation management
 ```
 
-The progression is strictly additive. Viewer ⊂ Editor ⊂ Admin. An Editor can do everything a Viewer can; an Admin can do everything an Editor can. This means promoting a user from Viewer to Editor never removes a capability they had — it only adds. The same property holds for demotion: dropping from Admin to Editor only removes capabilities, never adds.
+The progression is additive: Viewer ⊂ Editor ⊂ Admin ⊂ SuperAdmin. The key surprise is that **user, role, and organisation administration lives at SuperAdmin, not Admin** — a plain Admin cannot invite users or edit roles. Promoting up the chain only adds capabilities; demoting only removes them.
 
 ### Role boundaries
 
@@ -48,25 +52,33 @@ VIEWER
   Use for: junior engineers, auditors, finance partners, executives
 
 EDITOR
-  Operational CRUD: schedules, overrides, recommendations, resource
-                    actions (start/stop), resource groups, notifications
-  Read-only on: roles, users, organisation, cloud-account credentials
-  Cannot: modify RBAC, invite/remove users, rotate cloud creds
+  view + update on operational entities: schedules, overrides,
+    recommendations (apply/dismiss = recommendation:update), resource
+    actions (start/stop), resource groups, notifications
+  NOT full CRUD by default: create/delete on many entities is reserved
+    for Admin / SuperAdmin
+  View-only on: roles, users, organisation, cloud-account credentials
   Use for: platform engineers, FinOps analysts, SREs
 
 ADMIN
-  Full control over all 15 entities, including:
-    - role:create, role:update, role:update
-    - user:create, user:delete
-    - cloud-account:update, cloud-account:delete
+  Broad create / update / delete across resources and configuration
+    (cloud-account:create/update/delete, schedules, budgets, dashboards,
+     autoscaler policies, and so on)
+  Does NOT include user / role / org administration
+  Use for: senior eng, ops leadership, platform owners
+
+SUPERADMIN
+  Everything Admin has, PLUS the administrative entities:
+    - role:create / role:update / role:delete
+    - user:create / user:update / user:delete
+    - assignment (assign roles to users)
     - organisation:update
-  Use for: senior eng, ops leadership, security/compliance leads,
-           designated FinOps owner
+  Use for: the designated org owner, security / compliance lead
 ```
 
 ### Why not just one role per person
 
-Three roles handle most assignments because the cost-ops job ladder clusters into three tiers of need: read-only stakeholders (finance, exec, junior), operational practitioners (engineers, analysts), and administrative owners (leads, security). A role-per-person would explode into hundreds of policy combinations, half of them unused, none of them auditable.
+These four roles handle most assignments because the cost-ops job ladder clusters into three tiers of need: read-only stakeholders (finance, exec, junior), operational practitioners (engineers, analysts), and administrative owners (leads, security). A role-per-person would explode into hundreds of policy combinations, half of them unused, none of them auditable.
 
 The system-role design is a deliberate trade. You sacrifice some granularity (a FinOps Analyst who wants to dismiss but not apply recommendations needs a custom role) in exchange for a clear, auditable default. The custom-role path remains open for the 20% of cases that need it (covered in L3).
 
