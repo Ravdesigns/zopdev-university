@@ -6,7 +6,7 @@
 
 ## Outcome
 
-By the end of this lesson, you will be able to **distinguish** GCP's three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-AZ traffic charge that catches teams migrating from AWS.
+By the end of this lesson, you will be able to **distinguish** GCP's three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-zone traffic charge that surprises teams on both AWS and GCP.
 
 ---
 
@@ -50,9 +50,9 @@ RANK  SERVICE                          TYPICAL %  NOTES
 
 **Spot (formerly Preemptible).** Stateless workload pricing. 60–91% off rate card. Up to 24-hour runtime (eviction is guaranteed at the 24-hour mark, often sooner). Best fit: batch jobs that checkpoint, K8s nodes that drain gracefully.
 
-### The cross-AZ chatter trap (the migration gotcha)
+### The cross-zone chatter trap
 
-On AWS, traffic between availability zones within the same region is *free*. On GCP, it is *charged* at $0.01 per GB egress + $0.01 per GB ingress (the receiving side also pays). A K8s cluster spanning three zones with chatty service-to-service traffic can rack up significant network spend on GCP that would have been free on AWS.
+Traffic between availability zones within the same region is *charged* on both AWS and GCP: roughly $0.01 per GB in each direction (the receiving side also pays), so cross-zone chatter costs about $0.02 per GB round-trip. Only traffic that stays within a single zone is free. A K8s cluster spanning three zones with chatty service-to-service traffic can rack up significant network spend on either cloud. The trap is assuming cross-zone replication is free because same-zone traffic is.
 
 ```
 SCENARIO: 100 GB/day inter-zone traffic in a GKE cluster
@@ -104,7 +104,7 @@ Other long tail                  $20,880    18%
 TOTAL                           $120,000   100%
 ```
 
-The 8% network line is the GCP gotcha. On AWS the same workload would have spent ~$0 on inter-AZ traffic. The mitigation: pin the GKE workloads to a single zone (accept reduced AZ-failure tolerance) or use regional persistent disks instead of cross-zone replication.
+The 8% network line is the cross-zone chatter cost. It is not a GCP-only surprise: AWS bills the same cross-AZ traffic at $0.01 per GB each direction, so this workload would cost about the same on AWS. The mitigation is the same on both clouds: pin the workloads to a single zone (accept reduced AZ-failure tolerance) or use regional persistent disks instead of cross-zone replication.
 
 (Asset: `assets/diagrams/M0.5_L2_gcp_breakdown.svg`.)
 
@@ -155,7 +155,7 @@ D. Spot was applied
 A team migrates a chatty K8s cluster from AWS to GCP. The network egress line on the bill triples. Most likely cause:
 
 A. GCP raised network prices
-B. The cluster runs across multiple zones. On AWS, cross-AZ traffic was free; on GCP, it is charged at $0.01 per GB each direction. The fix is zone-pinning or regional persistent disks.
+B. The cluster runs across multiple zones. Cross-zone traffic is charged at about $0.01 per GB each direction on both AWS and GCP (only same-zone traffic is free). The fix is zone-pinning or regional persistent disks.
 C. DNS misconfiguration
 D. The cluster is bigger on GCP
 

@@ -33,7 +33,7 @@ The instinct is wrong. **Every dollar on every cloud bill sits in one of four ca
 
 **2. Stored bytes.** Gigabytes sitting somewhere. S3 / GCS / Blob Storage objects. EBS / Persistent Disks / Managed Disks. RDS / Cloud SQL / Azure SQL allocated storage. Snapshots. Archive tiers. Backup vaults. Charged per GB per month, with rate variants by access tier (Standard, Infrequent, Glacier, Coldline, Archive Storage).
 
-**3. Moved bytes.** Network egress. Cross-region replication. Cross-availability-zone traffic. Public internet egress. NAT Gateway data-processing fees. CloudFront / Cloud CDN / Front Door delivery. Inter-zone traffic within the same region is usually free on AWS but charged on GCP. Egress to the public internet is the priciest of all and is the line item that most often surprises a Finance team.
+**3. Moved bytes.** Network egress. Cross-region replication. Cross-availability-zone traffic. Public internet egress. NAT Gateway data-processing fees. CloudFront / Cloud CDN / Front Door delivery. Inter-zone traffic within the same region is charged on AWS, GCP, and Azure (about $0.01 per GB each direction); only traffic that stays within a single zone is free. Egress to the public internet is the priciest of all and is the line item that most often surprises a Finance team.
 
 **4. API requests.** Per-call charges on services that bill by request volume rather than running time. Lambda invocations (separate from Lambda compute), S3 GET / PUT / LIST, DynamoDB Read / Write Capacity Units, Cosmos DB Request Units, SQS messages, EventBridge events, CloudWatch metric ingestion, NAT Gateway data-processing per GB.
 
@@ -53,7 +53,7 @@ The instinct is wrong. **Every dollar on every cloud bill sits in one of four ca
 ├──────────────────┼──────────────────────────────────────┤
 │  MOVED BYTES     │  inter-region replication            │
 │  ~5–20% typical  │  internet egress · NAT GW data-proc  │
-│                  │  cross-AZ traffic (GCP) · CDN        │
+│                  │  cross-AZ traffic (all clouds), CDN  │
 ├──────────────────┼──────────────────────────────────────┤
 │  API REQUESTS    │  Lambda invocations · S3 GET / PUT   │
 │  ~5–15% typical  │  DynamoDB RCU / WCU · Cosmos RUs     │
@@ -155,7 +155,7 @@ D. The estate uses serverless
 <details>
 <summary>Show answer</summary>
 
-**Correct: C.** None of A, B, or D directly drives network egress. Compute purchase type (spot, RI, savings plan) controls the compute-time row, not the moved-bytes row. K8s skews compute, not network — unless the cluster spans zones in GCP (where inter-AZ is charged). Serverless can skew toward API requests but not moved bytes. The three drivers of high moved-bytes bills are inter-region replication, internet egress to global users, and NAT Gateway data-processing.
+**Correct: C.** None of A, B, or D directly drives network egress. Compute purchase type (spot, RI, savings plan) controls the compute-time row, not the moved-bytes row. K8s skews compute, not network, unless the cluster spans zones (cross-AZ traffic is charged on AWS, GCP, and Azure alike). Serverless can skew toward API requests but not moved bytes. The three drivers of high moved-bytes bills are inter-region replication, internet egress to global users, and NAT Gateway data-processing.
 </details>
 
 ### Q3

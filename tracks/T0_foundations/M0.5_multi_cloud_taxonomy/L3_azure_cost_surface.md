@@ -95,9 +95,9 @@ Equivalent of AWS Spot or GCP Spot. Up to **~90% discount** on rate card. Evicti
 
 ### Network specifics
 
-- **Bandwidth within Availability Zones (same region):** free.
-- **Bandwidth between zones in same region:** $0.01 per GB each direction (similar to GCP, unlike AWS).
-- **Internet egress:** tiered, starting at $0.087 per GB (first 5 GB free).
+- **Bandwidth within a single Availability Zone (same region):** free.
+- **Bandwidth between zones in same region:** $0.01 per GB each direction, the same as GCP and AWS (all three charge for cross-zone traffic; only same-zone traffic is free).
+- **Internet egress:** tiered, starting at ~$0.087 per GB (first 100 GB per month free).
 - **ExpressRoute:** dedicated private connection, separate pricing model, can dramatically reduce egress cost for high-bandwidth flows.
 
 ### Other Azure cost notes

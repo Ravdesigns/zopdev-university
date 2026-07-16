@@ -26,21 +26,24 @@ By the end of this lesson, you will be able to **calculate** backup costs based 
 Backups have ongoing storage cost. Retention period directly affects monthly cost — keep too much, and the storage bill grows without bound. The discipline: retention matches RTO/RPO + compliance, no more.
 
 ```
-TYPICAL RDS BACKUP COST:
-  Daily snapshots: ~$0.05/GB-month (varies by region/provider)
-  
-EXAMPLES:
-  1 TB database, 30-day retention:
-    30 × 1 TB × $0.05 = $1,500/month per database
-    
-  1 TB database, 1-year retention:
-    365 × 1 TB × $0.05 = $18,250/month per database (!)
-    
-  1 TB database, 7-year retention:
-    365 × 7 × 1 TB × $0.05 = $127,750/month (eye-watering)
+TYPICAL RDS / EBS SNAPSHOT COST:
+  Snapshots are INCREMENTAL, not full copies (AWS, GCP, Azure).
+  The first snapshot stores the full volume (~full size).
+  Every snapshot after that stores only the blocks that CHANGED
+  since the previous one. Storage rate ~$0.05/GB-month.
+
+MENTAL MODEL:
+  monthly cost ~= (base full copy + retained change-deltas) x $/GB-month
+  where each delta ~= daily-change-rate x size, NOT the full size.
+
+EXAMPLE: 1 TB database, ~5% daily change, 30-day daily retention
+  Stored ~= 1 TB base + 30 x (5% x 1 TB) = 1 TB + 1.5 TB = 2.5 TB
+  Cost   ~= 2.5 TB x $0.05 = ~$125/month per database
+  (The naive full-copy model "30 x 1 TB x $0.05 = $1,500"
+   overstates this by roughly 10x.)
 ```
 
-The cost scales linearly with retention period. Indefinite retention = unbounded cost.
+Cost grows with the volume of **retained deltas**, not with the day count. Incremental snapshots plus GFS retention (keep 30 daily + 8 weekly + 12 monthly, not 365 dailies) keep long retention sub-linear: a 7-year archive is a few TB of overlapping deltas, not 365 x 7 full copies. Archive tiers (Glacier, Coldline) then cut that ~90% more. Indefinite retention still grows without bound, just far more slowly than a full-copy model suggests.
 
 ### Backup retention principles
 
@@ -63,9 +66,9 @@ The cost scales linearly with retention period. Indefinite retention = unbounded
    HIPAA: 6 years
    GDPR: data deletion timeframes (max retention)
    
-3. COST GROWS LINEARLY WITH RETENTION
-   Days × frequency × size = monthly cost
-   Long retention = exponential cost vs compute
+3. COST GROWS WITH RETAINED DELTAS, NOT DAY COUNT
+   base full copy + sum(retained change-deltas) = monthly cost
+   Incremental snapshots + GFS tiering keep long retention sub-linear
    
 4. RARELY-ACCESSED BACKUPS = STORAGE TIER OPPORTUNITY
    Old backups: archive tier (Glacier, Coldline)
@@ -79,14 +82,15 @@ The principles are general; the specific retention varies per workload.
 ```
 PATTERN A — SIMPLE DAILY (minimum viable)
   Daily snapshots, 7-day retention
-  Cost: 7 × DB size × $0.05/GB-month
+  Cost: ~ (base full copy + 7 daily deltas) × $0.05/GB-month
   Suits: dev/staging; lower-tier prod
   
 PATTERN B — STANDARD PROD (most common)
   Daily for 30 days
   Weekly for 8 weeks (additional)
   Monthly for 12 months (additional)
-  Cost: ~30-50 × DB size × $0.05/GB-month
+  Cost: base full copy + retained deltas (well below the 30-50 x
+        DB-size a full-copy model implies; deltas, not full copies)
   Suits: standard production workloads
   
 PATTERN C — COMPLIANCE (regulated industries)
@@ -279,10 +283,11 @@ TEAM AUDIT (Q3 2026):
 
 CURRENT BACKUP STATE:
   47 production RDS databases
-  Average DB size: 200 GB
+  Average DB size: 200 GB (~9.4 TB of live data)
   Current retention: 30 days daily + weekly + monthly indefinitely
-  Total backup storage: ~12 TB
-  Backup cost: $4,800/month
+  Total backup storage: ~96 TB (years of indefinite monthly/yearly
+    accumulation on top of the incremental daily/weekly deltas)
+  Backup cost: ~96 TB x $0.05/GB-month = ~$4,800/month
   
   Plus: 18 staging databases, 6 dev databases with same retention
   Additional cost: $1,500/month

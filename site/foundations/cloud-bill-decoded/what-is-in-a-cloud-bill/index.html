@@ -427,7 +427,7 @@
 <h3 id="the-four-categories">The four categories</h3>
 <p><strong>1. Compute time.</strong> Hours that a thing was running. EC2 instances, Compute Engine VMs, Azure VMs, ECS tasks, EKS / GKE / AKS nodes, Lambda invocations, Cloud Functions, Container Instances. Charged at an hourly rate that depends on shape (CPU, memory, GPU, network), region, operating system, and purchase commitment (on-demand, reserved, savings plan, sustained-use, spot).</p>
 <p><strong>2. Stored bytes.</strong> Gigabytes sitting somewhere. S3 / GCS / Blob Storage objects. EBS / Persistent Disks / Managed Disks. RDS / Cloud SQL / Azure SQL allocated storage. Snapshots. Archive tiers. Backup vaults. Charged per GB per month, with rate variants by access tier (Standard, Infrequent, Glacier, Coldline, Archive Storage).</p>
-<p><strong>3. Moved bytes.</strong> Network egress. Cross-region replication. Cross-availability-zone traffic. Public internet egress. NAT Gateway data-processing fees. CloudFront / Cloud CDN / Front Door delivery. Inter-zone traffic within the same region is usually free on AWS but charged on GCP. Egress to the public internet is the priciest of all and is the line item that most often surprises a Finance team.</p>
+<p><strong>3. Moved bytes.</strong> Network egress. Cross-region replication. Cross-availability-zone traffic. Public internet egress. NAT Gateway data-processing fees. CloudFront / Cloud CDN / Front Door delivery. Inter-zone traffic within the same region is charged on AWS, GCP, and Azure (about $0.01 per GB each direction); only traffic that stays within a single zone is free. Egress to the public internet is the priciest of all and is the line item that most often surprises a Finance team.</p>
 <p><strong>4. API requests.</strong> Per-call charges on services that bill by request volume rather than running time. Lambda invocations (separate from Lambda compute), S3 GET / PUT / LIST, DynamoDB Read / Write Capacity Units, Cosmos DB Request Units, SQS messages, EventBridge events, CloudWatch metric ingestion, NAT Gateway data-processing per GB.</p>
 <h3 id="the-four-categories-as-a-single-picture">The four categories as a single picture</h3>
 <pre><code>┌─────────────────────────────────────────────────────────┐
@@ -443,7 +443,7 @@
 ├──────────────────┼──────────────────────────────────────┤
 │  MOVED BYTES     │  inter-region replication            │
 │  ~5–20% typical  │  internet egress · NAT GW data-proc  │
-│                  │  cross-AZ traffic (GCP) · CDN        │
+│                  │  cross-AZ traffic (all clouds), CDN  │
 ├──────────────────┼──────────────────────────────────────┤
 │  API REQUESTS    │  Lambda invocations · S3 GET / PUT   │
 │  ~5–15% typical  │  DynamoDB RCU / WCU · Cosmos RUs     │
@@ -508,7 +508,7 @@
 <p>A. The estate uses spot instances B. The estate is K8s-heavy C. The estate has cross-region replication, global users served from one region, or NAT-Gateway-routed egress D. The estate uses serverless</p>
 <details>
 <summary>Show answer</summary>
-<p><strong>Correct: C.</strong> None of A, B, or D directly drives network egress. Compute purchase type (spot, RI, savings plan) controls the compute-time row, not the moved-bytes row. K8s skews compute, not network — unless the cluster spans zones in GCP (where inter-AZ is charged). Serverless can skew toward API requests but not moved bytes. The three drivers of high moved-bytes bills are inter-region replication, internet egress to global users, and NAT Gateway data-processing.</p>
+<p><strong>Correct: C.</strong> None of A, B, or D directly drives network egress. Compute purchase type (spot, RI, savings plan) controls the compute-time row, not the moved-bytes row. K8s skews compute, not network, unless the cluster spans zones (cross-AZ traffic is charged on AWS, GCP, and Azure alike). Serverless can skew toward API requests but not moved bytes. The three drivers of high moved-bytes bills are inter-region replication, internet egress to global users, and NAT Gateway data-processing.</p>
 </details>
 <h3 id="q3">Q3</h3>
 <p>You hear: "Killing this idle EC2 will save the company $69 a month." What's the safest, most accurate response?</p>

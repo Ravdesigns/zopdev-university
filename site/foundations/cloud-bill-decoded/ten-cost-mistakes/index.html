@@ -450,7 +450,7 @@
 <h3 id="7-over-provisioned-rds">#7 Over-provisioned RDS</h3>
 <p>The hardest one to fix because it requires confidence in the workload's headroom. RDS instances provisioned for a peak that never comes, multi-AZ enabled in dev, IOPS provisioned higher than throughput requires. Detection: low CPU, low connections, low IOPS. Fix: downsize during a maintenance window. (Database changes never auto-remediated — see <a href="../../T2_zopnight_engineer/M2.3_auto_remediation/L5_database_denylist.md">the database denylist</a>.)</p>
 <h3 id="8-cross-az-chatter-gcp">#8 Cross-AZ chatter (GCP)</h3>
-<p>On GCP, traffic between zones in the same region is charged ($0.01 per GB ingress + $0.01 per GB egress). On AWS, this is free. Result: a GCP K8s cluster that wasn't pinned to one zone can rack up significant network charges. Detection: GCP inter-zone egress consistently high. Fix: pin workloads to a single zone or use regional persistent disks.</p>
+<p>On AWS, GCP, and Azure, traffic between zones in the same region is charged, roughly $0.01 per GB in each direction (about $0.02 per GB round-trip). Only traffic that stays within a single zone is free. Result: a K8s cluster that wasn't pinned to one zone can rack up significant network charges on any of the three clouds. Detection: inter-zone egress consistently high. Fix: pin workloads to a single zone or use regional persistent disks.</p>
 <h3 id="9-public-internet-egress-for-internal-traffic">#9 Public-internet egress for internal traffic</h3>
 <p>The most embarrassing one. Internal services calling each other through public DNS / public IPs instead of through VPC endpoints or private DNS. Egress to public internet is charged ($0.09 per GB on AWS). Detection: large <code>DataTransfer-Out-Bytes</code> to addresses that resolve to your own IP ranges. Fix: route through VPC endpoints, private link, or internal load balancers.</p>
 <h3 id="10-over-retained-logs-and-metrics">#10 Over-retained logs and metrics</h3>
@@ -483,7 +483,7 @@ TOTAL avoidable                                $29,997           16.7%</code></p
 [ ]  5. Unused EIPs        — any EIP in Unassociated state?
 [ ]  6. Oversized dev      — any non-prod instance with &lt;10% CPU?
 [ ]  7. Over-provisioned RDS — any RDS with &lt;30% CPU and steady connections?
-[ ]  8. Cross-AZ chatter   — GCP only: inter-zone egress &gt;5% of network?
+[ ]  8. Cross-zone chatter — AWS/GCP/Azure: inter-zone egress &gt;5% of network?
 [ ]  9. Public-internet egress — any internal service via public DNS?
 [ ] 10. Over-retained logs  — any log group with &quot;Never expire&quot;?</code></pre>
 <p>For each "yes," write down the resource count and an estimate of monthly waste. Add the total. Compare to your monthly cloud bill. The ratio is your <strong>avoidable spend percentage</strong>. Healthy estates land at 5 percent. Untended estates land at 25 to 40 percent.</p>

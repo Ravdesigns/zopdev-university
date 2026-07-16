@@ -466,9 +466,9 @@ SQL Managed Instance                       ~55% discount</code></pre>
 <p>Equivalent of AWS Spot or GCP Spot. Up to <strong>~90% discount</strong> on rate card. Eviction is on a per-VM basis with a 30-second warning. Spot VMs cannot be live-migrated.</p>
 <h3 id="network-specifics">Network specifics</h3>
 <ul>
-<li><strong>Bandwidth within Availability Zones (same region):</strong> free.</li>
-<li><strong>Bandwidth between zones in same region:</strong> $0.01 per GB each direction (similar to GCP, unlike AWS).</li>
-<li><strong>Internet egress:</strong> tiered, starting at $0.087 per GB (first 5 GB free).</li>
+<li><strong>Bandwidth within a single Availability Zone (same region):</strong> free.</li>
+<li><strong>Bandwidth between zones in same region:</strong> $0.01 per GB each direction, the same as GCP and AWS (all three charge for cross-zone traffic; only same-zone traffic is free).</li>
+<li><strong>Internet egress:</strong> tiered, starting at ~$0.087 per GB (first 100 GB per month free).</li>
 <li><strong>ExpressRoute:</strong> dedicated private connection, separate pricing model, can dramatically reduce egress cost for high-bandwidth flows.</li>
 </ul>
 <h3 id="other-azure-cost-notes">Other Azure cost notes</h3>

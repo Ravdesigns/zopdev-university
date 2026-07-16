@@ -70,7 +70,7 @@ The hardest one to fix because it requires confidence in the workload's headroom
 
 ### #8 Cross-AZ chatter (GCP)
 
-On GCP, traffic between zones in the same region is charged ($0.01 per GB ingress + $0.01 per GB egress). On AWS, this is free. Result: a GCP K8s cluster that wasn't pinned to one zone can rack up significant network charges. Detection: GCP inter-zone egress consistently high. Fix: pin workloads to a single zone or use regional persistent disks.
+On AWS, GCP, and Azure, traffic between zones in the same region is charged, roughly $0.01 per GB in each direction (about $0.02 per GB round-trip). Only traffic that stays within a single zone is free. Result: a K8s cluster that wasn't pinned to one zone can rack up significant network charges on any of the three clouds. Detection: inter-zone egress consistently high. Fix: pin workloads to a single zone or use regional persistent disks.
 
 ### #9 Public-internet egress for internal traffic
 
@@ -119,7 +119,7 @@ For your own estate, score each of the ten mistakes. Use this checklist:
 [ ]  5. Unused EIPs        — any EIP in Unassociated state?
 [ ]  6. Oversized dev      — any non-prod instance with <10% CPU?
 [ ]  7. Over-provisioned RDS — any RDS with <30% CPU and steady connections?
-[ ]  8. Cross-AZ chatter   — GCP only: inter-zone egress >5% of network?
+[ ]  8. Cross-zone chatter — AWS/GCP/Azure: inter-zone egress >5% of network?
 [ ]  9. Public-internet egress — any internal service via public DNS?
 [ ] 10. Over-retained logs  — any log group with "Never expire"?
 ```
