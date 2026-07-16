@@ -46,12 +46,12 @@ THE AUTO-REMEDIATION ALLOWLIST:
 
 The allowlist grows over time as more rules are validated end-to-end.
 
-### What "certified" means — the bar
+### What gets a rule onto the allowlist — the bar
 
-A rule is certified when it passes end-to-end testing on real cloud (not just synthetic). Specifically:
+A rule is added to the auto-remediation allowlist once its remediation has been validated end-to-end on real cloud (not just synthetic). The bar is deliberately high:
 
 ```
-CERTIFICATION CRITERIA (all must pass):
+VALIDATION BEFORE A RULE IS ALLOWLISTED (the engineering bar):
 
 1. RULE LOGIC VERIFIED
    Across multiple sample resources
@@ -79,14 +79,9 @@ CERTIFICATION CRITERIA (all must pass):
 6. AUDIT LOG ENTRIES VERIFIED
    Every action recorded correctly
    Reproducible from audit trail
-   
-7. SAMPLE CUSTOMER ADOPTION TRACKED
-   Run in pilot customers
-   No incidents over observation period
-   Edge cases caught + fixed
 ```
 
-The bar is high. Certification typically takes 4-12 weeks per rule.
+A rule is only wired for one-click Apply once these checks pass; until then it stays advisory or guided. The allowlist (`contract/autoremediation_allowlist.go`) is the source of truth for what has cleared the bar.
 
 ### What's on the allowlist
 
