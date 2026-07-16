@@ -263,7 +263,7 @@ TYPICAL EFFORT: 1-3 days per rule (simple)
                 1-2 weeks per rule (complex; novel metrics)
 ```
 
-The simplicity of adding rules is why the library grows to 490.
+The simplicity of adding rules is why the library keeps growing (450+ and counting).
 
 ---
 
