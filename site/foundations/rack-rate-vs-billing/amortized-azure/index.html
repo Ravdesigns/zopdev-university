@@ -492,7 +492,10 @@ az costmanagement query \
   --dataset-filter &#39;{&quot;dimensions&quot;:{&quot;name&quot;:&quot;ResourceId&quot;,&quot;operator&quot;:&quot;In&quot;,&quot;values&quot;:[&quot;&lt;vm-resource-id&gt;&quot;]}}&#39;
 # Returns: $983.10</code></pre>
 <p>Same resource. Same month. Two different numbers. AmortizedCost is the right one for per-resource reporting.</p>
-<p>(Asset: <code>assets/diagrams/M0.4_L3_actual_vs_amortized.svg</code> — comparison table.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 198" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="198" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Actual vs amortized</text><rect x="20" y="50" width="290" height="128" rx="0" class="dgm-card"/><rect x="340" y="50" width="290" height="128" rx="0" class="dgm-card-blue"/><text x="165" y="74" class="dgm-title" text-anchor="middle">Actual (as charged)</text><text x="485" y="74" class="dgm-num" text-anchor="middle">Amortized</text><text x="34" y="92" class="dgm-label" text-anchor="start">· Upfront fee on day 1</text><text x="34" y="122" class="dgm-label" text-anchor="start">· Lumpy month to month</text><text x="34" y="152" class="dgm-label" text-anchor="start">· Matches the invoice</text><text x="354" y="92" class="dgm-label" text-anchor="start">· Fee spread over term</text><text x="354" y="122" class="dgm-label" text-anchor="start">· Smooth monthly view</text><text x="354" y="152" class="dgm-label" text-anchor="start">· Matches consumption</text>
+</svg><figcaption>Comparison table</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>
 <p>If your organization runs Azure:</p>

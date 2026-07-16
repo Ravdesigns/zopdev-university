@@ -489,7 +489,10 @@ curl -s &#39;https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/c
             ]}&#39;
 # Returns: $43.30 (RI coverage applied)</code></pre>
 <p>The same instance: rack rate $70.08, actual billed $43.30. The 38% gap is the realized discount. Both numbers are correct. They answer different questions.</p>
-<p>(Asset: <code>assets/diagrams/M0.4_L1_rack_vs_actual.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 198" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="198" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Rack rate is not what you pay</text><rect x="20" y="50" width="290" height="128" rx="0" class="dgm-card"/><rect x="340" y="50" width="290" height="128" rx="0" class="dgm-card-blue"/><text x="165" y="74" class="dgm-title" text-anchor="middle">Rack rate</text><text x="485" y="74" class="dgm-num" text-anchor="middle">Actual (effective)</text><text x="34" y="92" class="dgm-label" text-anchor="start">· Public list price</text><text x="34" y="122" class="dgm-label" text-anchor="start">· No discounts</text><text x="34" y="152" class="dgm-label" text-anchor="start">· Same for everyone</text><text x="354" y="92" class="dgm-label" text-anchor="start">· After discount stack</text><text x="354" y="122" class="dgm-label" text-anchor="start">· RI / SP / CUD applied</text><text x="354" y="152" class="dgm-label" text-anchor="start">· What hits your bill</text>
+</svg></figure>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>Pick one of your EC2 / GCE / Azure VM instances. Compute both numbers:</p>

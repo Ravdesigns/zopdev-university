@@ -306,6 +306,24 @@ function renderMarkdown(md, srcPath) {
     }
     if (inCode) { codeBuf.push(line); i++; continue; }
 
+    // Diagram callout: "(Asset: `assets/diagrams/X.svg`.)". These are editorial
+    // placeholders for a planned diagram. If the SVG exists it is inlined as a
+    // <figure> (inheriting page CSS, so it is theme-aware); if it does not, the
+    // placeholder is dropped entirely so it never leaks into published prose.
+    const assetM = line.trim().match(/^\(Asset:\s*`?(assets\/diagrams\/[A-Za-z0-9_.\/-]+\.svg)`?\s*(?:[—–-]\s*([^)]*?))?\.?\)$/i);
+    if (assetM) {
+      if (paraBuf.length) { out.push(flushPara(paraBuf)); paraBuf = []; }
+      if (inList) { out.push(`</${listType}>\n`); inList = false; }
+      const svgPath = path.join(ROOT, assetM[1]);
+      if (fs.existsSync(svgPath)) {
+        const svg = fs.readFileSync(svgPath, 'utf8').replace(/<\?xml[^>]*\?>\s*/i, '').trim();
+        const cap = (assetM[2] || '').trim().replace(/\.$/, '');
+        const capHTML = cap ? `<figcaption>${escapeHTML(cap.charAt(0).toUpperCase() + cap.slice(1))}</figcaption>` : '';
+        out.push(`<figure class="lesson-diagram">${svg}${capHTML}</figure>\n`);
+      }
+      i++; continue;
+    }
+
     // Horizontal rule
     if (line.trim() === '---') {
       if (paraBuf.length) { out.push(flushPara(paraBuf)); paraBuf = []; }

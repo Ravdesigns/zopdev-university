@@ -469,7 +469,10 @@ T+5 min   Permission Visibility drawer populates with Granted/Denied per service
 T+6 hr    First scheduled discovery sync runs successfully
 T+91 day  Customer rotates: adds new role, old role expires after 24h overlap</code></pre>
 <p>Five minutes to active. Six hours to first scheduled sync. Rotation is a 24-hour overlap with no downtime.</p>
-<p>(Asset: <code>assets/diagrams/M1.1_L1_credential_lifecycle.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 420" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="420" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Credential lifecycle</text><path d="M330,100 Q407.88,177.88 462,232" class="dgm-arrow" marker-end="url(#dgmArrow)"/><path d="M462,232 Q384.12,309.88 330,364" class="dgm-arrow" marker-end="url(#dgmArrow)"/><path d="M330,364 Q252.12,286.12 198,232.00000000000003" class="dgm-arrow" marker-end="url(#dgmArrow)"/><path d="M198,232.00000000000003 Q275.88,154.12 330,100" class="dgm-arrow" marker-end="url(#dgmArrow)"/><circle cx="330" cy="100" r="46" class="dgm-card-blue"/><text x="330" y="96" class="dgm-num" text-anchor="middle">1</text><text x="330" y="112" class="dgm-label-sm" text-anchor="middle">Connect</text><circle cx="462" cy="232" r="46" class="dgm-card-blue"/><text x="462" y="228" class="dgm-num" text-anchor="middle">2</text><text x="462" y="244" class="dgm-label-sm" text-anchor="middle">Validate</text><circle cx="330" cy="364" r="46" class="dgm-card-blue"/><text x="330" y="360" class="dgm-num" text-anchor="middle">3</text><text x="330" y="376" class="dgm-label-sm" text-anchor="middle">Rotate</text><circle cx="198" cy="232.00000000000003" r="46" class="dgm-card-blue"/><text x="198" y="228.00000000000003" class="dgm-num" text-anchor="middle">4</text><text x="198" y="244.00000000000003" class="dgm-label-sm" text-anchor="middle">Revoke</text>
+</svg></figure>
 <hr>
 <h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
 <p>This hands-on is a security-review walkthrough rather than a code task. Open ZopNight Cloud Accounts (or look at the Cloud Accounts page in a screenshot).</p>
