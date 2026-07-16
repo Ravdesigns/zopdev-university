@@ -218,7 +218,7 @@ POST-DRILL:
 WITHOUT TESTING:
   DR exists on paper only
   Real disaster reveals gaps you'd already fixed if you'd tested
-  Industry studies: 30-50% of "tested" DR plans fail under real conditions
+  Many DR plans that pass on paper fail under real conditions
 ```
 
 The drill is the difference between DR posture and DR theater. Test annually minimum.
@@ -410,7 +410,7 @@ D. Required for cloud-native
 A DR plan that's never been tested:
 
 A. Trustworthy if documented
-B. Reality may differ from documentation. Annual DR drill validates the plan. Industry studies show 30-50% of untested DR plans fail under real conditions. Untested DR = false sense of security.
+B. Reality may differ from documentation. Annual DR drill validates the plan. DR plans that are never drilled frequently fail under real conditions. Untested DR = false sense of security.
 C. Random
 D. Fine if documented
 

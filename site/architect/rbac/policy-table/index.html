@@ -478,13 +478,13 @@ Assign role to user              role:update + assignment:create</code></pre>
 <h3 id="default-deny">Default-deny</h3>
 <p>The policy model is default-deny. If a new endpoint is added without a policy mapping, the gateway rejects all requests to it. This catches accidental over-exposure during development. The frontend will surface a <code>policy_missing</code> error during build-time integration tests if a new API call is made without a policy entry in the table.</p>
 <h3 id="how-zopnight-uses-the-table">How ZopNight uses the table</h3>
-<p>The policy table lives in <code>policy_table.yaml</code> in the gateway repo. Every change is a PR with mandatory review by the security team. The build pipeline asserts that:</p>
+<p>The policy table is defined in code, not a YAML file: the gateway's Go <code>PolicyTable()</code> is the authoritative endpoint-to-policy map, and the frontend's <code>permissions.js</code> mirrors it for UI gating. There is no standalone <code>policy_table.yaml</code>. Every change is a PR with security review, and the model holds three invariants:</p>
 <ol>
-<li>Every endpoint declared in any service has a policy entry.</li>
-<li>Every policy entry references one of the 15 entities (no typos, no orphans).</li>
-<li>The Frontend's <code>usePermission()</code> helper matches the gateway's policy enforcement (catches drift early).</li>
+<li>Every mutating endpoint maps to a required policy.</li>
+<li>Every policy uses the uniform view/create/update/delete verbs on an entity.</li>
+<li>The frontend's <code>usePermission()</code> helper matches the gateway's enforcement (catches drift early).</li>
 </ol>
-<p>This three-way check (service → gateway → frontend) makes the policy table the single source of truth.</p>
+<p>This three-way check (service → gateway <code>PolicyTable()</code> → frontend <code>permissions.js</code>) keeps enforcement consistent. The set of entities is not a fixed 15: alongside the core resource types it also includes budget, dashboard, autoscaler-policy, event-readiness, unit-metric, and policy.</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
 <p>A team-platform engineer wants to start an EC2 instance from the Resources page. The flow:</p>

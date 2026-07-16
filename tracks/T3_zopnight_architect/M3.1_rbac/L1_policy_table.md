@@ -100,12 +100,12 @@ The policy model is default-deny. If a new endpoint is added without a policy ma
 
 ### How ZopNight uses the table
 
-The policy table lives in `policy_table.yaml` in the gateway repo. Every change is a PR with mandatory review by the security team. The build pipeline asserts that:
-1. Every endpoint declared in any service has a policy entry.
-2. Every policy entry references one of the 15 entities (no typos, no orphans).
-3. The Frontend's `usePermission()` helper matches the gateway's policy enforcement (catches drift early).
+The policy table is defined in code, not a YAML file: the gateway's Go `PolicyTable()` is the authoritative endpoint-to-policy map, and the frontend's `permissions.js` mirrors it for UI gating. There is no standalone `policy_table.yaml`. Every change is a PR with security review, and the model holds three invariants:
+1. Every mutating endpoint maps to a required policy.
+2. Every policy uses the uniform view/create/update/delete verbs on an entity.
+3. The frontend's `usePermission()` helper matches the gateway's enforcement (catches drift early).
 
-This three-way check (service → gateway → frontend) makes the policy table the single source of truth.
+This three-way check (service → gateway `PolicyTable()` → frontend `permissions.js`) keeps enforcement consistent. The set of entities is not a fixed 15: alongside the core resource types it also includes budget, dashboard, autoscaler-policy, event-readiness, unit-metric, and policy.
 
 ---
 
