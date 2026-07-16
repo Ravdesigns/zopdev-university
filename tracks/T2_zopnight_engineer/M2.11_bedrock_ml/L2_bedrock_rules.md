@@ -313,7 +313,7 @@ A 15-minute audit identifies the highest-ROI Bedrock optimizations.
 RC-1603 (model selection) recommendation. The savings come from:
 
 A. Using fewer tokens
-B. Routing workload to a cheaper model for queries that don't need top-tier capability. Most workloads can save 60-80%. The cost difference between Opus and Haiku is 50-100x per token; routing captures most of that.
+B. Routing workload to a cheaper model for queries that don't need top-tier capability. Most workloads can save 60-80%. The cost difference between Opus and Haiku is ~18.75x per token; routing captures most of that.
 C. Disabling Bedrock
 D. Random
 

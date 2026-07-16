@@ -373,10 +373,10 @@ D. Bug
 </details>
 
 ### Q2
-20 rules are certified as of 2026-05-07. The remaining 440+:
+About 124 rules are on the auto-remediation allowlist (~28 auto + ~96 guided). The rest of the 450+ rules:
 
 A. Don't exist
-B. Are shown with remediation steps but no one-click apply. The denylist shrinks over time as more rules pass certification. Customer-requested certifications accelerate specific rules. Goal: empty denylist within 12-18 months.
+B. Are advisory: shown with remediation steps but no one-click apply. The allowlist grows over time as more rules are validated end-to-end; a customer can request a specific rule be added.
 C. Are buggy
 D. Will never be remediated
 

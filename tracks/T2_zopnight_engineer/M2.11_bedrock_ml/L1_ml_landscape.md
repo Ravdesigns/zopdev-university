@@ -269,7 +269,7 @@ A 15-minute exercise reveals the model-selection opportunity.
 A workload using Opus for all queries when most could use Haiku:
 
 A. Standard practice
-B. Significantly overspending. Opus is ~50-100x more expensive than Haiku per token. Route by complexity. Model selection is the biggest Bedrock cost lever — often 60-80% recoverable.
+B. Significantly overspending. Opus is ~18.75x more expensive than Haiku per token. Route by complexity. Model selection is the biggest Bedrock cost lever — often 60-80% recoverable.
 C. Random
 D. Required
 

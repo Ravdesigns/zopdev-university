@@ -139,7 +139,7 @@ SYMPTOM                                FIX
                                        check corporate proxy / VPN
                                        
 "Command 'npx' not found"               Install Node.js (LTS); npx is
-                                       included with Node 16+
+                                       included with Node 18+
                                        
 Tools visible but error on first call    PAT may have expired or been
                                        revoked; regenerate
