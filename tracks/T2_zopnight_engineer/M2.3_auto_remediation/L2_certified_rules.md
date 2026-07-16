@@ -1,4 +1,4 @@
-# Certified vs uncertified rules
+# The auto-remediation allowlist: auto, guided, advisory
 
 § T2 · M2.3 · L2 of 6 · Engineer tier · 9 min
 
@@ -23,25 +23,28 @@ By the end of this lesson, you will be able to **identify** which rules can be o
 
 ## 1. Concept
 
-Auto-remediation requires high confidence that the cloud action is safe, reversible-or-undoable, and tested. Only **certified** rules expose the one-click Apply button. As of 2026-05-21, **20 rules** are certified end-to-end on real cloud.
+Auto-remediation requires high confidence that the cloud action is safe, reversible-or-undoable, and tested. Eligibility is an **allowlist** in code (`contract/autoremediation_allowlist.go`), not a product feature called "certification." The allowlist wires about **124 rules**: roughly **28 as one-click auto** and **96 as guided** (a type-to-confirm review step). Every other rule is **advisory**: the recommendation shows, but no Apply button. ("Certified" in this lesson is just shorthand for "on the auto-remediation allowlist.")
 
 ```
-THE CERTIFICATION BAR:
+THE AUTO-REMEDIATION ALLOWLIST:
   
-  CERTIFIED (one-click Apply):
+  ON THE ALLOWLIST, AUTO (~28, one-click Apply):
     Tested end-to-end on real cloud accounts
     Failure modes catalogued
     Idempotent + safe
     Audit log verified
     
-  UNCERTIFIED (manual execution):
+  ON THE ALLOWLIST, GUIDED (~96, type-to-confirm):
+    Same safety bar, plus a human confirmation step
+
+  NOT ON THE ALLOWLIST (advisory, manual execution):
     Rule logic verified
     Remediation steps shown
     Apply button NOT shown
     Customer executes manually
 ```
 
-The 20-certified count grows over time. Goal: empty denylist (the full rule set) within 12-18 months.
+The allowlist grows over time as more rules are validated end-to-end.
 
 ### What "certified" means — the bar
 
@@ -85,37 +88,28 @@ CERTIFICATION CRITERIA (all must pass):
 
 The bar is high. Certification typically takes 4-12 weeks per rule.
 
-### The certified 20 (as of 2026-05-21)
+### What's on the allowlist
+
+The authoritative auto and guided sets live in `contract/autoremediation_allowlist.go` (about 28 auto + 96 guided). Treat that file as the source of truth; the entries below are illustrative of the categories, not a fixed list.
 
 ```
-BATCH 1 — IDLE / ORPHAN STOP (10 rules):
-  RC-001   Idle EC2 instance (terminate with snapshot)
-  RC-002   Orphan EBS volume (delete)
-  RC-010   Idle Lambda function
-  RC-105   Orphan EBS snapshot (delete)
-  RC-152   Orphan ELB (delete)
-  RC-202   Idle RDS instance (delete with final snapshot)
-  RC-203   Idle Aurora cluster
-  RC-301   Orphan EIP (release)
-  RC-302   Orphan NAT Gateway (delete)
-  + 1 more
+AUTO (one-click), illustrative:
+  RC-002   Orphan EBS volume delete (only with authoritative orphan evidence)
+  K8s scale-to-zero: idle Deployments, suspend CronJobs (EKS / GKE / AKS)
+  Pause services: App Runner, Beanstalk, Azure Databricks cluster
 
-BATCH 2 — K8S SCALE-TO-ZERO (5 rules):
-  RC-1701  Idle EKS Deployment (scale to 0)
-  RC-1702  Suspend EKS CronJob
-  RC-1801  Idle GKE Deployment
-  RC-1802  Suspend GKE CronJob
-  RC-1901  Idle AKS Deployment
+GUIDED (type-to-confirm), illustrative:
+  RC-021   Orphan EBS snapshot delete (irreversible, so human-confirmed)
+  Single-replica K8s bump 1->2 (RC-1706 / 1806 / 1906)
+  RC-214   Azure Hybrid Benefit (a reversible licensing setting)
 
-BATCH 3 — PAUSE SERVICES (5 rules):
-  RC-303   Pause App Runner
-  RC-304   Pause Beanstalk Environment
-  RC-401   Pause Azure Databricks Cluster
-  RC-402   Pause Snowflake warehouse
-  RC-501   Pause Redshift cluster
+NOT auto-remediable (advisory only):
+  RC-001   Idle EC2 — advisory. It fires on already-stopped instances and
+           recommends termination; it is explicitly OFF the allowlist.
+  Rightsizing, compliance, network, and IAM changes
 ```
 
-The certified rules cluster around the simplest, safest categories — idle/orphan terminations and pause/resume operations. Rightsizing and complex changes are deliberately not yet certified.
+The allowlisted rules cluster around the simplest, safest categories: orphan deletes backed by evidence, scale-to-zero, and pause/resume. Rightsizing and complex changes are deliberately advisory.
 
 ### Why uncertified rules don't have Apply
 

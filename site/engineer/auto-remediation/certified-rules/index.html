@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Certified vs uncertified rules / ZopNight Engineer / ZopDev University</title>
+<title>The auto-remediation allowlist: auto, guided, advisory / ZopNight Engineer / ZopDev University</title>
 <meta name="description" content="By the end of this lesson, you will be able to **identify** which rules can be one-click auto-remediated, **explain** the certification criteria, **and plan** progressive enablement of certified rules in your org.">
 <link rel="canonical" href="https://zop.dev/resources/university/engineer/auto-remediation/certified-rules/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
@@ -12,7 +12,7 @@
 <!-- Open Graph -->
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
-<meta property="og:title" content="Certified vs uncertified rules / ZopNight Engineer / ZopDev University">
+<meta property="og:title" content="The auto-remediation allowlist: auto, guided, advisory / ZopNight Engineer / ZopDev University">
 <meta property="og:description" content="By the end of this lesson, you will be able to **identify** which rules can be one-click auto-remediated, **explain** the certification criteria, **and plan** progressive enablement of certified rules in your org.">
 <meta property="og:url" content="https://zop.dev/resources/university/engineer/auto-remediation/certified-rules/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
@@ -21,14 +21,14 @@
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
-<meta name="twitter:title" content="Certified vs uncertified rules / ZopNight Engineer / ZopDev University">
+<meta name="twitter:title" content="The auto-remediation allowlist: auto, guided, advisory / ZopNight Engineer / ZopDev University">
 <meta name="twitter:description" content="By the end of this lesson, you will be able to **identify** which rules can be one-click auto-remediated, **explain** the certification criteria, **and plan** progressive enablement of certified rules in your org.">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "name": "Certified vs uncertified rules",
+  "name": "The auto-remediation allowlist: auto, guided, advisory",
   "description": "By the end of this lesson, you will be able to **identify** which rules can be one-click auto-remediated, **explain** the certification criteria, **and plan** progressive enablement of certified rules in your org.",
   "url": "https://zop.dev/resources/university/engineer/auto-remediation/certified-rules/",
   "learningResourceType": "Lesson",
@@ -84,7 +84,7 @@
     {
       "@type": "ListItem",
       "position": 6,
-      "name": "Certified vs uncertified rules",
+      "name": "The auto-remediation allowlist: auto, guided, advisory",
       "item": "https://zop.dev/resources/university/engineer/auto-remediation/certified-rules/"
     }
   ]
@@ -369,7 +369,7 @@
     <a href="/">University</a><span class="sep">›</span>
     <a href="/engineer/">Engineer</a><span class="sep">›</span>
     <a href="/engineer/auto-remediation/">Auto Remediation</a><span class="sep">›</span>
-    <span class="current">Certified vs uncertified rules</span>
+    <span class="current">The auto-remediation allowlist: auto, guided, advisory</span>
   </div>
 </section>
 
@@ -384,7 +384,7 @@
 </a>
 <a href="/engineer/auto-remediation/certified-rules/" class="current">
   <span class="num">L2</span>
-  <span>Certified vs uncertified rules</span>
+  <span>The auto-remediation allowlist: auto, …</span>
 </a>
 <a href="/engineer/auto-remediation/approval-gate/" class="">
   <span class="num">L3</span>
@@ -409,7 +409,7 @@
         <div class="lesson-id">
           <span>T2 / M2.3 / L2 of 6 / Engineer tier / 9 min</span>
         </div>
-        <h1>Certified vs uncertified rules</h1>
+        <h1>The auto-remediation allowlist: auto, guided, advisory</h1>
       </header>
       <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>identify</strong> which rules can be one-click auto-remediated, <strong>explain</strong> the certification criteria, <strong>and plan</strong> progressive enablement of certified rules in your org.</p></div>
       <div class="lesson-metabox"><dl>
@@ -426,21 +426,24 @@
 <dt>Bloom verb</dt>
 <dd>Identify (Apply), Explain (Understand), Plan (Create)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
-<p>Auto-remediation requires high confidence that the cloud action is safe, reversible-or-undoable, and tested. Only <strong>certified</strong> rules expose the one-click Apply button. As of 2026-05-21, <strong>20 rules</strong> are certified end-to-end on real cloud.</p>
-<pre><code>THE CERTIFICATION BAR:
+<p>Auto-remediation requires high confidence that the cloud action is safe, reversible-or-undoable, and tested. Eligibility is an <strong>allowlist</strong> in code (<code>contract/autoremediation_allowlist.go</code>), not a product feature called "certification." The allowlist wires about <strong>124 rules</strong>: roughly <strong>28 as one-click auto</strong> and <strong>96 as guided</strong> (a type-to-confirm review step). Every other rule is <strong>advisory</strong>: the recommendation shows, but no Apply button. ("Certified" in this lesson is just shorthand for "on the auto-remediation allowlist.")</p>
+<pre><code>THE AUTO-REMEDIATION ALLOWLIST:
   
-  CERTIFIED (one-click Apply):
+  ON THE ALLOWLIST, AUTO (~28, one-click Apply):
     Tested end-to-end on real cloud accounts
     Failure modes catalogued
     Idempotent + safe
     Audit log verified
     
-  UNCERTIFIED (manual execution):
+  ON THE ALLOWLIST, GUIDED (~96, type-to-confirm):
+    Same safety bar, plus a human confirmation step
+
+  NOT ON THE ALLOWLIST (advisory, manual execution):
     Rule logic verified
     Remediation steps shown
     Apply button NOT shown
     Customer executes manually</code></pre>
-<p>The 20-certified count grows over time. Goal: empty denylist (the full rule set) within 12-18 months.</p>
+<p>The allowlist grows over time as more rules are validated end-to-end.</p>
 <h3 id="what-certified-means-the-bar">What "certified" means — the bar</h3>
 <p>A rule is certified when it passes end-to-end testing on real cloud (not just synthetic). Specifically:</p>
 <pre><code>CERTIFICATION CRITERIA (all must pass):
@@ -477,33 +480,23 @@
    No incidents over observation period
    Edge cases caught + fixed</code></pre>
 <p>The bar is high. Certification typically takes 4-12 weeks per rule.</p>
-<h3 id="the-certified-20-as-of-2026-05-21">The certified 20 (as of 2026-05-21)</h3>
-<pre><code>BATCH 1 — IDLE / ORPHAN STOP (10 rules):
-  RC-001   Idle EC2 instance (terminate with snapshot)
-  RC-002   Orphan EBS volume (delete)
-  RC-010   Idle Lambda function
-  RC-105   Orphan EBS snapshot (delete)
-  RC-152   Orphan ELB (delete)
-  RC-202   Idle RDS instance (delete with final snapshot)
-  RC-203   Idle Aurora cluster
-  RC-301   Orphan EIP (release)
-  RC-302   Orphan NAT Gateway (delete)
-  + 1 more
+<h3 id="what-s-on-the-allowlist">What's on the allowlist</h3>
+<p>The authoritative auto and guided sets live in <code>contract/autoremediation_allowlist.go</code> (about 28 auto + 96 guided). Treat that file as the source of truth; the entries below are illustrative of the categories, not a fixed list.</p>
+<pre><code>AUTO (one-click), illustrative:
+  RC-002   Orphan EBS volume delete (only with authoritative orphan evidence)
+  K8s scale-to-zero: idle Deployments, suspend CronJobs (EKS / GKE / AKS)
+  Pause services: App Runner, Beanstalk, Azure Databricks cluster
 
-BATCH 2 — K8S SCALE-TO-ZERO (5 rules):
-  RC-1701  Idle EKS Deployment (scale to 0)
-  RC-1702  Suspend EKS CronJob
-  RC-1801  Idle GKE Deployment
-  RC-1802  Suspend GKE CronJob
-  RC-1901  Idle AKS Deployment
+GUIDED (type-to-confirm), illustrative:
+  RC-021   Orphan EBS snapshot delete (irreversible, so human-confirmed)
+  Single-replica K8s bump 1-&gt;2 (RC-1706 / 1806 / 1906)
+  RC-214   Azure Hybrid Benefit (a reversible licensing setting)
 
-BATCH 3 — PAUSE SERVICES (5 rules):
-  RC-303   Pause App Runner
-  RC-304   Pause Beanstalk Environment
-  RC-401   Pause Azure Databricks Cluster
-  RC-402   Pause Snowflake warehouse
-  RC-501   Pause Redshift cluster</code></pre>
-<p>The certified rules cluster around the simplest, safest categories — idle/orphan terminations and pause/resume operations. Rightsizing and complex changes are deliberately not yet certified.</p>
+NOT auto-remediable (advisory only):
+  RC-001   Idle EC2 — advisory. It fires on already-stopped instances and
+           recommends termination; it is explicitly OFF the allowlist.
+  Rightsizing, compliance, network, and IAM changes</code></pre>
+<p>The allowlisted rules cluster around the simplest, safest categories: orphan deletes backed by evidence, scale-to-zero, and pause/resume. Rightsizing and complex changes are deliberately advisory.</p>
 <h3 id="why-uncertified-rules-don-t-have-apply">Why uncertified rules don't have Apply</h3>
 <p>For uncertified rules, the recommendation card hides the Apply Remediate button. The remediation steps are still shown — but as instructions for manual execution.</p>
 <pre><code>UNCERTIFIED RULE CARD example: RC-006 Oversized EC2
