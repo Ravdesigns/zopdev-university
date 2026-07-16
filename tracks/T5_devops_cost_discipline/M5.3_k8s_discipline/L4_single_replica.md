@@ -197,7 +197,7 @@ THREE-POD RELIABILITY:
   Allowed downtime: ~3 seconds/year
 
 THE MATH:
-  Two pods = 100,000× lower failure rate than one
+  Two pods = 1,000× lower failure rate than one
   Three pods = 1,000,000× lower
   
   Cost: 2× or 3× linearly
@@ -394,7 +394,7 @@ A 20-minute audit reveals the rep-count opportunities. Often: production has und
 A customer-facing production API at 1 replica:
 
 A. Acceptable cost-saving
-B. Not for production. 2+ replicas minimum for resilience. Single-pod failure = service unavailable for 1-5 minutes. The reliability math strongly favors at least 2 — 100,000× lower failure rate. Tier 1 workloads: bump to 2 or 3.
+B. Not for production. 2+ replicas minimum for resilience. Single-pod failure = service unavailable for 1-5 minutes. The reliability math strongly favors at least 2 — 1,000× lower failure rate. Tier 1 workloads: bump to 2 or 3.
 C. Random
 D. Optimal cost
 

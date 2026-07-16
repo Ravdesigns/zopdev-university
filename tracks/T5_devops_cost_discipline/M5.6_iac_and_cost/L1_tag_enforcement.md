@@ -85,7 +85,7 @@ resource "aws_instance" "example" {
   }
   
   lifecycle {
-    precondition {
+    postcondition {
       condition = (
         contains(keys(self.tags), "environment") &&
         contains(keys(self.tags), "team") &&
@@ -98,7 +98,7 @@ resource "aws_instance" "example" {
 }
 ```
 
-Three layers compound: defaults set the floor; validation catches typos; preconditions catch missing tags at apply time.
+Three layers compound: defaults set the floor; validation catches typos; postconditions catch missing tags at apply time (self is only valid in postconditions).
 
 ### Default tags inheritance — concrete behavior
 

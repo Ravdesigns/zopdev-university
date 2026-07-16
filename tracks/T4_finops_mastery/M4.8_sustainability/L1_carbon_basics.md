@@ -132,7 +132,7 @@ The good news: most carbon levers also save cost. The exception: region migratio
 WORKLOAD: 100 m5.large instances 24/7 in us-east-1
 
 POWER DRAW (rough):
-  m5.large ~50W (per AWS published data)
+  m5.large ~50W (estimate; AWS does not publish per-instance wattage)
   100 instances × 50W = 5 kW continuous
   5 kW × 730 hr/mo = 3,650 kWh/mo
 
