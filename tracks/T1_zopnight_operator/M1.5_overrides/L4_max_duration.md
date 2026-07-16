@@ -6,7 +6,7 @@
 
 ## Outcome
 
-By the end of this lesson, you will be able to **configure** the org-wide Max Override Duration policy **and explain** why it prevents the most common operational hazard.
+By the end of this lesson, you will be able to **configure** the per-resource Max Override Duration cap **and explain** why it prevents the most common operational hazard.
 
 ---
 
@@ -23,11 +23,13 @@ By the end of this lesson, you will be able to **configure** the org-wide Max Ov
 
 ## 1. Concept
 
-The **Max Override Duration** is an org-wide policy setting that caps how long any single override can be active. Default: **7 days**. Configurable: 1 hour to 90 days. Admin-only to change.
+The **Max Override Duration** is a **per-resource and per-resource-group** setting (`max_override_duration_minutes`) that caps how long any single override on that resource or group can be active. It is not an org-wide policy and there is no global default value: the cap lives on the individual resource or group, expressed in minutes.
 
-The cap exists to prevent a specific failure mode: the override that gets forgotten and runs indefinitely. Without a cap, a force-on override set "for this weekend" survives a team member's departure, an org chart change, three quarterly reviews, and a $40K bill before anyone notices.
+A value of **0 means overrides are disabled entirely** for that resource or group. Any positive value is the maximum minutes an override may run before it must expire.
 
-### Why 7 days as default
+The cap exists to prevent a specific failure mode: the override that gets forgotten and runs indefinitely. Without a cap, a force-on override set "for this weekend" survives a team member's departure, an org chart change, three quarterly reviews, and a large bill before anyone notices. Because the cap is per-resource, you set a tighter limit on sensitive resources (or 0 to forbid overrides there) and a looser one where longer overrides are legitimate.
+
+### Choosing a cap per resource
 
 ```
 TYPICAL OVERRIDE NEEDS                       TYPICAL DURATION
@@ -41,9 +43,7 @@ Holiday weekend coverage                       3-5 days
 End-of-quarter business review                 4-5 days
 ```
 
-The 95th percentile of legitimate override duration is about 5 days. Setting the cap at 7 days gives generous headroom while still preventing the indefinite-runaway pattern.
-
-Anything longer than 7 days is structurally a schedule edit, not an override:
+Most legitimate overrides finish inside about 5 days, so a cap in the ~5-to-7-day range (7,200 to 10,080 minutes) on a normal resource gives headroom while still catching the runaway. Anything structurally longer is a schedule edit, not an override:
 
 - "Our team works Sundays in May" → edit the schedule for that period
 - "Production is non-24/7 in this region" → edit the schedule permanently
@@ -52,78 +52,68 @@ Anything longer than 7 days is structurally a schedule edit, not an override:
 ### What happens when the cap is hit
 
 ```
-USER SETS OVERRIDE expiring 30 days from now.
+USER SETS OVERRIDE on a resource whose max_override_duration_minutes
+is 10,080 (7 days), with an expiry 30 days out.
 
-ZopNight UI validation:
-  "Max override duration is 7 days. Reduce to 7 days or less,
-   or consider a schedule edit for permanent changes."
+ZopNight validation:
+  "Override exceeds this resource's max duration (7 days). Reduce the
+   expiry, or edit the schedule for a permanent change."
 
-Reject. The user adjusts to 7 days, OR cancels and uses a different tool.
+Reject. The user shortens the override, OR edits the schedule instead.
+If the resource's cap is 0, the override is refused outright: overrides
+are disabled on that resource.
 ```
 
-Admins can change the cap if their organizational needs justify it:
+The cap is set on the resource or resource group (admin action), and every override action is captured in the audit log.
 
-```
-SETTINGS → Cost & Scheduling → Max Override Duration
-─────────────────────────────────────────────────────
-Current value:    7 days
-Allowed range:    1 hour to 90 days
-Last changed:     2026-04-12 by admin@org.com
-                  Reason: "Allow 14-day overrides for DR drills"
+### Setting the cap where it matters
 
-[Change value]
-```
-
-Changes to the cap are audited.
-
-### Per-resource exceptions (advanced)
-
-For a few organizations with legitimate need for longer overrides on specific resources (e.g., a single DR cluster that needs to stay on for a quarter), per-resource exception is available:
+Because the cap is per-resource and per-group, you tune it to the resource:
 
 ```
 RESOURCE: dr-cluster-eu
-Override max duration: 90 days (overrides org default of 7 days)
+max_override_duration_minutes: 129,600 (90 days) — extended for quarterly DR drills
 Set by:   security-admin@org.com
-Reason:   "DR cluster requires extended overrides for quarterly drills"
+
+RESOURCE: prod-payments-db
+max_override_duration_minutes: 0 — overrides disabled; never force this on/off manually
 ```
 
-Per-resource exceptions are admin-only and require a documented reason. They are rare; ~99% of teams use the org default without exceptions.
+Setting the field is an admin action, and every override create/clear/expire is captured in the audit log.
 
 ### Why this matters for compliance
 
-Several compliance frameworks (SOC 2, ISO 27001) ask about "guardrails against indefinite policy bypasses." The Max Override Duration is a defensible answer:
+Several compliance frameworks (SOC 2, ISO 27001) ask about "guardrails against indefinite policy bypasses." The per-resource Max Override Duration is a defensible answer:
 
-- The policy is configurable
-- The default is conservative (7 days)
-- Changes are audited
-- Per-resource exceptions are documented and admin-only
-- Override history is retained indefinitely in the audit log
+- The cap is configurable per resource and per group
+- Sensitive resources can set it to 0, disabling overrides entirely
+- Every override action is captured in the audit log
+- Override history is retained in the audit log
 
-A SOC 2 auditor reviewing this policy can verify all five properties from the audit log + settings page. The control is testable.
+A SOC 2 auditor can verify these properties from the audit log plus the per-resource setting. The control is testable.
 
-### What this policy does NOT do
+### What this cap does NOT do
 
 Three deliberate limitations:
 
-1. **Does not limit the number of overrides.** A team can have 50 active overrides simultaneously, each within the duration cap. The cap is per-override duration, not total override count.
-2. **Does not auto-cancel overrides.** Overrides expire at their set expiry time. The cap rejects creation of long overrides; it does not retroactively shorten existing ones.
-3. **Does not enforce a reason quality bar.** The reason field has a minimum length (>10 chars) but no semantic check. "Test test test" passes; "demo for Acme Corp" passes. The reason field is for human reading, not machine validation.
+1. **Does not limit the number of overrides.** A team can have many active overrides simultaneously, each within its resource's duration cap. The cap is per-override duration, not total override count.
+2. **Does not auto-cancel overrides.** Overrides expire at their set expiry time. The cap rejects creation of an over-long override; it does not retroactively shorten existing ones.
+3. **Does not require a reason.** The override reason is optional (the backend does not store a reason field), so it cannot be relied on as a machine-enforced control. Use it for human context, not validation.
 
-The policy is a guardrail, not a panopticon. It catches the canonical mistake (forever-overrides) without micromanaging legitimate ones.
+The cap is a guardrail, not a panopticon. It catches the canonical mistake (forever-overrides) without micromanaging legitimate ones.
 
-### Recommended settings per org type
+### Choosing a cap per resource class
 
 ```
-ORG TYPE                                  RECOMMENDED MAX DURATION
-─────────────────────────────────────────────────────────────────
-Small dev team, low compliance burden     7 days (default)
-Mid-size SaaS                              7 days (default)
-Enterprise with frequent demos             10 days (slight headroom)
-Heavily regulated (banking, healthcare)   3 days (tighter)
-Highly automated (DR drills weekly)       5 days
+RESOURCE CLASS                            SUGGESTED max_override_duration
+─────────────────────────────────────────────────────────────────────
+Dev / staging compute                      ~7 days (10,080 min)
+Standard production                        ~3-5 days (4,320-7,200 min)
+Sensitive / stateful (payments DB, etc.)   0 (overrides disabled)
+DR / drill resources                       longer, documented
 ```
 
-Most teams should stay at the default. Tightening (to 3 days) reduces the risk window but increases friction; loosening past 14 days defeats the purpose.
+Tightening a resource's cap reduces its risk window but adds friction; setting 0 forbids overrides on resources that should only ever follow their schedule.
 
 ---
 
@@ -132,30 +122,26 @@ Most teams should stay at the default. Tightening (to 3 days) reduces the risk w
 A team setting up the policy on a new ZopNight deployment:
 
 ```
-DAY 1, T+0       Admin opens Settings → Cost & Scheduling
+DAY 1, T+0       Admin reviews override caps per resource / resource group.
 
-T+30 sec         Reviews current Max Override Duration: 7 days (default)
-T+45 sec         Discusses with FinOps lead: do any workloads need >7 day overrides?
+T+1 min          Sets a ~7-day cap (10,080 min) on standard dev/staging groups.
+T+2 min          Sets 0 on prod-payments-db: overrides disabled entirely there.
+T+3 min          Sets 90 days (129,600 min) on dr-cluster-eu for quarterly drills.
 
-T+2 min          Identifies one: the quarterly DR drill cluster.
-T+3 min          Configures per-resource exception for dr-cluster-eu (90 days max).
-                  Documents the reason in the per-resource override settings.
+T+5 min          Done. Each resource/group now carries its own
+                  max_override_duration_minutes; there is no org-wide value.
 
-T+4 min          Org default stays at 7 days.
-                  Settings panel shows:
-                    Org default: 7 days
-                    Exceptions: 1 (dr-cluster-eu, 90 days)
+DAY 30+   A 14-day override attempted on a dev group (7-day cap):
+                Validation rejects: "Exceeds this resource's max (7 days).
+                Shorten the override or edit the schedule."
+                Team uses a 7-day expiry instead.
+          A force-on attempted on prod-payments-db (cap = 0):
+                Refused outright: overrides are disabled on that resource.
 
-T+5 min          Admin saves and continues.
-
-DAY 30+   First override attempted with 14-day duration:
-                Validation rejects: "Max is 7 days. Use 7-day max or schedule edit."
-                Team uses 7-day expiry instead.
-
-NO incidents of forgotten 90-day overrides recorded over the first year.
+NO incidents of forgotten runaway overrides recorded over the first year.
 ```
 
-Five minutes of setup. Zero forgotten-override incidents going forward.
+A few minutes of per-resource setup. Zero forgotten-override incidents going forward.
 
 (Asset: `assets/diagrams/M1.5_L4_max_duration_setup.svg`.)
 
@@ -166,22 +152,19 @@ Five minutes of setup. Zero forgotten-override incidents going forward.
 If you have admin access:
 
 ```
-1. Open Settings → Cost & Scheduling.
-2. Find the Max Override Duration setting.
-3. Note the current value and last-changed timestamp.
-4. Consider: does this value match your org's typical override needs?
-   - Are most overrides shorter than 7 days?
-   - Are there any legitimate longer-duration cases?
-5. If no changes needed: leave at default.
-6. If changes needed:
-   - Document the reason
-   - Set the new value
-   - Save
-7. Verify the change is reflected in the override create dialog
-   (the validation rejects values past the new cap).
+1. Pick a resource or resource group.
+2. Find its Max Override Duration (max_override_duration_minutes).
+3. Note the current value (remember: 0 = overrides disabled here).
+4. Consider: does it match this resource's needs?
+   - Are most overrides on it shorter than the cap?
+   - Should sensitive resources be set to 0 (no overrides)?
+   - Do any resources (DR, drills) need a longer cap?
+5. Set the value per resource / group as needed.
+6. Verify by attempting an over-long override in the create dialog
+   (validation rejects values past that resource's cap).
 
-For non-admin users: review the setting (read-only access).
-Understand the policy. Use it to inform your override decisions.
+For non-admin users: review the caps (read-only access) and use
+them to inform your override decisions.
 ```
 
 ---
@@ -189,11 +172,11 @@ Understand the policy. Use it to inform your override decisions.
 ## 4. Knowledge check
 
 ### Q1
-A team needs to keep a non-prod environment running for a 2-week sprint. The Max Override Duration is 7 days. The right approach:
+A team needs to keep a non-prod environment running for a 2-week sprint. The resource's max override duration is 7 days. The right approach:
 
 A. Set two consecutive 7-day overrides
 B. The 2-week sprint is too long for an override. Edit the schedule to skip the weekend stops for those two weeks (a schedule edit), or reduce the schedule's active hours during the sprint, then revert after.
-C. Get an admin to extend the org policy
+C. Raise the resource's max-duration cap
 D. Manually start resources every day
 
 <details>
@@ -203,7 +186,7 @@ D. Manually start resources every day
 </details>
 
 ### Q2
-A user sets an override with 5-day expiry. The org's Max Override Duration is 7 days. What happens:
+A user sets an override with 5-day expiry. The resource's max override duration is 7 days. What happens:
 
 A. Rejected
 B. Accepted — 5 days is within the 7-day cap. Validation only fires when the expiry exceeds the cap.
@@ -220,7 +203,7 @@ D. Capped automatically
 A SOC 2 auditor asks: "How do you prevent indefinite policy bypasses?" The defensible response includes:
 
 A. "We trust our engineers"
-B. The Max Override Duration cap (default 7 days, audited, admin-only to change), the required expiry on every override, and the audit log of all override events. Together these are a testable control.
+B. The per-resource Max Override Duration cap (settable per resource and group, with 0 disabling overrides entirely on a resource), the required expiry on every override, and the audit log of all override events. Together these are a testable control.
 C. "Overrides cannot exist"
 D. "We don't use overrides"
 
@@ -236,8 +219,8 @@ D. "We don't use overrides"
 
 Max Override Duration is in:
 
-- **[Settings → Cost & Scheduling](https://app.zopnight.com/settings/scheduling)** — org-wide default + exceptions
-- **[Audit Log](https://app.zopnight.com/audit-logs)** filter to "policy.max_override_duration" — see every change
+- **The per-resource / per-group setting** (`max_override_duration_minutes` on the resource or resource group; 0 disables overrides there)
+- **[Audit Log](https://app.zopnight.com/audit-logs)** — every override create / clear / expire event
 - **[Override create dialog](https://app.zopnight.com/overrides/new)** — validation enforces the cap
 
 For the broader RBAC model (who can change policy, who can set overrides), see [T3.M3.1](../../T3_zopnight_architect/M3.1_rbac/00_README.md).

@@ -418,7 +418,7 @@
 <dt>Bloom verb</dt>
 <dd>Configure (Apply) and Verify (Evaluate)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
-<p>An override has four fields. Three are required: type, reason, expiry. The fourth (scope) is implicit from where the override is set (resource or group). Each field shapes the override's behavior in a specific way.</p>
+<p>An override has a <strong>type</strong> and an <strong>expiry</strong> (both required), an <strong>optional reason</strong>, and an implicit <strong>scope</strong> (from where the override is set: resource or group). The reason is not stored as a backend field, so treat it as human context, not a required or machine-validated input. Each field shapes the override's behavior in a specific way.</p>
 <h3 id="field-1-type">Field 1 — Type</h3>
 <p>Two options:</p>
 <ul>
@@ -427,7 +427,7 @@
 </ul>
 <p>There is no "force into specific state" with more granularity. ON / OFF only. This matches the scheduler's vocabulary; complex state transitions (e.g., "scale to X replicas") use the autoscaler features, not overrides.</p>
 <h3 id="field-2-reason">Field 2 — Reason</h3>
-<p>Free-form text. Required. The reason is the operational documentation:</p>
+<p>Free-form text. Optional. When provided, the reason is the operational documentation:</p>
 <pre><code>GOOD REASONS                              BAD REASONS
 ─────────────────────────────────────────────────────────
 &quot;Acme demo Sat 2pm, exp Mon 8am&quot;          &quot;test&quot;
@@ -437,8 +437,8 @@
  expected 6h duration&quot;                     ─── (no context)
 &quot;DR drill, force-on all dev for           
  24h window&quot;</code></pre>
-<p>The reason becomes the answer to "why is this on?" when a future engineer is investigating. Be specific.</p>
-<p>ZopNight enforces a minimum length (>10 characters) on the reason field. "test" or "x" is rejected. This is a small friction but a useful one — it forces the team to write a real reason.</p>
+<p>When provided, the reason becomes the answer to "why is this on?" when a future engineer is investigating. Be specific.</p>
+<p>The reason is optional and is not stored as a backend field, so it is not machine-enforced or validated. Treat it as a note for teammates, not a control you can audit against. Writing a clear reason is a good habit, not a requirement.</p>
 <h3 id="field-3-expiry">Field 3 — Expiry</h3>
 <p>Required. The override is removed automatically at the expiry time. No exceptions.</p>
 <pre><code>EXPIRY OPTIONS
@@ -446,7 +446,7 @@
   Relative duration:    +24h, +48h, +7d (computed from now)
   End-of-week:          Monday 00:00 (common shorthand)</code></pre>
 <p>The expiry is stored as an absolute UTC timestamp. Timezone conversions happen at display time only.</p>
-<p>If the expiry exceeds the org-wide <strong>Max Override Duration</strong> (covered in <a href="L4_max_duration.md">L4</a>), the create is rejected. A team trying to set a 90-day override hits the max-duration cap; they must either reduce the duration or get an Admin to extend the org policy.</p>
+<p>If the expiry exceeds the resource's <strong>Max Override Duration</strong> cap (covered in <a href="L4_max_duration.md">L4</a>), the create is rejected. A team trying to set a 90-day override on a resource capped at 7 days must either reduce the duration, have an admin raise that resource's cap, or edit the schedule for a permanent change. If the resource's cap is 0, overrides are refused there entirely.</p>
 <h3 id="field-4-scope-implicit">Field 4 — Scope (implicit)</h3>
 <ul>
 <li><strong>Per-resource override</strong> is set from the Resource detail page → applies to that one resource only</li>
@@ -559,8 +559,8 @@ T+8 hrs   Schedule resumes normal operation.</code></pre>
 <p><strong>Correct: B.</strong> Override expiry is metadata. The next cron firing on the resource is what restores normal scheduled behavior.</p>
 </details>
 <h3 id="q2">Q2</h3>
-<p>A team needs to set an override that expires in 90 days. The Max Override Duration is 7 days. What happens?</p>
-<p>A. The override is created with 90-day expiry B. The create is rejected. The team can either reduce the duration to <=7 days, get an Admin to extend the org policy, or use a schedule edit instead (for changes longer than the max). C. The override expires after 7 days D. ZopNight warns but accepts</p>
+<p>A team needs to set an override that expires in 90 days. The resource's max override duration is 7 days. What happens?</p>
+<p>A. The override is created with 90-day expiry B. The create is rejected. The team can either reduce the duration to <=7 days, have an admin raise that resource's cap, or use a schedule edit instead (for changes longer than the max). C. The override expires after 7 days D. ZopNight warns but accepts</p>
 <details>
 <summary>Show answer</summary>
 <p><strong>Correct: B.</strong> Max Override Duration is a guardrail. The intent: anything longer than the cap is probably a schedule edit, not an override.</p>

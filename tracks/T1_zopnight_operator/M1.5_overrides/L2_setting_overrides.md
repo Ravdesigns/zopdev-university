@@ -23,7 +23,7 @@ By the end of this lesson, you will be able to **configure** force-on and force-
 
 ## 1. Concept
 
-An override has four fields. Three are required: type, reason, expiry. The fourth (scope) is implicit from where the override is set (resource or group). Each field shapes the override's behavior in a specific way.
+An override has a **type** and an **expiry** (both required), an **optional reason**, and an implicit **scope** (from where the override is set: resource or group). The reason is not stored as a backend field, so treat it as human context, not a required or machine-validated input. Each field shapes the override's behavior in a specific way.
 
 ### Field 1 — Type
 
@@ -36,7 +36,7 @@ There is no "force into specific state" with more granularity. ON / OFF only. Th
 
 ### Field 2 — Reason
 
-Free-form text. Required. The reason is the operational documentation:
+Free-form text. Optional. When provided, the reason is the operational documentation:
 
 ```
 GOOD REASONS                              BAD REASONS
@@ -50,9 +50,9 @@ GOOD REASONS                              BAD REASONS
  24h window"
 ```
 
-The reason becomes the answer to "why is this on?" when a future engineer is investigating. Be specific.
+When provided, the reason becomes the answer to "why is this on?" when a future engineer is investigating. Be specific.
 
-ZopNight enforces a minimum length (>10 characters) on the reason field. "test" or "x" is rejected. This is a small friction but a useful one — it forces the team to write a real reason.
+The reason is optional and is not stored as a backend field, so it is not machine-enforced or validated. Treat it as a note for teammates, not a control you can audit against. Writing a clear reason is a good habit, not a requirement.
 
 ### Field 3 — Expiry
 
@@ -67,7 +67,7 @@ EXPIRY OPTIONS
 
 The expiry is stored as an absolute UTC timestamp. Timezone conversions happen at display time only.
 
-If the expiry exceeds the org-wide **Max Override Duration** (covered in [L4](L4_max_duration.md)), the create is rejected. A team trying to set a 90-day override hits the max-duration cap; they must either reduce the duration or get an Admin to extend the org policy.
+If the expiry exceeds the resource's **Max Override Duration** cap (covered in [L4](L4_max_duration.md)), the create is rejected. A team trying to set a 90-day override on a resource capped at 7 days must either reduce the duration, have an admin raise that resource's cap, or edit the schedule for a permanent change. If the resource's cap is 0, overrides are refused there entirely.
 
 ### Field 4 — Scope (implicit)
 
@@ -227,10 +227,10 @@ D. The override is recreated
 </details>
 
 ### Q2
-A team needs to set an override that expires in 90 days. The Max Override Duration is 7 days. What happens?
+A team needs to set an override that expires in 90 days. The resource's max override duration is 7 days. What happens?
 
 A. The override is created with 90-day expiry
-B. The create is rejected. The team can either reduce the duration to <=7 days, get an Admin to extend the org policy, or use a schedule edit instead (for changes longer than the max).
+B. The create is rejected. The team can either reduce the duration to <=7 days, have an admin raise that resource's cap, or use a schedule edit instead (for changes longer than the max).
 C. The override expires after 7 days
 D. ZopNight warns but accepts
 

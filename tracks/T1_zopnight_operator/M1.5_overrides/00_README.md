@@ -6,7 +6,7 @@
 
 ## Module outcome
 
-Recognize when an override is the right tool vs. a manual action vs. a schedule edit. Set force-on and force-off overrides with reason and expiry. Read and cancel active overrides. Configure the org-wide max override duration to prevent forgotten overrides.
+Recognize when an override is the right tool vs. a manual action vs. a schedule edit. Set force-on and force-off overrides with reason and expiry. Read and cancel active overrides. Configure the per-resource max override duration (0 disables overrides on a resource) to prevent forgotten overrides.
 
 ---
 

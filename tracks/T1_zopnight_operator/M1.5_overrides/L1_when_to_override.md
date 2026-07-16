@@ -108,7 +108,7 @@ Incident response                12-24 hours, extend if needed
 Off-hours work session            End of session + 2 hours
 ```
 
-The org-wide **Max Override Duration** policy (covered in [L4](L4_max_duration.md)) sets an upper bound — typically 7 days. Anything longer than that should be a schedule edit, not an override.
+The per-resource **Max Override Duration** cap (covered in [L4](L4_max_duration.md)) sets an upper bound on each resource or group (and 0 disables overrides there entirely). Anything longer than a resource's cap should be a schedule edit, not an override.
 
 ### Per-resource vs. per-group override
 
