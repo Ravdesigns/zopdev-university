@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>When scheduling wins, when commitments win / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **decide** which lever (schedule, commit, or both) fits any given workload **using a four-question decision tree.**">
+<meta name="description" content="By the end of this lesson, you will be able to decide which lever (schedule, commit, or both) fits any given workload using a four-question decision tree.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/decision-tree/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="When scheduling wins, when commitments win / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **decide** which lever (schedule, commit, or both) fits any given workload **using a four-question decision tree.**">
+<meta property="og:description" content="By the end of this lesson, you will be able to decide which lever (schedule, commit, or both) fits any given workload using a four-question decision tree.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/decision-tree/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="When scheduling wins, when commitments win / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **decide** which lever (schedule, commit, or both) fits any given workload **using a four-question decision tree.**">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to decide which lever (schedule, commit, or both) fits any given workload using a four-question decision tree.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "When scheduling wins, when commitments win",
-  "description": "By the end of this lesson, you will be able to **decide** which lever (schedule, commit, or both) fits any given workload **using a four-question decision tree.**",
+  "description": "By the end of this lesson, you will be able to decide which lever (schedule, commit, or both) fits any given workload using a four-question decision tree.",
   "url": "https://zop.dev/resources/university/foundations/scheduling-vs-commitments/decision-tree/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -448,7 +451,7 @@ Reporting DBs (business hours)     Schedule (treat as non-prod for cost purposes
 Disaster recovery / cold standby   On-demand, scale-to-zero between drills
 Event-driven (marketing launches)  Event Readiness pre-scaling on top of base</code></pre>
 <h3 id="when-commitments-do-win-on-non-prod">When commitments DO win on non-prod</h3>
-<p>The non-prod fallacy from <a href="L3_non_prod_fallacy.md">L3</a> is the default. But there is a legitimate exception:</p>
+<p>The non-prod fallacy from <a href="/foundations/scheduling-vs-commitments/non-prod-fallacy/">L3</a> is the default. But there is a legitimate exception:</p>
 <p><strong>A non-prod environment that has been scheduled, observed, and has a stable post-schedule floor that nobody disputes is going away.</strong></p>
 <p>Example: a long-running performance test infrastructure that runs every weekday for two years. Scheduled off nights and weekends, but the weekday floor is stable. Buying a 1-yr commitment on the post-schedule floor is fine.</p>
 <p>The exception applies when steps 1–3 of the decision tree have already been done. Before any of those steps, the default for non-prod is "schedule, do not commit."</p>
@@ -511,7 +514,10 @@ Q3: Stateless / eviction-tolerant?
     → DECISION: COMMIT FLOOR + SPOT BURST
     Pattern: Savings Plan for 40 vCPU-hours/day, Spot for the variable layer</code></pre>
 <p>Three workloads, three different lever combinations. The tree drives each.</p>
-<p>(Asset: <code>assets/diagrams/M0.3_L4_decision_tree_flowchart.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 340" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d8" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="340" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Schedule, commit, or both?</text><rect x="240" y="52" width="180" height="44" rx="0" class="dgm-card-blue"/><text x="330" y="78" class="dgm-title" text-anchor="middle">Is the workload steady 24/7?</text><line x1="330" y1="96" x2="110" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d8)"/><text x="220" y="148" class="dgm-label-sm" text-anchor="middle">No</text><rect x="20" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="110" y="226" class="dgm-title" text-anchor="middle">Schedule it</text><text x="110" y="246" class="dgm-label-sm" text-anchor="middle">Off-hours = biggest win</text><line x1="330" y1="96" x2="330" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d8)"/><text x="330" y="148" class="dgm-label-sm" text-anchor="middle">Yes</text><rect x="240" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="330" y="226" class="dgm-title" text-anchor="middle">Commit</text><text x="330" y="246" class="dgm-label-sm" text-anchor="middle">RI / SP / CUD</text><line x1="330" y1="96" x2="550" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d8)"/><text x="440" y="148" class="dgm-label-sm" text-anchor="middle">Partly</text><rect x="460" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="550" y="226" class="dgm-title" text-anchor="middle">Do both</text><text x="550" y="246" class="dgm-label-sm" text-anchor="middle">Baseline + schedule peak</text>
+</svg></figure>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>
 <p>Run the decision tree on three of your own workloads:</p>
@@ -562,14 +568,14 @@ WORKLOAD 3: ____________________
 <p>The decision tree is the question the team asks. The product is where they apply it.</p>
 <hr>
 <h2 id="module-quiz">Module quiz</h2>
-<p>You have now completed all four lessons of M0.3. The module quiz (10 questions, 80% pass) lives at <a href="../../../certifications/operator/m0.3-quiz.md">/certifications/operator/m0.3-quiz</a>. Pass to earn the <strong>Lever-Sequencer</strong> chip.</p>
+<p>You have now completed all four lessons of M0.3. The module quiz (10 questions, 80% pass) lives at /certifications/operator/m0.3-quiz. Pass to earn the <strong>Lever-Sequencer</strong> chip.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="../M0.4_rack_rate_vs_billing/00_README.md">M0.4 — Rack rate vs. billing cost vs. amortized cost</a> <em>(next module)</em></li>
-<li><a href="../../T1_zopnight_operator/M1.3_first_schedule/00_README.md">T1.M1.3 — Build your first schedule</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.4_vm_autoscaling/00_README.md">T2.M2.4 — VM autoscaling</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.9_event_readiness/00_README.md">T2.M2.9 — Event Readiness</a></li>
+<li><a href="/foundations/rack-rate-vs-billing/">M0.4 — Rack rate vs. billing cost vs. amortized cost</a> <em>(next module)</em></li>
+<li><a href="/operator/first-schedule/">T1.M1.3 — Build your first schedule</a></li>
+<li><a href="/engineer/vm-autoscaling/">T2.M2.4 — VM autoscaling</a></li>
+<li><a href="/engineer/event-readiness/">T2.M2.9 — Event Readiness</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/decision-tree/">Decision tree</a> · <a href="/glossary/60-day-baselining-rule/">60-day baselining rule</a> · <a href="/glossary/floor-commit/">Floor commit</a> · <a href="/glossary/spot-burst/">Spot burst</a></p>

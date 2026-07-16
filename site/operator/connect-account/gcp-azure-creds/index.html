@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GCP &amp; Azure — service accounts and SPNs / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **configure** GCP service accounts and Azure service principals for ZopNight **and identify** the GCP and Azure equivalents of the AWS read-mostly pattern.">
+<meta name="description" content="By the end of this lesson, you will be able to configure GCP service accounts and Azure service principals for ZopNight and identify the GCP and Azure equivalents of the AWS read-mostly pattern.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/connect-account/gcp-azure-creds/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="GCP &amp; Azure — service accounts and SPNs / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **configure** GCP service accounts and Azure service principals for ZopNight **and identify** the GCP and Azure equivalents of the AWS read-mostly pattern.">
+<meta property="og:description" content="By the end of this lesson, you will be able to configure GCP service accounts and Azure service principals for ZopNight and identify the GCP and Azure equivalents of the AWS read-mostly pattern.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/connect-account/gcp-azure-creds/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="GCP &amp; Azure — service accounts and SPNs / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **configure** GCP service accounts and Azure service principals for ZopNight **and identify** the GCP and Azure equivalents of the AWS read-mostly pattern.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to configure GCP service accounts and Azure service principals for ZopNight and identify the GCP and Azure equivalents of the AWS read-mostly pattern.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "GCP & Azure — service accounts and SPNs",
-  "description": "By the end of this lesson, you will be able to **configure** GCP service accounts and Azure service principals for ZopNight **and identify** the GCP and Azure equivalents of the AWS read-mostly pattern.",
+  "description": "By the end of this lesson, you will be able to configure GCP service accounts and Azure service principals for ZopNight and identify the GCP and Azure equivalents of the AWS read-mostly pattern.",
   "url": "https://zop.dev/resources/university/operator/connect-account/gcp-azure-creds/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -438,7 +441,7 @@ A custom &quot;ZopNight Scheduler&quot; role with:
   ... (similar narrow list for GKE workloads)</code></pre>
 <h3 id="gcp-connecting">GCP — connecting</h3>
 <p>Two paths:</p>
-<p><strong>Path 1 — Service account key file.</strong> Customer creates a service account, downloads the JSON key file, and uploads it to ZopNight. The key file is the credential; it goes into the vault per <a href="L1_vault_credentials.md">L1</a>. Convenient but the key file is long-lived; rotation requires re-upload.</p>
+<p><strong>Path 1 — Service account key file.</strong> Customer creates a service account, downloads the JSON key file, and uploads it to ZopNight. The key file is the credential; it goes into the vault per <a href="/operator/connect-account/vault-credentials/">L1</a>. Convenient but the key file is long-lived; rotation requires re-upload.</p>
 <p><strong>Path 2 — Workload Identity Federation (recommended).</strong> Customer configures GCP to trust ZopNight's identity provider via OIDC. ZopNight exchanges its identity token for a short-lived GCP access token at call time. No long-lived key file in the vault. This is the modern recommended path.</p>
 <pre><code>Setup steps for Workload Identity:
 1. Create a Workload Identity Pool in the customer&#39;s GCP project
@@ -503,7 +506,6 @@ T+4 min   Customer pastes tenant ID + app ID into ZopNight
 T+5 min   ZopNight validates via OAuth2 / federated token exchange
 T+6 min   Account marked Active; discovery preview begins</code></pre>
 <p>Six to seven minutes per cloud. Both paths use workload identity federation as the modern default.</p>
-<p>(Asset: <code>assets/diagrams/M1.1_L3_gcp_azure_flows.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>
 <p>Connect a GCP project or Azure subscription:</p>
@@ -558,8 +560,8 @@ the credential cannot access. The error path is informative.</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_permission_visibility.md">L4 — Permission Visibility</a> <em>(next)</em></li>
-<li><a href="../../T3_zopnight_architect/M3.2_sso/00_README.md">T3.M3.2 — SAML, Google OAuth, GitHub OAuth</a></li>
+<li><a href="/operator/connect-account/permission-visibility/">L4 — Permission Visibility</a> <em>(next)</em></li>
+<li><a href="/architect/sso/">T3.M3.2 — SAML, Google OAuth, GitHub OAuth</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/service-account-gcp/">Service Account (GCP)</a> · <a href="/glossary/service-principal-azure/">Service Principal (Azure)</a> · <a href="/glossary/workload-identity-federation/">Workload Identity Federation</a> · <a href="/glossary/management-group/">Management Group</a> · <a href="/glossary/app-registration/">App Registration</a></p>

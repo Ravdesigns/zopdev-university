@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What gets discovered (380+ types) and how / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **predict** whether a given cloud resource type appears in ZopNight&#39;s discovery surface **and explain** the three discovery methods (RE2, Asset Inventory, Resource Graph).">
+<meta name="description" content="By the end of this lesson, you will be able to predict whether a given cloud resource type appears in ZopNight&#39;s discovery surface and explain the three discovery methods (RE2, Asset Inventory, Resource Graph).">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/discover-estate/what-gets-discovered/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="What gets discovered (380+ types) and how / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **predict** whether a given cloud resource type appears in ZopNight&#39;s discovery surface **and explain** the three discovery methods (RE2, Asset Inventory, Resource Graph).">
+<meta property="og:description" content="By the end of this lesson, you will be able to predict whether a given cloud resource type appears in ZopNight&#39;s discovery surface and explain the three discovery methods (RE2, Asset Inventory, Resource Graph).">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/discover-estate/what-gets-discovered/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="What gets discovered (380+ types) and how / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **predict** whether a given cloud resource type appears in ZopNight&#39;s discovery surface **and explain** the three discovery methods (RE2, Asset Inventory, Resource Graph).">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to predict whether a given cloud resource type appears in ZopNight&#39;s discovery surface and explain the three discovery methods (RE2, Asset Inventory, Resource Graph).">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "What gets discovered (380+ types) and how",
-  "description": "By the end of this lesson, you will be able to **predict** whether a given cloud resource type appears in ZopNight's discovery surface **and explain** the three discovery methods (RE2, Asset Inventory, Resource Graph).",
+  "description": "By the end of this lesson, you will be able to predict whether a given cloud resource type appears in ZopNight's discovery surface and explain the three discovery methods (RE2, Asset Inventory, Resource Graph).",
   "url": "https://zop.dev/resources/university/operator/discover-estate/what-gets-discovered/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -467,7 +470,7 @@ these via shouldSkipGCPAsset() in the discoverer.</code></pre>
                        | project id, name, type, location, tags, properties&quot;
 
 Returns ~6,000 resources across the 101 types.</code></pre>
-<p><strong>Databricks</strong> is special-cased. ZopNight discovers Databricks workspaces via Resource Graph, then dives into each workspace to enumerate clusters, instance pools, and SQL warehouses as <strong>children of the workspace</strong> (covered in <a href="L2_parent_child.md">L2</a>).</p>
+<p><strong>Databricks</strong> is special-cased. ZopNight discovers Databricks workspaces via Resource Graph, then dives into each workspace to enumerate clusters, instance pools, and SQL warehouses as <strong>children of the workspace</strong> (covered in <a href="/operator/discover-estate/parent-child/">L2</a>).</p>
 <h3 id="the-380-list">The 380+ list</h3>
 <p>The full inventory of supported types is long. Here is the shape of coverage:</p>
 <pre><code>CATEGORY                   AWS                GCP                AZURE
@@ -527,7 +530,10 @@ T+6 min   Permission Visibility drawer updated with Granted/Denied state
 T+6 min   Recommendation engine fires for new findings
 T+6 min   UI refreshes</code></pre>
 <p>Six minutes from sync start to UI updated. The customer sees the new estate state without manual intervention.</p>
-<p>(Asset: <code>assets/diagrams/M1.2_L1_discovery_timeline.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 190" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d20" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="190" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Discovery, from connect to inventory</text><line x1="40" y1="120" x2="620" y2="120" class="dgm-ink-s"/><circle cx="40" cy="120" r="6" class="dgm-blue"/><text x="40" y="104" class="dgm-label" text-anchor="middle">Connect</text><circle cx="233.33333333333334" cy="120" r="6" class="dgm-blue"/><text x="233.33333333333334" y="104" class="dgm-label" text-anchor="middle">Scan</text><text x="233.33333333333334" y="146" class="dgm-label-sm" text-anchor="middle">~2m</text><circle cx="426.6666666666667" cy="120" r="6" class="dgm-blue"/><text x="426.6666666666667" y="104" class="dgm-label" text-anchor="middle">Enrich</text><text x="426.6666666666667" y="146" class="dgm-label-sm" text-anchor="middle">~10m</text><circle cx="620" cy="120" r="6" class="dgm-blue"/><text x="620" y="104" class="dgm-label" text-anchor="middle">Inventory</text><text x="620" y="146" class="dgm-label-sm" text-anchor="middle">ready</text>
+</svg></figure>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>For one of your connected accounts:</p>
@@ -581,9 +587,9 @@ If a resource type you know is in the cloud is NOT in the list:
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_parent_child.md">L2 — Parent-child hierarchies</a> <em>(next)</em></li>
-<li><a href="L3_grouped_filters.md">L3 — Grouped account + grouped type filters</a></li>
-<li><a href="../M1.1_connect_account/L4_permission_visibility.md">M1.1 L4 — Permission Visibility</a></li>
+<li><a href="/operator/discover-estate/parent-child/">L2 — Parent-child hierarchies</a> <em>(next)</em></li>
+<li><a href="/operator/discover-estate/grouped-filters/">L3 — Grouped account + grouped type filters</a></li>
+<li><a href="/operator/connect-account/permission-visibility/">M1.1 L4 — Permission Visibility</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/resource-explorer-2/">Resource Explorer 2</a> · <a href="/glossary/cloud-asset-inventory/">Cloud Asset Inventory</a> · <a href="/glossary/resource-graph/">Resource Graph</a> · <a href="/glossary/discovery-cron/">Discovery cron</a> · <a href="/glossary/metadata-enrichment/">Metadata enrichment</a></p>

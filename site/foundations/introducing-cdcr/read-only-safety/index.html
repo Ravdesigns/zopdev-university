@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Read-only safety: where it matters, where it doesn&#39;t / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **explain** the read-only safety model **and identify** which CDCR operations cross the read-only line.">
+<meta name="description" content="By the end of this lesson, you will be able to explain the read-only safety model and identify which CDCR operations cross the read-only line.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/introducing-cdcr/read-only-safety/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Read-only safety: where it matters, where it doesn&#39;t / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **explain** the read-only safety model **and identify** which CDCR operations cross the read-only line.">
+<meta property="og:description" content="By the end of this lesson, you will be able to explain the read-only safety model and identify which CDCR operations cross the read-only line.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/introducing-cdcr/read-only-safety/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Read-only safety: where it matters, where it doesn&#39;t / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **explain** the read-only safety model **and identify** which CDCR operations cross the read-only line.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to explain the read-only safety model and identify which CDCR operations cross the read-only line.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Read-only safety: where it matters, where it doesn't",
-  "description": "By the end of this lesson, you will be able to **explain** the read-only safety model **and identify** which CDCR operations cross the read-only line.",
+  "description": "By the end of this lesson, you will be able to explain the read-only safety model and identify which CDCR operations cross the read-only line.",
   "url": "https://zop.dev/resources/university/foundations/introducing-cdcr/read-only-safety/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -460,7 +463,7 @@ Action types that NEVER auto-execute on the above:
 </ul>
 <p>Customers can deny any scoped-write permission and the system gracefully degrades — the affected feature shows as "monitor only" instead of "fully active." Discovery continues. Recommendations continue. Only the write side is restricted.</p>
 <h3 id="permission-visibility">Permission Visibility</h3>
-<p>The system makes its permission state visible. The <a href="https://app.zopnight.com/cloud-accounts" target="_blank" rel="noopener">Permission Visibility</a> drawer per account shows Granted / Denied / Unknown badges per provider-type-region with the exact error messages from any denied call. This is unique — most competitors silently fail discovery and report lower numbers. ZopNight refuses to silently mis-report. (Covered in <a href="../../T1_zopnight_operator/M1.1_connect_account/00_README.md">T1.M1.1</a>.)</p>
+<p>The system makes its permission state visible. The <a href="https://app.zopnight.com/cloud-accounts" target="_blank" rel="noopener">Permission Visibility</a> drawer per account shows Granted / Denied / Unknown badges per provider-type-region with the exact error messages from any denied call. This is unique — most competitors silently fail discovery and report lower numbers. ZopNight refuses to silently mis-report. (Covered in <a href="/operator/connect-account/">T1.M1.1</a>.)</p>
 <h3 id="the-approval-gate">The approval gate</h3>
 <p>For scoped writes that are reversible-but-risky (like terminating a non-prod EC2), the system defaults to "approval-gated." A designated admin receives the request via Slack DM or email, reviews, approves or declines. Only then does the write execute.</p>
 <p>The approval gate is:</p>
@@ -505,7 +508,10 @@ CUSTOMER CAN AT ANY TIME:
   - Move this rule to approval-gated
   - Pause all auto-remediation org-wide</code></pre>
 <p>The customer is in control at every layer. The system's defaults are conservative; the customer opts in to more aggressive automation as they build trust.</p>
-<p>(Asset: <code>assets/diagrams/M0.6_L3_safety_layers.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 298" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d17" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="298" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">The safety layers under every remediation</text><rect x="20" y="56" width="620" height="46" rx="0" class="dgm-card-blue"/><text x="36" y="76" class="dgm-title" text-anchor="start">Allowlist</text><text x="36" y="93" class="dgm-label-sm" text-anchor="start">Only certified actions run unattended</text><rect x="42" y="114" width="576" height="46" rx="0" class="dgm-card-blue"/><text x="58" y="134" class="dgm-title" text-anchor="start">Guardrails</text><text x="58" y="151" class="dgm-label-sm" text-anchor="start">Denylist, blackout windows, max duration</text><rect x="64" y="172" width="532" height="46" rx="0" class="dgm-card-blue"/><text x="80" y="192" class="dgm-title" text-anchor="start">Approval gate</text><text x="80" y="209" class="dgm-label-sm" text-anchor="start">Guided actions wait for a human</text><rect x="86" y="230" width="488" height="46" rx="0" class="dgm-card-blue"/><text x="102" y="250" class="dgm-title" text-anchor="start">Reversible action</text><text x="102" y="267" class="dgm-label-sm" text-anchor="start">Every change has a rollback</text>
+</svg></figure>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>For your own deployment (or as a thought exercise on a proposed CDCR rollout):</p>
@@ -566,9 +572,9 @@ auto-remediation is enabled.</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_what_cdcr_is_not.md">L4 — What CDCR is NOT</a> <em>(next — closes the module)</em></li>
-<li><a href="../../T1_zopnight_operator/M1.1_connect_account/00_README.md">T1.M1.1 — Connect a cloud account</a></li>
-<li><a href="../../T3_zopnight_architect/M3.3_audit_logging/00_README.md">T3.M3.3 — Audit logging</a></li>
+<li><a href="/foundations/introducing-cdcr/what-cdcr-is-not/">L4 — What CDCR is NOT</a> <em>(next — closes the module)</em></li>
+<li><a href="/operator/connect-account/">T1.M1.1 — Connect a cloud account</a></li>
+<li><a href="/architect/audit-logging/">T3.M3.3 — Audit logging</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/read-only-safety/">Read-only safety</a> · <a href="/glossary/scoped-write/">Scoped write</a> · <a href="/glossary/database-denylist/">Database denylist</a> · <a href="/glossary/approval-gate/">Approval gate</a> · <a href="/glossary/permission-visibility/">Permission Visibility</a></p>

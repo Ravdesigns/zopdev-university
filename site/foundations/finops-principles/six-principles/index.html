@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The six FinOps principles in one page / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **name** the six FinOps Foundation principles **and explain** how each one shapes a real cost decision.">
+<meta name="description" content="By the end of this lesson, you will be able to name the six FinOps Foundation principles and explain how each one shapes a real cost decision.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/finops-principles/six-principles/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="The six FinOps principles in one page / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **name** the six FinOps Foundation principles **and explain** how each one shapes a real cost decision.">
+<meta property="og:description" content="By the end of this lesson, you will be able to name the six FinOps Foundation principles and explain how each one shapes a real cost decision.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/finops-principles/six-principles/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="The six FinOps principles in one page / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **name** the six FinOps Foundation principles **and explain** how each one shapes a real cost decision.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to name the six FinOps Foundation principles and explain how each one shapes a real cost decision.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "The six FinOps principles in one page",
-  "description": "By the end of this lesson, you will be able to **name** the six FinOps Foundation principles **and explain** how each one shapes a real cost decision.",
+  "description": "By the end of this lesson, you will be able to name the six FinOps Foundation principles and explain how each one shapes a real cost decision.",
   "url": "https://zop.dev/resources/university/foundations/finops-principles/six-principles/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -470,7 +473,10 @@
 <li><strong>Principle 5 (centrally enabled):</strong> Central FinOps publishes the "schedule first, commit on the floor" playbook. The team applies it.</li>
 </ul>
 <p>Decision: <strong>Do not apply a 1-year RI to dev.</strong> Schedule the dev compute. After 60 days of scheduled operation, evaluate a commitment on the floor only (the always-on overlap of the schedule).</p>
-<p>(Asset to produce: a decision-tree diagram walking the six-principle test on this exact scenario. Path: <code>assets/diagrams/M0.2_L1_decision_tree.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 340" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="340" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Which FinOps phase are you in?</text><rect x="240" y="52" width="180" height="44" rx="0" class="dgm-card-blue"/><text x="330" y="78" class="dgm-title" text-anchor="middle">Can you see per-team cost?</text><line x1="330" y1="96" x2="110" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d1)"/><text x="220" y="148" class="dgm-label-sm" text-anchor="middle">No</text><rect x="20" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="110" y="226" class="dgm-title" text-anchor="middle">Inform</text><text x="110" y="246" class="dgm-label-sm" text-anchor="middle">Build visibility first</text><line x1="330" y1="96" x2="330" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d1)"/><text x="330" y="148" class="dgm-label-sm" text-anchor="middle">Yes</text><rect x="240" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="330" y="226" class="dgm-title" text-anchor="middle">Optimize</text><text x="330" y="246" class="dgm-label-sm" text-anchor="middle">Act on the biggest levers</text><line x1="330" y1="96" x2="550" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d1)"/><text x="440" y="148" class="dgm-label-sm" text-anchor="middle">Doing both</text><rect x="460" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="550" y="226" class="dgm-title" text-anchor="middle">Operate</text><text x="550" y="246" class="dgm-label-sm" text-anchor="middle">Make it a habit</text>
+</svg><figcaption>A decision-tree diagram walking the six-principle test on this exact scenario</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
 <p>Pick a current cost decision your team faces. Apply the six-principle test to it:</p>
@@ -518,9 +524,9 @@ Principle 6 (variable cost) — Is there a fixed-cost trap to avoid? ___</code><
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_inform.md">L2 — Inform: what visibility actually means</a> <em>(next)</em></li>
-<li><a href="L5_crawl_walk_run.md">L5 — Crawl, Walk, Run</a></li>
-<li><a href="../../T4_finops_mastery/M4.1_maturity_ladder/00_README.md">T4.M4.1 — The FinOps maturity ladder</a></li>
+<li><a href="/foundations/finops-principles/inform/">L2 — Inform: what visibility actually means</a> <em>(next)</em></li>
+<li><a href="/foundations/finops-principles/crawl-walk-run/">L5 — Crawl, Walk, Run</a></li>
+<li><a href="/finops-mastery/maturity-ladder/">T4.M4.1 — The FinOps maturity ladder</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/finops-foundation/">FinOps Foundation</a> · <a href="/glossary/finops-lifecycle/">FinOps lifecycle</a> · <a href="/glossary/cost-ownership/">Cost ownership</a> · <a href="/glossary/variable-cost/">Variable cost</a></p>

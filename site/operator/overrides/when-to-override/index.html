@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>When you need an override / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **distinguish** overrides from manual actions and schedule edits **and identify** the three scenarios where override is the right tool.">
+<meta name="description" content="By the end of this lesson, you will be able to distinguish overrides from manual actions and schedule edits and identify the three scenarios where override is the right tool.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/overrides/when-to-override/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="When you need an override / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **distinguish** overrides from manual actions and schedule edits **and identify** the three scenarios where override is the right tool.">
+<meta property="og:description" content="By the end of this lesson, you will be able to distinguish overrides from manual actions and schedule edits and identify the three scenarios where override is the right tool.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/overrides/when-to-override/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="When you need an override / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **distinguish** overrides from manual actions and schedule edits **and identify** the three scenarios where override is the right tool.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to distinguish overrides from manual actions and schedule edits and identify the three scenarios where override is the right tool.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "When you need an override",
-  "description": "By the end of this lesson, you will be able to **distinguish** overrides from manual actions and schedule edits **and identify** the three scenarios where override is the right tool.",
+  "description": "By the end of this lesson, you will be able to distinguish overrides from manual actions and schedule edits and identify the three scenarios where override is the right tool.",
   "url": "https://zop.dev/resources/university/operator/overrides/when-to-override/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -449,7 +452,7 @@ Schedule edit     Permanent change to the cadence       Until next edit</code></
 <li>Result: Non-prod stays in current state during the incident response. Once the incident is resolved (or the override expires), the schedule resumes.</li>
 </ul>
 <h3 id="override-vs-manual-action">Override vs. manual action</h3>
-<p>Manual actions (covered in <a href="../M1.2_discover_estate/L4_manual_start_stop.md">M1.2 L4</a>) are one-shot:</p>
+<p>Manual actions (covered in <a href="/operator/discover-estate/manual-start-stop/">M1.2 L4</a>) are one-shot:</p>
 <ul>
 <li>Click Stop → resource stops now → next scheduled start fires normally</li>
 <li>Click Start → resource starts now → next scheduled stop fires normally</li>
@@ -481,7 +484,7 @@ Weekend demo                     Monday at the schedule&#39;s normal start time
 Maintenance window               2x the expected duration (buffer)
 Incident response                12-24 hours, extend if needed
 Off-hours work session            End of session + 2 hours</code></pre>
-<p>The per-resource <strong>Max Override Duration</strong> cap (covered in <a href="L4_max_duration.md">L4</a>) sets an upper bound on each resource or group (and 0 disables overrides there entirely). Anything longer than a resource's cap should be a schedule edit, not an override.</p>
+<p>The per-resource <strong>Max Override Duration</strong> cap (covered in <a href="/operator/overrides/max-duration/">L4</a>) sets an upper bound on each resource or group (and 0 disables overrides there entirely). Anything longer than a resource's cap should be a schedule edit, not an override.</p>
 <h3 id="per-resource-vs-per-group-override">Per-resource vs. per-group override</h3>
 <p>Overrides can be set at either:</p>
 <ul>
@@ -529,7 +532,6 @@ T+5 min   Schedule&#39;s normal Monday 8 AM start cron fires.
 T+5 min   Resources are running (they were already running due to the override).
           Schedule operates normally going forward.</code></pre>
 <p>Two clicks to set up. Self-expiring. Documented. The pattern scales: 200 demos a year, 200 short overrides, no forgotten overrides.</p>
-<p>(Asset: <code>assets/diagrams/M1.5_L1_demo_weekend.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
 <p>For your own estate (or a sandbox):</p>
@@ -581,9 +583,9 @@ Practice the decision; the apply is L2.</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_setting_overrides.md">L2 — Force-on, force-off, expiry, reason</a> <em>(next)</em></li>
-<li><a href="L4_max_duration.md">L4 — Max override duration</a></li>
-<li><a href="../M1.2_discover_estate/L4_manual_start_stop.md">M1.2 L4 — Manual start/stop</a></li>
+<li><a href="/operator/overrides/setting-overrides/">L2 — Force-on, force-off, expiry, reason</a> <em>(next)</em></li>
+<li><a href="/operator/overrides/max-duration/">L4 — Max override duration</a></li>
+<li><a href="/operator/discover-estate/manual-start-stop/">M1.2 L4 — Manual start/stop</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/override/">Override</a> · <a href="/glossary/force-on-force-off/">Force-on / force-off</a> · <a href="/glossary/reason-field/">Reason field</a> · <a href="/glossary/expiry/">Expiry</a></p>

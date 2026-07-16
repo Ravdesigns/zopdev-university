@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scheduling StatefulSets — careful with replicas / ZopNight Engineer / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **distinguish** safe vs dangerous StatefulSet scheduling patterns, **execute** the safety checklist, **and handle** PVCs correctly during scheduling cycles.">
+<meta name="description" content="By the end of this lesson, you will be able to distinguish safe vs dangerous StatefulSet scheduling patterns, execute the safety checklist, and handle PVCs correctly during scheduling cycles.">
 <link rel="canonical" href="https://zop.dev/resources/university/engineer/k8s-scheduling/statefulsets/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Scheduling StatefulSets — careful with replicas / ZopNight Engineer / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **distinguish** safe vs dangerous StatefulSet scheduling patterns, **execute** the safety checklist, **and handle** PVCs correctly during scheduling cycles.">
+<meta property="og:description" content="By the end of this lesson, you will be able to distinguish safe vs dangerous StatefulSet scheduling patterns, execute the safety checklist, and handle PVCs correctly during scheduling cycles.">
 <meta property="og:url" content="https://zop.dev/resources/university/engineer/k8s-scheduling/statefulsets/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Scheduling StatefulSets — careful with replicas / ZopNight Engineer / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **distinguish** safe vs dangerous StatefulSet scheduling patterns, **execute** the safety checklist, **and handle** PVCs correctly during scheduling cycles.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to distinguish safe vs dangerous StatefulSet scheduling patterns, execute the safety checklist, and handle PVCs correctly during scheduling cycles.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Scheduling StatefulSets — careful with replicas",
-  "description": "By the end of this lesson, you will be able to **distinguish** safe vs dangerous StatefulSet scheduling patterns, **execute** the safety checklist, **and handle** PVCs correctly during scheduling cycles.",
+  "description": "By the end of this lesson, you will be able to distinguish safe vs dangerous StatefulSet scheduling patterns, execute the safety checklist, and handle PVCs correctly during scheduling cycles.",
   "url": "https://zop.dev/resources/university/engineer/k8s-scheduling/statefulsets/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Engineer",
@@ -687,12 +690,12 @@ RESULT:
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L1_why_k8s_hard.md">L1 — Why K8s is hard</a></li>
-<li><a href="L2_hierarchy.md">L2 — Hierarchy</a></li>
-<li><a href="L3_deployment_zero.md">L3 — Deployment to zero</a></li>
-<li><a href="L4_suspend_cronjobs.md">L4 — Suspend cronjobs</a></li>
-<li><a href="L6_cross_cluster.md">L6 — Cross-cluster patterns</a> <em>(next)</em></li>
-<li><a href="../../T5_devops_cost_discipline/M5.3_k8s_discipline/L4_single_replica.md">M5.3.L4 — Single-replica patterns</a></li>
+<li><a href="/engineer/k8s-scheduling/why-k8s-hard/">L1 — Why K8s is hard</a></li>
+<li><a href="/engineer/k8s-scheduling/hierarchy/">L2 — Hierarchy</a></li>
+<li><a href="/engineer/k8s-scheduling/deployment-zero/">L3 — Deployment to zero</a></li>
+<li><a href="/engineer/k8s-scheduling/suspend-cronjobs/">L4 — Suspend cronjobs</a></li>
+<li><a href="/engineer/k8s-scheduling/cross-cluster/">L6 — Cross-cluster patterns</a> <em>(next)</em></li>
+<li><a href="/devops-cost-discipline/k8s-discipline/single-replica/">M5.3.L4 — Single-replica patterns</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/statefulset/">StatefulSet</a> · <a href="/glossary/pvc-preservation/">PVC preservation</a> · <a href="/glossary/ordered-scaling/">Ordered scaling</a> · <a href="/glossary/statefulset-checklist/">StatefulSet checklist</a></p>

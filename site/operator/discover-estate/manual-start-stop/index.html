@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manual start/stop with confirmation / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **execute** a manual start or stop on one or many resources **and read** the action status to confirm completion.">
+<meta name="description" content="By the end of this lesson, you will be able to execute a manual start or stop on one or many resources and read the action status to confirm completion.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/discover-estate/manual-start-stop/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Manual start/stop with confirmation / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **execute** a manual start or stop on one or many resources **and read** the action status to confirm completion.">
+<meta property="og:description" content="By the end of this lesson, you will be able to execute a manual start or stop on one or many resources and read the action status to confirm completion.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/discover-estate/manual-start-stop/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Manual start/stop with confirmation / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **execute** a manual start or stop on one or many resources **and read** the action status to confirm completion.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to execute a manual start or stop on one or many resources and read the action status to confirm completion.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Manual start/stop with confirmation",
-  "description": "By the end of this lesson, you will be able to **execute** a manual start or stop on one or many resources **and read** the action status to confirm completion.",
+  "description": "By the end of this lesson, you will be able to execute a manual start or stop on one or many resources and read the action status to confirm completion.",
   "url": "https://zop.dev/resources/university/operator/discover-estate/manual-start-stop/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -517,7 +520,6 @@ T+50 sec  Resource state in list updates to Stopped
 T+50 sec  Notification fires to Slack channel
 T+60 sec  Audit log entry written</code></pre>
 <p>Less than a minute from intent to confirmed action. The confirmation modal added one second of friction; the rest is real cloud API latency.</p>
-<p>(Asset: <code>assets/diagrams/M1.2_L4_manual_stop_timeline.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>
 <p>Use a sandbox or non-prod resource. Do NOT do this exercise on production resources.</p>
@@ -569,13 +571,13 @@ BULK EXERCISE (if you have a sandbox with multiple resources):
 <li><strong>Bulk selection</strong> — checkbox + sticky banner → Stop selected / Start selected</li>
 <li><strong>Action status panel</strong> — appears at the bottom of the page during bulk actions</li>
 </ul>
-<p>For ongoing scheduled start/stop, build a schedule in <a href="../M1.3_first_schedule/00_README.md">M1.3</a>. For time-bounded overrides, use the Overrides feature in <a href="../M1.5_overrides/00_README.md">M1.5</a>.</p>
+<p>For ongoing scheduled start/stop, build a schedule in <a href="/operator/first-schedule/">M1.3</a>. For time-bounded overrides, use the Overrides feature in <a href="/operator/overrides/">M1.5</a>.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L5_stale_discovery.md">L5 — When discovery is stale</a> <em>(next)</em></li>
-<li><a href="../M1.3_first_schedule/00_README.md">M1.3 — Build your first schedule</a></li>
-<li><a href="../M1.5_overrides/00_README.md">M1.5 — Overrides</a></li>
+<li><a href="/operator/discover-estate/stale-discovery/">L5 — When discovery is stale</a> <em>(next)</em></li>
+<li><a href="/operator/first-schedule/">M1.3 — Build your first schedule</a></li>
+<li><a href="/operator/overrides/">M1.5 — Overrides</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/manual-action/">Manual action</a> · <a href="/glossary/bulk-action/">Bulk action</a> · <a href="/glossary/confirmation-modal/">Confirmation modal</a> · <a href="/glossary/worker-pool/">Worker pool</a> · <a href="/glossary/action-status/">Action status</a></p>

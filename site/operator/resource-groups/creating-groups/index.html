@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creating and managing groups / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **create**, **edit**, and **soft-delete** resource groups using the group management surface.">
+<meta name="description" content="By the end of this lesson, you will be able to create, edit, and soft-delete resource groups using the group management surface.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/resource-groups/creating-groups/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Creating and managing groups / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **create**, **edit**, and **soft-delete** resource groups using the group management surface.">
+<meta property="og:description" content="By the end of this lesson, you will be able to create, edit, and soft-delete resource groups using the group management surface.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/resource-groups/creating-groups/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Creating and managing groups / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **create**, **edit**, and **soft-delete** resource groups using the group management surface.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to create, edit, and soft-delete resource groups using the group management surface.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Creating and managing groups",
-  "description": "By the end of this lesson, you will be able to **create**, **edit**, and **soft-delete** resource groups using the group management surface.",
+  "description": "By the end of this lesson, you will be able to create, edit, and soft-delete resource groups using the group management surface.",
   "url": "https://zop.dev/resources/university/operator/resource-groups/creating-groups/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -484,7 +487,7 @@ old-staging-group          14 days ago     16 days remaining  [Restore]
 <li><strong>Cloud-side mirrors.</strong> A ZopNight group is not the same as an AWS Resource Group or Azure Management Group. ZopNight's groups are organizational only; they do not modify cloud-side metadata.</li>
 </ol>
 <h3 id="permissions">Permissions</h3>
-<p>Group management permissions sit under the RBAC entity <code>resource-group</code> (covered fully in <a href="../../T3_zopnight_architect/M3.1_rbac/00_README.md">T3.M3.1</a>):</p>
+<p>Group management permissions sit under the RBAC entity <code>resource-group</code> (covered fully in <a href="/architect/rbac/">T3.M3.1</a>):</p>
 <pre><code>ACTION                  DEFAULT ROLES (Viewer / Editor / Admin)
 ─────────────────────────────────────────────────────────
 List groups             V, E, A   (everyone can see groups)
@@ -523,7 +526,6 @@ T+2.3 min Schedule now applies to all 67 group members
 
 REPEAT for staging-services-eu. Total time: ~5 minutes for two groups.</code></pre>
 <p>Five minutes to set up the organizational scaffolding. New resources added to either group going forward inherit all attachments automatically.</p>
-<p>(Asset: <code>assets/diagrams/M1.4_L2_group_create_flow.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>Create your first group:</p>
@@ -574,9 +576,9 @@ restore window. Restore the group to practice that flow.</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L3_bulk_members.md">L3 — Bulk add and remove with search</a> <em>(next)</em></li>
-<li><a href="L4_sequenced_execution.md">L4 — Sequenced execution</a></li>
-<li><a href="../../T3_zopnight_architect/M3.1_rbac/00_README.md">T3.M3.1 — RBAC</a></li>
+<li><a href="/operator/resource-groups/bulk-members/">L3 — Bulk add and remove with search</a> <em>(next)</em></li>
+<li><a href="/operator/resource-groups/sequenced-execution/">L4 — Sequenced execution</a></li>
+<li><a href="/architect/rbac/">T3.M3.1 — RBAC</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/soft-delete/">Soft delete</a> · <a href="/glossary/restore-window/">Restore window</a> · <a href="/glossary/name-confirmation/">Name-confirmation</a> · <a href="/glossary/group-metadata/">Group metadata</a></p>

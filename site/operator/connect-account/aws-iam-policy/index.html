@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AWS — the IAM policy and why it&#39;s read-mostly / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **configure** the AWS IAM role for ZopNight **and explain** which permissions enable read-only discovery versus scoped-write execution.">
+<meta name="description" content="By the end of this lesson, you will be able to configure the AWS IAM role for ZopNight and explain which permissions enable read-only discovery versus scoped-write execution.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/connect-account/aws-iam-policy/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="AWS — the IAM policy and why it&#39;s read-mostly / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **configure** the AWS IAM role for ZopNight **and explain** which permissions enable read-only discovery versus scoped-write execution.">
+<meta property="og:description" content="By the end of this lesson, you will be able to configure the AWS IAM role for ZopNight and explain which permissions enable read-only discovery versus scoped-write execution.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/connect-account/aws-iam-policy/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="AWS — the IAM policy and why it&#39;s read-mostly / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **configure** the AWS IAM role for ZopNight **and explain** which permissions enable read-only discovery versus scoped-write execution.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to configure the AWS IAM role for ZopNight and explain which permissions enable read-only discovery versus scoped-write execution.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "AWS — the IAM policy and why it's read-mostly",
-  "description": "By the end of this lesson, you will be able to **configure** the AWS IAM role for ZopNight **and explain** which permissions enable read-only discovery versus scoped-write execution.",
+  "description": "By the end of this lesson, you will be able to configure the AWS IAM role for ZopNight and explain which permissions enable read-only discovery versus scoped-write execution.",
   "url": "https://zop.dev/resources/university/operator/connect-account/aws-iam-policy/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -553,7 +556,7 @@
 <p>The external ID is mandatory. It is generated unique per customer organization in ZopNight and prevents the <strong>confused deputy</strong> attack (where one customer's account ID could be used to access another customer's role).</p>
 <h3 id="why-read-mostly">Why "read-mostly"</h3>
 <p>Read-only would mean: no scheduling, no auto-remediation, no autoscaler management. The product would be a reporting tool. The customer wants execution. So the term is "read-mostly" — read-only is the baseline, scoped writes are opt-in extensions.</p>
-<p>Most customers start in monitor mode (read-only baseline) and gradually enable the scoped writes as they build trust with the product. This is the <a href="../../T2_zopnight_engineer/M2.4_vm_autoscaling/00_README.md">progressive autonomy</a> pattern at the IAM layer.</p>
+<p>Most customers start in monitor mode (read-only baseline) and gradually enable the scoped writes as they build trust with the product. This is the <a href="/engineer/vm-autoscaling/">progressive autonomy</a> pattern at the IAM layer.</p>
 <h3 id="multi-account-topology">Multi-account topology</h3>
 <p>For an AWS Organization with many accounts, the canonical setup:</p>
 <ul>
@@ -574,7 +577,6 @@ T+4 min   Customer pastes role ARN + external ID back to ZopNight
 T+4 min   ZopNight validates via STS AssumeRole
 T+5 min   Account marked Active; discovery preview begins</code></pre>
 <p>Five minutes from start to active. The CloudFormation template eliminates manual IAM policy editing.</p>
-<p>(Asset: <code>assets/diagrams/M1.1_L2_aws_connection_flow.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>Connect an AWS account (or audit one already connected):</p>
@@ -628,9 +630,9 @@ T+5 min   Account marked Active; discovery preview begins</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L3_gcp_azure_creds.md">L3 — GCP & Azure credentials</a> <em>(next)</em></li>
-<li><a href="L4_permission_visibility.md">L4 — Permission Visibility</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.5_adopt_or_replace/00_README.md">T2.M2.5 — Adopt-or-replace existing cloud scaling</a></li>
+<li><a href="/operator/connect-account/gcp-azure-creds/">L3 — GCP & Azure credentials</a> <em>(next)</em></li>
+<li><a href="/operator/connect-account/permission-visibility/">L4 — Permission Visibility</a></li>
+<li><a href="/engineer/adopt-or-replace/">T2.M2.5 — Adopt-or-replace existing cloud scaling</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/iam-role/">IAM role</a> · <a href="/glossary/assume-role/">Assume-role</a> · <a href="/glossary/external-id/">External ID</a> · <a href="/glossary/confused-deputy/">Confused deputy</a> · <a href="/glossary/cloudformation-stackset/">CloudFormation StackSet</a></p>

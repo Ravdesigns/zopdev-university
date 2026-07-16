@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What&#39;s actually in a cloud bill / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **identify** the four line-item categories on any AWS, GCP, or Azure invoice **and trace any dollar back to the resource and the usage event that caused it.**">
+<meta name="description" content="By the end of this lesson, you will be able to identify the four line-item categories on any AWS, GCP, or Azure invoice and trace any dollar back to the resource and the usage event that caused it.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/cloud-bill-decoded/what-is-in-a-cloud-bill/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="What&#39;s actually in a cloud bill / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **identify** the four line-item categories on any AWS, GCP, or Azure invoice **and trace any dollar back to the resource and the usage event that caused it.**">
+<meta property="og:description" content="By the end of this lesson, you will be able to identify the four line-item categories on any AWS, GCP, or Azure invoice and trace any dollar back to the resource and the usage event that caused it.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/cloud-bill-decoded/what-is-in-a-cloud-bill/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="What&#39;s actually in a cloud bill / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **identify** the four line-item categories on any AWS, GCP, or Azure invoice **and trace any dollar back to the resource and the usage event that caused it.**">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to identify the four line-item categories on any AWS, GCP, or Azure invoice and trace any dollar back to the resource and the usage event that caused it.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "What's actually in a cloud bill",
-  "description": "By the end of this lesson, you will be able to **identify** the four line-item categories on any AWS, GCP, or Azure invoice **and trace any dollar back to the resource and the usage event that caused it.**",
+  "description": "By the end of this lesson, you will be able to identify the four line-item categories on any AWS, GCP, or Azure invoice and trace any dollar back to the resource and the usage event that caused it.",
   "url": "https://zop.dev/resources/university/foundations/cloud-bill-decoded/what-is-in-a-cloud-bill/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -474,7 +477,6 @@
 </tbody>
 </table>
 <p>Total: <strong>$96.90</strong>. The naive "instance cost" — the BoxUsage row alone — is $69.20, or <strong>71% of the real number.</strong></p>
-<p>(Annotated screenshot: production team to capture this exact view with orange callouts on each row tagging the category. Asset path: <code>assets/screenshots/M0.1_L1_cost_explorer_one_instance.png</code>.)</p>
 <hr>
 <h2 id="3-hands-on-5-min-uses-your-bill-not-zopnight">3. Hands-on (5 min — uses your bill, not ZopNight)</h2>
 <ol>
@@ -531,15 +533,15 @@
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_pick_your_billing_source.md">L2 — CUR, Cost Explorer, Cost Management, BigQuery — pick one</a> <em>(next)</em></li>
-<li><a href="../M0.4_rack_rate_vs_billing/L1_rack_rate.md">T0.M0.4.L1 — What "rack rate" actually means</a></li>
-<li><a href="../M0.5_multi_cloud_taxonomy/L1_aws_cost_surface.md">T0.M0.5.L1 — AWS cost surface: services that print money</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.1_rule_library/L5_reading_a_rec_card.md">T2.M2.1.L5 — Reading a recommendation card</a></li>
+<li><a href="/foundations/cloud-bill-decoded/pick-your-billing-source/">L2 — CUR, Cost Explorer, Cost Management, BigQuery — pick one</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/rack-rate/">T0.M0.4.L1 — What "rack rate" actually means</a></li>
+<li><a href="/foundations/multi-cloud-taxonomy/aws-cost-surface/">T0.M0.5.L1 — AWS cost surface: services that print money</a></li>
+<li><a href="/engineer/rule-library/reading-a-rec-card/">T2.M2.1.L5 — Reading a recommendation card</a></li>
 </ul>
 <h2 id="rule-references">Rule references</h2>
 <ul>
-<li><a href="../../../reference/rules/RC-001.md"><code>RC-001</code> Idle EC2 Instance</a> — uses the full-cost rollup, not just the EC2 row</li>
-<li><a href="../../../reference/rules/RC-002.md"><code>RC-002</code> Orphaned EBS Volume</a> — catches stored bytes that survive after compute is gone</li>
+<li><code>RC-001</code> Idle EC2 Instance — uses the full-cost rollup, not just the EC2 row</li>
+<li><code>RC-002</code> Orphaned EBS Volume — catches stored bytes that survive after compute is gone</li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/rack-rate/">Rack rate</a> · <a href="/glossary/effective-discount/">Effective discount</a> · <a href="/glossary/egress/">Egress</a> · <a href="/glossary/nat-gateway/">NAT Gateway</a> · <a href="/glossary/snapshot/">Snapshot</a> · <a href="/glossary/gp3/">gp3</a> · <a href="/glossary/api-request-charge/">API request charge</a></p>

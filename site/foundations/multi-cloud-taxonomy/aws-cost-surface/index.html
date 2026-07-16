@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AWS cost surface — services that print money / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **rank** the top 10 AWS services by typical spend share **and identify** the three services that quietly print money in the long tail.">
+<meta name="description" content="By the end of this lesson, you will be able to rank the top 10 AWS services by typical spend share and identify the three services that quietly print money in the long tail.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/aws-cost-surface/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="AWS cost surface — services that print money / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **rank** the top 10 AWS services by typical spend share **and identify** the three services that quietly print money in the long tail.">
+<meta property="og:description" content="By the end of this lesson, you will be able to rank the top 10 AWS services by typical spend share and identify the three services that quietly print money in the long tail.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/aws-cost-surface/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="AWS cost surface — services that print money / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **rank** the top 10 AWS services by typical spend share **and identify** the three services that quietly print money in the long tail.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to rank the top 10 AWS services by typical spend share and identify the three services that quietly print money in the long tail.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "AWS cost surface — services that print money",
-  "description": "By the end of this lesson, you will be able to **rank** the top 10 AWS services by typical spend share **and identify** the three services that quietly print money in the long tail.",
+  "description": "By the end of this lesson, you will be able to rank the top 10 AWS services by typical spend share and identify the three services that quietly print money in the long tail.",
   "url": "https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/aws-cost-surface/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -480,7 +483,10 @@ Other (long tail)                $20,840     11.4%
 ────────────────────────────────────────────────────────────────────────
 TOTAL                           $182,000    100.0%</code></pre>
 <p>Three actionable signals from the 60-second scan: DataTransfer above 10% suggests egress audit, NAT Gateway count (28) suggests consolidation, CloudWatch 4% suggests cardinality discipline. Three concrete starting points.</p>
-<p>(Asset: <code>assets/diagrams/M0.5_L1_aws_breakdown.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 426" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d13" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="426" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">AWS monthly spend by service</text><text x="168" y="75" class="dgm-label" text-anchor="end">EC2</text><rect x="180" y="54" width="390" height="34" rx="0" class="dgm-bar"/><text x="578" y="75" class="dgm-num" text-anchor="start">$48,000</text><text x="168" y="119" class="dgm-label" text-anchor="end">RDS</text><rect x="180" y="98" width="150.3125" height="34" rx="0" class="dgm-bar-2"/><text x="338.3125" y="119" class="dgm-num" text-anchor="start">$18,500</text><text x="168" y="163" class="dgm-label" text-anchor="end">S3</text><rect x="180" y="142" width="97.5" height="34" rx="0" class="dgm-bar-2"/><text x="285.5" y="163" class="dgm-num" text-anchor="start">$12,000</text><text x="168" y="207" class="dgm-label" text-anchor="end">Data transfer</text><rect x="180" y="186" width="67.4375" height="34" rx="0" class="dgm-bar-2"/><text x="255.4375" y="207" class="dgm-num" text-anchor="start">$8,300</text><text x="168" y="251" class="dgm-label" text-anchor="end">EKS</text><rect x="180" y="230" width="52" height="34" rx="0" class="dgm-bar-2"/><text x="240" y="251" class="dgm-num" text-anchor="start">$6,400</text><text x="168" y="295" class="dgm-label" text-anchor="end">Lambda</text><rect x="180" y="274" width="26" height="34" rx="0" class="dgm-bar-2"/><text x="214" y="295" class="dgm-num" text-anchor="start">$3,200</text><text x="168" y="339" class="dgm-label" text-anchor="end">CloudWatch</text><rect x="180" y="318" width="21.125" height="34" rx="0" class="dgm-bar-2"/><text x="209.125" y="339" class="dgm-num" text-anchor="start">$2,600</text><text x="168" y="383" class="dgm-label" text-anchor="end">Other</text><rect x="180" y="362" width="170.625" height="34" rx="0" class="dgm-bar-2"/><text x="358.625" y="383" class="dgm-num" text-anchor="start">$21,000</text>
+</svg></figure>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>
 <p>Pull your own last-month AWS bill grouped by service:</p>
@@ -520,9 +526,9 @@ TOTAL                           $182,000    100.0%</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_gcp_cost_surface.md">L2 — GCP cost surface</a> <em>(next)</em></li>
-<li><a href="L3_azure_cost_surface.md">L3 — Azure cost surface</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">T2.M2.1 — The 450+ rule library</a></li>
+<li><a href="/foundations/multi-cloud-taxonomy/gcp-cost-surface/">L2 — GCP cost surface</a> <em>(next)</em></li>
+<li><a href="/foundations/multi-cloud-taxonomy/azure-cost-surface/">L3 — Azure cost surface</a></li>
+<li><a href="/engineer/rule-library/">T2.M2.1 — The 450+ rule library</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/ec2-other/">EC2-Other</a> · <a href="/glossary/nat-gateway/">NAT Gateway</a> · <a href="/glossary/lcu/">LCU</a> · <a href="/glossary/provisioned-iops/">Provisioned IOPS</a></p>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Max override duration: the per-resource cap / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **configure** the per-resource Max Override Duration cap **and explain** why it prevents the most common operational hazard.">
+<meta name="description" content="By the end of this lesson, you will be able to configure the per-resource Max Override Duration cap and explain why it prevents the most common operational hazard.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/overrides/max-duration/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Max override duration: the per-resource cap / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **configure** the per-resource Max Override Duration cap **and explain** why it prevents the most common operational hazard.">
+<meta property="og:description" content="By the end of this lesson, you will be able to configure the per-resource Max Override Duration cap and explain why it prevents the most common operational hazard.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/overrides/max-duration/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Max override duration: the per-resource cap / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **configure** the per-resource Max Override Duration cap **and explain** why it prevents the most common operational hazard.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to configure the per-resource Max Override Duration cap and explain why it prevents the most common operational hazard.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Max override duration: the per-resource cap",
-  "description": "By the end of this lesson, you will be able to **configure** the per-resource Max Override Duration cap **and explain** why it prevents the most common operational hazard.",
+  "description": "By the end of this lesson, you will be able to configure the per-resource Max Override Duration cap and explain why it prevents the most common operational hazard.",
   "url": "https://zop.dev/resources/university/operator/overrides/max-duration/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -504,7 +507,6 @@ DAY 30+   A 14-day override attempted on a dev group (7-day cap):
 
 NO incidents of forgotten runaway overrides recorded over the first year.</code></pre>
 <p>A few minutes of per-resource setup. Zero forgotten-override incidents going forward.</p>
-<p>(Asset: <code>assets/diagrams/M1.5_L4_max_duration_setup.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
 <p>If you have admin access:</p>
@@ -552,15 +554,15 @@ them to inform your override decisions.</code></pre>
 <li><strong><a href="https://app.zopnight.com/audit-logs" target="_blank" rel="noopener">Audit Log</a></strong> — every override create / clear / expire event</li>
 <li><strong><a href="https://app.zopnight.com/overrides/new" target="_blank" rel="noopener">Override create dialog</a></strong> — validation enforces the cap</li>
 </ul>
-<p>For the broader RBAC model (who can change policy, who can set overrides), see <a href="../../T3_zopnight_architect/M3.1_rbac/00_README.md">T3.M3.1</a>.</p>
+<p>For the broader RBAC model (who can change policy, who can set overrides), see <a href="/architect/rbac/">T3.M3.1</a>.</p>
 <hr>
 <h2 id="module-quiz">Module quiz</h2>
-<p>You have now completed all four lessons of M1.5. The module quiz (10 questions, 80% pass) lives at <a href="../../../certifications/operator/m1.5-quiz.md">/certifications/operator/m1.5-quiz</a>. Pass to earn the <strong>Override-Wise</strong> chip.</p>
+<p>You have now completed all four lessons of M1.5. The module quiz (10 questions, 80% pass) lives at /certifications/operator/m1.5-quiz. Pass to earn the <strong>Override-Wise</strong> chip.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="../M1.6_history_notifications_audit/00_README.md">M1.6 — History, notifications, audit</a> <em>(next module)</em></li>
-<li><a href="../../T3_zopnight_architect/M3.1_rbac/00_README.md">T3.M3.1 — RBAC</a></li>
+<li><a href="/operator/history-notifications-audit/">M1.6 — History, notifications, audit</a> <em>(next module)</em></li>
+<li><a href="/architect/rbac/">T3.M3.1 — RBAC</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/max-override-duration/">Max override duration</a> · <a href="/glossary/per-resource-exception/">Per-resource exception</a> · <a href="/glossary/indefinite-override-hazard/">Indefinite-override hazard</a> · <a href="/glossary/policy-guardrail/">Policy guardrail</a></p>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Azure cost surface — reservations, hybrid benefit, deallocate-vs-stop / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **distinguish** Azure&#39;s three primary cost levers (Reservations, Hybrid Benefit, Spot) **and recognize** the deallocate-vs-stop trap.">
+<meta name="description" content="By the end of this lesson, you will be able to distinguish Azure&#39;s three primary cost levers (Reservations, Hybrid Benefit, Spot) and recognize the deallocate-vs-stop trap.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/azure-cost-surface/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Azure cost surface — reservations, hybrid benefit, deallocate-vs-stop / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **distinguish** Azure&#39;s three primary cost levers (Reservations, Hybrid Benefit, Spot) **and recognize** the deallocate-vs-stop trap.">
+<meta property="og:description" content="By the end of this lesson, you will be able to distinguish Azure&#39;s three primary cost levers (Reservations, Hybrid Benefit, Spot) and recognize the deallocate-vs-stop trap.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/azure-cost-surface/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Azure cost surface — reservations, hybrid benefit, deallocate-vs-stop / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **distinguish** Azure&#39;s three primary cost levers (Reservations, Hybrid Benefit, Spot) **and recognize** the deallocate-vs-stop trap.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to distinguish Azure&#39;s three primary cost levers (Reservations, Hybrid Benefit, Spot) and recognize the deallocate-vs-stop trap.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Azure cost surface — reservations, hybrid benefit, deallocate-vs-stop",
-  "description": "By the end of this lesson, you will be able to **distinguish** Azure's three primary cost levers (Reservations, Hybrid Benefit, Spot) **and recognize** the deallocate-vs-stop trap.",
+  "description": "By the end of this lesson, you will be able to distinguish Azure's three primary cost levers (Reservations, Hybrid Benefit, Spot) and recognize the deallocate-vs-stop trap.",
   "url": "https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/azure-cost-surface/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -418,7 +421,7 @@
 <dt>Bloom verb</dt>
 <dd>Distinguish (Analyze) and Recognize (Understand)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
-<p>Azure's cost surface looks similar to AWS and GCP but has two mechanics that catch teams: <strong>deallocate vs stop</strong> for VMs and the <strong>Hybrid Benefit</strong> discount for Windows / SQL workloads. Plus the amortized-cost gotcha from <a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">M0.4 L3</a>, which is so important it gets its own lesson.</p>
+<p>Azure's cost surface looks similar to AWS and GCP but has two mechanics that catch teams: <strong>deallocate vs stop</strong> for VMs and the <strong>Hybrid Benefit</strong> discount for Windows / SQL workloads. Plus the amortized-cost gotcha from <a href="/foundations/rack-rate-vs-billing/amortized-azure/">M0.4 L3</a>, which is so important it gets its own lesson.</p>
 <h3 id="the-top-10-azure-services-by-typical-spend-share">The top 10 Azure services by typical spend share</h3>
 <pre><code>RANK  SERVICE                          TYPICAL %  NOTES
 ─────────────────────────────────────────────────────────────────────
@@ -453,7 +456,7 @@ Deleted                             $0           $Y if managed disks remain, els
 <li>Up to <strong>~40% discount</strong> on the rate card for 3-year, ~25% for 1-year</li>
 <li><strong>Exchange / cancel</strong> options available with restrictions</li>
 </ul>
-<p>The amortized-cost behaviour from <a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">M0.4 L3</a> is the critical reading nuance: ActualCost at subscription scope returns $0 for reserved resources, AmortizedCost is the right column for per-resource reporting.</p>
+<p>The amortized-cost behaviour from <a href="/foundations/rack-rate-vs-billing/amortized-azure/">M0.4 L3</a> is the critical reading nuance: ActualCost at subscription scope returns $0 for reserved resources, AmortizedCost is the right column for per-resource reporting.</p>
 <h3 id="azure-hybrid-benefit-ahb">Azure Hybrid Benefit (AHB)</h3>
 <p>A discount that the other clouds do not have. If you own on-premises Windows Server or SQL Server licenses with active Software Assurance, you can bring those licenses to Azure and skip paying for the license portion of the VM cost.</p>
 <pre><code>WORKLOAD                                  HYBRID BENEFIT IMPACT
@@ -494,7 +497,6 @@ SCENARIO 3: Same 10 VMs, 5 of them were &quot;Stopped&quot; not &quot;Deallocate
 SCENARIO 4: Correct configuration — AHB + Deallocate 5 nightly
   AHB applies, deallocate frees compute      $2,250/month (-53%)</code></pre>
 <p>Same starting workload. The right combination of two Azure-specific levers (AHB + deallocate) returns 53% of the original cost. Missing either gives back 0–36% of the available savings.</p>
-<p>(Asset: <code>assets/diagrams/M0.5_L3_azure_levers.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>
 <p>If your organization runs Azure:</p>
@@ -549,17 +551,17 @@ SCENARIO 4: Correct configuration — AHB + Deallocate 5 nightly
 <p>ZopNight's Azure integration handles:</p>
 <ul>
 <li><strong>Discovery</strong> via Resource Graph (101 resource types)</li>
-<li><strong>Billing sync</strong> via Azure Cost Management with <code>AmortizedCost</code> (the right column — see <a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">M0.4 L3</a>)</li>
+<li><strong>Billing sync</strong> via Azure Cost Management with <code>AmortizedCost</code> (the right column — see <a href="/foundations/rack-rate-vs-billing/amortized-azure/">M0.4 L3</a>)</li>
 <li><strong>Scheduling</strong> uses Deallocate (not Stop) for VMs — the correct call</li>
 <li><strong>Activity logs</strong> via Azure Activity Log for the "Recent Activity" tab</li>
 </ul>
-<p>Azure-specific rules in the <a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">450+ rule library</a> include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.</p>
+<p>Azure-specific rules in the <a href="/engineer/rule-library/">450+ rule library</a> include AHB-eligible-VMs-without-AHB, allocated-but-stopped detection, reservation under-utilization, and the deallocate-vs-stop check.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_multi_cloud_governance.md">L4 — Multi-cloud governance</a> <em>(next)</em></li>
-<li><a href="../M0.4_rack_rate_vs_billing/L3_amortized_azure.md">T0.M0.4.L3 — Amortized cost: Azure's gotcha</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.6_k8s_scheduling/00_README.md">T2.M2.6 — K8s workload scheduling (AKS)</a></li>
+<li><a href="/foundations/multi-cloud-taxonomy/multi-cloud-governance/">L4 — Multi-cloud governance</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/amortized-azure/">T0.M0.4.L3 — Amortized cost: Azure's gotcha</a></li>
+<li><a href="/engineer/k8s-scheduling/">T2.M2.6 — K8s workload scheduling (AKS)</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/deallocate/">Deallocate</a> · <a href="/glossary/azure-hybrid-benefit/">Azure Hybrid Benefit</a> · <a href="/glossary/azure-reservation/">Azure Reservation</a> · <a href="/glossary/software-assurance/">Software Assurance</a> · <a href="/glossary/expressroute/">ExpressRoute</a></p>

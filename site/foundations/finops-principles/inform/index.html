@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inform — what visibility actually means / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **distinguish** raw visibility from actionable visibility, **and design** a cost reporting cadence that fits each audience.">
+<meta name="description" content="By the end of this lesson, you will be able to distinguish raw visibility from actionable visibility, and design a cost reporting cadence that fits each audience.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/finops-principles/inform/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Inform — what visibility actually means / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **distinguish** raw visibility from actionable visibility, **and design** a cost reporting cadence that fits each audience.">
+<meta property="og:description" content="By the end of this lesson, you will be able to distinguish raw visibility from actionable visibility, and design a cost reporting cadence that fits each audience.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/finops-principles/inform/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Inform — what visibility actually means / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **distinguish** raw visibility from actionable visibility, **and design** a cost reporting cadence that fits each audience.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to distinguish raw visibility from actionable visibility, and design a cost reporting cadence that fits each audience.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Inform — what visibility actually means",
-  "description": "By the end of this lesson, you will be able to **distinguish** raw visibility from actionable visibility, **and design** a cost reporting cadence that fits each audience.",
+  "description": "By the end of this lesson, you will be able to distinguish raw visibility from actionable visibility, and design a cost reporting cadence that fits each audience.",
   "url": "https://zop.dev/resources/university/foundations/finops-principles/inform/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -471,7 +474,7 @@ There is a Slack alert             The alert names a specific action and an owne
 <p>If the answer to either is unknown, the surface is not yet earning its keep. Either find the audience and the decision, or retire it.</p>
 <h3 id="what-accurate-means-in-the-inform-principle">What "accurate" means in the Inform principle</h3>
 <p>Principle 4 emphasizes cost data that is accessible and timely (the canonical wording); accuracy is the practical third leg this lesson adds. Accuracy in cloud cost is a band, not a point. Live calculated cost is the list (rack) price: the calculation itself tracks the pricing API to within a few percent, but rack rate can sit 20–40 percent or more ABOVE billed cost, because the gap between them is exactly your discount stack (commitments, Spot, sustained-use, EDP). Do not read rack rate as within a few percent of what you pay. Daily billing cost is accurate to within ~1 percent of monthly settled. Monthly settled is the closed invoice.</p>
-<p>Each band serves a use. "Accurate" means knowing which band you are looking at and labelling it. (See <a href="../M0.1_cloud_bill_decoded/L3_granularity_vs_timeliness.md">M0.1 L3</a>.)</p>
+<p>Each band serves a use. "Accurate" means knowing which band you are looking at and labelling it. (See <a href="/foundations/cloud-bill-decoded/granularity-vs-timeliness/">M0.1 L3</a>.)</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
 <p>The same monthly spend question, three audiences, three different surfaces:</p>
@@ -482,7 +485,10 @@ There is a Slack alert             The alert names a specific action and an owne
 <p><strong>Finance (monthly, one-page):</strong></p>
 <blockquote>PDF or shareable URL: total spend, variance vs. budget, cost-per-MAU trend, top three cost centers, forecast for next quarter with confidence band.</blockquote>
 <p>Same underlying data. Three rendered surfaces. Three usable decisions.</p>
-<p>(Asset to produce: a three-panel mockup of these three views, side by side. Path: <code>assets/diagrams/M0.2_L2_three_audiences.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 240" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="240" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Three audiences for one cost story</text><rect x="20" y="56" width="620" height="46" rx="0" class="dgm-card-blue"/><text x="36" y="76" class="dgm-title" text-anchor="start">Engineering</text><text x="36" y="93" class="dgm-label-sm" text-anchor="start">Unit cost, per-service efficiency</text><rect x="42" y="114" width="576" height="46" rx="0" class="dgm-card-blue"/><text x="58" y="134" class="dgm-title" text-anchor="start">Finance</text><text x="58" y="151" class="dgm-label-sm" text-anchor="start">Forecast accuracy, budget variance</text><rect x="64" y="172" width="532" height="46" rx="0" class="dgm-card-blue"/><text x="80" y="192" class="dgm-title" text-anchor="start">Leadership</text><text x="80" y="209" class="dgm-label-sm" text-anchor="start">Cost per customer, margin trend</text>
+</svg><figcaption>A three-panel mockup of these three views, side by side</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>For each of the three audiences in your organization, answer:</p>
@@ -530,16 +536,16 @@ There is a Slack alert             The alert names a specific action and an owne
 <ul>
 <li><strong>Engineering team</strong> → Reports → Cost Breakdown, Reports → Resources, MCP for self-serve queries</li>
 <li><strong>Engineering leadership</strong> → Dashboards → Engineering preset, Weekly summary email</li>
-<li><strong>Finance / leadership</strong> → Dashboards → FinOps preset and Executive preset, with the cost-per-unit overlay (see <a href="../../T3_zopnight_architect/M3.5_showback/L5_unit_economics_in_product.md">T3.M3.5 L5</a>)</li>
+<li><strong>Finance / leadership</strong> → Dashboards → FinOps preset and Executive preset, with the cost-per-unit overlay (see <a href="/architect/showback/unit-economics/">T3.M3.5 L5</a>)</li>
 </ul>
 <p>The four shapes are all present: Trend (Reports → Cost Trend), Breakdown (Reports → Cost Flow Sankey), Snapshot (Dashboards), Anomaly (Reports → Anomalies with 15-min cadence).</p>
 <p><a href="https://app.zopnight.com/dashboards" target="_blank" rel="noopener">Open ZopNight Dashboards</a> <em>(deep link)</em></p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L3_optimize.md">L3 — Optimize: the four levers</a> <em>(next)</em></li>
-<li><a href="../../T3_zopnight_architect/M3.7_dashboards/00_README.md">T3.M3.7 — Dashboards as a governance surface</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.10_cost_anomaly/00_README.md">T2.M2.10 — Cost anomaly detection</a></li>
+<li><a href="/foundations/finops-principles/optimize/">L3 — Optimize: the four levers</a> <em>(next)</em></li>
+<li><a href="/architect/dashboards/">T3.M3.7 — Dashboards as a governance surface</a></li>
+<li><a href="/engineer/cost-anomaly/">T2.M2.10 — Cost anomaly detection</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/inform/">Inform</a> · <a href="/glossary/actionable-visibility/">Actionable visibility</a> · <a href="/glossary/cadence/">Cadence</a> · <a href="/glossary/cost-shape/">Cost shape</a></p>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Live computation, not stored / ZopNight Architect / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **defend** the architectural choice to compute budget spend live (rather than store a `current_spend_usd` column), **predict** the performance characteristics, **and reason** about why this choice matches the two-source cost model.">
+<meta name="description" content="By the end of this lesson, you will be able to defend the architectural choice to compute budget spend live (rather than store a current_spend_usd column), predict the performance characteristics, and reason about why this choice matches the two-source cost model.">
 <link rel="canonical" href="https://zop.dev/resources/university/architect/budget-governance/live-compute/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Live computation, not stored / ZopNight Architect / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **defend** the architectural choice to compute budget spend live (rather than store a `current_spend_usd` column), **predict** the performance characteristics, **and reason** about why this choice matches the two-source cost model.">
+<meta property="og:description" content="By the end of this lesson, you will be able to defend the architectural choice to compute budget spend live (rather than store a current_spend_usd column), predict the performance characteristics, and reason about why this choice matches the two-source cost model.">
 <meta property="og:url" content="https://zop.dev/resources/university/architect/budget-governance/live-compute/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Live computation, not stored / ZopNight Architect / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **defend** the architectural choice to compute budget spend live (rather than store a `current_spend_usd` column), **predict** the performance characteristics, **and reason** about why this choice matches the two-source cost model.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to defend the architectural choice to compute budget spend live (rather than store a current_spend_usd column), predict the performance characteristics, and reason about why this choice matches the two-source cost model.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Live computation, not stored",
-  "description": "By the end of this lesson, you will be able to **defend** the architectural choice to compute budget spend live (rather than store a `current_spend_usd` column), **predict** the performance characteristics, **and reason** about why this choice matches the two-source cost model.",
+  "description": "By the end of this lesson, you will be able to defend the architectural choice to compute budget spend live (rather than store a current_spend_usd column), predict the performance characteristics, and reason about why this choice matches the two-source cost model.",
   "url": "https://zop.dev/resources/university/architect/budget-governance/live-compute/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Architect",
@@ -655,14 +658,14 @@ CONTRAST with stored-column architecture:
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L1_budget_basics.md">L1 — Budget vs forecast vs alert</a></li>
-<li><a href="L2_budget_scopes.md">L2 — Budget scopes</a></li>
-<li><a href="L3_threshold_alerts.md">L3 — Threshold-crossing notifications</a></li>
-<li><a href="L4_signals.md">L4 — Green/yellow/red signals</a></li>
-<li><a href="../../T0_foundations/M0.4_rack_rate_vs_billing/L4_two_source_model.md">T0.M0.4.L4 — The two-source cost model</a></li>
+<li><a href="/architect/budget-governance/budget-basics/">L1 — Budget vs forecast vs alert</a></li>
+<li><a href="/architect/budget-governance/budget-scopes/">L2 — Budget scopes</a></li>
+<li><a href="/architect/budget-governance/threshold-alerts/">L3 — Threshold-crossing notifications</a></li>
+<li><a href="/architect/budget-governance/signals/">L4 — Green/yellow/red signals</a></li>
+<li><a href="/foundations/rack-rate-vs-billing/two-source-model/">T0.M0.4.L4 — The two-source cost model</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
-<p><a href="/glossary/live-computation/">Live computation</a> · <a href="/glossary/cost-column/"><code>costColumn()</code></a> · <a href="/glossary/current-spend-usd/"><code>current_spend_usd</code></a> · <a href="/glossary/cost-source-label/">Cost source label</a></p>
+<p><a href="/glossary/live-computation/">Live computation</a> · <code>costColumn()</code> · <a href="/glossary/current-spend-usd/"><code>current_spend_usd</code></a> · <a href="/glossary/cost-source-label/">Cost source label</a></p>
 <hr>
 <h2 id="module-quiz">Module quiz</h2>
 <p>Complete M3.6 → 10-question module quiz unlocks the <strong>Budget-Architect</strong> chip.</p>

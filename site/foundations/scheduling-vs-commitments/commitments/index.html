@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Commitments — what RIs, SPs, CUDs really save / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **calculate** the effective discount of a reservation **and recognize** the over-commitment trap that destroys ROI.">
+<meta name="description" content="By the end of this lesson, you will be able to calculate the effective discount of a reservation and recognize the over-commitment trap that destroys ROI.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/commitments/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Commitments — what RIs, SPs, CUDs really save / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **calculate** the effective discount of a reservation **and recognize** the over-commitment trap that destroys ROI.">
+<meta property="og:description" content="By the end of this lesson, you will be able to calculate the effective discount of a reservation and recognize the over-commitment trap that destroys ROI.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/commitments/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Commitments — what RIs, SPs, CUDs really save / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **calculate** the effective discount of a reservation **and recognize** the over-commitment trap that destroys ROI.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to calculate the effective discount of a reservation and recognize the over-commitment trap that destroys ROI.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Commitments — what RIs, SPs, CUDs really save",
-  "description": "By the end of this lesson, you will be able to **calculate** the effective discount of a reservation **and recognize** the over-commitment trap that destroys ROI.",
+  "description": "By the end of this lesson, you will be able to calculate the effective discount of a reservation and recognize the over-commitment trap that destroys ROI.",
   "url": "https://zop.dev/resources/university/foundations/scheduling-vs-commitments/commitments/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -507,7 +510,10 @@ EXPECTED EFFECTIVE DISCOUNT
   Burst (Spot):         85% × 100% × 100% = 85%
   Weighted across mix:  ~22% effective discount on production EC2</code></pre>
 <p>The team's previous plan had been to buy a 1-yr RI on the full 63 vCPU peak. That would have run at ~63% coverage (since burst is sporadic), realizing ~25% effective discount and locking in commitment that they would have lost in a year of growth. The post-schedule, layered approach realizes ~22% with no over-commitment risk and full flexibility on the burst layer.</p>
-<p>(Asset: <code>assets/diagrams/M0.3_L2_layered_commitment.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 240" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d6" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="240" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Layer commitments under the baseline</text><rect x="20" y="56" width="620" height="46" rx="0" class="dgm-card-blue"/><text x="36" y="76" class="dgm-title" text-anchor="start">On-demand</text><text x="36" y="93" class="dgm-label-sm" text-anchor="start">Bursty, unpredictable top layer</text><rect x="42" y="114" width="576" height="46" rx="0" class="dgm-card-blue"/><text x="58" y="134" class="dgm-title" text-anchor="start">Savings Plan</text><text x="58" y="151" class="dgm-label-sm" text-anchor="start">Steady mid layer</text><rect x="64" y="172" width="532" height="46" rx="0" class="dgm-card-blue"/><text x="80" y="192" class="dgm-title" text-anchor="start">Reserved / CUD</text><text x="80" y="209" class="dgm-label-sm" text-anchor="start">Always-on baseline</text>
+</svg></figure>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>For one of your steady-state production workloads:</p>
@@ -562,9 +568,9 @@ EXPECTED EFFECTIVE DISCOUNT
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L3_non_prod_fallacy.md">L3 — The non-prod fallacy</a> <em>(next)</em></li>
-<li><a href="L4_decision_tree.md">L4 — When scheduling wins, when commitments win</a></li>
-<li><a href="../../T4_finops_mastery/M4.7_commitments_demystified/00_README.md">T4.M4.7 — Commitments demystified</a></li>
+<li><a href="/foundations/scheduling-vs-commitments/non-prod-fallacy/">L3 — The non-prod fallacy</a> <em>(next)</em></li>
+<li><a href="/foundations/scheduling-vs-commitments/decision-tree/">L4 — When scheduling wins, when commitments win</a></li>
+<li><a href="/finops-mastery/commitments-demystified/">T4.M4.7 — Commitments demystified</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/reserved-instance/">Reserved Instance</a> · <a href="/glossary/savings-plan/">Savings Plan</a> · <a href="/glossary/committed-use-discount/">Committed Use Discount</a> · <a href="/glossary/spot/">Spot</a> · <a href="/glossary/effective-discount/">Effective discount</a> · <a href="/glossary/over-commitment/">Over-commitment</a></p>

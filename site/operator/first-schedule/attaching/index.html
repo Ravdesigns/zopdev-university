@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Attaching resources and groups / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **attach** resources and groups to a schedule **and explain** why exclusive membership is enforced.">
+<meta name="description" content="By the end of this lesson, you will be able to attach resources and groups to a schedule and explain why exclusive membership is enforced.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/first-schedule/attaching/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Attaching resources and groups / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **attach** resources and groups to a schedule **and explain** why exclusive membership is enforced.">
+<meta property="og:description" content="By the end of this lesson, you will be able to attach resources and groups to a schedule and explain why exclusive membership is enforced.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/first-schedule/attaching/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Attaching resources and groups / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **attach** resources and groups to a schedule **and explain** why exclusive membership is enforced.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to attach resources and groups to a schedule and explain why exclusive membership is enforced.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Attaching resources and groups",
-  "description": "By the end of this lesson, you will be able to **attach** resources and groups to a schedule **and explain** why exclusive membership is enforced.",
+  "description": "By the end of this lesson, you will be able to attach resources and groups to a schedule and explain why exclusive membership is enforced.",
   "url": "https://zop.dev/resources/university/operator/first-schedule/attaching/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -440,7 +443,7 @@
 <li>Initial pilot before scaling up to groups</li>
 </ul>
 <h3 id="bulk-per-resource-attachment">Bulk per-resource attachment</h3>
-<p>For many resources, the bulk action surface from <a href="../M1.2_discover_estate/L4_manual_start_stop.md">M1.2 L4</a> extends to schedule attachment:</p>
+<p>For many resources, the bulk action surface from <a href="/operator/discover-estate/manual-start-stop/">M1.2 L4</a> extends to schedule attachment:</p>
 <pre><code>1. Resources → filter to the target set
 2. Select all filtered (sticky banner)
 3. Choose &quot;Attach schedule&quot; from the banner
@@ -466,7 +469,7 @@ Replace with &#39;New Schedule&#39;?&quot;
 [Cancel]                          [Replace attachment]</code></pre>
 <p>The user explicitly chooses to replace. Silent override is not possible.</p>
 <h3 id="group-exclusivity">Group exclusivity</h3>
-<p>Groups have the same rule: a resource can be in at most one group. Two groups cannot share a resource. The exclusivity simplifies sequenced execution (see <a href="../M1.4_resource_groups/00_README.md">M1.4</a>) and prevents the "two groups' schedules both fire" ambiguity.</p>
+<p>Groups have the same rule: a resource can be in at most one group. Two groups cannot share a resource. The exclusivity simplifies sequenced execution (see <a href="/operator/resource-groups/">M1.4</a>) and prevents the "two groups' schedules both fire" ambiguity.</p>
 <h3 id="the-search-across-attachment-panel">The search-across attachment panel</h3>
 <p>When attaching resources to a schedule, the attachment panel exposes a precise filter:</p>
 <pre><code>ATTACH RESOURCES TO SCHEDULE &quot;Business Hours&quot;
@@ -492,7 +495,7 @@ Results: 187 resources
 
 Select all 187                        [Attach selected]</code></pre>
 <p>The "Unattached only" and "Not in any group" filters are checked by default — they hide resources that would be re-attached (which would force the replace prompt). Power users uncheck to see everything.</p>
-<p>The full filter machinery from <a href="../M1.2_discover_estate/L3_grouped_filters.md">M1.2 L3</a> works here too. A team can construct "All running GCP non-prod databases in EU regions" and attach in one action.</p>
+<p>The full filter machinery from <a href="/operator/discover-estate/grouped-filters/">M1.2 L3</a> works here too. A team can construct "All running GCP non-prod databases in EU regions" and attach in one action.</p>
 <h3 id="detach">Detach</h3>
 <p>Detaching a resource from a schedule is symmetric:</p>
 <pre><code>1. Open the resource or open the schedule
@@ -539,7 +542,6 @@ DAY 2, MORNING   8 AM hits. Cron #1 fires. 234 resources begin to start.
 DAY 7            Realized savings: $4,800 for the week.
                   Annual run-rate: $250K.</code></pre>
 <p>Ten minutes to set up. $250K annual savings on auto-pilot.</p>
-<p>(Asset: <code>assets/diagrams/M1.3_L5_attachment_flow.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>Attach resources to your test schedule from L1:</p>
@@ -584,13 +586,13 @@ as expected on the attached resources.</code></pre>
 <li><strong><a href="https://app.zopnight.com/schedules" target="_blank" rel="noopener">Schedule detail page</a></strong> → "Attach Resources" or "Attach Group" buttons</li>
 <li><strong><a href="https://app.zopnight.com/resources" target="_blank" rel="noopener">Resource detail panel</a></strong> → "Attach to Schedule" action</li>
 </ul>
-<p>For groups (the recommended pattern at scale), see <a href="../M1.4_resource_groups/00_README.md">M1.4 — Resource Groups</a>.</p>
+<p>For groups (the recommended pattern at scale), see <a href="/operator/resource-groups/">M1.4 — Resource Groups</a>.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L6_savings_estimator.md">L6 — The savings estimator</a> <em>(next)</em></li>
-<li><a href="../M1.4_resource_groups/00_README.md">M1.4 — Resource Groups</a></li>
-<li><a href="../M1.5_overrides/00_README.md">M1.5 — Overrides</a></li>
+<li><a href="/operator/first-schedule/savings-estimator/">L6 — The savings estimator</a> <em>(next)</em></li>
+<li><a href="/operator/resource-groups/">M1.4 — Resource Groups</a></li>
+<li><a href="/operator/overrides/">M1.5 — Overrides</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/schedule-attachment/">Schedule attachment</a> · <a href="/glossary/exclusive-membership/">Exclusive membership</a> · <a href="/glossary/group-attachment/">Group attachment</a> · <a href="/glossary/detach/">Detach</a></p>

@@ -211,7 +211,8 @@ const stripLessonHeaderBlock = (md) => {
 };
 
 // Minimal markdown → HTML renderer
-function renderMarkdown(md) {
+let __dgmSeq = 0; // global sequence for namespacing inlined-diagram marker ids
+function renderMarkdown(md, srcPath) {
   md = stripFrontmatter(md);
   // Strip the lesson "header block" — H1, § signature, hr, ## Outcome + outcome para,
   // hr, metadata table, hr — all rendered separately in the lesson template.
@@ -243,26 +244,46 @@ function renderMarkdown(md) {
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, txt, url) => {
       // Glossary term: lessons author them as relative .md paths
       // (../../../reference/glossary/<slug>.md). Rewrite to the
-      // generated per-term page so the link actually resolves.
+      // generated per-term page so the link actually resolves. The per-term
+      // page is keyed by the slug of the DISPLAY text (see buildGlossaryIndex),
+      // so slug the display text here — slugging the filename ("oauth.md")
+      // instead produced /glossary/oauth/ while the page lived at
+      // /glossary/oauth-2-0/, a 404. Guard against terms that never produced
+      // a page (GLOSSARY_SLUGS) and fall back to plain prose.
       const glossaryM = url.match(/reference\/glossary\/([^)\/]+?)\.md$/i);
       if (glossaryM) {
-        return `<a href="${BASE}/glossary/${slugify(glossaryM[1])}/">${txt}</a>`;
-      }
-      // Cross-repo references into the original authoring environment
-      // (e.g. ../../../../USE-CASES.md, ../../../../../All Research/...).
-      // Those targets don't exist in this repo, so a rendered href would
-      // be a dead link. Glossary links resolve at three levels up (handled
-      // above); anything reaching four-or-more levels up escapes the repo.
-      // Render the link text as plain prose. The lesson source is left
-      // byte-for-byte intact (the CHANGES.md "tracks unchanged" invariant).
-      if (/^(?:\.\.\/){4,}/.test(url)) {
+        const textSlug = slugify(txt);
+        const fileSlug = slugify(glossaryM[1]);
+        if (typeof GLOSSARY_SLUGS === 'undefined') {
+          return `<a href="${BASE}/glossary/${textSlug}/">${txt}</a>`;
+        }
+        if (GLOSSARY_SLUGS.has(textSlug)) return `<a href="${BASE}/glossary/${textSlug}/">${txt}</a>`;
+        if (GLOSSARY_SLUGS.has(fileSlug)) return `<a href="${BASE}/glossary/${fileSlug}/">${txt}</a>`;
         return txt;
       }
-      // Cross-lesson reference: lessons sometimes author L1_foo.md etc.
-      // Leave these alone for now — they'd need full-path resolution.
       const isExternal = /^https?:\/\//.test(url);
-      const target = isExternal ? ' target="_blank" rel="noopener"' : '';
-      return `<a href="${url}"${target}>${txt}</a>`;
+      if (isExternal) return `<a href="${url}" target="_blank" rel="noopener">${txt}</a>`;
+      if (/^(mailto:|tel:|#)/.test(url)) return `<a href="${url}">${txt}</a>`;
+      // Cross-lesson / cross-module reference authored as a relative .md path
+      // (../M3.3_.../L1_foo.md, ../../T4_.../00_README.md). Resolve it against
+      // the lesson-source index to the generated page URL. Anything that does
+      // not resolve — renamed modules, deleted lessons, cross-repo escapes
+      // like ../../../../USE-CASES.md, quiz stubs that were never authored — is
+      // rendered as plain prose so the site never emits a dead internal href.
+      // The lesson source is left byte-for-byte intact.
+      const mdM = url.match(/\.md(#.*)?$/i);
+      if (mdM && typeof LESSON_URL_BY_SRC !== 'undefined' && srcPath) {
+        const rel = url.replace(/#.*$/, '');
+        const abs = path.normalize(path.join(path.dirname(srcPath), rel));
+        const resolved = LESSON_URL_BY_SRC.get(abs);
+        // Re-append any #section anchor so a resolved link lands on the section.
+        if (resolved) return `<a href="${resolved}${mdM[1] || ''}">${txt}</a>`;
+        return txt;
+      }
+      if (mdM) return txt; // .md link with no resolution context: never emit dead href
+      // Cross-repo escapes (4+ levels up) render as plain prose, not a dead href.
+      if (/^(?:\.\.\/){4,}/.test(url)) return txt;
+      return `<a href="${url}">${txt}</a>`;
     });
     return text;
   };
@@ -288,6 +309,52 @@ function renderMarkdown(md) {
       i++; continue;
     }
     if (inCode) { codeBuf.push(line); i++; continue; }
+
+    // Diagram callout. Editorial placeholders for a planned diagram, authored
+    // in a few phrasings: "(Asset: `assets/diagrams/X.svg`.)",
+    // "(Asset: `X.svg` — caption.)", "(Asset to produce: <desc>. Path: `X.svg`.)"
+    // and "(SVG to be produced — see `X.svg` once issued.)". Match any
+    // standalone parenthesized callout that references an assets/diagrams SVG.
+    // If the SVG exists it is inlined as a theme-aware <figure>; if not, the
+    // placeholder is dropped entirely so it never leaks into published prose.
+    const dgmTrim = line.trim();
+    const isAssetCallout = dgmTrim.startsWith('(') && dgmTrim.endsWith(')') && (
+      /`assets\/[A-Za-z0-9_.\/-]+`/.test(dgmTrim) ||
+      /\b(Asset to produce|SVG to be produced|Annotated screenshot|Demo asset to produce)\b/i.test(dgmTrim)
+    );
+    const dgmRef = dgmTrim.match(/`(assets\/diagrams\/[A-Za-z0-9_.\/-]+\.svg)`/);
+    if (isAssetCallout) {
+      if (paraBuf.length) { out.push(flushPara(paraBuf)); paraBuf = []; }
+      if (inList) { out.push(`</${listType}>\n`); inList = false; }
+      // Screenshot placeholders and not-yet-produced diagrams are dropped
+      // entirely; only an existing assets/diagrams SVG is inlined.
+      const rel = dgmRef ? dgmRef[1] : null;
+      if (!rel) { i++; continue; }
+      // Reject path traversal — only files strictly under assets/diagrams/ are
+      // ever read and inlined (the SVG is emitted unescaped, so an escape could
+      // inline arbitrary local content).
+      if (!rel.includes('..')) {
+        const svgPath = path.join(ROOT, rel);
+        if (fs.existsSync(svgPath)) {
+          let svg = fs.readFileSync(svgPath, 'utf8').replace(/<\?xml[^>]*\?>\s*/i, '').trim();
+          // Namespace the internal marker id per figure so two diagrams on one
+          // page cannot collide on a duplicate id.
+          const uid = 'd' + (__dgmSeq++);
+          svg = svg.replace(/dgmArrow/g, 'dgmArrow_' + uid);
+          // Caption: "Asset to produce: <cap>. Path:" or trailing "— <cap>.".
+          let cap = '';
+          const cm1 = dgmTrim.match(/Asset to produce:\s*(.+?)\.\s*Path:/i);
+          const cm2 = dgmTrim.match(/\.svg`?\s*[—–-]\s*([^)]*?)\.?\)$/);
+          if (cm1) cap = cm1[1]; else if (cm2) cap = cm2[1];
+          cap = cap.trim().replace(/\.$/, '');
+          const capHTML = cap ? `<figcaption>${escapeHTML(cap.charAt(0).toUpperCase() + cap.slice(1))}</figcaption>` : '';
+          out.push(`<figure class="lesson-diagram">${svg}${capHTML}</figure>\n`);
+        } else {
+          console.warn(`⚠️  diagram referenced but missing: ${rel} (in ${srcPath ? path.relative(ROOT, srcPath) : 'unknown'})`);
+        }
+      }
+      i++; continue;
+    }
 
     // Horizontal rule
     if (line.trim() === '---') {
@@ -1078,7 +1145,11 @@ function pageHTML({
   hideUniNav = false,
   body,
 }) {
-  const ogDesc = description || 'Cloud cost optimization curriculum. 237 lessons across 7 courses. Operator, Engineer, Architect certifications.';
+  // Strip markdown before it reaches meta/OG/Twitter descriptions — lesson
+  // outcomes carry **bold** emphasis that would otherwise render as literal
+  // asterisks in search snippets and social cards. Trim to a sane length.
+  let ogDesc = stripMd(description || 'Cloud cost optimization curriculum. 237 lessons across 7 courses. Operator, Engineer, Architect certifications.');
+  if (ogDesc.length > 300) ogDesc = ogDesc.slice(0, 297).replace(/\s+\S*$/, '') + '…';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1097,6 +1168,8 @@ function pageHTML({
 <meta property="og:description" content="${escapeHTML(ogDesc)}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${ogImage || 'https://zop.dev/resources/university/og/default.png'}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
@@ -1104,6 +1177,7 @@ function pageHTML({
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="${escapeHTML(title)}">
 <meta name="twitter:description" content="${escapeHTML(ogDesc)}">
+<meta name="twitter:image" content="${ogImage || 'https://zop.dev/resources/university/og/default.png'}">
 
 ${schema || ''}
 
@@ -1232,7 +1306,7 @@ ${JSON.stringify({
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": lesson.title,
-  "description": lesson.outcome || lesson.title,
+  "description": stripMd(lesson.outcome || lesson.title),
   "url": `https://zop.dev/resources/university/${track.slug}/${mod.slug}/${lesson.slug}/`,
   "learningResourceType": "Lesson",
   "educationalLevel": track.tier,
@@ -1689,7 +1763,7 @@ function renderModule(track, mod) {
 }
 
 function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
-  const contentHTML = renderMarkdown(lesson.raw);
+  const contentHTML = renderMarkdown(lesson.raw, lesson.path);
 
   // Sidebar: all lessons in this module
   const sidebarLessons = mod.lessons.map(l => `
@@ -1853,6 +1927,35 @@ for (const track of tracks) {
         track, mod, lesson,
       });
     }
+  }
+}
+
+// Source-path -> generated-URL index, so inline cross-lesson/cross-module .md
+// links in lesson prose resolve to the real page instead of a dead .md href.
+// Keyed by normalized absolute path of the lesson file (and each module's
+// 00_README.md). Declared with var so renderMarkdown's typeof guards behave if
+// it is ever invoked before this point.
+var LESSON_URL_BY_SRC = new Map();
+for (const track of tracks) {
+  const trackReadme = path.normalize(path.join(TRACKS_DIR, track.dir, '00_README.md'));
+  LESSON_URL_BY_SRC.set(trackReadme, `${BASE}/${track.slug}/`);
+  for (const mod of track.modules) {
+    const modReadme = path.normalize(path.join(TRACKS_DIR, track.dir, mod.dir, '00_README.md'));
+    LESSON_URL_BY_SRC.set(modReadme, `${BASE}/${track.slug}/${mod.slug}/`);
+    for (const lesson of mod.lessons) {
+      LESSON_URL_BY_SRC.set(path.normalize(lesson.path), `${BASE}/${track.slug}/${mod.slug}/${lesson.slug}/`);
+    }
+  }
+}
+
+// Set of glossary slugs that will actually get a generated per-term page.
+// buildGlossaryIndex keys pages by slug(display-text) of every
+// [term](../../../reference/glossary/*.md) link, so mirror that here and let
+// renderInline drop links to terms that never produce a page.
+var GLOSSARY_SLUGS = new Set();
+for (const a of allLessons) {
+  for (const m of a.lesson.raw.matchAll(/\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/reference\/glossary\/[^)]+\.md\)/g)) {
+    GLOSSARY_SLUGS.add(slugify(m[1].trim()));
   }
 }
 
@@ -2566,8 +2669,9 @@ function renderPathsIndex() {
 }
 
 function renderPath(p) {
-  const parsed = parsePathFile(path.join(ROOT, 'paths', p.file));
-  const bodyHTML = renderMarkdown(parsed.bodyMd);
+  const pathSrc = path.join(ROOT, 'paths', p.file);
+  const parsed = parsePathFile(pathSrc);
+  const bodyHTML = renderMarkdown(parsed.bodyMd, pathSrc);
 
   const body = `
 <section class="breadcrumb">
@@ -3069,7 +3173,7 @@ function renderArchitectPrep() {
   const startIdx = lines.findIndex((l, i) => i > oi && /^##\s+/.test(l.trim()) && !/^##\s+outcome/i.test(l.trim()));
   let bodyLines = startIdx >= 0 ? lines.slice(startIdx) : lines;
   bodyLines = stripTrailingSignatureBlock(bodyLines);
-  const bodyHTML = renderMarkdown(bodyLines.join('\n'));
+  const bodyHTML = renderMarkdown(bodyLines.join('\n'), path.join(ROOT, 'certifications', 'architect', '00_README.md'));
 
   const body = `
 <section class="breadcrumb">

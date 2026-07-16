@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Amortized cost — Azure&#39;s gotcha / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **explain** why Azure ActualCost shows $0 for reservation-covered resources **and use** AmortizedCost as the correct column for per-resource reporting.">
+<meta name="description" content="By the end of this lesson, you will be able to explain why Azure ActualCost shows $0 for reservation-covered resources and use AmortizedCost as the correct column for per-resource reporting.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/amortized-azure/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Amortized cost — Azure&#39;s gotcha / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **explain** why Azure ActualCost shows $0 for reservation-covered resources **and use** AmortizedCost as the correct column for per-resource reporting.">
+<meta property="og:description" content="By the end of this lesson, you will be able to explain why Azure ActualCost shows $0 for reservation-covered resources and use AmortizedCost as the correct column for per-resource reporting.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/amortized-azure/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Amortized cost — Azure&#39;s gotcha / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **explain** why Azure ActualCost shows $0 for reservation-covered resources **and use** AmortizedCost as the correct column for per-resource reporting.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to explain why Azure ActualCost shows $0 for reservation-covered resources and use AmortizedCost as the correct column for per-resource reporting.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Amortized cost — Azure's gotcha",
-  "description": "By the end of this lesson, you will be able to **explain** why Azure ActualCost shows $0 for reservation-covered resources **and use** AmortizedCost as the correct column for per-resource reporting.",
+  "description": "By the end of this lesson, you will be able to explain why Azure ActualCost shows $0 for reservation-covered resources and use AmortizedCost as the correct column for per-resource reporting.",
   "url": "https://zop.dev/resources/university/foundations/rack-rate-vs-billing/amortized-azure/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -492,7 +495,10 @@ az costmanagement query \
   --dataset-filter &#39;{&quot;dimensions&quot;:{&quot;name&quot;:&quot;ResourceId&quot;,&quot;operator&quot;:&quot;In&quot;,&quot;values&quot;:[&quot;&lt;vm-resource-id&gt;&quot;]}}&#39;
 # Returns: $983.10</code></pre>
 <p>Same resource. Same month. Two different numbers. AmortizedCost is the right one for per-resource reporting.</p>
-<p>(Asset: <code>assets/diagrams/M0.4_L3_actual_vs_amortized.svg</code> — comparison table.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 198" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d11" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="198" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Actual vs amortized</text><rect x="20" y="50" width="290" height="128" rx="0" class="dgm-card"/><rect x="340" y="50" width="290" height="128" rx="0" class="dgm-card-blue"/><text x="165" y="74" class="dgm-title" text-anchor="middle">Actual (as charged)</text><text x="485" y="74" class="dgm-num" text-anchor="middle">Amortized</text><text x="34" y="92" class="dgm-label" text-anchor="start">· Upfront fee on day 1</text><text x="34" y="122" class="dgm-label" text-anchor="start">· Lumpy month to month</text><text x="34" y="152" class="dgm-label" text-anchor="start">· Matches the invoice</text><text x="354" y="92" class="dgm-label" text-anchor="start">· Fee spread over term</text><text x="354" y="122" class="dgm-label" text-anchor="start">· Smooth monthly view</text><text x="354" y="152" class="dgm-label" text-anchor="start">· Matches consumption</text>
+</svg><figcaption>Comparison table</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>
 <p>If your organization runs Azure:</p>
@@ -544,12 +550,12 @@ the gotcha is confirmed for your data.
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_two_source_model.md">L4 — The two-source cost model</a> <em>(next)</em></li>
-<li><a href="L2_billing_cost.md">L2 — Billing cost and the discount stack</a></li>
-<li><a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">T2.M2.1 — The 450+ rule library</a></li>
+<li><a href="/foundations/rack-rate-vs-billing/two-source-model/">L4 — The two-source cost model</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/billing-cost/">L2 — Billing cost and the discount stack</a></li>
+<li><a href="/engineer/rule-library/">T2.M2.1 — The 450+ rule library</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
-<p><a href="/glossary/amortized-cost/">Amortized cost</a> · <a href="/glossary/actual-cost/">ActualCost</a> · <a href="/glossary/azure-reservation/">Azure reservation</a> · <a href="/glossary/per-resource-attribution/">Per-resource attribution</a></p>
+<p><a href="/glossary/amortized-cost/">Amortized cost</a> · <a href="/glossary/actualcost/">ActualCost</a> · <a href="/glossary/azure-reservation/">Azure reservation</a> · <a href="/glossary/per-resource-attribution/">Per-resource attribution</a></p>
 <hr>
 <p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-20 · Lesson ID: T0.M0.4.L3</p>
 

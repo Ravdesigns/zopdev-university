@@ -371,7 +371,7 @@ For your team: audit this week; pilot next week; full rollout in 4 weeks.
 - [L3 — Rolling test environment](L3_rolling_test.md)
 - [L4 — Freeze windows](L4_freeze.md)
 - [L5 — Demo / prod-like environments](L5_demo_prod.md)
-- [T1.M1.3 — Schedules basics](../../T1_zopnight_operator/M1.3_schedules/00_README.md)
+- [T1.M1.3 — Schedules basics](../../T1_zopnight_operator/M1.3_first_schedule/00_README.md)
 
 ## Glossary terms touched
 

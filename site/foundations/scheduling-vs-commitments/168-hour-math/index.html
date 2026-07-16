@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The math: 168 hours, 60-hour workweek, 64% off / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **calculate** the theoretical maximum scheduling savings on any non-prod estate **and explain** the gap between theoretical and realistic savings.">
+<meta name="description" content="By the end of this lesson, you will be able to calculate the theoretical maximum scheduling savings on any non-prod estate and explain the gap between theoretical and realistic savings.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/168-hour-math/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="The math: 168 hours, 60-hour workweek, 64% off / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **calculate** the theoretical maximum scheduling savings on any non-prod estate **and explain** the gap between theoretical and realistic savings.">
+<meta property="og:description" content="By the end of this lesson, you will be able to calculate the theoretical maximum scheduling savings on any non-prod estate and explain the gap between theoretical and realistic savings.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/168-hour-math/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="The math: 168 hours, 60-hour workweek, 64% off / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **calculate** the theoretical maximum scheduling savings on any non-prod estate **and explain** the gap between theoretical and realistic savings.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to calculate the theoretical maximum scheduling savings on any non-prod estate and explain the gap between theoretical and realistic savings.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "The math: 168 hours, 60-hour workweek, 64% off",
-  "description": "By the end of this lesson, you will be able to **calculate** the theoretical maximum scheduling savings on any non-prod estate **and explain** the gap between theoretical and realistic savings.",
+  "description": "By the end of this lesson, you will be able to calculate the theoretical maximum scheduling savings on any non-prod estate and explain the gap between theoretical and realistic savings.",
   "url": "https://zop.dev/resources/university/foundations/scheduling-vs-commitments/168-hour-math/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -461,7 +464,7 @@ Realistic at 40% (after friction)       $16,000
 <p>For everything else, the math is dominant.</p>
 <h3 id="compounding-with-rightsizing">Compounding with rightsizing</h3>
 <p>Scheduling and rightsizing compound. A non-prod m5.2xlarge that should be m5.xlarge, scheduled off-hours, saves the rightsizing delta (~50% of compute) AND the scheduling delta (~50% of remaining hours). Combined savings on that single resource: ~75 percent.</p>
-<p>This is why the lever sequence in <a href="../M0.2_finops_principles/L3_optimize.md">M0.2 L3</a> puts scheduling first and rightsizing second. Each works on the others.</p>
+<p>This is why the lever sequence in <a href="/foundations/finops-principles/optimize/">M0.2 L3</a> puts scheduling first and rightsizing second. Each works on the others.</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
 <p>Real numbers, anonymized, from a SaaS company's first scheduling rollout:</p>
@@ -477,7 +480,10 @@ Realistic at 40% (after friction)       $16,000
 TOTAL                          $7,392        $2,639           $4,753
                                                               (64% off)</code></pre>
 <p>One schedule applied to 19 resources. Monthly savings: $4,753. Annual: $57,036. Engineering time to set up: 4 hours.</p>
-<p>(Asset: <code>assets/diagrams/M0.3_L1_before_after_table.svg</code> — bar chart showing the same data.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 198" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d5" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="198" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Before and after scheduling</text><rect x="20" y="50" width="290" height="128" rx="0" class="dgm-card"/><rect x="340" y="50" width="290" height="128" rx="0" class="dgm-card-blue"/><text x="165" y="74" class="dgm-title" text-anchor="middle">Always-on</text><text x="485" y="74" class="dgm-num" text-anchor="middle">Scheduled</text><text x="34" y="92" class="dgm-label" text-anchor="start">· 168 hrs/week</text><text x="34" y="122" class="dgm-label" text-anchor="start">· Full rate card</text><text x="34" y="152" class="dgm-label" text-anchor="start">· 0% saved</text><text x="354" y="92" class="dgm-label" text-anchor="start">· ~55 hrs/week</text><text x="354" y="122" class="dgm-label" text-anchor="start">· Off nights + weekends</text><text x="354" y="152" class="dgm-label" text-anchor="start">· ~65% saved</text>
+</svg><figcaption>Bar chart showing the same data</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-7-min">3. Hands-on (7 min)</h2>
 <p>For your own non-prod estate, compute the scheduling business case:</p>
@@ -535,9 +541,9 @@ STEP 5. Multiply by 12 = annual savings
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_commitments.md">L2 — Commitments: what RIs, SPs, CUDs really save</a> <em>(next)</em></li>
-<li><a href="L4_decision_tree.md">L4 — When scheduling wins, when commitments win</a></li>
-<li><a href="../../T1_zopnight_operator/M1.3_first_schedule/00_README.md">T1.M1.3 — Build your first schedule</a></li>
+<li><a href="/foundations/scheduling-vs-commitments/commitments/">L2 — Commitments: what RIs, SPs, CUDs really save</a> <em>(next)</em></li>
+<li><a href="/foundations/scheduling-vs-commitments/decision-tree/">L4 — When scheduling wins, when commitments win</a></li>
+<li><a href="/operator/first-schedule/">T1.M1.3 — Build your first schedule</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/scheduling/">Scheduling</a> · <a href="/glossary/theoretical-savings/">Theoretical savings</a> · <a href="/glossary/realized-savings/">Realized savings</a> · <a href="/glossary/realism-discount/">Realism discount</a></p>

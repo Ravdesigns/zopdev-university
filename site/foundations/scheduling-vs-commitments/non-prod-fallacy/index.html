@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The non-prod fallacy / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **explain** why &quot;buy reservations for non-prod&quot; is the textbook over-commitment mistake **and propose** the correct alternative.">
+<meta name="description" content="By the end of this lesson, you will be able to explain why &quot;buy reservations for non-prod&quot; is the textbook over-commitment mistake and propose the correct alternative.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/non-prod-fallacy/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="The non-prod fallacy / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **explain** why &quot;buy reservations for non-prod&quot; is the textbook over-commitment mistake **and propose** the correct alternative.">
+<meta property="og:description" content="By the end of this lesson, you will be able to explain why &quot;buy reservations for non-prod&quot; is the textbook over-commitment mistake and propose the correct alternative.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/scheduling-vs-commitments/non-prod-fallacy/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="The non-prod fallacy / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **explain** why &quot;buy reservations for non-prod&quot; is the textbook over-commitment mistake **and propose** the correct alternative.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to explain why &quot;buy reservations for non-prod&quot; is the textbook over-commitment mistake and propose the correct alternative.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "The non-prod fallacy",
-  "description": "By the end of this lesson, you will be able to **explain** why \"buy reservations for non-prod\" is the textbook over-commitment mistake **and propose** the correct alternative.",
+  "description": "By the end of this lesson, you will be able to explain why \"buy reservations for non-prod\" is the textbook over-commitment mistake and propose the correct alternative.",
   "url": "https://zop.dev/resources/university/foundations/scheduling-vs-commitments/non-prod-fallacy/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -424,7 +427,7 @@
 <blockquote>"We have $40K of non-prod compute spend. Cloud provider offers 40% off on a 1-year RI. Let's commit to non-prod and save $16K per year."</blockquote>
 <p>The math is honest if you accept the framing. The framing is wrong.</p>
 <h3 id="why-the-framing-is-wrong">Why the framing is wrong</h3>
-<p>Non-prod compute is <em>the workload class most suited to scheduling</em>. By definition, non-prod does not need to run nights and weekends. The math from <a href="L1_168_hour_math.md">L1</a> said this: standard scheduling saves ~64% of hours, realistically ~45%.</p>
+<p>Non-prod compute is <em>the workload class most suited to scheduling</em>. By definition, non-prod does not need to run nights and weekends. The math from <a href="/foundations/scheduling-vs-commitments/168-hour-math/">L1</a> said this: standard scheduling saves ~64% of hours, realistically ~45%.</p>
 <p>If you schedule non-prod, you have removed the hours that an RI would have covered. The RI keeps billing for those hours regardless. The result:</p>
 <pre><code>SCENARIO: $40K monthly non-prod compute
   Approach A — Buy 1-yr RI at 40% discount, don&#39;t schedule
@@ -517,7 +520,10 @@ FINOPS:      &quot;Schedule now. Observe the steady-state floor for 60 days.
              we can commit on the floor only — at a much smaller amount,
              much lower risk.&quot;</code></pre>
 <p>The pattern: lead with the math, name the trap, propose the sequence. The procurement team walks away aligned, not blocked.</p>
-<p>(Asset: <code>assets/diagrams/M0.3_L3_decision_path.svg</code> — flowchart for the non-prod commitment decision.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 340" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d7" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="340" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Non-prod commitment decision</text><rect x="240" y="52" width="180" height="44" rx="0" class="dgm-card-blue"/><text x="330" y="78" class="dgm-title" text-anchor="middle">Will it run past the term?</text><line x1="330" y1="96" x2="110" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d7)"/><text x="220" y="148" class="dgm-label-sm" text-anchor="middle">No</text><rect x="20" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="110" y="226" class="dgm-title" text-anchor="middle">Schedule only</text><text x="110" y="246" class="dgm-label-sm" text-anchor="middle">Do not commit</text><line x1="330" y1="96" x2="550" y2="196" class="dgm-arrow" marker-end="url(#dgmArrow_d7)"/><text x="440" y="148" class="dgm-label-sm" text-anchor="middle">Yes</text><rect x="460" y="200" width="180" height="64" rx="0" class="dgm-card"/><text x="550" y="226" class="dgm-title" text-anchor="middle">Consider commit</text><text x="550" y="246" class="dgm-label-sm" text-anchor="middle">If utilization &gt; break-even</text>
+</svg><figcaption>Flowchart for the non-prod commitment decision</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
 <p>Pretend a stakeholder proposes a 1-yr RI on your non-prod compute. Write the defensible counter-proposal in three sentences:</p>
@@ -564,8 +570,8 @@ Sentence 3 (the dollar comparison):
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_decision_tree.md">L4 — When scheduling wins, when commitments win</a> <em>(next)</em></li>
-<li><a href="../../T4_finops_mastery/M4.7_commitments_demystified/00_README.md">T4.M4.7 — Commitments demystified</a></li>
+<li><a href="/foundations/scheduling-vs-commitments/decision-tree/">L4 — When scheduling wins, when commitments win</a> <em>(next)</em></li>
+<li><a href="/finops-mastery/commitments-demystified/">T4.M4.7 — Commitments demystified</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/non-prod-fallacy/">Non-prod fallacy</a> · <a href="/glossary/over-commitment/">Over-commitment</a> · <a href="/glossary/floor/">Floor</a> · <a href="/glossary/sequence-rule/">Sequence rule</a></p>

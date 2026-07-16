@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Slack / Teams / Google Chat notifications / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **configure** notification channels (Slack, Teams, Google Chat, webhooks) **and route** different event types to different channels.">
+<meta name="description" content="By the end of this lesson, you will be able to configure notification channels (Slack, Teams, Google Chat, webhooks) and route different event types to different channels.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/history-notifications-audit/notifications/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Slack / Teams / Google Chat notifications / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **configure** notification channels (Slack, Teams, Google Chat, webhooks) **and route** different event types to different channels.">
+<meta property="og:description" content="By the end of this lesson, you will be able to configure notification channels (Slack, Teams, Google Chat, webhooks) and route different event types to different channels.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/history-notifications-audit/notifications/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Slack / Teams / Google Chat notifications / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **configure** notification channels (Slack, Teams, Google Chat, webhooks) **and route** different event types to different channels.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to configure notification channels (Slack, Teams, Google Chat, webhooks) and route different event types to different channels.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Slack / Teams / Google Chat notifications",
-  "description": "By the end of this lesson, you will be able to **configure** notification channels (Slack, Teams, Google Chat, webhooks) **and route** different event types to different channels.",
+  "description": "By the end of this lesson, you will be able to configure notification channels (Slack, Teams, Google Chat, webhooks) and route different event types to different channels.",
   "url": "https://zop.dev/resources/university/operator/history-notifications-audit/notifications/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -449,7 +452,7 @@ Budget threshold crossed                            WARNING
 Schedule action retry exhausted                      CRITICAL
 Discovery sync failed                                WARNING
 Permission Denied (new gap detected)                 WARNING</code></pre>
-<p>The severity is configurable per event type (see <a href="L4_severity_routing.md">L4</a>). The default is sensible for most teams.</p>
+<p>The severity is configurable per event type (see <a href="/operator/history-notifications-audit/severity-routing/">L4</a>). The default is sensible for most teams.</p>
 <h3 id="routing-rules">Routing rules</h3>
 <p>Each channel can subscribe to a subset of events. Common patterns:</p>
 <pre><code>CHANNEL                          SUBSCRIBES TO
@@ -516,7 +519,7 @@ Detected:    2 minutes ago
 <p>Three principles:</p>
 <p><strong>1. Separate INFO from CRITICAL/WARNING.</strong> Don't put all notifications in one channel. INFO events (successful scheduled actions) are useful for ops awareness but noisy if mixed with real alerts. Two channels: one for INFO, one for actionable events.</p>
 <p><strong>2. Scope tightly.</strong> A team's channel should not receive notifications about other teams' resources. Use group-based routing.</p>
-<p><strong>3. Tune severity.</strong> If your team finds a specific event type is firing too noisily, downgrade the severity in the org settings (see <a href="L4_severity_routing.md">L4</a>).</p>
+<p><strong>3. Tune severity.</strong> If your team finds a specific event type is firing too noisily, downgrade the severity in the org settings (see <a href="/operator/history-notifications-audit/severity-routing/">L4</a>).</p>
 <p>The default routing is conservative — most teams need to tune it down, not up, as their channels mature.</p>
 <h3 id="what-zopnight-does-not-notify">What ZopNight does NOT notify</h3>
 <p>A few deliberate non-notifications:</p>
@@ -558,7 +561,6 @@ MONTH 1:
   Engineers actually read the channels.
   Alert fatigue resolved.</code></pre>
 <p>The lesson: default routing is a starting point. The first month of operation tunes it for the org's actual signal/noise tolerance.</p>
-<p>(Asset: <code>assets/diagrams/M1.6_L3_routing_evolution.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>If you have admin access:</p>
@@ -608,8 +610,8 @@ MONTH 1:
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L4_severity_routing.md">L4 — Notification severity and routing</a> <em>(next)</em></li>
-<li><a href="L5_audit_logs.md">L5 — Where audit logs live</a></li>
+<li><a href="/operator/history-notifications-audit/severity-routing/">L4 — Notification severity and routing</a> <em>(next)</em></li>
+<li><a href="/operator/history-notifications-audit/audit-logs/">L5 — Where audit logs live</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/notification-channel/">Notification channel</a> · <a href="/glossary/webhook/">Webhook</a> · <a href="/glossary/routing-rule/">Routing rule</a> · <a href="/glossary/alert-fatigue/">Alert fatigue</a></p>

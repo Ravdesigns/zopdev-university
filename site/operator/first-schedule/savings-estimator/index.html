@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The savings estimator / ZopNight Operator / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **read** the savings estimator on a schedule **and explain** the math behind theoretical vs. realistic savings.">
+<meta name="description" content="By the end of this lesson, you will be able to read the savings estimator on a schedule and explain the math behind theoretical vs. realistic savings.">
 <link rel="canonical" href="https://zop.dev/resources/university/operator/first-schedule/savings-estimator/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="The savings estimator / ZopNight Operator / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **read** the savings estimator on a schedule **and explain** the math behind theoretical vs. realistic savings.">
+<meta property="og:description" content="By the end of this lesson, you will be able to read the savings estimator on a schedule and explain the math behind theoretical vs. realistic savings.">
 <meta property="og:url" content="https://zop.dev/resources/university/operator/first-schedule/savings-estimator/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="The savings estimator / ZopNight Operator / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **read** the savings estimator on a schedule **and explain** the math behind theoretical vs. realistic savings.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to read the savings estimator on a schedule and explain the math behind theoretical vs. realistic savings.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "The savings estimator",
-  "description": "By the end of this lesson, you will be able to **read** the savings estimator on a schedule **and explain** the math behind theoretical vs. realistic savings.",
+  "description": "By the end of this lesson, you will be able to read the savings estimator on a schedule and explain the math behind theoretical vs. realistic savings.",
   "url": "https://zop.dev/resources/university/operator/first-schedule/savings-estimator/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -464,7 +467,7 @@ UPDATED:                  Now (live calculation from pricing API)</code></pre>
 5. Realistic $ savings per month
    theoretical × realism_factor (default 0.7)
    = $20,820 × 0.7 = $14,574</code></pre>
-<p>The realism factor accounts for the friction discussed in <a href="../../T0_foundations/M0.3_scheduling_vs_commitments/L1_168_hour_math.md">T0 M0.3 L1</a>:</p>
+<p>The realism factor accounts for the friction discussed in <a href="/foundations/scheduling-vs-commitments/168-hour-math/">T0 M0.3 L1</a>:</p>
 <ul>
 <li>Some non-prod legitimately runs nights (overnight batch tests)</li>
 <li>Restart latency disturbs developer workflows</li>
@@ -473,7 +476,7 @@ UPDATED:                  Now (live calculation from pricing API)</code></pre>
 </ul>
 <p>The default 0.7 factor is a conservative starting estimate. Customers can adjust the factor on their organization's settings if their historical realized savings deviate.</p>
 <h3 id="why-rack-rate-not-billed-cost">Why rack rate, not billed cost</h3>
-<p>The estimator uses <strong>rack rate</strong> (calculated cost from the pricing API), not billed cost. The reasoning (covered in <a href="../../T0_foundations/M0.4_rack_rate_vs_billing/L1_rack_rate.md">T0 M0.4 L1</a>):</p>
+<p>The estimator uses <strong>rack rate</strong> (calculated cost from the pricing API), not billed cost. The reasoning (covered in <a href="/foundations/rack-rate-vs-billing/rack-rate/">T0 M0.4 L1</a>):</p>
 <ul>
 <li>The savings claim is for <em>avoided hours</em>. The discount stack (RIs, SPs, sustained-use) applied to the hours the resource was running, not to the hours that are now avoided.</li>
 <li>Quoting rack rate captures the full value of the avoided hours, not the post-discount remnant.</li>
@@ -549,7 +552,6 @@ CONFIDENCE
 DECISION
   Save and activate the schedule. Re-check realized at day 30.</code></pre>
 <p>The team takes $263,148 annual estimate to Finance as the schedule's business case. The estimate is defensible because the math is transparent.</p>
-<p>(Asset: <code>assets/diagrams/M1.3_L6_estimator.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>For your test schedule with attached resources:</p>
@@ -603,16 +605,16 @@ DECISION
 <li><strong>Realism factor setting</strong> lives in Organization Settings → Cost (default 0.7, adjustable per org)</li>
 <li><strong>Realized savings (post-firing)</strong> appears in Reports → Savings Trend (covered in M1.6)</li>
 </ul>
-<p>For a deeper savings analysis after the schedule runs, see <a href="../M1.6_history_notifications_audit/L1_state_history.md">M1.6 L1 — State history timeline</a>.</p>
+<p>For a deeper savings analysis after the schedule runs, see <a href="/operator/history-notifications-audit/state-history/">M1.6 L1 — State history timeline</a>.</p>
 <hr>
 <h2 id="module-quiz">Module quiz</h2>
-<p>You have now completed all six lessons of M1.3. The module quiz (10 questions, 80% pass) lives at <a href="../../../certifications/operator/m1.3-quiz.md">/certifications/operator/m1.3-quiz</a>. Pass to earn the <strong>Schedule-Builder</strong> chip.</p>
+<p>You have now completed all six lessons of M1.3. The module quiz (10 questions, 80% pass) lives at /certifications/operator/m1.3-quiz. Pass to earn the <strong>Schedule-Builder</strong> chip.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="../M1.4_resource_groups/00_README.md">M1.4 — Resource Groups</a> <em>(next module)</em></li>
-<li><a href="../../T0_foundations/M0.3_scheduling_vs_commitments/L1_168_hour_math.md">T0.M0.3 L1 — The 168-hour math</a></li>
-<li><a href="../../T0_foundations/M0.4_rack_rate_vs_billing/L1_rack_rate.md">T0.M0.4 L1 — Rack rate</a></li>
+<li><a href="/operator/resource-groups/">M1.4 — Resource Groups</a> <em>(next module)</em></li>
+<li><a href="/foundations/scheduling-vs-commitments/168-hour-math/">T0.M0.3 L1 — The 168-hour math</a></li>
+<li><a href="/foundations/rack-rate-vs-billing/rack-rate/">T0.M0.4 L1 — Rack rate</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/savings-estimator/">Savings estimator</a> · <a href="/glossary/realism-factor/">Realism factor</a> · <a href="/glossary/theoretical-savings/">Theoretical savings</a> · <a href="/glossary/realized-savings/">Realized savings</a> · <a href="/glossary/annual-run-rate/">Annual run-rate</a></p>

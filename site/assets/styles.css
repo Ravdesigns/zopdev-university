@@ -7276,3 +7276,28 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 /* Path detail body reuses .lesson-content; keep the sequence code block readable */
 .path-body { max-width: var(--max-prose, 760px); }
 .path-body pre { white-space: pre-wrap; }
+
+/* ============================================================
+   Lesson diagrams (inline SVG figures). Theme-aware via tokens.
+   ============================================================ */
+.lesson-diagram{margin:2.25rem 0}
+.lesson-diagram svg{display:block;width:100%;max-width:660px;height:auto;margin:0 auto}
+.lesson-diagram figcaption{margin:.85rem auto 0;max-width:660px;font-family:var(--mono);font-size:.76rem;letter-spacing:.02em;color:var(--ink);opacity:.6;text-align:center}
+.dgm-paper{fill:var(--paper)}
+.dgm-ink{fill:var(--ink)}
+.dgm-ink-s{stroke:var(--ink);fill:none}
+.dgm-blue{fill:var(--zop-blue)}
+.dgm-blue-s{stroke:var(--zop-blue);fill:none}
+.dgm-orange{fill:var(--zop-orange)}
+.dgm-orange-s{stroke:var(--zop-orange);fill:none}
+.dgm-muted{fill:var(--ink);opacity:.5}
+.dgm-grid{stroke:var(--ink);opacity:.13;fill:none}
+.dgm-card{fill:var(--paper);stroke:var(--ink);stroke-opacity:.22}
+.dgm-card-blue{fill:var(--zop-blue);fill-opacity:.08;stroke:var(--zop-blue);stroke-opacity:.5}
+.dgm-label{font-family:var(--mono);font-size:11px;fill:var(--ink)}
+.dgm-label-sm{font-family:var(--mono);font-size:9.5px;fill:var(--ink);opacity:.7}
+.dgm-title{font-family:var(--font);font-weight:600;font-size:13px;fill:var(--ink)}
+.dgm-num{font-family:var(--font);font-weight:700;font-size:13px;fill:var(--zop-blue)}
+.dgm-bar{fill:var(--zop-blue)}
+.dgm-bar-2{fill:var(--zop-blue);opacity:.45}
+.dgm-arrow{stroke:var(--ink);stroke-opacity:.55;fill:none}

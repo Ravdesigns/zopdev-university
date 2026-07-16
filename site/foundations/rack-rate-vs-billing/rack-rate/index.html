@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What &quot;rack rate&quot; actually means / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **define** rack rate, **explain** how it is calculated, **and identify** the right contexts to quote it.">
+<meta name="description" content="By the end of this lesson, you will be able to define rack rate, explain how it is calculated, and identify the right contexts to quote it.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/rack-rate/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="What &quot;rack rate&quot; actually means / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **define** rack rate, **explain** how it is calculated, **and identify** the right contexts to quote it.">
+<meta property="og:description" content="By the end of this lesson, you will be able to define rack rate, explain how it is calculated, and identify the right contexts to quote it.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/rack-rate/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="What &quot;rack rate&quot; actually means / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **define** rack rate, **explain** how it is calculated, **and identify** the right contexts to quote it.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to define rack rate, explain how it is calculated, and identify the right contexts to quote it.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "What \"rack rate\" actually means",
-  "description": "By the end of this lesson, you will be able to **define** rack rate, **explain** how it is calculated, **and identify** the right contexts to quote it.",
+  "description": "By the end of this lesson, you will be able to define rack rate, explain how it is calculated, and identify the right contexts to quote it.",
   "url": "https://zop.dev/resources/university/foundations/rack-rate-vs-billing/rack-rate/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -489,7 +492,10 @@ curl -s &#39;https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/c
             ]}&#39;
 # Returns: $43.30 (RI coverage applied)</code></pre>
 <p>The same instance: rack rate $70.08, actual billed $43.30. The 38% gap is the realized discount. Both numbers are correct. They answer different questions.</p>
-<p>(Asset: <code>assets/diagrams/M0.4_L1_rack_vs_actual.svg</code>.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 198" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d9" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="198" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">Rack rate is not what you pay</text><rect x="20" y="50" width="290" height="128" rx="0" class="dgm-card"/><rect x="340" y="50" width="290" height="128" rx="0" class="dgm-card-blue"/><text x="165" y="74" class="dgm-title" text-anchor="middle">Rack rate</text><text x="485" y="74" class="dgm-num" text-anchor="middle">Actual (effective)</text><text x="34" y="92" class="dgm-label" text-anchor="start">· Public list price</text><text x="34" y="122" class="dgm-label" text-anchor="start">· No discounts</text><text x="34" y="152" class="dgm-label" text-anchor="start">· Same for everyone</text><text x="354" y="92" class="dgm-label" text-anchor="start">· After discount stack</text><text x="354" y="122" class="dgm-label" text-anchor="start">· RI / SP / CUD applied</text><text x="354" y="152" class="dgm-label" text-anchor="start">· What hits your bill</text>
+</svg></figure>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>Pick one of your EC2 / GCE / Azure VM instances. Compute both numbers:</p>
@@ -539,9 +545,9 @@ curl -s &#39;https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/c
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L2_billing_cost.md">L2 — Billing cost: and why it's lower than rack rate</a> <em>(next)</em></li>
-<li><a href="L4_two_source_model.md">L4 — The two-source cost model</a></li>
-<li><a href="../M0.1_cloud_bill_decoded/L3_granularity_vs_timeliness.md">T0.M0.1.L3 — Granularity vs. timeliness</a></li>
+<li><a href="/foundations/rack-rate-vs-billing/billing-cost/">L2 — Billing cost: and why it's lower than rack rate</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/two-source-model/">L4 — The two-source cost model</a></li>
+<li><a href="/foundations/cloud-bill-decoded/granularity-vs-timeliness/">T0.M0.1.L3 — Granularity vs. timeliness</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/rack-rate/">Rack rate</a> · <a href="/glossary/pricing-api/">Pricing API</a> · <a href="/glossary/list-price/">List price</a> · <a href="/glossary/effective-discount/">Effective discount</a></p>

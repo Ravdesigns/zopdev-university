@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Currency, FX, and the date-specific exchange rate / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **convert** non-USD cloud bills to USD using date-specific exchange rates **and recognize** the three FX-conversion mistakes that distort reports.">
+<meta name="description" content="By the end of this lesson, you will be able to convert non-USD cloud bills to USD using date-specific exchange rates and recognize the three FX-conversion mistakes that distort reports.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/currency-and-fx/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Currency, FX, and the date-specific exchange rate / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **convert** non-USD cloud bills to USD using date-specific exchange rates **and recognize** the three FX-conversion mistakes that distort reports.">
+<meta property="og:description" content="By the end of this lesson, you will be able to convert non-USD cloud bills to USD using date-specific exchange rates and recognize the three FX-conversion mistakes that distort reports.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/currency-and-fx/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Currency, FX, and the date-specific exchange rate / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **convert** non-USD cloud bills to USD using date-specific exchange rates **and recognize** the three FX-conversion mistakes that distort reports.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to convert non-USD cloud bills to USD using date-specific exchange rates and recognize the three FX-conversion mistakes that distort reports.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Currency, FX, and the date-specific exchange rate",
-  "description": "By the end of this lesson, you will be able to **convert** non-USD cloud bills to USD using date-specific exchange rates **and recognize** the three FX-conversion mistakes that distort reports.",
+  "description": "By the end of this lesson, you will be able to convert non-USD cloud bills to USD using date-specific exchange rates and recognize the three FX-conversion mistakes that distort reports.",
   "url": "https://zop.dev/resources/university/foundations/rack-rate-vs-billing/currency-and-fx/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -460,7 +463,7 @@ cost_usd                DECIMAL  the converted USD amount</code></pre>
 <li>The invoice's stated USD/INR rate for the period</li>
 <li>The USD total</li>
 </ol>
-<p>If any of the three do not match, the conversion was done with a different rate, on a different scope, or with a different exclusion (tax, credits). The two-source model from <a href="L4_two_source_model.md">L4</a> plus the currency model from this lesson together produce reconcilable reports.</p>
+<p>If any of the three do not match, the conversion was done with a different rate, on a different scope, or with a different exclusion (tax, credits). The two-source model from <a href="/foundations/rack-rate-vs-billing/two-source-model/">L4</a> plus the currency model from this lesson together produce reconcilable reports.</p>
 <hr>
 <h2 id="2-demo">2. Demo</h2>
 <p>The same charge converted three ways:</p>
@@ -474,7 +477,6 @@ Year-end rate (2026-12-31)       ₹84.20   $593.83   $7.86 off
 &quot;Today&quot; rate (rendering time)    varies   varies    indefinite drift</code></pre>
 <p>A 1.3% drift on one record looks small. Multiplied across a year of records and many regions, the divergence becomes hundreds or thousands of dollars and the report is not reconcilable.</p>
 <p>The right column: provider-published or central-bank as-of the charge date. Stored once. Re-used by every downstream report.</p>
-<p>(Asset: <code>assets/diagrams/M0.4_L5_fx_conversion.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-5-min">3. Hands-on (5 min)</h2>
 <p>If your organization runs in multiple currencies:</p>
@@ -524,12 +526,12 @@ If they differ by &gt;3%: the conversion is using a stale or today&#39;s rate.
 <p>To audit: pick any monthly trend, drill into a single non-USD region, hover any data point. The tooltip shows original currency, rate used, and rate-as-of date.</p>
 <hr>
 <h2 id="module-quiz">Module quiz</h2>
-<p>You have now completed all five lessons of M0.4. The module quiz (10 questions, 80% pass) lives at <a href="../../../certifications/operator/m0.4-quiz.md">/certifications/operator/m0.4-quiz</a>. Pass to earn the <strong>Cost-Source-Literate</strong> chip.</p>
+<p>You have now completed all five lessons of M0.4. The module quiz (10 questions, 80% pass) lives at /certifications/operator/m0.4-quiz. Pass to earn the <strong>Cost-Source-Literate</strong> chip.</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="../M0.5_multi_cloud_taxonomy/00_README.md">M0.5 — Multi-cloud taxonomy</a> <em>(next module)</em></li>
-<li><a href="../../T3_zopnight_architect/M3.5_showback/00_README.md">T3.M3.5 — Showback design</a></li>
+<li><a href="/foundations/multi-cloud-taxonomy/">M0.5 — Multi-cloud taxonomy</a> <em>(next module)</em></li>
+<li><a href="/architect/showback/">T3.M3.5 — Showback design</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/fx-rate/">FX rate</a> · <a href="/glossary/rate-as-of/">Rate-as-of</a> · <a href="/glossary/currency-reconciliation/">Currency reconciliation</a> · <a href="/glossary/date-specific-exchange-rate/">Date-specific exchange rate</a></p>

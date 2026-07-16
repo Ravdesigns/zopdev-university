@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Billing cost — and why it&#39;s lower than rack rate / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **enumerate** the discount layers that move billing cost below rack rate **and trace** the gap on any specific resource.">
+<meta name="description" content="By the end of this lesson, you will be able to enumerate the discount layers that move billing cost below rack rate and trace the gap on any specific resource.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/billing-cost/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,23 +13,26 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="Billing cost — and why it&#39;s lower than rack rate / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **enumerate** the discount layers that move billing cost below rack rate **and trace** the gap on any specific resource.">
+<meta property="og:description" content="By the end of this lesson, you will be able to enumerate the discount layers that move billing cost below rack rate and trace the gap on any specific resource.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/rack-rate-vs-billing/billing-cost/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="Billing cost — and why it&#39;s lower than rack rate / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **enumerate** the discount layers that move billing cost below rack rate **and trace** the gap on any specific resource.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to enumerate the discount layers that move billing cost below rack rate and trace the gap on any specific resource.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "Billing cost — and why it's lower than rack rate",
-  "description": "By the end of this lesson, you will be able to **enumerate** the discount layers that move billing cost below rack rate **and trace** the gap on any specific resource.",
+  "description": "By the end of this lesson, you will be able to enumerate the discount layers that move billing cost below rack rate and trace the gap on any specific resource.",
   "url": "https://zop.dev/resources/university/foundations/rack-rate-vs-billing/billing-cost/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -437,10 +440,10 @@
 ─────────────────────────────────────────────────────────
 NET = BILLING COST</code></pre>
 <h3 id="layer-by-layer">Layer-by-layer</h3>
-<p><strong>Layer 1 — Rate card.</strong> The published, public unit price. See <a href="L1_rack_rate.md">L1</a>.</p>
+<p><strong>Layer 1 — Rate card.</strong> The published, public unit price. See <a href="/foundations/rack-rate-vs-billing/rack-rate/">L1</a>.</p>
 <p><strong>Layer 2 — Sustained-use (GCP only).</strong> GCP automatically applies a discount to compute that runs for >25% of the month. No commitment required. Up to 30% off on instances running 100% of the month. AWS and Azure have no equivalent.</p>
 <p><strong>Layer 3 — Spot.</strong> Replaces the rate-card price with the spot market price. Discount varies hour by hour (typically 50–90% off). Workload must be eviction-tolerant.</p>
-<p><strong>Layer 4 — Commitments (RI / SP / CUD).</strong> Customer commits to a baseline of usage for 1 or 3 years. Discount applies to covered hours. See <a href="../M0.3_scheduling_vs_commitments/L2_commitments.md">M0.3 L2</a> for the math.</p>
+<p><strong>Layer 4 — Commitments (RI / SP / CUD).</strong> Customer commits to a baseline of usage for 1 or 3 years. Discount applies to covered hours. See <a href="/foundations/scheduling-vs-commitments/commitments/">M0.3 L2</a> for the math.</p>
 <p><strong>Layer 5 — Azure Hybrid Benefit.</strong> A customer with on-prem Windows or SQL Server licenses can bring them to Azure and avoid paying for the license portion of the VM cost. Typical savings: 30–40% on eligible SKUs. AWS has a similar but smaller program for Windows.</p>
 <p><strong>Layer 6 — Enterprise Discount Program (EDP).</strong> A negotiated additional discount, typically a single percentage off everything, in exchange for a multi-year minimum spend commitment. 1–10% range is common. EDPs are confidential and rarely visible to engineering teams; the FinOps team sees them in the billing data.</p>
 <p><strong>Layer 7 — Credits.</strong> Marketing credits, free-tier allowances, startup credits, education credits. Finite — consumed first, expire on a date. Visible as negative line items in the bill.</p>
@@ -483,7 +486,10 @@ After tax (+8% state)                      $   79,191   + 8.0%
 NET BILLING COST                                          $79,191
 EFFECTIVE DISCOUNT (excluding tax) FROM RACK             −38.3%</code></pre>
 <p>This breakdown tells the FinOps team three things: (a) Spot and RIs/SPs together account for most of the gap, (b) EDP is small but positive, (c) tax is a meaningful add-back. A renewal model for next quarter would re-project each layer.</p>
-<p>(Asset: <code>assets/diagrams/M0.4_L2_layer_waterfall.svg</code> — waterfall chart of the decomposition.)</p>
+<figure class="lesson-diagram"><svg viewBox="0 0 660 360" role="img" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dgmArrow_d10" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" class="dgm-arrow"/></marker></defs>
+<rect x="0" y="0" width="660" height="360" rx="0" class="dgm-paper"/><text x="0" y="30" class="dgm-title" text-anchor="start">From rack rate to what you actually pay</text><rect x="40" y="56" width="77.33333333333334" height="244" rx="0" class="dgm-bar"/><text x="78.66666666666667" y="50" class="dgm-num" text-anchor="middle">$1,00,000</text><text x="78.66666666666667" y="330" class="dgm-label-sm" text-anchor="middle">Rack</text><rect x="136.66666666666669" y="56" width="77.33333333333334" height="29.28" rx="0" class="dgm-bar-2"/><text x="175.33333333333337" y="50" class="dgm-label-sm" text-anchor="middle">-$12,000</text><text x="175.33333333333337" y="330" class="dgm-label-sm" text-anchor="middle">EDP/PPA</text><rect x="233.33333333333334" y="85.28" width="77.33333333333334" height="43.920000000000016" rx="0" class="dgm-bar-2"/><text x="272" y="79.28" class="dgm-label-sm" text-anchor="middle">-$18,000</text><text x="272" y="330" class="dgm-label-sm" text-anchor="middle">RI/SP</text><rect x="330" y="129.20000000000002" width="77.33333333333334" height="14.639999999999986" rx="0" class="dgm-bar-2"/><text x="368.6666666666667" y="123.20000000000002" class="dgm-label-sm" text-anchor="middle">-$6,000</text><text x="368.6666666666667" y="330" class="dgm-label-sm" text-anchor="middle">Credits</text><rect x="426.6666666666667" y="143.84" width="77.33333333333334" height="21.960000000000008" rx="0" class="dgm-bar-2"/><text x="465.33333333333337" y="137.84" class="dgm-label-sm" text-anchor="middle">-$9,000</text><text x="465.33333333333337" y="330" class="dgm-label-sm" text-anchor="middle">Spot</text><rect x="523.3333333333334" y="165.8" width="77.33333333333334" height="134.2" rx="0" class="dgm-bar"/><text x="562" y="159.8" class="dgm-num" text-anchor="middle">$55,000</text><text x="562" y="330" class="dgm-label-sm" text-anchor="middle">Billed</text>
+</svg><figcaption>Waterfall chart of the decomposition</figcaption></figure>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
 <p>Decompose your own month's bill into the eight layers:</p>
@@ -531,9 +537,9 @@ NET BILLING COST                       $______</code></pre>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>
-<li><a href="L3_amortized_azure.md">L3 — Amortized cost: Azure's gotcha</a> <em>(next)</em></li>
-<li><a href="L4_two_source_model.md">L4 — The two-source cost model</a></li>
-<li><a href="../../T4_finops_mastery/M4.7_commitments_demystified/00_README.md">T4.M4.7 — Commitments demystified</a></li>
+<li><a href="/foundations/rack-rate-vs-billing/amortized-azure/">L3 — Amortized cost: Azure's gotcha</a> <em>(next)</em></li>
+<li><a href="/foundations/rack-rate-vs-billing/two-source-model/">L4 — The two-source cost model</a></li>
+<li><a href="/finops-mastery/commitments-demystified/">T4.M4.7 — Commitments demystified</a></li>
 </ul>
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/unblended-cost/">Unblended cost</a> · <a href="/glossary/sustained-use-discount/">Sustained-use discount</a> · <a href="/glossary/enterprise-discount-program/">Enterprise Discount Program</a> · <a href="/glossary/azure-hybrid-benefit/">Azure Hybrid Benefit</a> · <a href="/glossary/discount-stack/">Discount stack</a></p>
