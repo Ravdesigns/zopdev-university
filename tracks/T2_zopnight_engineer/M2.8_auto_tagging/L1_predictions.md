@@ -166,7 +166,7 @@ SOURCES OF PREDICTION:
     "dev-*" → env=dev
     "prod-*" → env=prod
     "staging-*" → env=stage
-    Pattern matching with ML scoring
+    Deterministic pattern matching (no ML)
     
   Parent context:
     Resource in account "acme-dev" → env=dev
@@ -181,17 +181,17 @@ SOURCES OF PREDICTION:
     EBS encrypted → likely prod
     Smaller instance types → likely dev
     
-  External signals:
-    CloudTrail user (who created it)
-    Time of creation (work hours = likely dev)
-    Cost level (large = likely prod)
+  Existing tags + instance config:
+    Other tags already on the resource
+    Instance type / size (large = likely prod)
+    Encryption / Multi-AZ config
     
-CONFIDENCE COMBINES all of these
-  Higher when multiple signals agree
-  Lower when signals conflict
+COMPOSITE SCORE COMBINES all of these
+  Higher when multiple rules agree
+  Lower when rules conflict
 ```
 
-The prediction is ensemble-based — multiple signals inform each prediction.
+The prediction is composite rule-based: a fixed set of signals (naming patterns, existing tags, instance config, group and account context) is scored deterministically. Same inputs always produce the same prediction. There is no ML model, no ensemble, and no behavioral signals like CloudTrail-user or time-of-creation.
 
 ### Cost-coverage impact
 

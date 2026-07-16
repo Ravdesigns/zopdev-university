@@ -133,12 +133,12 @@ The rule's threshold determines whether it fires. The drawer shows the actual nu
 ```
 RC-004 (EC2 rightsizing) thresholds:
   CPUUtilization 30-day avg < 5% (downsize candidate)
-  CPUUtilization 30-day max < 30% (safety check)
-  Memory guard: < 60% (don't downsize memory-heavy)
+  CPUUtilization P95 < 30% (safety check; a lone max spike does not block it)
+  Memory guard: avg < 60% (don't downsize memory-heavy)
 
 EXAMPLE evaluation for resource i-0abc123:
   CPUUtilization 30-day avg = 3.4%   < threshold 5%   ✓
-  CPUUtilization 30-day max = 8.2%   < threshold 30%  ✓
+  CPUUtilization P95        = 8.2%   < threshold 30%  ✓
   Memory utilization avg    = 24.1%  < threshold 60%  ✓
   All conditions met → recommendation fires
   

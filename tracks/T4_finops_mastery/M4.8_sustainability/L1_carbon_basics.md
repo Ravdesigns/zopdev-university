@@ -65,10 +65,10 @@ A workload in Sweden generates ~14× less carbon per kWh than the same workload 
 SAME workload running in different regions:
 
   us-east-1 (Virginia, 350 gCO2/kWh):
-    100 m5.large × 730 hr/mo × 0.1 kW × 350g/kWh = 2,555 kg CO2/mo
+    100 m5.large × 730 hr/mo × 0.05 kW × 350g/kWh = 1,278 kg CO2/mo
     
   eu-north-1 (Sweden, 50 gCO2/kWh):
-    100 m5.large × 730 hr/mo × 0.1 kW × 50g/kWh = 365 kg CO2/mo
+    100 m5.large × 730 hr/mo × 0.05 kW × 50g/kWh = 183 kg CO2/mo
     
   CARBON DIFFERENCE: 2,190 kg CO2/mo (86% reduction)
   COST DIFFERENCE:    minor (regional price variance, usually ±5%)
