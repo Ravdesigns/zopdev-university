@@ -438,10 +438,10 @@
 <p><strong>Spot (the successor to Preemptible).</strong> Stateless workload pricing. 60–91% off rate card. Spot VMs have no maximum runtime: the old 24-hour cap was Preemptible-only. GCP can evict a Spot VM at any time (roughly 30 seconds notice) when it needs the capacity back, but a Spot VM that is never reclaimed keeps running. Best fit: batch jobs that checkpoint, K8s nodes that drain gracefully.</p>
 <h3 id="the-cross-zone-chatter-trap">The cross-zone chatter trap</h3>
 <p>Traffic between availability zones within the same region is <em>charged</em> on both AWS and GCP: roughly $0.01 per GB in each direction (the receiving side also pays), so cross-zone chatter costs about $0.02 per GB round-trip. Only traffic that stays within a single zone is free. A K8s cluster spanning three zones with chatty service-to-service traffic can rack up significant network spend on either cloud. The trap is assuming cross-zone replication is free because same-zone traffic is.</p>
-<pre><code>SCENARIO: 100 GB/day inter-zone traffic in a GKE cluster
-AWS equivalent (us-east-1):   $0
-GCP (us-central1):            ~$60/month  (100GB × 30 × $0.02)</code></pre>
-<p>Multiply across many services in a high-traffic cluster and the line item becomes non-trivial. The mitigation is zone-pinning (run a workload's pods in a single zone, accept the reduced AZ-failure tolerance) or regional persistent disks (replicate at the storage layer instead of the network layer).</p>
+<pre><code>SCENARIO: 100 GB/day inter-zone traffic in a GKE/EKS cluster
+AWS (us-east-1):     ~$60/month  (100GB × 30 × $0.02, cross-AZ each way)
+GCP (us-central1):   ~$60/month  (100GB × 30 × $0.02)</code></pre>
+<p>The two clouds cost about the same here; cross-zone chatter is not an AWS-vs-GCP difference. Multiply across many services in a high-traffic cluster and the line item becomes non-trivial. The mitigation is zone-pinning (run a workload's pods in a single zone, accept the reduced AZ-failure tolerance) or regional persistent disks (replicate at the storage layer instead of the network layer).</p>
 <h3 id="bigquery-s-two-pricing-axes">BigQuery's two pricing axes</h3>
 <p>BigQuery is unique in having both <strong>storage</strong> and <strong>query</strong> as primary pricing axes:</p>
 <ul>
@@ -466,7 +466,7 @@ GCP (us-central1):            ~$60/month  (100GB × 30 × $0.02)</code></pre>
 Compute Engine (GKE nodes)       $42,300    35%         Cross-zone GKE
 BigQuery                         $19,400    16%         8 TB/day scan
 Cloud Storage                    $11,200     9%         Data lake
-GKE control plane                $   720    &lt;1%         3 clusters × $0.10/hr × 730
+GKE control plane                $   219    &lt;1%         3 clusters × $0.10/hr × 730
 Network egress                   $ 9,800     8%         ← high — cross-zone GKE
 Cloud SQL                        $ 7,400     6%         
 Cloud Logging                    $ 5,200     4%         Above free tier

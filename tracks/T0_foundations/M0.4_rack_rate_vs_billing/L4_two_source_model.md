@@ -125,7 +125,7 @@ DATE        cost_usd (rack)   actual_cost_usd (billed)   cost_source
 ─────────────────────────────────────────────────────────────────────
 WEEK rack rate              $16.10
 WEEK billing (actual)         $7.45    (5 days × $1.49)
-WEEK using COALESCE          $11.97    ($7.45 + $4.60 fallback)
+WEEK using COALESCE          $12.05    ($7.45 + $4.60 fallback)
 ```
 
 The COALESCE pattern gives the best-available-answer per day: actual where available, calculated where not. The week label is `actual` (because some days were actual) but the rendered tooltip notes the partial fallback.

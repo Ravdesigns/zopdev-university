@@ -55,12 +55,12 @@ RANK  SERVICE                          TYPICAL %  NOTES
 Traffic between availability zones within the same region is *charged* on both AWS and GCP: roughly $0.01 per GB in each direction (the receiving side also pays), so cross-zone chatter costs about $0.02 per GB round-trip. Only traffic that stays within a single zone is free. A K8s cluster spanning three zones with chatty service-to-service traffic can rack up significant network spend on either cloud. The trap is assuming cross-zone replication is free because same-zone traffic is.
 
 ```
-SCENARIO: 100 GB/day inter-zone traffic in a GKE cluster
-AWS equivalent (us-east-1):   $0
-GCP (us-central1):            ~$60/month  (100GB × 30 × $0.02)
+SCENARIO: 100 GB/day inter-zone traffic in a GKE/EKS cluster
+AWS (us-east-1):     ~$60/month  (100GB × 30 × $0.02, cross-AZ each way)
+GCP (us-central1):   ~$60/month  (100GB × 30 × $0.02)
 ```
 
-Multiply across many services in a high-traffic cluster and the line item becomes non-trivial. The mitigation is zone-pinning (run a workload's pods in a single zone, accept the reduced AZ-failure tolerance) or regional persistent disks (replicate at the storage layer instead of the network layer).
+The two clouds cost about the same here; cross-zone chatter is not an AWS-vs-GCP difference. Multiply across many services in a high-traffic cluster and the line item becomes non-trivial. The mitigation is zone-pinning (run a workload's pods in a single zone, accept the reduced AZ-failure tolerance) or regional persistent disks (replicate at the storage layer instead of the network layer).
 
 ### BigQuery's two pricing axes
 
@@ -94,7 +94,7 @@ SERVICE                          MONTHLY    % OF BILL    NOTES
 Compute Engine (GKE nodes)       $42,300    35%         Cross-zone GKE
 BigQuery                         $19,400    16%         8 TB/day scan
 Cloud Storage                    $11,200     9%         Data lake
-GKE control plane                $   720    <1%         3 clusters × $0.10/hr × 730
+GKE control plane                $   219    <1%         3 clusters × $0.10/hr × 730
 Network egress                   $ 9,800     8%         ← high — cross-zone GKE
 Cloud SQL                        $ 7,400     6%         
 Cloud Logging                    $ 5,200     4%         Above free tier
