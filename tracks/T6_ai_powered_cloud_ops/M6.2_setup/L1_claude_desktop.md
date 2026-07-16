@@ -63,22 +63,25 @@ Linux:    ~/.config/Claude/claude_desktop_config.json
 
 Configuration content (replace placeholders with your values):
 
+The ZopNight MCP server is a **hosted** service (a Go service behind the gateway), not a local npm package. You connect a stdio client like Claude Desktop to it through the generic `mcp-remote` bridge, passing your PAT as a bearer header:
+
 ```json
 {
   "mcpServers": {
     "zopnight": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-server"],
-      "env": {
-        "ZN_PAT": "zn_pat_xxxxxxxxxxxxxx",
-        "ZN_ORG": "org_abc123"
-      }
+      "args": [
+        "-y", "mcp-remote",
+        "https://<your-zopnight-mcp-endpoint>/mcp",
+        "--header", "Authorization: Bearer zn_pat_xxxxxxxxxxxxxx",
+        "--header", "X-Zopnight-Org: org_abc123"
+      ]
     }
   }
 }
 ```
 
-Replace `ZN_PAT` with the value copied from Step 1. Replace `ZN_ORG` with your org ID (find in ZopNight Settings → Organization).
+Replace the endpoint with the MCP URL shown in ZopNight (Settings → Integrations → MCP), the bearer value with the PAT copied in Step 1, and the org id with your org (Settings → Organization). Clients with native remote-MCP support can point at the same URL directly instead of using the `mcp-remote` bridge.
 
 If you already have other MCP servers configured (other vendors, your own MCPs), add the `zopnight` block to the existing `mcpServers` object without replacing them.
 
@@ -161,7 +164,7 @@ At first query:
   8. Result returned; Claude synthesizes for user
 ```
 
-The MCP server runs locally on your machine; the data calls go to ZopNight's hosted backend. The PAT authenticates the calls.
+Only the `mcp-remote` bridge runs locally on your machine; the MCP server itself is ZopNight's hosted service, and the bridge forwards your tool calls to it over HTTPS. The PAT (sent as a bearer header) authenticates every call.
 
 ### Security considerations
 
@@ -206,7 +209,7 @@ If you have access to multiple ZopNight orgs:
   "mcpServers": {
     "zopnight-acme": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-server"],
+      "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
       "env": {
         "ZN_PAT": "zn_pat_aaa...",
         "ZN_ORG": "org_acme"
@@ -214,7 +217,7 @@ If you have access to multiple ZopNight orgs:
     },
     "zopnight-staging": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-server"],
+      "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
       "env": {
         "ZN_PAT": "zn_pat_bbb...",
         "ZN_ORG": "org_staging"
@@ -245,7 +248,7 @@ T+1:00     Open terminal, edit Claude Desktop config:
               "mcpServers": {
                 "zopnight": {
                   "command": "npx",
-                  "args": ["-y", "@zopnight/mcp-server"],
+                  "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
                   "env": {
                     "ZN_PAT": "zn_pat_8f9a3b...",
                     "ZN_ORG": "org_acme123"

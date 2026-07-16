@@ -48,7 +48,7 @@ EXPECTED:
 
 IF FAILED:
   Re-check config file path (right OS-specific location?)
-  Run npx -y @zopnight/mcp-server manually in terminal to see errors
+  Run npx -y mcp-remote https://<your-zopnight-mcp-endpoint>/mcp manually in terminal to see errors
   Check Node version (need 18+)
   Check shell env vars are set
 ```
@@ -65,7 +65,7 @@ EXPECTED: 43 tools listed
 
 IF FEWER than 43:
   PAT scope incomplete; regenerate with full read scopes
-  MCP server version outdated; update: npx -y @zopnight/mcp-server@latest
+  MCP server version outdated; update: npx -y mcp-remote@latest https://<your-zopnight-mcp-endpoint>/mcp
 ```
 
 ### Step 3 — Auth check
@@ -158,7 +158,7 @@ SYMPTOM                                FIX
                                        Check exact filters agent applied
                                        
 "Server crashes randomly"                MCP server version mismatch
-                                       Update: npx -y @zopnight/mcp-server@latest
+                                       Update: npx -y mcp-remote@latest https://<your-zopnight-mcp-endpoint>/mcp
                                        Or check Node version
                                        
 "Auth works but no data"                 Org-level MCP toggle off
