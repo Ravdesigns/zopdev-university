@@ -3522,6 +3522,10 @@ function extractTermDefinitionFromLesson(rawMd, term) {
     if (/glossary terms?/i.test(sec)) continue;
     if (/related lessons?/i.test(sec)) continue;
     if (/module quiz|track\s*\d+\s*complete/i.test(sec)) continue;
+    // Never source a definition from the Outcome block (lesson objectives)
+    // or the Knowledge check block (question stems + answer keys).
+    if (/\boutcome\b/.test(sec)) continue;
+    if (/knowledge check/i.test(sec)) continue;
     // Skip lines that ARE the heading itself
     if (/^#{1,6}\s/.test(lines[i])) continue;
     // Skip table rows + ascii-art lines (start with | or look like code)
@@ -3539,6 +3543,15 @@ function extractTermDefinitionFromLesson(rawMd, term) {
     }
     let para = lines.slice(start, end + 1).join(' ').trim();
     if (para.length < 40) continue;
+
+    // Reject fragments that must never become a definition:
+    //  - quiz answer-key / <details> leaks ("Correct: B", "Show answer")
+    //  - lesson objectives ("By the end of this lesson ...")
+    //  - numbered-list fragments ("3. Moved bytes ...") and quiz options ("B. ...")
+    if (/Correct:\s*[A-D]\b|<\/?summary>|<\/?details>|Show answer/i.test(para)) continue;
+    if (/^\**by the end of this lesson/i.test(para)) continue;
+    if (/^\**\d+\.\s/.test(para)) continue;
+    if (/^[A-D]\.\s/.test(para)) continue;
 
     // Reject paragraphs that are dominated by glossary links (the footer
     // bleeds into adjacent lines sometimes)
