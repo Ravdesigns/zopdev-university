@@ -425,8 +425,8 @@
 <p>Three anomaly severity bands. Each has a recommended response, notification routing, and SLA.</p>
 <pre><code>SEVERITY        DEVIATION         RESPONSE              NOTIFICATION
 ─────────────────────────────────────────────────────────────────────
-warning          30-150%           Investigate this week  Slack channel
-critical         150-500%          Action within 24 hours Slack + email
+warning          30-100%           Investigate this week  Slack channel
+critical         100-500%          Action within 24 hours Slack + email
 emergency        &gt; 500%            Action immediately     Slack + email + page</code></pre>
 <p>The severity drives the response intensity.</p>
 <h3 id="warning-investigate-this-week">Warning — investigate-this-week</h3>
@@ -654,7 +654,7 @@ EVENT 3 (emergency, 1,200% deviation):
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
 <h3 id="q1">Q1</h3>
 <p>An anomaly with 200% deviation. The severity:</p>
-<p>A. warning B. critical (150-500% range). The deviation falls in the critical band. Investigate within 24 hours. C. emergency D. random</p>
+<p>A. warning B. critical (100-500% range). The deviation falls in the critical band. Investigate within 24 hours. C. emergency D. random</p>
 <details>
 <summary>Show answer</summary>
 <p><strong>Correct: B.</strong> Critical band.</p>

@@ -447,13 +447,13 @@ Mistral            $0.50-$2.00         $1.00-$8.00          varies</code></pre>
 <pre><code>HIGH INFERENCE COST PER TOKEN:
   Pattern: high-cost model used for simple queries
   Detection: cost per token unusually high
-  Rule: RC-1601 (model selection)
+  Rule: RC-1603 (model selection)
   Action: route by complexity
   
 IDLE BEDROCK PROVISIONED THROUGHPUT:
   Pattern: capacity reserved but unused
   Detection: utilization vs reservation
-  Rule: RC-1605 (provisioned throughput)
+  Rule: RC-1601 (provisioned throughput idle)
   Action: reduce capacity or move to on-demand
   
 TRAINING JOBS ON ON-DEMAND:
@@ -467,7 +467,7 @@ GPU INSTANCES 24/7:
   Detection: GPU usage vs uptime
   Rule: RC-1608, RC-1609
   Action: scheduling + autoterm</code></pre>
-<p>The 10 Bedrock rules (RC-1601..1610) target these patterns.</p>
+<p>The 10 Bedrock rules (RC-1601..1610) target these patterns. They sit inside a broader ML rule family that extends to RC-1634 (about 33 rules in total, including the SageMaker set RC-1611..1628). See L2 for the authoritative per-rule list.</p>
 <h3 id="cost-drivers-per-pattern">Cost drivers per pattern</h3>
 <pre><code>INFERENCE COSTS (Bedrock or self-hosted):
   Drivers: model choice, request volume, token length
@@ -516,16 +516,12 @@ EMBEDDING / VECTOR DB:
    Schedule off when training not running</code></pre>
 <p>The first two — model selection + batching — usually capture 80%+ of recoverable cost.</p>
 <h3 id="the-10-bedrock-rules">The 10 Bedrock rules</h3>
-<pre><code>RC-1601  Bedrock — Model Selection Optimization
-RC-1602  Bedrock — Output Truncation Opportunity
-RC-1603  Bedrock — Context Window Optimization
-RC-1604  Bedrock — Streaming vs Batch Pattern
-RC-1605  Bedrock — Provisioned Throughput Sizing
-RC-1606  Bedrock — Knowledge Base Tier
-RC-1607  Foundation Model Training on On-Demand
-RC-1608  GPU Instance Idle (training)
-RC-1609  GPU Instance Right-Size (training)
-RC-1610  Bedrock — Failed Inference Retry Pattern</code></pre>
+<pre><code>Bedrock rules span RC-1601..1610 (e.g. RC-1601 provisioned-throughput
+idle, RC-1607 agent idle). The SageMaker rules run RC-1611..1628
+(idle endpoints, off-hours scheduling, rightsizing, compliance, e.g.
+RC-1628 HyperPod volume-not-CMK-encrypted), with a few more through
+RC-1634. The canonical rule names and IDs live in L2 and in the
+recommender rule catalog; treat that as the source of truth.</code></pre>
 <p>Each addresses a specific cost pattern. Customers see them in recommendations.</p>
 <h3 id="combining-patterns">Combining patterns</h3>
 <pre><code>TYPICAL ML COST RECOVERY:
