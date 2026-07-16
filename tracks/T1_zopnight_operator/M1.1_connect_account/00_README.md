@@ -1,6 +1,6 @@
 # M1.1 — Connect a cloud account
 
-§ T1 · M1.1 · Operator tier · 4 lessons · ~40 min
+§ T1 · M1.1 · Operator tier · 4 lessons · ~38 min
 
 ---
 

@@ -126,7 +126,7 @@ The 2-5 Admins is the most-watched number. More than 5 Admins in a mid-size org 
 A mid-size customer's role assignment after a clean review:
 
 ```
-TEAM: 14 users
+TEAM: 15 users
 ─────────────────────────────────────────────────────
 8 engineers             Editor
 1 senior engineer       Admin
@@ -136,7 +136,7 @@ TEAM: 14 users
 1 security/compliance   Custom (Viewer + audit-log:view
                                 + report:view extended)
 ─────────────────────────────────────────────────────
-TOTAL                   2 Admins · 8 Editors · 3 Viewers · 1 Custom
+TOTAL                   2 Admins · 8 Editors · 4 Viewers · 1 Custom
 ```
 
 The customer started with 6 Admins (every engineer-lead was Admin "for convenience"). The review reduced to 2 by giving Editors the recommend-apply capability they actually needed and Admin only to the 2 people who manage roles + cloud accounts. No capability was lost; the blast radius of a compromised account dropped from 6 to 2.

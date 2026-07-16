@@ -1,6 +1,6 @@
 # M1.5 — Overrides
 
-§ T1 · M1.5 · Operator tier · 4 lessons · ~40 min
+§ T1 · M1.5 · Operator tier · 4 lessons · ~38 min
 
 ---
 

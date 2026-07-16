@@ -106,7 +106,7 @@ SERVICE                          MONTHLY    % OF BILL    NOTES
 EC2 (compute + EBS + snapshots)  $74,820     41.1%      m5/c5 mix
 RDS (db.r5.* fleet)              $28,100     15.4%      Multi-AZ enabled in prod
 S3                               $15,300      8.4%      Standard + IA tier
-DataTransfer-Out-Bytes           $12,470      6.9%      ← higher than typical
+DataTransfer-Out-Bytes           $12,470      6.9%      ← within typical 5–15% band
 EKS (compute + cluster fees)     $11,420      6.3%      
 NAT Gateway                      $ 3,890      2.1%      28 gateways across non-prod
 CloudWatch (metric + log)        $ 7,200      4.0%      ← cardinality high

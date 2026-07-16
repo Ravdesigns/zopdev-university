@@ -420,7 +420,7 @@ T+24h    bob leads postmortem
          Runbook updated
          
 OUTCOME:
-  Cost runaway prevented (~$28K avoided)
+  Cost runaway prevented (~$33K avoided)
   Security incident properly escalated
   Commander handoff worked smoothly
   Team confidence high

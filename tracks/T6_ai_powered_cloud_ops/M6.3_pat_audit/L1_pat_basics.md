@@ -202,10 +202,10 @@ T+1 day   Each MCP call:
 
 T+30 days No usage anomalies in audit log; PAT working normally
 
-T+75 days Jane gets PAT-expiry-soon email notification
+T+83 days Jane gets PAT-expiry-soon email notification
           (7 days before automated expiry triggers)
 
-T+80 days Jane creates a new PAT (same name pattern with Q3)
+T+85 days Jane creates a new PAT (same name pattern with Q3)
           Updates Claude Desktop config to new PAT
           Verifies new PAT works (asks "Who am I?" via MCP)
           Revokes the old PAT in ZopNight settings

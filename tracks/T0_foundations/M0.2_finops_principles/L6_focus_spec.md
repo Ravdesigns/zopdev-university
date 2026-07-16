@@ -43,7 +43,7 @@ The FinOps Foundation owns the spec and convenes the working group.
 
 FOCUS is a **column specification**. It defines:
 
-- The set of required columns (about 30 core ones — `BilledCost`, `EffectiveCost`, `ServiceName`, `ResourceId`, `Region`, `ChargePeriodStart`, etc.)
+- The set of columns (about 50 in FOCUS 1.0 — `BilledCost`, `EffectiveCost`, `ServiceName`, `ResourceId`, `RegionId`, `RegionName`, `ChargePeriodStart`, etc.)
 - The data types and allowed values
 - The semantics of each column (what counts as `BilledCost` vs `EffectiveCost`, for instance)
 
@@ -66,7 +66,7 @@ EffectiveCost             The amortized cost (e.g., reservation distributed)
 ListCost                  What the cost would have been at public list price
 ServiceName               The cloud service (EC2, Compute Engine, Storage)
 ResourceId                Cloud-native identifier of the resource
-Region                    Cloud-native region code
+RegionId / RegionName     Cloud-native region id + display name
 ChargeCategory            "Usage" / "Tax" / "Credit" / "Adjustment"
 ChargePeriodStart / End   The time window the charge covers
 SkuId                     The pricing SKU

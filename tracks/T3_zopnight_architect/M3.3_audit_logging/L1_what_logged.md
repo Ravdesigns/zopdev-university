@@ -45,7 +45,7 @@ Browse resources                 No           too high to log usefully
 
 ### Why mutations only
 
-Three reasons converge on the same answer. First, **volume**: a typical mid-size customer issues ~10,000 read requests for every mutation. Logging reads at the same fidelity would multiply the audit storage by 1,000× with minimal forensic value. Second, **redundancy**: RBAC already controls read access. If a user does not have `resource:view`, they cannot read the resource; recording every successful `resource:view` does not tell you anything `policy-table + role assignment` does not already say. Third, **focus**: in an incident or audit, the relevant question is almost always "what changed" not "who looked." Mutations-only keeps the log readable.
+Three reasons converge on the same answer. First, **volume**: a typical mid-size customer issues ~1,000 read requests for every mutation. Logging reads at the same fidelity would multiply the audit storage by 1,000× with minimal forensic value. Second, **redundancy**: RBAC already controls read access. If a user does not have `resource:view`, they cannot read the resource; recording every successful `resource:view` does not tell you anything `policy-table + role assignment` does not already say. Third, **focus**: in an incident or audit, the relevant question is almost always "what changed" not "who looked." Mutations-only keeps the log readable.
 
 Reads do get logged in two narrow cases: when a read fails authorization (the `403`/`404` is recorded so anomalous access attempts surface), and when MCP-driven reads happen (M6 covers this — MCP calls are logged because the agent-driven access pattern is a newer surface that auditors specifically ask about).
 

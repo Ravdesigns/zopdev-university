@@ -45,7 +45,7 @@ prod        Always-on                         Customer-facing; no
                                                 explicitly non-24/7
 ```
 
-Following this pattern: ~$3/$mo non-prod resource ≈ $1/mo. Multiply by hundreds of resources.
+Following this pattern: a ~$3/mo non-prod resource drops to ≈ $1/mo. Multiply by hundreds of resources.
 
 ### Why each pattern
 
@@ -232,7 +232,7 @@ TEAM: zopcloud platform (200 engineers, US + EU teams)
 
 BEFORE:
   All non-prod resources 24/7
-  Non-prod compute: $48K/mo
+  Non-prod compute: $46K/mo
 
 SCHEDULES DEFINED:
   

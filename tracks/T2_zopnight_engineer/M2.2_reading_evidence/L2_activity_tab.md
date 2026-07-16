@@ -240,7 +240,7 @@ The daily cadence is right for the use case.
 
 ## 2. Demo
 
-A team's deep audit of a $1,400/mo orphan RDS:
+A team's deep audit of a $1,400/mo idle RDS:
 
 ```
 SCENARIO:
@@ -249,7 +249,7 @@ SCENARIO:
   Status: still running (forgotten?)
   Current cost: $1,400/mo
 
-ZopNight finding: RC-002 (orphan resource pattern)
+ZopNight finding: RC-202 (idle resource pattern)
   Triggers: low utilization + no connections + 30+ day stable state
   Confidence: needs cross-check before terminating
 

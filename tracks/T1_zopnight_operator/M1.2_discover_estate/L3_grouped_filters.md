@@ -91,7 +91,7 @@ The 380+ resource types fall into 9 categories. The Grouped Type dropdown organi
 [ ] Messaging                               9 types
 ```
 
-**Category-level checkbox** ticks every type in the category. **Counts** show how many types are in each category.
+**Category-level checkbox** ticks every type in the category. **Counts** show how many types are in each category. These per-category counts reflect the common, schedulable types surfaced in the dropdown; they are representative, not the full 380+ discovered set, so they do not sum to 380+.
 
 Same component is reused on the Recommendations page for filtering rules by resource type — so muscle memory transfers.
 

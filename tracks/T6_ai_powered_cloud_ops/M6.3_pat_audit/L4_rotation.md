@@ -44,7 +44,7 @@ RECOMMENDED:
   
 TRACKED in ZopNight UI:
   PAT age visible per token
-  Warning email at 75 days (15 days before 90-day expiry)
+  Warning email at 83 days (7 days before 90-day expiry)
   Block on expiry day (configurable per org)
 ```
 
@@ -233,7 +233,7 @@ ORG CAN REQUIRE (Settings → Org → API → PAT Policy):
   Manager approval required for new PATs (workflow)
   Scope restrictions (always read-only; no further)
   PAT description required (cannot be empty)
-  Rotation reminders at 60 / 75 / 85 days
+  Rotation reminders at 60 / 75 / 83 days
   Auto-deactivation on expiry
 ```
 
