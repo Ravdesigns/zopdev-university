@@ -23,14 +23,14 @@ By the end of this lesson, you will be able to **distinguish** Databricks autote
 
 ## 1. Concept
 
-Databricks Clusters have built-in autotermination: idle clusters terminate after a configurable timeout (5-2880 minutes). This is Databricks-native. ZopNight scheduling is at a different layer.
+Databricks Clusters have built-in autotermination: idle clusters terminate after a configurable timeout (10-10000 minutes, or 0 to disable). This is Databricks-native. ZopNight scheduling is at a different layer.
 
 ```
 TWO LAYERS OF COST CONTROL:
   
   AUTOTERM (Databricks-native):
     Mid-day idle handler
-    Configurable per cluster (5-2880 minutes)
+    Configurable per cluster (10-10000 minutes, or 0 to disable)
     Default: 60-120 min for most clusters
     
   ZOPNIGHT SCHEDULE:
