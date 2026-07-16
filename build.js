@@ -1113,7 +1113,11 @@ function pageHTML({
   hideUniNav = false,
   body,
 }) {
-  const ogDesc = description || 'Cloud cost optimization curriculum. 237 lessons across 7 courses. Operator, Engineer, Architect certifications.';
+  // Strip markdown before it reaches meta/OG/Twitter descriptions — lesson
+  // outcomes carry **bold** emphasis that would otherwise render as literal
+  // asterisks in search snippets and social cards. Trim to a sane length.
+  let ogDesc = stripMd(description || 'Cloud cost optimization curriculum. 237 lessons across 7 courses. Operator, Engineer, Architect certifications.');
+  if (ogDesc.length > 300) ogDesc = ogDesc.slice(0, 297).replace(/\s+\S*$/, '') + '…';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1131,7 +1135,9 @@ function pageHTML({
 <meta property="og:title" content="${escapeHTML(title)}">
 <meta property="og:description" content="${escapeHTML(ogDesc)}">
 <meta property="og:url" content="${canonical}">
-<meta property="og:image" content="${ogImage || 'https://zop.dev/resources/university/og/default.png'}">
+<meta property="og:image" content="${ogImage || 'https://zop.dev/resources/university/og/default.svg'}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
@@ -1267,7 +1273,7 @@ ${JSON.stringify({
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": lesson.title,
-  "description": lesson.outcome || lesson.title,
+  "description": stripMd(lesson.outcome || lesson.title),
   "url": `https://zop.dev/resources/university/${track.slug}/${mod.slug}/${lesson.slug}/`,
   "learningResourceType": "Lesson",
   "educationalLevel": track.tier,

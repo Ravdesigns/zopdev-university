@@ -1,0 +1,15 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ZopDev University">
+  <rect width="1200" height="630" fill="#FAF7EC"/>
+  <rect x="0" y="0" width="1200" height="12" fill="#2A4494"/>
+  <rect x="0" y="618" width="1200" height="12" fill="#F58549"/>
+  <!-- programmatic mark: blue square + cream moon -->
+  <g transform="translate(96,120)">
+    <rect x="0" y="0" width="120" height="120" fill="#2A4494"/>
+    <circle cx="86" cy="34" r="26" fill="#FAF7EC"/>
+  </g>
+  <text x="240" y="182" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="700" fill="#0A0A0A" letter-spacing="0.5">ZopDev University</text>
+  <text x="240" y="226" font-family="'JetBrains Mono', ui-monospace, Menlo, monospace" font-size="20" fill="#2A4494" letter-spacing="1">FREE · OPEN · CERTIFIED</text>
+  <text x="96" y="360" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif" font-size="72" font-weight="700" fill="#0A0A0A">Cloud cost optimization,</text>
+  <text x="96" y="446" font-family="'Space Grotesk', 'Helvetica Neue', Arial, sans-serif" font-size="72" font-weight="700" fill="#2A4494">taught properly.</text>
+  <text x="96" y="536" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="28" fill="#0A0A0A" fill-opacity="0.72">237 lessons · 7 courses · Operator, Engineer &amp; Architect certifications</text>
+</svg>
