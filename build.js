@@ -1712,25 +1712,36 @@ function renderModuleOverview(track, mod) {
   const readmePath = path.join(TRACKS_DIR, track.dir, mod.dir, '00_README.md');
   if (!fs.existsSync(readmePath)) return '';
   const lines = fs.readFileSync(readmePath, 'utf8').split('\n');
-  // Match on the heading's leading phrase (allow trailing text like
-  // "Module knowledge check (10 questions)").
-  const SKIP = /^##\s+(lessons|module outcome|outcome|module knowledge check|knowledge check|what'?s?\s+next|what next)\b/i;
-  const kept = [];
-  let inSection = false, skipping = true; // skip the header block before the first ##
+  // Allowlist, not denylist: module READMEs across tracks use wildly different
+  // headings (T6's recipe library uses "## The 15 recipes", "## Recipe pattern"
+  // with an internal reference table + authoring template). Keep ONLY sections
+  // this feature is designed to surface — reader-facing framing prose and the
+  // concept diagram — so anything an author didn't anticipate defaults to
+  // dropped rather than dumped onto the page.
+  const ALLOW = /^##\s+(module diagram|diagram|the big picture|big picture|overview|the idea|mental model|why this module|how it fits)\b/i;
+  // Split into sections keyed by their ## heading.
+  const sections = [];
+  let cur = null;
   for (const line of lines) {
-    if (/^##\s+/.test(line)) {
-      inSection = true;
-      skipping = SKIP.test(line.trim());
-      continue; // drop the section-label heading itself; my sec-head titles the block
+    if (/^##\s+/.test(line)) { cur = { head: line.trim(), body: [] }; sections.push(cur); continue; }
+    if (cur) cur.body.push(line);
+  }
+  const kept = [];
+  for (const s of sections) {
+    const allowed = ALLOW.test(s.head);
+    const hasDiagram = s.body.some(l => /`assets\/diagrams\/[^`]+\.svg`/.test(l));
+    if (!allowed && !hasDiagram) continue;
+    for (const l of s.body) {
+      if (l.trim() === '---') continue;      // drop hr separators
+      if (/^§/.test(l.trim())) continue;      // never leak signature / provenance lines
+      kept.push(l);
     }
-    if (line.trim() === '---') continue; // drop hr separators
-    if (inSection && !skipping) kept.push(line);
   }
   const bodyMd = kept.join('\n').trim();
   if (!bodyMd) return '';
   const html = renderMarkdown(bodyMd, readmePath).trim();
   // Nothing but a stray heading? Treat as empty (avoids an empty section box).
-  if (!/<(p|figure|ul|ol|table|pre)\b/.test(html)) return '';
+  if (!/<(p|figure|ul|ol|table|pre|blockquote)\b/.test(html)) return '';
   return `
 <section class="section">
   <div class="container">
