@@ -440,9 +440,10 @@
 <h3 id="principle-3-everyone-takes-ownership-for-their-technology-usage">Principle 3 — Everyone takes ownership for their technology usage</h3>
 <p>Cost ownership lives with the team that uses the resource. Not with central FinOps. Not with finance. Not with the platform team. Central groups enable; the consuming team owns. The principle is the antidote to the "FinOps team owns the bill" anti-pattern, which guarantees waste because nobody who can fix anything is on the hook.</p>
 <p><strong>Practice form:</strong> Each team has a monthly cost dashboard scoped to its tagged resources. Each team has a budget. Variance reports go to the team, not to central FinOps.</p>
-<h3 id="principle-4-finops-data-should-be-accessible-timely-and-accurate">Principle 4 — FinOps data should be accessible, timely, and accurate</h3>
+<h3 id="principle-4-finops-data-should-be-accessible-and-timely">Principle 4 — FinOps data should be accessible and timely</h3>
 <p>Stale, inaccurate, or gatekept cost data is FinOps theatre. A team that learns about a cost incident three weeks after it happened cannot fix it. A central group that hoards the bill behind PDFs cannot expect ownership to take root.</p>
 <p><strong>Practice form:</strong> Cost data is in a self-serve tool, refreshed daily, accurate to within a known band. No gatekeeping. No "request a report" tickets.</p>
+<p>(The canonical Principle 4 is "accessible and timely"; accuracy-to-a-known-band is the practical third leg this course adds.)</p>
 <h3 id="principle-5-a-centralized-team-drives-finops-practices">Principle 5 — A centralized team drives FinOps practices</h3>
 <p>The principle is widely misread as "central team owns the bill." It does not. Central enables; teams own. Central provides tooling, training, standards, benchmarks, and the FinOps practice operations. Decentralized teams make the decisions inside those guardrails.</p>
 <p><strong>Practice form:</strong> A central FinOps function with a small headcount that publishes standards (the four MVT tags, the budget threshold playbook, the anomaly response runbook) and runs the tooling, not a central team that approves every Terraform PR.</p>
@@ -456,7 +457,7 @@
   │  1. Teams collaborate                               │
   │  2. Business value drives tech decisions            │
   │  3. Everyone takes ownership                        │
-  │  4. Data is accessible, timely, accurate            │
+  │  4. Data is accessible and timely (accurate in practice)│
   │  5. Centrally enabled, locally owned                │
   │  6. Exploit the variable cost model                 │
   └─────────────────────────────────────────────────────┘</code></pre>

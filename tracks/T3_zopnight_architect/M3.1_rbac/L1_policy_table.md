@@ -6,7 +6,7 @@
 
 ## Outcome
 
-By the end of this lesson, you will be able to **identify** the 15 entities in ZopNight's RBAC policy table, **map** any product surface to the policy it enforces, **and explain** why the gateway is the single enforcement point.
+By the end of this lesson, you will be able to **identify** the core policy entities in ZopNight's RBAC table, **map** any product surface to the policy it enforces, **and explain** why the gateway is the single enforcement point.
 
 ---
 
@@ -23,39 +23,41 @@ By the end of this lesson, you will be able to **identify** the 15 entities in Z
 
 ## 1. Concept
 
-ZopNight's authorization model is built around a fixed table of **15 policy entities**. Every protected endpoint in the product maps to one or more entities. Every role is, fundamentally, a set of `(entity, action)` pairs that the role's members are allowed to invoke.
+ZopNight's authorization model is built around a small, closed table of policy entities — about 15 core ones, plus a handful of specialized entities (budget, dashboard, autoscaler-policy, event-readiness, unit-metric, policy). Every protected endpoint in the product maps to one or more entities. Every role is, fundamentally, a set of `(entity, action)` pairs that the role's members are allowed to invoke.
 
-The table is closed — it cannot be extended at runtime. Adding a 16th entity requires a schema migration, a code release, and a policy-table update reviewed by the security team. That deliberate closure is what makes the model auditable: when a customer asks "what can your Admin role do?", the answer is a finite list that fits on one page.
+The table is closed — it cannot be extended at runtime. Adding a new entity requires a schema migration, a code release, and a policy-table update reviewed by the security team. That deliberate closure is what makes the model auditable: when a customer asks "what can your Admin role do?", the answer is a finite list that fits on one page.
 
-### The 15 entities
+### The core entities
+
+Every policy uses the same four verbs — **view / create / update / delete** — on an entity. There are no per-action verbs like "apply" or "cancel"; product actions map onto the uniform verbs (start/stop and apply/dismiss are both `update`).
 
 ```
-ENTITY                  TYPICAL ACTIONS
+ENTITY                  ACTIONS (uniform verbs)
 ─────────────────────────────────────────────────────────
-resource                view, manage (start/stop)
+resource                view, update            (start/stop = update)
 schedule                view, create, update, delete
-resource-group          view, create, update, delete, manage-members
-override                view, create, cancel
-cloud-account           view, connect, rotate, revoke
+resource-group          view, create, update, delete
+override                view, create, update, delete
+cloud-account           view, create, update, delete
 notification            view, create, update, delete
 team                    view, create, update, delete
-role                    view, create, update, delete, assign
-user                    view, create, update, delete, invite
+role                    view, create, update, delete
+user                    view, create, update, delete
 organisation            view, update
 assignment              view, create, delete
 state-history           view
 report                  view
-audit-log                view
-recommendation          view, apply, dismiss
+audit-log               view
+recommendation          view, update            (apply/dismiss = update)
 ```
 
 The entities cluster into three groups: **operational** (resource, schedule, resource-group, override, recommendation, notification), **administrative** (cloud-account, team, role, user, organisation, assignment), and **read-only forensic** (state-history, report, audit-log). The grouping matters for role design — a typical Editor role gets full operational and partial administrative; a typical Auditor role gets only the forensic group plus selective view rights.
 
-### Why exactly 15
+### Why the table stays small
 
 The number is not arbitrary. Earlier iterations of ZopNight had a much larger entity table (43 in the v2 design) where each backend service exposed its own entities. That model produced unpredictable role behavior — granting `cluster:view` did not also grant `node:view`, even though every cluster page rendered nodes. Customers ended up with custom roles that quietly authorized 30+ disconnected entities.
 
-The v3 consolidation merged the table to 15 stable, user-facing entities. The mapping from entity to backend services is internal and managed by the gateway. From the customer's perspective, the entities mirror what they see in the UI: a "resource" is a thing on the Resources page; a "schedule" is a thing on the Schedules page. No mental translation required.
+The v3 consolidation merged the table to a small set of stable, user-facing core entities. The mapping from entity to backend services is internal and managed by the gateway. From the customer's perspective, the entities mirror what they see in the UI: a "resource" is a thing on the Resources page; a "schedule" is a thing on the Schedules page. No mental translation required.
 
 ### Policy entity coverage
 
@@ -117,7 +119,7 @@ A team-platform engineer wants to start an EC2 instance from the Resources page.
 GET /v1/resources                    [gateway] → resource:view → 200
 GET /v1/resources/i-0abc             [gateway] → resource:view → 200
 POST /v1/resources/i-0abc/start      [gateway] → resource:update → 403
-                                                  ^^^ user role lacks manage
+                                                  ^^^ user role lacks resource:update
 ```
 
 In the policy table, that endpoint is declared as:
@@ -125,7 +127,7 @@ In the policy table, that endpoint is declared as:
 ```yaml
 - path: /v1/resources/{id}/start
   method: POST
-  policy: { entity: resource, action: manage }
+  policy: { entity: resource, action: update }
 ```
 
 The user's effective role is Viewer. Viewer's policy set is:
@@ -136,7 +138,7 @@ viewer:
   - { entity: schedule, action: view }
   - { entity: recommendation, action: view }
   - { entity: report, action: view }
-  # ...all view-only across the 15 entities
+  # ...all view-only across every entity
 ```
 
 The gateway resolves the request, finds no matching `(resource, manage)` permission, returns 403. The frontend's `usePermission('resource', 'manage')` would have returned `false`, so the "Start" button would already be disabled, but the gateway is the actual security boundary — disabled UI is a usability nicety, not a security control.

@@ -133,7 +133,7 @@ Resource (or Group) detail page → Override button
 SET OVERRIDE
 
   Type:       [ Force-on  ▾ ]                  
-  Reason:     [                                       ]  (required, min 10 chars)
+  Reason:     [                                       ]  (optional)
   Expiry:     [ Exact ▾ ] [ 2026-05-26 08:00 ]
               [ Relative ▾ ] [ +24h ]
   Scope:      ● This resource only
@@ -142,7 +142,7 @@ SET OVERRIDE
 [Cancel]                                              [Apply override]
 ```
 
-Three required fields, one optional scope expander. The form is short on purpose — overrides should be set quickly, not deliberated over.
+Two required fields (type and expiry); reason is optional, and the scope defaults to this resource. The form is short on purpose — overrides should be set quickly, not deliberated over.
 
 ---
 

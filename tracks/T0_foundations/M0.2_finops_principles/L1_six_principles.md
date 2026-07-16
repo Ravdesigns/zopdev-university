@@ -45,11 +45,13 @@ Cost ownership lives with the team that uses the resource. Not with central FinO
 
 **Practice form:** Each team has a monthly cost dashboard scoped to its tagged resources. Each team has a budget. Variance reports go to the team, not to central FinOps.
 
-### Principle 4 — FinOps data should be accessible, timely, and accurate
+### Principle 4 — FinOps data should be accessible and timely
 
 Stale, inaccurate, or gatekept cost data is FinOps theatre. A team that learns about a cost incident three weeks after it happened cannot fix it. A central group that hoards the bill behind PDFs cannot expect ownership to take root.
 
 **Practice form:** Cost data is in a self-serve tool, refreshed daily, accurate to within a known band. No gatekeeping. No "request a report" tickets.
+
+(The canonical Principle 4 is "accessible and timely"; accuracy-to-a-known-band is the practical third leg this course adds.)
 
 ### Principle 5 — A centralized team drives FinOps practices
 
@@ -72,7 +74,7 @@ The cloud is variable cost. That is its defining property compared to on-prem. T
   │  1. Teams collaborate                               │
   │  2. Business value drives tech decisions            │
   │  3. Everyone takes ownership                        │
-  │  4. Data is accessible, timely, accurate            │
+  │  4. Data is accessible and timely (accurate in practice)│
   │  5. Centrally enabled, locally owned                │
   │  6. Exploit the variable cost model                 │
   └─────────────────────────────────────────────────────┘

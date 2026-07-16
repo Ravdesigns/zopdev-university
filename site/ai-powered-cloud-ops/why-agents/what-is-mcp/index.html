@@ -439,7 +439,7 @@ The engineer never leaves the conversation.</code></pre>
 <h3 id="why-this-matters-in-2026">Why this matters in 2026</h3>
 <p>Before MCP, AI assistants were limited to what the engineer could paste. With MCP, the agent's knowledge boundary shifts — it can query real systems, get current data, and answer with specifics rather than generalities. For cloud cost in particular, this changes the workflow: engineers ask their AI assistant questions about real infrastructure rather than navigating the dashboard.</p>
 <h3 id="what-zopnight-s-mcp-server-exposes">What ZopNight's MCP server exposes</h3>
-<p>The MCP server provides 43 read-only tools organized into 9 categories:</p>
+<p>The MCP server provides 43 read-only tools organized into 12 categories:</p>
 <pre><code>TOOL FAMILIES (43 read-only tools total)
 ─────────────────────────────────────────────────────
 Resources        Costs / billing     Recommendations
@@ -576,7 +576,7 @@ PLAN to connect:
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
 <h3 id="q1">Q1</h3>
 <p>MCP enables AI agents to:</p>
-<p>A. Modify cloud resources (start/stop, scale, delete) B. Read-only access to ZopNight data via 43 tools across 9 categories. Mutations are not allowed — the contract is hardcoded into the protocol implementation, not a permission setting. The AI can answer questions and draft mutations; humans execute via the ZopNight UI. C. Replace dashboards D. Random</p>
+<p>A. Modify cloud resources (start/stop, scale, delete) B. Read-only access to ZopNight data via 43 tools across 12 categories. Mutations are not allowed — the contract is hardcoded into the protocol implementation, not a permission setting. The AI can answer questions and draft mutations; humans execute via the ZopNight UI. C. Replace dashboards D. Random</p>
 <details>
 <summary>Show answer</summary>
 <p><strong>Correct: B.</strong> Read-only access via 43 tools. The mutation prohibition is intentional architecture.</p>

@@ -178,7 +178,7 @@ DASHBOARD: "Acme — Unit Economics Q2"
 
 BIG NUMBER:
   Cost-per-paying-user: $11.83
-  Q-o-Q change: -9% (improving)
+  Q-o-Q change: -10% (improving)
   Y-o-Y change: -14% (improving)
 
 LINE CHART (12 months):
@@ -188,7 +188,7 @@ LINE CHART (12 months):
     Apr (brief spike during EU launch)
 
 COMPARISON BLOCK:
-  vs Q1 2026:    -9% (improving)
+  vs Q1 2026:    -10% (improving)
   vs Q2 2025:    -14% (improving)
   vs forecast:   -3% (better than forecast — wins)
 

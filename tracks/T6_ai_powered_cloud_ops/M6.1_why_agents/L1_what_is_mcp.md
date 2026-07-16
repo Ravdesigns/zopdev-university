@@ -48,7 +48,7 @@ Before MCP, AI assistants were limited to what the engineer could paste. With MC
 
 ### What ZopNight's MCP server exposes
 
-The MCP server provides 43 read-only tools organized into 9 categories:
+The MCP server provides 43 read-only tools organized into 12 categories:
 
 ```
 TOOL FAMILIES (43 read-only tools total)
@@ -231,7 +231,7 @@ If your team doesn't use any AI tool with MCP support, this track is still relev
 MCP enables AI agents to:
 
 A. Modify cloud resources (start/stop, scale, delete)
-B. Read-only access to ZopNight data via 43 tools across 9 categories. Mutations are not allowed — the contract is hardcoded into the protocol implementation, not a permission setting. The AI can answer questions and draft mutations; humans execute via the ZopNight UI.
+B. Read-only access to ZopNight data via 43 tools across 12 categories. Mutations are not allowed — the contract is hardcoded into the protocol implementation, not a permission setting. The AI can answer questions and draft mutations; humans execute via the ZopNight UI.
 C. Replace dashboards
 D. Random
 

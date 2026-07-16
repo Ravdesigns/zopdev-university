@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The 15-entity policy table / ZopNight Architect / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to identify the 15 entities in ZopNight&#39;s RBAC policy table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.">
+<meta name="description" content="By the end of this lesson, you will be able to identify the core policy entities in ZopNight&#39;s RBAC table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.">
 <link rel="canonical" href="https://zop.dev/resources/university/architect/rbac/policy-table/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="The 15-entity policy table / ZopNight Architect / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to identify the 15 entities in ZopNight&#39;s RBAC policy table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.">
+<meta property="og:description" content="By the end of this lesson, you will be able to identify the core policy entities in ZopNight&#39;s RBAC table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.">
 <meta property="og:url" content="https://zop.dev/resources/university/architect/rbac/policy-table/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:image:width" content="1200">
@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="The 15-entity policy table / ZopNight Architect / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to identify the 15 entities in ZopNight&#39;s RBAC policy table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to identify the core policy entities in ZopNight&#39;s RBAC table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.">
 <meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
@@ -32,7 +32,7 @@
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "The 15-entity policy table",
-  "description": "By the end of this lesson, you will be able to identify the 15 entities in ZopNight's RBAC policy table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.",
+  "description": "By the end of this lesson, you will be able to identify the core policy entities in ZopNight's RBAC table, map any product surface to the policy it enforces, and explain why the gateway is the single enforcement point.",
   "url": "https://zop.dev/resources/university/architect/rbac/policy-table/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Architect",
@@ -414,7 +414,7 @@
         </div>
         <h1>The 15-entity policy table</h1>
       </header>
-      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>identify</strong> the 15 entities in ZopNight&#39;s RBAC policy table, <strong>map</strong> any product surface to the policy it enforces, <strong>and explain</strong> why the gateway is the single enforcement point.</p></div>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>identify</strong> the core policy entities in ZopNight&#39;s RBAC table, <strong>map</strong> any product surface to the policy it enforces, <strong>and explain</strong> why the gateway is the single enforcement point.</p></div>
       <div class="lesson-metabox"><dl>
 <dt>Tier</dt>
 <dd>Architect</dd>
@@ -429,30 +429,31 @@
 <dt>Bloom verb</dt>
 <dd>Identify (Remember), Map (Apply), Explain (Understand)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
-<p>ZopNight's authorization model is built around a fixed table of <strong>15 policy entities</strong>. Every protected endpoint in the product maps to one or more entities. Every role is, fundamentally, a set of <code>(entity, action)</code> pairs that the role's members are allowed to invoke.</p>
-<p>The table is closed — it cannot be extended at runtime. Adding a 16th entity requires a schema migration, a code release, and a policy-table update reviewed by the security team. That deliberate closure is what makes the model auditable: when a customer asks "what can your Admin role do?", the answer is a finite list that fits on one page.</p>
-<h3 id="the-15-entities">The 15 entities</h3>
-<pre><code>ENTITY                  TYPICAL ACTIONS
+<p>ZopNight's authorization model is built around a small, closed table of policy entities — about 15 core ones, plus a handful of specialized entities (budget, dashboard, autoscaler-policy, event-readiness, unit-metric, policy). Every protected endpoint in the product maps to one or more entities. Every role is, fundamentally, a set of <code>(entity, action)</code> pairs that the role's members are allowed to invoke.</p>
+<p>The table is closed — it cannot be extended at runtime. Adding a new entity requires a schema migration, a code release, and a policy-table update reviewed by the security team. That deliberate closure is what makes the model auditable: when a customer asks "what can your Admin role do?", the answer is a finite list that fits on one page.</p>
+<h3 id="the-core-entities">The core entities</h3>
+<p>Every policy uses the same four verbs — <strong>view / create / update / delete</strong> — on an entity. There are no per-action verbs like "apply" or "cancel"; product actions map onto the uniform verbs (start/stop and apply/dismiss are both <code>update</code>).</p>
+<pre><code>ENTITY                  ACTIONS (uniform verbs)
 ─────────────────────────────────────────────────────────
-resource                view, manage (start/stop)
+resource                view, update            (start/stop = update)
 schedule                view, create, update, delete
-resource-group          view, create, update, delete, manage-members
-override                view, create, cancel
-cloud-account           view, connect, rotate, revoke
+resource-group          view, create, update, delete
+override                view, create, update, delete
+cloud-account           view, create, update, delete
 notification            view, create, update, delete
 team                    view, create, update, delete
-role                    view, create, update, delete, assign
-user                    view, create, update, delete, invite
+role                    view, create, update, delete
+user                    view, create, update, delete
 organisation            view, update
 assignment              view, create, delete
 state-history           view
 report                  view
-audit-log                view
-recommendation          view, apply, dismiss</code></pre>
+audit-log               view
+recommendation          view, update            (apply/dismiss = update)</code></pre>
 <p>The entities cluster into three groups: <strong>operational</strong> (resource, schedule, resource-group, override, recommendation, notification), <strong>administrative</strong> (cloud-account, team, role, user, organisation, assignment), and <strong>read-only forensic</strong> (state-history, report, audit-log). The grouping matters for role design — a typical Editor role gets full operational and partial administrative; a typical Auditor role gets only the forensic group plus selective view rights.</p>
-<h3 id="why-exactly-15">Why exactly 15</h3>
+<h3 id="why-the-table-stays-small">Why the table stays small</h3>
 <p>The number is not arbitrary. Earlier iterations of ZopNight had a much larger entity table (43 in the v2 design) where each backend service exposed its own entities. That model produced unpredictable role behavior — granting <code>cluster:view</code> did not also grant <code>node:view</code>, even though every cluster page rendered nodes. Customers ended up with custom roles that quietly authorized 30+ disconnected entities.</p>
-<p>The v3 consolidation merged the table to 15 stable, user-facing entities. The mapping from entity to backend services is internal and managed by the gateway. From the customer's perspective, the entities mirror what they see in the UI: a "resource" is a thing on the Resources page; a "schedule" is a thing on the Schedules page. No mental translation required.</p>
+<p>The v3 consolidation merged the table to a small set of stable, user-facing core entities. The mapping from entity to backend services is internal and managed by the gateway. From the customer's perspective, the entities mirror what they see in the UI: a "resource" is a thing on the Resources page; a "schedule" is a thing on the Schedules page. No mental translation required.</p>
 <h3 id="policy-entity-coverage">Policy entity coverage</h3>
 <p>Every protected endpoint in ZopNight maps to one or more policy entities. The gateway enforces this on every request, before the request reaches the backend service.</p>
 <pre><code>SURFACE                          REQUIRES
@@ -494,18 +495,18 @@ Assign role to user              role:update + assignment:create</code></pre>
 <pre><code>GET /v1/resources                    [gateway] → resource:view → 200
 GET /v1/resources/i-0abc             [gateway] → resource:view → 200
 POST /v1/resources/i-0abc/start      [gateway] → resource:update → 403
-                                                  ^^^ user role lacks manage</code></pre>
+                                                  ^^^ user role lacks resource:update</code></pre>
 <p>In the policy table, that endpoint is declared as:</p>
 <pre><code class="lang-yaml">- path: /v1/resources/{id}/start
   method: POST
-  policy: { entity: resource, action: manage }</code></pre>
+  policy: { entity: resource, action: update }</code></pre>
 <p>The user's effective role is Viewer. Viewer's policy set is:</p>
 <pre><code class="lang-yaml">viewer:
   - { entity: resource, action: view }
   - { entity: schedule, action: view }
   - { entity: recommendation, action: view }
   - { entity: report, action: view }
-  # ...all view-only across the 15 entities</code></pre>
+  # ...all view-only across every entity</code></pre>
 <p>The gateway resolves the request, finds no matching <code>(resource, manage)</code> permission, returns 403. The frontend's <code>usePermission(&#39;resource&#39;, &#39;manage&#39;)</code> would have returned <code>false</code>, so the "Start" button would already be disabled, but the gateway is the actual security boundary — disabled UI is a usability nicety, not a security control.</p>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>

@@ -174,7 +174,7 @@ The system reports the worst-case framing to ensure no anomaly is downgraded.
 ```
 EXAMPLE 1: STEADY WORKLOAD SUDDEN SPIKE
   Resource: dev-database (RDS)
-  Historical 7-day average: $30/day
+  Historical 14-day average: $30/day
   Stddev: $4
   Yesterday: $120/day
   
@@ -186,7 +186,7 @@ EXAMPLE 1: STEADY WORKLOAD SUDDEN SPIKE
 
 EXAMPLE 2: VOLATILE WORKLOAD SPIKE
   Resource: ml-training (EC2 spot)
-  Historical 7-day: high variance, average $80/day, stddev $40
+  Historical 14-day: high variance, average $80/day, stddev $40
   Yesterday: $200/day
   
   Percent deviation: (200-80)/80 = 150% → critical
@@ -229,7 +229,7 @@ Two example detections walked through:
 ```
 EXAMPLE 1: Steady workload sudden spike
   Resource: dev-database (RDS)
-  Historical 7-day average: $30/day
+  Historical 14-day average: $30/day
   Stddev: $4 (steady)
   Yesterday: $120/day
   
@@ -248,7 +248,7 @@ EXAMPLE 1: Steady workload sudden spike
 
 EXAMPLE 2: Volatile workload spike
   Resource: ml-training (EC2 spot fleet)
-  Historical 7-day: high variance
+  Historical 14-day: high variance
   Average: $80/day; stddev: $40
   Yesterday: $200/day
   

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bedrock rules RC-1601..1610 / ZopNight Engineer / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to apply the 10 Bedrock rules, prioritize by impact (model selection + caching first), and execute customer-side remediation.">
+<title>Bedrock rules and cost levers / ZopNight Engineer / ZopDev University</title>
+<meta name="description" content="By the end of this lesson, you will be able to apply the Bedrock cost rules and levers, prioritize by impact (model selection + caching first), and execute customer-side remediation.">
 <link rel="canonical" href="https://zop.dev/resources/university/engineer/bedrock-ml/bedrock-rules/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -12,8 +12,8 @@
 <!-- Open Graph -->
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
-<meta property="og:title" content="Bedrock rules RC-1601..1610 / ZopNight Engineer / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to apply the 10 Bedrock rules, prioritize by impact (model selection + caching first), and execute customer-side remediation.">
+<meta property="og:title" content="Bedrock rules and cost levers / ZopNight Engineer / ZopDev University">
+<meta property="og:description" content="By the end of this lesson, you will be able to apply the Bedrock cost rules and levers, prioritize by impact (model selection + caching first), and execute customer-side remediation.">
 <meta property="og:url" content="https://zop.dev/resources/university/engineer/bedrock-ml/bedrock-rules/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:image:width" content="1200">
@@ -23,16 +23,16 @@
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
-<meta name="twitter:title" content="Bedrock rules RC-1601..1610 / ZopNight Engineer / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to apply the 10 Bedrock rules, prioritize by impact (model selection + caching first), and execute customer-side remediation.">
+<meta name="twitter:title" content="Bedrock rules and cost levers / ZopNight Engineer / ZopDev University">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to apply the Bedrock cost rules and levers, prioritize by impact (model selection + caching first), and execute customer-side remediation.">
 <meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "name": "Bedrock rules RC-1601..1610",
-  "description": "By the end of this lesson, you will be able to apply the 10 Bedrock rules, prioritize by impact (model selection + caching first), and execute customer-side remediation.",
+  "name": "Bedrock rules and cost levers",
+  "description": "By the end of this lesson, you will be able to apply the Bedrock cost rules and levers, prioritize by impact (model selection + caching first), and execute customer-side remediation.",
   "url": "https://zop.dev/resources/university/engineer/bedrock-ml/bedrock-rules/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Engineer",
@@ -87,7 +87,7 @@
     {
       "@type": "ListItem",
       "position": 6,
-      "name": "Bedrock rules RC-1601..1610",
+      "name": "Bedrock rules and cost levers",
       "item": "https://zop.dev/resources/university/engineer/bedrock-ml/bedrock-rules/"
     }
   ]
@@ -372,7 +372,7 @@
     <a href="/">University</a><span class="sep">›</span>
     <a href="/engineer/">Engineer</a><span class="sep">›</span>
     <a href="/engineer/bedrock-ml/">Bedrock ML</a><span class="sep">›</span>
-    <span class="current">Bedrock rules RC-1601..1610</span>
+    <span class="current">Bedrock rules and cost levers</span>
   </div>
 </section>
 
@@ -387,7 +387,7 @@
 </a>
 <a href="/engineer/bedrock-ml/bedrock-rules/" class="current">
   <span class="num">L2</span>
-  <span>Bedrock rules RC-1601..1610</span>
+  <span>Bedrock rules and cost levers</span>
 </a>
 <a href="/engineer/bedrock-ml/model-selection/" class="">
   <span class="num">L3</span>
@@ -408,9 +408,9 @@
         <div class="lesson-id">
           <span>T2 / M2.11 / L2 of 5 / Engineer tier / 9 min</span>
         </div>
-        <h1>Bedrock rules RC-1601..1610</h1>
+        <h1>Bedrock rules and cost levers</h1>
       </header>
-      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>apply</strong> the 10 Bedrock rules, <strong>prioritize</strong> by impact (model selection + caching first), <strong>and execute</strong> customer-side remediation.</p></div>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>apply</strong> the Bedrock cost rules and levers, <strong>prioritize</strong> by impact (model selection + caching first), <strong>and execute</strong> customer-side remediation.</p></div>
       <div class="lesson-metabox"><dl>
 <dt>Tier</dt>
 <dd>Engineer</dd>
@@ -425,21 +425,22 @@
 <dt>Bloom verb</dt>
 <dd>Apply (Apply), Prioritize (Evaluate), Execute (Apply)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
-<pre><code>THE 10 BEDROCK RULES:
+<pre><code>BEDROCK RULES (representative — the code rule registry is authoritative for
+exact ID↔pattern assignments):
 
-RC-1601  Idle provisioned throughput         Unused throughput capacity
+RC-1601  Idle provisioned throughput          Unused throughput capacity
 RC-1602  Over-provisioned throughput          Sized too high for actual usage
-RC-1603  Model selection opportunity          Cheaper model would suffice
+RC-1603  Provisioned throughput → on-demand   Steady low-util PT is cheaper on-demand
 RC-1604  High output-to-input ratio           Verbose responses
-RC-1605  Inefficient context usage           Stuffed context; repeated content
-RC-1606  No prompt caching enabled           Could cache between calls
-RC-1607  Sequential calls (not batched)      Calls could be batched
+RC-1605  Inefficient context usage            Stuffed context; repeated content
+RC-1606  No prompt caching enabled            Could cache between calls
+RC-1607  Idle agent                           Agent deployed but rarely invoked
 RC-1608  Long-running custom model            Always-on, unused capacity
 RC-1609  Unused fine-tuned model              Created but no inferences
-RC-1610  Streaming vs batch mismatch         Wrong API for the workload</code></pre>
-<p>Each catches a specific pattern. Together, they cover the major Bedrock cost levers.</p>
+RC-1610  Streaming vs batch mismatch          Wrong API for the workload</code></pre>
+<p>Each catches a specific pattern. On top of the rules, two cross-cutting <strong>levers</strong> — <em>model selection</em> (route to a cheaper model) and <em>batching</em> (consolidate calls) — usually capture most of the recoverable cost; they are techniques the rules and evidence surface, not single rule IDs.</p>
 <h3 id="top-3-rules-by-typical-impact">Top 3 rules by typical impact</h3>
-<pre><code>RC-1603 — MODEL SELECTION (often biggest)
+<pre><code>MODEL SELECTION lever (often biggest)
   Detection: token usage patterns suggest cheaper model would handle workload
   Savings: 50-90% on inference cost
   Effort: medium (route logic in app)
@@ -455,7 +456,7 @@ RC-1601/02 — IDLE / OVER-PROVISIONED THROUGHPUT
   Effort: low (reduce capacity in console)</code></pre>
 <p>These three drive most of the optimization. Address them first.</p>
 <h3 id="per-rule-remediation-guidance">Per-rule remediation guidance</h3>
-<pre><code>RC-1603 (Model Selection):
+<pre><code>Model selection (lever):
   Route by query complexity
   Haiku for simple queries (chitchat, status)
   Sonnet for medium queries (most use cases)
@@ -488,7 +489,7 @@ RC-1604 (Verbose Responses):
   Implementation: config change
   Timeline: hours
   
-RC-1607 (Batching):
+Batching (lever):
   Use Bedrock&#39;s batch API for non-real-time
   Significantly cheaper per token
   For: scoring, classification, batch processing
@@ -510,8 +511,8 @@ RC-1601   Recommend (manual reduction)        Reduce provisioned units
                                               
 RC-1602   Recommend                            Resize provisioned throughput
                                               
-RC-1603   Recommend (code change needed)      Update application code
-                                              Implement routing
+RC-1603   Recommend (console change)          Switch steady low-util PT
+                                              to on-demand
                                               
 RC-1604   Recommend (config change)            Reduce max_tokens
                                               Application configuration
@@ -522,8 +523,8 @@ RC-1605   Recommend (prompt engineering)       Restructure prompts
 RC-1606   Recommend (code change needed)      Add caching logic
                                               Application code
                                               
-RC-1607   Recommend (code change needed)      Use batch API
-                                              Application refactor
+RC-1607   Recommend                            Remove or downsize the
+                                              idle agent
                                               
 RC-1608/09/10: Recommend                       Application/operational changes</code></pre>
 <p>All Bedrock optimization requires customer-side code or config changes. ZopNight surfaces the opportunity with the savings number; the customer's ML team executes.</p>
@@ -549,7 +550,7 @@ ZOPNIGHT&#39;s role:
 <p>The boundary is similar to the database denylist (M2.3.L5) — ZopNight advisory; customer executes.</p>
 <h3 id="common-patterns-across-rules">Common patterns across rules</h3>
 <pre><code>INFERENCE SAVINGS COMPOUND:
-  Apply RC-1603 (route to cheaper models): save 50%
+  Apply model selection (route to cheaper models): save 50%
   Apply RC-1606 (caching) on remaining: save 50% of remaining
   Combined: save 75% of original cost
   
@@ -563,7 +564,7 @@ INFRASTRUCTURE SAVINGS ARE SIMPLER:
   Quick wins</code></pre>
 <p>The savings compound; apply multiple rules in sequence.</p>
 <h3 id="quality-vs-cost-trade-off">Quality vs cost trade-off</h3>
-<pre><code>ROUTING TO CHEAPER MODELS (RC-1603):
+<pre><code>ROUTING TO CHEAPER MODELS (model-selection lever):
   Risk: quality degradation if classification is wrong
   
   Mitigation:
@@ -576,7 +577,7 @@ INFRASTRUCTURE SAVINGS ARE SIMPLER:
   Customer satisfaction: maintained or improved
   Cost: 60-80% lower
   
-BATCH PROCESSING (RC-1607):
+BATCH PROCESSING (batching lever):
   Risk: latency (real-time → batched)
   
   Mitigation:
@@ -591,7 +592,7 @@ BATCH PROCESSING (RC-1607):
 <p>A team's Bedrock audit:</p>
 <pre><code>AUDIT RESULTS:
 
-RC-1603 (Model Selection): 3 chatbots using Opus where Sonnet would suffice
+Model selection: 3 chatbots using Opus where Sonnet would suffice
   Estimated savings: $14,200/month
   
 RC-1606 (Prompt Caching): 2 systems with repeated 8K-token system prompts
@@ -617,7 +618,7 @@ WEEK 2-3:
   Savings: $4,800/month
 
 WEEK 3-4:
-  RC-1603: Implement model routing
+  Model selection: implement model routing
   Build query classifier
   Route 70% to Haiku, 15% to Sonnet, 15% Opus
   Monitor quality metrics
@@ -662,7 +663,7 @@ DECISION: continue with same rules quarterly
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
 <h3 id="q1">Q1</h3>
-<p>RC-1603 (model selection) recommendation. The savings come from:</p>
+<p>model-selection recommendation. The savings come from:</p>
 <p>A. Using fewer tokens B. Routing workload to a cheaper model for queries that don't need top-tier capability. Most workloads can save 60-80%. The cost difference between Opus and Haiku is ~18.75x per token; routing captures most of that. C. Disabling Bedrock D. Random</p>
 <details>
 <summary>Show answer</summary>

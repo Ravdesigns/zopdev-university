@@ -424,7 +424,7 @@
   Writes (mutations):  ZopNight UI, ZopNight API,
                        auto-remediation, Terraform/IaC
                        → never reachable via MCP</code></pre>
-<p>The boundary is architectural — there's no toggle to flip, no scope to grant. Writes are simply not implemented in the MCP layer.</p>
+<p>The boundary is enforced in code: write-named tools are explicitly detected and rejected (CodePermissionDenied) by the MCP layer, and there is no toggle or scope to grant that would enable them.</p>
 <h3 id="why-read-only-the-four-arguments">Why read-only — the four arguments</h3>
 <pre><code>1. SAFETY
    Agents hallucinate. An LLM can call the wrong tool with the wrong

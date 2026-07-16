@@ -313,7 +313,7 @@ D. Code is harder
 Tag coverage of 73% is:
 
 A. Acceptable
-B. Below the 90% target. Causes report unreliability and showback gaps. Reports based on 73% coverage are wrong 27% of the time; chargeback disputes follow. Worth investing to bring up.
+B. Below the 90% target. Causes report unreliability and showback gaps. With 73% coverage, 27% of spend is unattributed, so any team or service breakdown built on it has material gaps; chargeback disputes follow. Worth investing to bring up.
 C. Random
 D. Excellent
 
