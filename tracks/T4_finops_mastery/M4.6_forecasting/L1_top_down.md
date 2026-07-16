@@ -185,19 +185,19 @@ COMPUTATION:
   Subtotal: $1.351M/mo
   Safety margin (12%): +$162K/mo
   
-  Q4 FORECAST: $1.55M/mo (committed)
+  Q4 FORECAST: $1.513M/mo (committed)   ($1.351M + $162K margin)
 
 ALLOCATION:
-  Historical proportions × $1.55M:
-    eng-platform (35%):    $543K/mo
-    eng-product (40%):     $620K/mo
-    eng-data (20%):        $310K/mo
-    shared-services (5%):   $78K/mo
+  Historical proportions × $1.513M:
+    eng-platform (35%):    $529K/mo
+    eng-product (40%):     $605K/mo
+    eng-data (20%):        $303K/mo
+    shared-services (5%):   $76K/mo
     
-  Sum: $1.551M ✓
+  Sum: $1.513M ✓
 
 PRESENTED to leadership:
-  "Q4 cost forecast: $1.55M/mo, range $1.39M - $1.74M (±12%)
+  "Q4 cost forecast: $1.513M/mo, range $1.33M - $1.69M (±12%)
    Drivers: 8% baseline growth, Black Friday, October launch.
    Recommend budgeting at $1.6M/mo for safety."
 ```
