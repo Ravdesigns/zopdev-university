@@ -218,7 +218,7 @@ PRODUCTION REPLICA OPTIONS:
 
 OPTION A — ALWAYS 3 REPLICAS
   3 × pod cost = $3X
-  Reliability: 99.99999%
+  Reliability: 99.9999999%
   Over-provisioned for most workloads
   
 OPTION B — MIN 1 + HPA SCALES TO N
@@ -236,7 +236,7 @@ OPTION C — MIN 2, MAX N (recommended)
 OPTION D — MIN 3, MAX N (premium)
   Base: 3 × pod cost = $3X
   HPA scales up to N
-  Reliability: 99.99999%
+  Reliability: 99.9999999%
   Reserve for critical / high-traffic services
 ```
 

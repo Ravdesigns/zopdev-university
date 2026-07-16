@@ -270,7 +270,7 @@ A team's reconciliation report walked through:
 
 ```
 ACTION: Terminated idle RDS db-temp-staging
-        (RC-002 equivalent for orphan database)
+        (RC-202: idle database)
 PROJECTED: $1,420/mo (rack rate of the instance)
 APPLIED: 2026-05-15
 

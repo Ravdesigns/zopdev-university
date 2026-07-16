@@ -10,7 +10,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 - **Approval gate** — Optional workflow step requiring human sign-off before remediation executes. See [T2.M2.3.L3](../../tracks/T2_zopnight_engineer/M2.3_auto_remediation/L3_approval_gate.md).
 - **ASG** — AWS Auto Scaling Group, a target type for autoscaling policies.
 - **Audit log** — Per-org record of all mutating API calls. See [T3.M3.3](../../tracks/T3_zopnight_architect/M3.3_audit_logging/00_README.md).
-- **Auto-remediation** — One-click apply for certified recommendations. See [T2.M2.3](../../tracks/T2_zopnight_engineer/M2.3_auto_remediation/00_README.md).
+- **Auto-remediation** — One-click apply for allowlisted recommendations. See [T2.M2.3](../../tracks/T2_zopnight_engineer/M2.3_auto_remediation/00_README.md).
 - **Auto-tagging** — Rule-based prediction of environment + noStop tags. See [T2.M2.8](../../tracks/T2_zopnight_engineer/M2.8_auto_tagging/00_README.md).
 - **Avoidable spend** — Spend on resources flagged as idle / orphan / over-provisioned.
 
@@ -22,7 +22,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 
 ## C
 - **CDCR** — Continuous Detect, Continuous Remediation. The operating model.
-- **Certified rule** — Recommendation rule passed end-to-end testing on real cloud. 20 rules certified as of 2026-05-07.
+- **Certified rule** — Shorthand for a recommendation rule on the auto-remediation allowlist (validated end-to-end on real cloud). About 124 rules are allowlisted (roughly 28 one-click auto plus 96 guided); the allowlist in code is the source of truth.
 - **CloudWatch metrics** — AWS observability data; source for MetricsAware rules.
 - **Commitment** — RI / SP / CUD purchase that exchanges flexibility for discount.
 - **Cron expression** — Schedule firing pattern. 5-field format. See [T1.M1.3.L2](../../tracks/T1_zopnight_operator/M1.3_first_schedule/L2_cron_expressions.md).
@@ -278,6 +278,7 @@ Definitions grounded in the lesson that introduces each term. First-pass, drafte
 - **Hybrid forecast** — A cost forecast that combines top-down projections from the growth plan with bottom-up team estimates, reconciles the gap through discussion to surface assumptions, and commits to a single number with a confidence band.
 - **Hybrid model** — A commercial arrangement that combines two approaches, such as a FinOps team handling optimization breadth while a share-of-savings vendor specializes in commitment management.
 - **IaC tag enforcement** — Validation rules built into Infrastructure-as-Code CI pipelines that reject resource definitions missing required tags before deployment.
+- **Idempotency** — A property of an operation where running it many times has the same effect as running it once. ZopNight's remediation actions are idempotent: re-applying a stop action to an already-stopped instance is a safe no-op, so a retry after a partial failure cannot corrupt state.
 - **Idempotent remove** — The Remove lifecycle operation that safely repeats on failure, restoring cloud-side state to its pre-ZopNight configuration without partial corruption.
 - **Idle workload shape** — One of seven distinct Kubernetes idle patterns distinguished by replica state, traffic, CPU usage, pod state, suspension status, or endpoint backend presence.
 - **Immutable template** — A preset dashboard configuration that cannot be edited directly; customization requires cloning it into a new saved dashboard before making changes.

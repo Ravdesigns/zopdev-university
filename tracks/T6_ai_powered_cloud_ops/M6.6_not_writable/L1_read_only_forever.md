@@ -34,7 +34,7 @@ THE BOUNDARY:
                        → never reachable via MCP
 ```
 
-The boundary is architectural — there's no toggle to flip, no scope to grant. Writes are simply not implemented in the MCP layer.
+The boundary is enforced in code: write-named tools are explicitly detected and rejected (CodePermissionDenied) by the MCP layer, and there is no toggle or scope to grant that would enable them.
 
 ### Why read-only — the four arguments
 

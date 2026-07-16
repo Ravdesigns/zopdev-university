@@ -62,7 +62,7 @@ ZopNight detects ML cost patterns:
 HIGH INFERENCE COST PER TOKEN:
   Pattern: high-cost model used for simple queries
   Detection: cost per token unusually high
-  Rule: RC-1603 (model selection)
+  Lever: model selection
   Action: route by complexity
   
 IDLE BEDROCK PROVISIONED THROUGHPUT:
@@ -74,7 +74,7 @@ IDLE BEDROCK PROVISIONED THROUGHPUT:
 TRAINING JOBS ON ON-DEMAND:
   Pattern: training using premium pricing
   Detection: training workload type + on-demand tier
-  Rule: RC-1607
+  Lever: Spot for interruptible training
   Action: switch to Spot
   
 GPU INSTANCES 24/7:
@@ -84,7 +84,7 @@ GPU INSTANCES 24/7:
   Action: scheduling + autoterm
 ```
 
-The 10 Bedrock rules (RC-1601..1610) target these patterns. They sit inside a broader ML rule family that extends to RC-1634 (about 33 rules in total, including the SageMaker set RC-1611..1628). See L2 for the authoritative per-rule list.
+The Bedrock rules (RC-16xx) target these patterns. They sit inside a broader ML rule family that extends to RC-1634 (about 33 rules in total, including the SageMaker set RC-1611..1628). See L2 for the authoritative per-rule list.
 
 ### Cost drivers per pattern
 
@@ -144,11 +144,10 @@ TOP LEVERAGE POINTS (impact order):
 
 The first two — model selection + batching — usually capture 80%+ of recoverable cost.
 
-### The 10 Bedrock rules
+### The Bedrock rules
 
 ```
-Bedrock rules span RC-1601..1610 (e.g. RC-1601 provisioned-throughput
-idle, RC-1607 agent idle). The SageMaker rules run RC-1611..1628
+Bedrock rules span RC-1601 onward (e.g. RC-1601 provisioned-throughput idle, RC-1603 provisioned-throughput to on-demand, RC-1607 idle agent). The SageMaker rules run RC-1611..1628
 (idle endpoints, off-hours scheduling, rightsizing, compliance, e.g.
 RC-1628 HyperPod volume-not-CMK-encrypted), with a few more through
 RC-1634. The canonical rule names and IDs live in L2 and in the
@@ -311,7 +310,7 @@ D. Required for ML
 
 ## 5. Apply
 
-The 10 Bedrock rules surface these optimization patterns. Review in Recommendations → filter by RC-16xx rules.
+The Bedrock rules surface these optimization patterns. Review in Recommendations → filter by RC-16xx rules.
 
 For your team: ML cost is often the fastest-growing line item; optimization here pays off quickly.
 

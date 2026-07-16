@@ -1,4 +1,4 @@
-# Bedrock rules RC-1601..1610
+# Bedrock rules and cost levers
 
 § T2 · M2.11 · L2 of 5 · Engineer tier · 9 min
 
@@ -6,7 +6,7 @@
 
 ## Outcome
 
-By the end of this lesson, you will be able to **apply** the 10 Bedrock rules, **prioritize** by impact (model selection + caching first), **and execute** customer-side remediation.
+By the end of this lesson, you will be able to **apply** the Bedrock cost rules and levers, **prioritize** by impact (model selection + caching first), **and execute** customer-side remediation.
 
 ---
 
@@ -24,26 +24,27 @@ By the end of this lesson, you will be able to **apply** the 10 Bedrock rules, *
 ## 1. Concept
 
 ```
-THE 10 BEDROCK RULES:
+BEDROCK RULES (representative — the code rule registry is authoritative for
+exact ID↔pattern assignments):
 
-RC-1601  Idle provisioned throughput         Unused throughput capacity
+RC-1601  Idle provisioned throughput          Unused throughput capacity
 RC-1602  Over-provisioned throughput          Sized too high for actual usage
-RC-1603  Model selection opportunity          Cheaper model would suffice
+RC-1603  Provisioned throughput → on-demand   Steady low-util PT is cheaper on-demand
 RC-1604  High output-to-input ratio           Verbose responses
-RC-1605  Inefficient context usage           Stuffed context; repeated content
-RC-1606  No prompt caching enabled           Could cache between calls
-RC-1607  Sequential calls (not batched)      Calls could be batched
+RC-1605  Inefficient context usage            Stuffed context; repeated content
+RC-1606  No prompt caching enabled            Could cache between calls
+RC-1607  Idle agent                           Agent deployed but rarely invoked
 RC-1608  Long-running custom model            Always-on, unused capacity
 RC-1609  Unused fine-tuned model              Created but no inferences
-RC-1610  Streaming vs batch mismatch         Wrong API for the workload
+RC-1610  Streaming vs batch mismatch          Wrong API for the workload
 ```
 
-Each catches a specific pattern. Together, they cover the major Bedrock cost levers.
+Each catches a specific pattern. On top of the rules, two cross-cutting **levers** — *model selection* (route to a cheaper model) and *batching* (consolidate calls) — usually capture most of the recoverable cost; they are techniques the rules and evidence surface, not single rule IDs.
 
-### Top 3 rules by typical impact
+### Top 3 by typical impact
 
 ```
-RC-1603 — MODEL SELECTION (often biggest)
+MODEL SELECTION lever (often biggest)
   Detection: token usage patterns suggest cheaper model would handle workload
   Savings: 50-90% on inference cost
   Effort: medium (route logic in app)
@@ -64,7 +65,7 @@ These three drive most of the optimization. Address them first.
 ### Per-rule remediation guidance
 
 ```
-RC-1603 (Model Selection):
+Model selection (lever):
   Route by query complexity
   Haiku for simple queries (chitchat, status)
   Sonnet for medium queries (most use cases)
@@ -97,7 +98,7 @@ RC-1604 (Verbose Responses):
   Implementation: config change
   Timeline: hours
   
-RC-1607 (Batching):
+Batching (lever):
   Use Bedrock's batch API for non-real-time
   Significantly cheaper per token
   For: scoring, classification, batch processing
@@ -124,8 +125,8 @@ RC-1601   Recommend (manual reduction)        Reduce provisioned units
                                               
 RC-1602   Recommend                            Resize provisioned throughput
                                               
-RC-1603   Recommend (code change needed)      Update application code
-                                              Implement routing
+RC-1603   Recommend (console change)          Switch steady low-util PT
+                                              to on-demand
                                               
 RC-1604   Recommend (config change)            Reduce max_tokens
                                               Application configuration
@@ -136,8 +137,8 @@ RC-1605   Recommend (prompt engineering)       Restructure prompts
 RC-1606   Recommend (code change needed)      Add caching logic
                                               Application code
                                               
-RC-1607   Recommend (code change needed)      Use batch API
-                                              Application refactor
+RC-1607   Recommend                            Remove or downsize the
+                                              idle agent
                                               
 RC-1608/09/10: Recommend                       Application/operational changes
 ```
@@ -173,7 +174,7 @@ The boundary is similar to the database denylist (M2.3.L5) — ZopNight advisory
 
 ```
 INFERENCE SAVINGS COMPOUND:
-  Apply RC-1603 (route to cheaper models): save 50%
+  Apply model selection (route to cheaper models): save 50%
   Apply RC-1606 (caching) on remaining: save 50% of remaining
   Combined: save 75% of original cost
   
@@ -192,7 +193,7 @@ The savings compound; apply multiple rules in sequence.
 ### Quality vs cost trade-off
 
 ```
-ROUTING TO CHEAPER MODELS (RC-1603):
+ROUTING TO CHEAPER MODELS (model-selection lever):
   Risk: quality degradation if classification is wrong
   
   Mitigation:
@@ -205,7 +206,7 @@ ROUTING TO CHEAPER MODELS (RC-1603):
   Customer satisfaction: maintained or improved
   Cost: 60-80% lower
   
-BATCH PROCESSING (RC-1607):
+BATCH PROCESSING (batching lever):
   Risk: latency (real-time → batched)
   
   Mitigation:
@@ -227,7 +228,7 @@ A team's Bedrock audit:
 ```
 AUDIT RESULTS:
 
-RC-1603 (Model Selection): 3 chatbots using Opus where Sonnet would suffice
+Model selection: 3 chatbots using Opus where Sonnet would suffice
   Estimated savings: $14,200/month
   
 RC-1606 (Prompt Caching): 2 systems with repeated 8K-token system prompts
@@ -253,7 +254,7 @@ WEEK 2-3:
   Savings: $4,800/month
 
 WEEK 3-4:
-  RC-1603: Implement model routing
+  Model selection: implement model routing
   Build query classifier
   Route 70% to Haiku, 15% to Sonnet, 15% Opus
   Monitor quality metrics
@@ -310,7 +311,7 @@ A 15-minute audit identifies the highest-ROI Bedrock optimizations.
 ## 4. Knowledge check
 
 ### Q1
-RC-1603 (model selection) recommendation. The savings come from:
+model-selection recommendation. The savings come from:
 
 A. Using fewer tokens
 B. Routing workload to a cheaper model for queries that don't need top-tier capability. Most workloads can save 60-80%. The cost difference between Opus and Haiku is ~18.75x per token; routing captures most of that.
