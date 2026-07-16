@@ -97,7 +97,6 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 
 ## W-Z
 - **Welford stats** — Online statistics for autoscaler smart defaults.
-- **Well-Architected Framework** — The AWS Well-Architected Framework, a review methodology built on six pillars: operational excellence, security, reliability, performance efficiency, cost optimization, and sustainability. It is not a multi-account account layout; that is AWS Organizations / Landing Zone / Control Tower.
 - **Workload Identity Federation** — Modern cred mechanism for GCP/Azure (no long-lived keys).
 
 
@@ -510,7 +509,7 @@ Definitions grounded in the lesson that introduces each term. First-pass, drafte
 - **Warehouse sizing** — Selecting the right Databricks SQL Warehouse size (2X-Small to 4X-Large, roughly 1 to 256 nodes) based on concurrency and workload, which drives both cost factor and query concurrency capacity.
 - **Wasteful overrun** — A budget overrun driven by waste (forgotten resources, runaway processes, unauthorized spend) rather than legitimate growth, which warrants enforcement such as killing resources or fixing configs rather than raising the budget.
 - **Weekend Scale-Down preset** — A preset schedule that stops resources for the weekend (midnight Saturday to Monday 8 AM) while running weekdays, yielding about 33.3 percent theoretical savings and suiting teams that occasionally work late but never weekends.
-- **Well-architected framework** — The AWS Well-Architected Framework, referenced in the curriculum as the canonical multi-account target state (management, security, shared services, audit, and per-team accounts, roughly 12 to 20 for a mid-size org) that a maturing org converges toward.
+- **Well-architected framework** — The AWS Well-Architected Framework, a review methodology built on six pillars: operational excellence, security, reliability, performance efficiency, cost optimization, and sustainability. It is not a multi-account account layout; that multi-account target state (management, security, shared services, audit, per-team accounts) is AWS Organizations / Landing Zone / Control Tower guidance, a separate thing.
 - **Workload schedulability** — Whether a Kubernetes workload can be scaled to zero or suspended for cost, where Deployments, StatefulSets, and CronJobs are schedulable but DaemonSets, ReplicaSets, Jobs, and system workloads are not.
 - **Yellow state** — The early-warning traffic-light budget signal (75 to 100 percent of budget or off-pace projection) where spend is approaching budget but the outcome is undecided, requiring investigation to tell a continuing trend from a passing spike.
 - **Z-score method** — A statistical anomaly detection method measuring how many standard deviations a cost value sits from the mean (z = (X - mean) / stddev), with severity tiers at z of 2 (warning), 3 (critical), and 4 (emergency), effective in volatile workloads where percent deviation fails.
