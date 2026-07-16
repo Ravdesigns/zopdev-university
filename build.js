@@ -52,7 +52,7 @@ const TRACKS = [
     short: 'Engineer',
     eyebrow: 'Course / Engineer',
     tier: 'Engineer',
-    desc: 'Read the 490-rule library, reason about evidence, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, optimize Bedrock. The depth tier for engineers building cost-aware systems.',
+    desc: 'Read the 450+ rule library, reason about evidence, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, optimize Bedrock. The depth tier for engineers building cost-aware systems.',
     time: '10 hours',
     audience: 'Platform Engineer / SRE / ML Engineer',
   },
@@ -2093,7 +2093,7 @@ function sampleCredentialData(tier) {
     engineer: {
       tier, tierLabel: 'Engineer', tierTitle: 'ZopNight Engineer',
       title: 'Tier II / ZopNight Engineer',
-      blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 490-rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
+      blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 450+ rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
       coverage: 'ZopNight Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
       examLength: '60 minutes',
       questions: '40 questions',
@@ -3287,7 +3287,7 @@ function renderCertifications(tracks) {
         <section class="cert-card-scope">
           <span class="cert-card-scope-label">What it proves</span>
           <ul>
-            <li>Reads the 490-rule library, configures auto-remediation</li>
+            <li>Reads the 450+ rule library, configures auto-remediation</li>
             <li>Schedules K8s + Databricks workloads, pre-scales for events</li>
             <li>Tags at the IaC layer (Terraform / Pulumi / CDK)</li>
             <li>Runs a cost incident: detect, diagnose, remediate, postmortem</li>
@@ -3522,6 +3522,10 @@ function extractTermDefinitionFromLesson(rawMd, term) {
     if (/glossary terms?/i.test(sec)) continue;
     if (/related lessons?/i.test(sec)) continue;
     if (/module quiz|track\s*\d+\s*complete/i.test(sec)) continue;
+    // Never source a definition from the Outcome block (lesson objectives)
+    // or the Knowledge check block (question stems + answer keys).
+    if (/\boutcome\b/.test(sec)) continue;
+    if (/knowledge check/i.test(sec)) continue;
     // Skip lines that ARE the heading itself
     if (/^#{1,6}\s/.test(lines[i])) continue;
     // Skip table rows + ascii-art lines (start with | or look like code)
@@ -3539,6 +3543,15 @@ function extractTermDefinitionFromLesson(rawMd, term) {
     }
     let para = lines.slice(start, end + 1).join(' ').trim();
     if (para.length < 40) continue;
+
+    // Reject fragments that must never become a definition:
+    //  - quiz answer-key / <details> leaks ("Correct: B", "Show answer")
+    //  - lesson objectives ("By the end of this lesson ...")
+    //  - numbered-list fragments ("3. Moved bytes ...") and quiz options ("B. ...")
+    if (/Correct:\s*[A-D]\b|<\/?summary>|<\/?details>|Show answer/i.test(para)) continue;
+    if (/^\**by the end of this lesson/i.test(para)) continue;
+    if (/^\**\d+\.\s/.test(para)) continue;
+    if (/^[A-D]\.\s/.test(para)) continue;
 
     // Reject paragraphs that are dominated by glossary links (the footer
     // bleeds into adjacent lines sometimes)

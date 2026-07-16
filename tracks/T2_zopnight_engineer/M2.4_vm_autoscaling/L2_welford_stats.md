@@ -38,34 +38,39 @@ The smart-defaults are good first-pass values. Engineer judgment adds context.
 ### What Welford computes
 
 ```
-INPUTS: 30 days of CPU utilization metrics (~1,440 5-min samples)
-OUTPUTS:
+INPUTS: 30 days of CPU utilization metrics (~8,640 5-min samples)
+OUTPUTS (single-pass Welford):
   CPU average:    avg(values)
   CPU stddev:     online standard deviation
-  P90:            90th percentile
-  P95:            95th percentile
-  P99:            99th percentile
-  Min/Max:        smallest and largest values
+  P90 / P95 / P99: NOT true percentiles. Welford tracks only mean and
+                   variance, so the percentiles are a normal-distribution
+                   APPROXIMATION: P95 ~= avg + 1.64*stddev,
+                   P99 ~= avg + 2.33*stddev (commented "normal approximation"
+                   in the code). Accurate for smooth loads; loosest exactly
+                   where it matters most, on bursty non-normal workloads.
 ```
 
-Welford's algorithm computes these in a single pass, online, with O(1) memory. This matters because metric data can be large (43,200 samples for 30 days of 1-min resolution).
+Welford computes mean and variance in a single pass, online, with O(1) memory. This matters because metric data can be large (43,200 samples for 30 days of 1-min resolution). The percentiles above are derived from that mean and variance, not measured directly.
 
 ### How the recommendation uses these stats
 
 ```
-SMART DEFAULT for CPU-driven target tracking:
+SMART DEFAULT for CPU-driven target tracking (smart_defaults.go):
 
-  Target value:    P95 - 5%
-                    (scaling triggers before saturation; not during normal use)
-                    
-  Min capacity:    floor((current capacity × P05) / target_value) + 1
-                    (low-percentile load handled by min)
-                    
-  Max capacity:    ceil((current capacity × P99 × 1.5) / target_value)
-                    (P99 × 1.5 headroom for extreme spikes)
-                    
-  Cooldown:        180s default
-                    Higher if stddev is high (bursty workload)
+  Target value:    3-way tier on P95, not "P95 - 5%":
+                     P95 > 85%  -> target 70
+                     P95 > 60%  -> target 75
+                     else       -> target 80
+                    (hotter target when the workload already runs hot)
+
+  Min capacity:    derived from cpu.Avg (the average load), NOT P05.
+                    P05 is never computed. The floor covers typical demand.
+
+  Max capacity:    max( current + 2,
+                        ceil( (current × P99) / target × 1.3 ) )
+                    (1.3 headroom for spikes; and never below count + 2)
+
+  Cooldown:        180s default; higher if stddev is high (bursty workload)
 ```
 
 Each calculation has a rationale rooted in the workload's actual pattern.
@@ -76,20 +81,21 @@ Each calculation has a rationale rooted in the workload's actual pattern.
 RESOURCE: prod-api ASG
 HISTORICAL capacity: 6 (fixed; no autoscaling)
 
-HISTORICAL METRICS (30 days):
-  CPU avg:    42%
-  CPU P95:    78%
-  CPU P99:    92%
-  CPU stddev: 18%
+HISTORICAL METRICS (30 days, Welford):
+  CPU avg:    45%
+  CPU stddev: 15%
+  CPU P95:    ~70%   (= 45 + 1.64 x 15, normal approximation)
+  CPU P99:    ~80%   (= 45 + 2.33 x 15)
 
 SMART-DEFAULT RECOMMENDATION:
-  Target value:  78 - 5 = 73%
-  Min:           floor(6 × 5% / 73%) + 1 = 1 (+1 = 2)
-  Max:           ceil(6 × 92% × 1.5 / 73%) = 12
-  Cooldown:      240s (higher than default; high stddev = bursty)
+  Target:   P95 (70%) is in (60%, 85%]  ->  75%
+  Min:      from cpu.Avg (45%): floor(6 x 0.45 / 0.75) = 3
+  Max:      max(6 + 2, ceil(6 x 0.80 / 0.75 x 1.3))
+            = max(8, ceil(8.32)) = max(8, 9) = 9
+  Cooldown: 240s (higher than default; high stddev = bursty)
 
 RECOMMENDATION:
-  Min: 2, Max: 12, Target: 73%, Cooldown: 240s
+  Min: 3, Max: 9, Target: 75%, Cooldown: 240s
 ```
 
 The recommendation handles the workload's actual demand pattern, not an assumed one.
@@ -97,21 +103,20 @@ The recommendation handles the workload's actual demand pattern, not an assumed 
 ### Why these specific calculations
 
 ```
-Target = P95 - 5%
+Target = 3-way tier on P95 (70 / 75 / 80)
   Reasoning:
-    Targets too high → scaling activates only at saturation → poor latency
-    Targets too low → over-provisioning → cost waste
-    P95 - 5% = the load level that the workload experiences 5% of the time
-    Scaling triggers before saturation but not during normal use
+    A hotter workload (high P95) gets a lower target so it scales earlier;
+    a cool workload gets a higher target so it does not over-provision.
+    The tiers are fixed thresholds, not a P95-minus-margin formula.
 
-Min = floor based on P05
+Min = floored from cpu.Avg
   Reasoning:
-    The lowest 5% of loads inform the floor
-    Min should handle those loads without scaling actions firing constantly
+    The AVERAGE load (not a low percentile) sets the floor, so the fleet
+    always covers typical demand without constant scale-from-zero churn.
 
-Max = ceiling at P99 × 1.5
+Max = max(count + 2, ceil(count x P99 / target x 1.3))
   Reasoning:
-    Headroom for the 1% extremes
+    Headroom for the 1% extremes (1.3x), and never fewer than count + 2
     + 50% safety margin for unprecedented spikes
 
 Cooldown adjusted for stddev
@@ -171,9 +176,9 @@ ZopNight UI: Automation → Policies → New Policy → Quick Setup
   Displays:
 
   SUGGESTED VALUES:
-    Min:     2     (computed from P05)
-    Max:    12     (computed from P99 × 1.5)
-    Target: 73%    (computed from P95 - 5%)
+    Min:     3     (computed from cpu.Avg)
+    Max:     9     (max(count+2, ceil(count × P99 / target × 1.3)))
+    Target: 75%    (3-way tier on P95)
     Cooldown: 240s
 
   BASED ON:
@@ -227,16 +232,16 @@ METRICS (last 30 days):
   Stddev:     23%   ← high variance (bursty)
 
 SMART DEFAULT RECOMMENDATION:
-  Min:     3        (P05-based)
-  Max:    15        (97% × 1.5 / 60% target = 14.5 → 15)
-  Target: 84%       (89% - 5%)
+  Target: 70%       (P95 89% > 85% -> the hot-workload tier picks 70)
+  Min:     5        (from cpu.Avg 51%: floor(8 x 0.51 / 0.70) = 5)
+  Max:    15        (max(8+2, ceil(8 x 0.97 / 0.70 x 1.3)) = max(10,15) = 15)
   Cooldown: 300s    (high stddev = longer cooldown)
 
 OPERATOR REVIEW:
-  Target 84% feels too high for our latency SLA
-    Our p99 latency target is 200ms
-    At 84% CPU, latency creeps up
-    Override target to 70% (more headroom)
+  Target 70% already suits our latency SLA
+    Our p99 latency target is 200ms; 70% CPU leaves headroom
+    The hot-workload tier did the right thing automatically
+  We do raise Min 5 -> 6 for extra safety margin during peak bursts
   
   Max 15 acceptable (we don't have hard ceiling)
   
@@ -299,17 +304,17 @@ A 15-minute exercise per workload. Most accept with minor tuning.
 ## 4. Knowledge check
 
 ### Q1
-Smart-default target value for CPU-driven target tracking:
+Smart-default target value for CPU-driven target tracking is set by:
 
-A. The mean CPU
-B. P95 - 5% (scaling triggers before saturation but not during normal use). The load level the workload experiences 5% of the time. Calibrated to balance latency vs cost.
+A. The mean CPU minus a fixed margin
+B. A 3-way tier on P95: >85% picks target 70, >60% picks 75, else 80. A hotter workload gets a lower target so it scales earlier; a cool one gets a higher target to avoid over-provisioning.
 C. The peak CPU
 D. Random
 
 <details>
 <summary>Show answer</summary>
 
-**Correct: B.** Target is calibrated to the 5%-of-time load level.
+**Correct: B.** The target is a fixed 3-tier step on P95 (70 / 75 / 80), not a "P95 minus margin" formula.
 </details>
 
 ### Q2

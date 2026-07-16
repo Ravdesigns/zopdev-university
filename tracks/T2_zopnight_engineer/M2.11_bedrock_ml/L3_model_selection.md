@@ -91,7 +91,7 @@ QUERY COMPLEXITY DISTRIBUTION (typical):
   5-10%:  complex (multi-step reasoning, analysis)
   
 USING ALL OPUS:
-  60-70% of queries overpay 50-100x
+  60-70% of queries overpay ~18.75x
   Wasted capability on simple queries
   
 USING ROUTING:
@@ -317,7 +317,7 @@ A 15-minute exercise per workload. Most workloads: routing captures 60-80%.
 A workload with 70% simple queries currently using Opus. Best optimization:
 
 A. Continue Opus
-B. Route simple queries to Haiku. Estimate cost reduction at ~85%. Implementation: add a router (which itself uses Haiku for classification). 70% × 50-100x cost difference = massive savings.
+B. Route simple queries to Haiku. Estimate cost reduction at ~85%. Implementation: add a router (which itself uses Haiku for classification). 70% × ~18.75x cost difference = massive savings.
 C. Random
 D. Switch to manual
 
@@ -345,14 +345,14 @@ D. Random
 The cost difference between Opus and Haiku for typical queries:
 
 A. Negligible
-B. ~50-100x — Opus costs $15/$75 per M tokens; Haiku costs $0.80/$4. The factor is dramatic. This is why model selection matters so much for cost.
+B. ~18.75x — Opus costs $15/$75 per M tokens; Haiku costs $0.80/$4. The factor is dramatic. This is why model selection matters so much for cost.
 C. ~10x
 D. Random
 
 <details>
 <summary>Show answer</summary>
 
-**Correct: B.** 50-100x is the typical gap.
+**Correct: B.** ~18.75x is the typical gap.
 </details>
 
 ---

@@ -384,7 +384,7 @@
 </a>
 <a href="/architect/rbac/system-roles/" class="">
   <span class="num">L2</span>
-  <span>System roles — Viewer, Editor, Admin</span>
+  <span>System roles: Viewer, Editor, Admin, S…</span>
 </a>
 <a href="/architect/rbac/custom-roles/" class="">
   <span class="num">L3</span>
@@ -427,11 +427,11 @@
 <dd>Recognize (Remember), Distinguish (Analyze), Reason (Evaluate)</dd></dl></div>
       <h2 id="1-concept">1. Concept</h2>
 <p>The ZopNight frontend uses a single hook — <code>usePermission()</code> — to decide whether to render an action. The hook reads the policy set encoded in the user's session token, checks against a required <code>(entity, action)</code> pair, and returns a boolean. UI components condition their render on the boolean.</p>
-<pre><code class="lang-javascript">const canApply = usePermission(&#39;recommendation:apply&#39;)
+<pre><code class="lang-javascript">const canApply = usePermission(&#39;recommendation:update&#39;)
 
 return canApply
   ? &lt;ApplyRemediateButton /&gt;
-  : &lt;AccessRestrictedHint required=&quot;recommendation:apply&quot; /&gt;</code></pre>
+  : &lt;AccessRestrictedHint required=&quot;recommendation:update&quot; /&gt;</code></pre>
 <p>The hook is the convention. Every gated UI element uses it. The result is uniform behavior across the product — every page, every button, every settings section gates with the same primitive.</p>
 <h3 id="how-it-works">How it works</h3>
 <pre><code>1. User authenticates (login, SSO, token refresh).
@@ -471,7 +471,7 @@ Inline forms                 Form fields disabled if user cannot edit
 Your role does not include the permission needed for
 this action.
 
-  Required:   recommendation:apply
+  Required:   recommendation:update
   Your role:  Viewer (no apply permission)
   Your scope: platform team only
   

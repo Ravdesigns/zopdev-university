@@ -430,7 +430,7 @@
 3. Configure:
      Name:    zopnight
      Command: npx
-     Args:    -y @zopnight/mcp-server
+     Args:    -y mcp-remote https://&lt;your-zopnight-mcp-endpoint&gt;/mcp
      Env:     ZN_PAT=&lt;your-PAT&gt;, ZN_ORG=&lt;your-org-id&gt;
 4. Save
 5. Restart Cursor (Cmd+Q / File→Quit, then relaunch)
@@ -439,7 +439,7 @@
 <h3 id="codex-setup">Codex setup</h3>
 <pre><code>1. Open Codex → Settings → Extensions → MCP
 2. Add server:
-     zopnight: npx -y @zopnight/mcp-server
+     zopnight: npx -y mcp-remote https://&lt;your-zopnight-mcp-endpoint&gt;/mcp
      Env: ZN_PAT=&lt;your-PAT&gt;, ZN_ORG=&lt;your-org-id&gt;
 3. Restart Codex
 4. Test in Codex chat</code></pre>
@@ -452,7 +452,7 @@
   &quot;mcpServers&quot;: {
     &quot;zopnight&quot;: {
       &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
+      &quot;args&quot;: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;https://&lt;your-zopnight-mcp-endpoint&gt;/mcp&quot;],
       &quot;env&quot;: {
         &quot;ZN_PAT&quot;: &quot;${env:ZN_PAT}&quot;,
         &quot;ZN_ORG&quot;: &quot;${env:ZN_ORG}&quot;
@@ -493,7 +493,7 @@ TEST 3 — Chained query:
 <h3 id="common-setup-failures">Common setup failures</h3>
 <pre><code>PROBLEM: &quot;MCP server not found&quot;
   CAUSE: npm package not installed; npx couldn&#39;t fetch
-  FIX:   npx -y @zopnight/mcp-server installs on every invocation;
+  FIX:   npx -y mcp-remote https://&lt;your-zopnight-mcp-endpoint&gt;/mcp installs on every invocation;
          verify network and Node 18+
 
 PROBLEM: &quot;Unauthorized&quot;
@@ -509,7 +509,7 @@ PROBLEM: &quot;No tools available&quot;
 PROBLEM: &quot;Tool calls timeout&quot;
   CAUSE: Org has many resources for default page size
   FIX:   Increase MCP server timeout in config:
-         args: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;, &quot;--timeout=60000&quot;]
+         args: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;https://&lt;your-zopnight-mcp-endpoint&gt;/mcp&quot;, &quot;--timeout=60000&quot;]
          
 PROBLEM: &quot;Permission denied&quot; (file system)
   CAUSE: Config file location not writable
@@ -530,12 +530,12 @@ PROBLEM: &quot;Permission denied&quot; (file system)
   &quot;mcpServers&quot;: {
     &quot;zopnight-customer-a&quot;: {
       &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
+      &quot;args&quot;: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;https://&lt;your-zopnight-mcp-endpoint&gt;/mcp&quot;],
       &quot;env&quot;: { &quot;ZN_PAT&quot;: &quot;${env:ZN_PAT_A}&quot;, &quot;ZN_ORG&quot;: &quot;org_a&quot; }
     },
     &quot;zopnight-customer-b&quot;: {
       &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
+      &quot;args&quot;: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;https://&lt;your-zopnight-mcp-endpoint&gt;/mcp&quot;],
       &quot;env&quot;: { &quot;ZN_PAT&quot;: &quot;${env:ZN_PAT_B}&quot;, &quot;ZN_ORG&quot;: &quot;org_b&quot; }
     }
   }
@@ -552,7 +552,7 @@ CONTENT:
   &quot;mcpServers&quot;: {
     &quot;zopnight&quot;: {
       &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
+      &quot;args&quot;: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;https://&lt;your-zopnight-mcp-endpoint&gt;/mcp&quot;],
       &quot;env&quot;: { &quot;ZN_PAT&quot;: &quot;${env:ZN_PAT}&quot;, &quot;ZN_ORG&quot;: &quot;${env:ZN_ORG}&quot; }
     }
   }

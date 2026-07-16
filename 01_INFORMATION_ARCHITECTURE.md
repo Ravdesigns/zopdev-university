@@ -49,7 +49,7 @@ If you want any of these reversed, flag now and the IA shifts accordingly.
 | `/university/community` | Community hub | Q&A + recently-added lessons + contributor leaderboard |
 | `/university/community/qa` | Q&A | Discourse-style threads, gated to logged-in learners |
 | `/university/reference` | Reference index | Rule catalog · Glossary · Pattern library · Worked examples |
-| `/university/reference/rules` | Rule catalog | 490 rules, filterable by provider/category/severity, deep-links to lessons |
+| `/university/reference/rules` | Rule catalog | 450+ rules, filterable by provider/category/severity, deep-links to lessons |
 | `/university/reference/rules/[ruleId]` | Rule detail | One per rule (or 1 dynamic page) — what it checks, evidence, remediation, lessons |
 | `/university/reference/glossary` | Glossary | A–Z, hyperlinked from every lesson |
 | `/university/reference/glossary/[term]` | Term detail | One term, 1–2 paragraphs, see-also links |
@@ -122,7 +122,7 @@ If you want any of these reversed, flag now and the IA shifts accordingly.
 | Paths (5) + cert details (3) + Verifier/Registry (2) | already counted in chrome |
 | Tracks + modules + lessons | 300 |
 | Glossary terms (assume ~120) | 120 |
-| Rules (assume each gets a stable URL even if dynamic) | 490 |
+| Rules (assume each gets a stable URL even if dynamic) | 450+ |
 | Patterns | 15 |
 | Worked examples | ~25 |
 | Contributor profiles (assume ~30 at steady state) | 30 |
@@ -287,10 +287,10 @@ Lesson counts in `()` next to each module title. Time per lesson: 5–12 min. JT
 ### Track 2 — ZopNight Engineer · *Engineer tier · 49 lessons · ZopNight blue*
 
 **Track outcome:** *Operate the recommendations engine, configure VM autoscaling, schedule K8s and Databricks workloads, run Event Readiness, respond to cost anomalies, and trust auto-remediation where it's certified.*
-**Cover diagram:** Rule taxonomy radial (8 categories × 490 rules).
+**Cover diagram:** Rule taxonomy radial (8 categories × 450+ rules).
 **JTBD tags:** J1.
 
-#### M2.1 — The 490-rule library, explained *(5 lessons)*
+#### M2.1 — The 450+-rule library, explained *(5 lessons)*
 | # | Lesson | Outcome |
 |---|---|---|
 | 1 | The 8 rule categories (idle, rightsizing, schedule, orphan, compliance, discount, security, reliability) | Categorize a sample rule into the right bucket |
@@ -748,7 +748,7 @@ Each path page (T-3 template) has the same shape: persona portrait card → outc
 
 - One dynamic browse page with: filter rail (provider, category, severity, has-remediation), table view, search, sort.
 - Per-rule detail page renders: rule ID, name, provider, resource type, severity, category, evidence, remediation, console link template, lessons that teach this rule, related patterns.
-- The 490 rules are seeded from `RECOMMENDATION-RULES.md`. Per-rule URL: `/reference/rules/RC-001`, `/reference/rules/RC-ASC-001`, `/reference/rules/RC-1701`, etc.
+- The 450+ rules are seeded from `RECOMMENDATION-RULES.md`. Per-rule URL: `/reference/rules/RC-001`, `/reference/rules/RC-ASC-001`, `/reference/rules/RC-1701`, etc.
 - Each rule's "Lessons that teach this" auto-populated from the rule mapping in T2.M2.1.
 
 ### 5.2 Glossary (`/reference/glossary`)
@@ -972,7 +972,7 @@ Each contributor: name, role, employer, LinkedIn, lessons authored, patterns aut
 | Modules | 50 |
 | Lessons | 241 |
 | Glossary terms (year-1 target) | ~120 |
-| Rule reference pages | 490 (URL-routable, page is dynamic) |
+| Rule reference pages | 450+ (URL-routable, page is dynamic) |
 | Pattern pages | 15 |
 | Worked-example pages | ~25 |
 | Role-based paths | 5 |

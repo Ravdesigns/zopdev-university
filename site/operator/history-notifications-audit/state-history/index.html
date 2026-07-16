@@ -471,7 +471,7 @@ TIMESTAMP            FROM        TO          TRIGGER            DURATION
 <p>Open the resource → check the history → find the transition at 3 AM → read the trigger column. Most likely:</p>
 <ul>
 <li>"Schedule: weekend-stop-all" → an aggressive weekend schedule fired</li>
-<li>"Auto-remediation: RC-001 Idle EC2" → the rule fired</li>
+<li>"Auto-remediation: RC-002 Orphaned EBS" → the rule fired</li>
 <li>"Manual: api-call-from-user@team" → a human stopped it via API</li>
 <li>"Override expired" → an override that was force-on expired, allowing the schedule to act</li>
 </ul>
@@ -611,7 +611,7 @@ For estate-wide:
       <nav class="lesson-nav" aria-label="Lesson navigation">
         <a href="/operator/overrides/max-duration/" class="lesson-nav-link">
   <div class="nav-dir">← Previous</div>
-  <div class="nav-title">Max override duration — the org policy</div>
+  <div class="nav-title">Max override duration: the per-resource cap</div>
 </a>
         <a href="/operator/history-notifications-audit/reading-triggers/" class="lesson-nav-link lesson-nav-next">
   <div class="nav-dir">Next</div>

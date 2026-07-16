@@ -60,20 +60,25 @@ NET = BILLING COST
 
 **Layer 8 — Tax.** Local tax (VAT, GST, state sales tax) is added on top of the discounted cost. Tax is positive — it increases the bill. Most cost analytics tools strip tax to focus on the controllable spend.
 
-### The order matters
+### What stacks, and what does not
 
-Layers stack multiplicatively, not additively. Example:
+Purchase-type discounts are **mutually exclusive per resource-hour**. Any given hour of a given resource is billed under exactly one model: on-demand, sustained-use, Spot, or a commitment (RI / SP / CUD). You cannot apply sustained-use AND Spot to the same hour. So these are not sequential multipliers on one unit; they partition the fleet, and each slice gets one model.
+
+Only three things act on the aggregate, after the per-hour price is set: EDP (a negotiated percentage off the whole invoice), credits (subtracted), and tax (added).
 
 ```
-Rack rate                                                  $100
-After sustained-use (-25%)                                  $75
-After Spot (-70% of the remaining)                          $22.50
-After EDP (-3% on top)                                      $21.83
-After credits ($10 applied)                                 $11.83
-After tax (+5%)                                             $12.42
+WHOLE-BILL DECOMPOSITION (illustrative, $100 of list-price usage)
+  $40 of it runs on Spot        -> ~$12   (these hours are NOT also
+  $30 of it runs sustained-use  -> ~$22    sustained-use or on-demand)
+  $30 of it runs on-demand      -> $30
+  ────────────────────────────────────────
+  Subtotal (per-hour models)        ~$64
+  EDP (-3% on the aggregate)        ~$62
+  Credits ($10 applied)             ~$52
+  Tax (+5%)                         ~$55
 ```
 
-The mathematical effect of one discount on top of another diminishes the absolute dollar impact. A 30% sustained-use discount on top of a 70% Spot price moves the bill by less than 30% absolute, because there is less to discount.
+The per-hour models split the fleet; only EDP, credits, and tax act on the total. Treating sustained-use and Spot as sequential multipliers on one unit overstates the discount, because no hour ever receives both.
 
 ### Where the gap to rack rate comes from
 

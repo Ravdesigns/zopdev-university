@@ -43,7 +43,7 @@ The FinOps Foundation owns the spec and convenes the working group.
 
 FOCUS is a **column specification**. It defines:
 
-- The set of required columns (about 30 core ones — `BilledCost`, `EffectiveCost`, `ServiceName`, `ResourceId`, `Region`, `ChargePeriodStart`, etc.)
+- The set of columns (about 50 in FOCUS 1.0 — `BilledCost`, `EffectiveCost`, `ServiceName`, `ResourceId`, `RegionId`, `RegionName`, `ChargePeriodStart`, etc.)
 - The data types and allowed values
 - The semantics of each column (what counts as `BilledCost` vs `EffectiveCost`, for instance)
 
@@ -66,7 +66,7 @@ EffectiveCost             The amortized cost (e.g., reservation distributed)
 ListCost                  What the cost would have been at public list price
 ServiceName               The cloud service (EC2, Compute Engine, Storage)
 ResourceId                Cloud-native identifier of the resource
-Region                    Cloud-native region code
+RegionId / RegionName     Cloud-native region id + display name
 ChargeCategory            "Usage" / "Tax" / "Credit" / "Adjustment"
 ChargePeriodStart / End   The time window the charge covers
 SkuId                     The pricing SKU
@@ -80,7 +80,7 @@ Note `BilledCost` vs `EffectiveCost` vs `ListCost`. These are exactly the three 
 - **Microsoft Azure** ships FOCUS-aligned exports natively, opt-in.
 - **Oracle Cloud** publishes FOCUS-aligned exports.
 - **Google Cloud** offers FOCUS export from BigQuery billing data.
-- **AWS** has a published FOCUS converter and a roadmap for native export.
+- **AWS** ships a native FOCUS 1.0 export through Data Exports (generally available since 2024), so no converter is needed.
 - **Apptio, IBM, Vantage, CloudHealth** offer FOCUS-formatted output.
 - **FinOps tools (including ZopNight)** can ingest FOCUS or provider-native and emit FOCUS to a destination warehouse if requested.
 

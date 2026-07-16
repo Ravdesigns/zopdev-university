@@ -28,8 +28,8 @@ Three anomaly severity bands. Each has a recommended response, notification rout
 ```
 SEVERITY        DEVIATION         RESPONSE              NOTIFICATION
 ─────────────────────────────────────────────────────────────────────
-warning          30-150%           Investigate this week  Slack channel
-critical         150-500%          Action within 24 hours Slack + email
+warning          30-100%           Investigate this week  Slack channel
+critical         100-500%          Action within 24 hours Slack + email
 emergency        > 500%            Action immediately     Slack + email + page
 ```
 
@@ -325,7 +325,7 @@ A 15-minute audit reveals severity tuning opportunities.
 An anomaly with 200% deviation. The severity:
 
 A. warning
-B. critical (150-500% range). The deviation falls in the critical band. Investigate within 24 hours.
+B. critical (100-500% range). The deviation falls in the critical band. Investigate within 24 hours.
 C. emergency
 D. random
 

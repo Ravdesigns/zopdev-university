@@ -166,23 +166,19 @@ USE BOTH:
 
 The two systems are complementary. Most teams use both.
 
-### Severity bands per dimension
+### Severity bands (one global set, not per-dimension)
+
+The severity bands are the same for every dimension. There is a single global set of thresholds on percent deviation:
 
 ```
-DIMENSION         WARNING       CRITICAL      EXTREME
-─────────────────────────────────────────────────────
-org-level         +50%          +100%         +200%
-cloud-account     +75%          +150%         +300%
-resource-group    +100%         +200%         +500%
-resource          +200%         +500%         +1000%
-team              +75%          +150%         +300%
-
-WARNING:    note; don't page
-CRITICAL:   investigate within hours
-EXTREME:    page on-call; immediate response
+SEVERITY     PERCENT DEVIATION    RESPONSE
+──────────────────────────────────────────────────────
+warning       30-100%             note; don't page
+critical      100-500%            investigate within hours
+emergency     > 500%              page on-call; immediate response
 ```
 
-The thresholds are tuned per dimension because expected variance differs (resources have more natural variance than teams).
+A z-score path runs in parallel (emergency at z >= 5); the higher severity of the two wins. The bands are not tuned per dimension.
 
 ### When dimensions don't help
 

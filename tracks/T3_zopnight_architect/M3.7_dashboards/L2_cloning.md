@@ -133,8 +133,8 @@ The bookmark + switcher gives per-user flexibility on top of the org-shared dash
 PER-ORG CAPS:
   Dashboards:           50
   Widgets per dashboard: 50
-  Per-widget config:     4 KiB
-  Total layout:          64 KiB
+  Per-widget config:     4 KiB   (ceiling for any single widget's config)
+  Total layout:          64 KiB  (ceiling for the whole serialized layout)
 
 ENFORCEMENT:
   Soft limits at 75% (warning)
@@ -145,6 +145,8 @@ WHY THESE LIMITS:
   Cognitive — too many dashboards means no one knows which to use
   Storage — bounded per-org footprint
 ```
+
+The 4 KiB and 64 KiB caps are two independent ceilings, not a budget you multiply out. The 4 KiB bounds any single widget's config; the 64 KiB bounds the serialized layout as a whole. They are not meant to be composed (50 × 4 KiB = 200 KiB would exceed 64 KiB) — real widget configs run well under 4 KiB, so a full 50-widget dashboard stays comfortably inside the 64 KiB total. In practice whichever ceiling you hit first is the binding one.
 
 Most customers do not approach these limits. If you do, consolidate — multiple 30-widget dashboards are usually two or three well-designed dashboards.
 

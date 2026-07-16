@@ -28,7 +28,7 @@ Cloud providers offer rate discounts in exchange for commitment. The deal: lock 
 ### The four commitment instruments
 
 ```
-INSTRUMENT          PROVIDER     SCOPE                       MAX DISCOUNT
+INSTRUMENT          PROVIDER     SCOPE                       TYPICAL (3YR NO-UP)
 ─────────────────────────────────────────────────────────────────────────
 Reserved Instance   AWS          Specific instance family    ~40% (3-yr)
 Savings Plan        AWS          Compute-broad ($/hr commit) ~30% (3-yr)
@@ -44,49 +44,52 @@ Each one trades flexibility for discount. RIs are the strictest (specific instan
 A commitment's discount is published as a "rate-card percentage" (e.g., 40% off). The **effective discount** — what you actually realize — is lower because of two friction factors:
 
 ```
-EFFECTIVE DISCOUNT = published discount × coverage × utilization
+Two levers turn a rate-card discount into a realized one:
 
-WHERE:
-  coverage    = (committed hours used) / (committed hours purchased)
-  utilization = (committed hours used) / (total eligible hours)
+  coverage    = (eligible hours covered by the commitment) / (total eligible hours)
+  utilization = (committed hours used) / (committed hours purchased)
+
+Coverage sets how much of your eligible spend earns the discount.
+Utilization decides whether the commitment wins or loses money at all.
 ```
 
 A worked example with a 1-year RI on EC2 m5.large at 40% rate-card discount:
 
 ```
-SCENARIO A — perfect commitment
-  Coverage:    100% (RI is fully consumed)
-  Utilization:  85% (instance runs 85% of hours)
-  Effective discount: 40% × 1.00 × 0.85 = 34%
+SCENARIO A, healthy
+  Utilization: 95% (you use 95% of the hours you committed to)
+  Coverage:    80% (80% of eligible usage runs at the RI rate)
+  95% is above the 60% break-even, so every covered hour saves near 40%.
+  The uncovered 20% just runs on-demand. Net: a clear win.
 
-SCENARIO B — over-committed
-  Coverage:     60% (RI hours are not all used)
-  Utilization: 100% (every used hour is RI-rate)
-  Effective discount: 40% × 0.60 × 1.00 = 24%
+SCENARIO B, under-committed (savings left on the table)
+  Utilization: 100% (every committed hour is used)
+  Coverage:    40% (only 40% of eligible usage is covered)
+  Still a win on every covered hour (100% is well above break-even).
+  The other 60% pays rack rate. No loss, just unclaimed savings.
 
-SCENARIO C — disaster
-  Coverage:     30% (workload moved to a different instance type)
-  Utilization:  90% 
-  Effective discount: 40% × 0.30 × 0.90 = 11%
-  Plus the RI keeps billing the unused hours — net cost INCREASES
+SCENARIO C, over-committed (the real failure)
+  Utilization: 45% (workload moved; most committed hours go unused)
+  45% is below the 60% break-even for a 40% RI.
+  You keep paying the committed rate on hours nobody uses, and that
+  overpayment now exceeds the discount earned. Net cost INCREASES.
 ```
 
-The "disaster" case is real. An RI purchased for a workload that gets re-architected or migrated mid-term continues to bill at the committed rate until expiry. The customer is paying for capacity they are not using. This is **over-commitment**, the textbook commitment mistake.
+The "disaster" case is Scenario C. An RI bought for a workload that gets re-architected or migrated mid-term keeps billing the committed rate until expiry, on capacity nobody uses. That is **over-commitment**, the textbook commitment mistake, and it is driven by low utilization, not low coverage.
 
 ### Break-even math
 
-A 1-year RI breaks even when the discount realized exceeds the lost flexibility cost. Translated:
+Break-even is a **utilization** threshold, not a coverage one. Under-coverage never loses money: eligible hours the commitment does not cover simply run on-demand at rack rate. Under-utilization is what loses money, because you paid for committed hours you did not use.
 
 ```
-Break-even coverage ≈ 1 / (1 + on-demand-discount-ratio)
-For a 40% RI:           1 / (1 + 0.40) = 71.4%
+Break-even utilization = 1 - discount
 
-You need >71.4% coverage to come out ahead of pure on-demand on a 1-yr 40% RI.
-For a 30% Savings Plan: ~76.9% required coverage.
-For a 57% 3-yr CUD:     ~63.7% required coverage.
+  40% RI:   1 - 0.40 = 60%    use < 60% of what you bought and you lose vs on-demand
+  30% SP:   1 - 0.30 = 70%
+  57% CUD:  1 - 0.57 = 43%
 ```
 
-This is why commitments are bought on the **post-schedule floor**, not on current peak. The floor is the always-on overlap of your scheduling. Buying RIs for the peak guarantees coverage drops below break-even.
+This is why commitments are bought on the **post-schedule floor**, not the current peak. The floor is the always-on overlap that survives your schedules. Buy for the peak and utilization drops below break-even the moment the peak subsides.
 
 ### Spot — the asterisk
 
@@ -210,17 +213,17 @@ D. Use Spot for everything
 </details>
 
 ### Q3
-A 1-yr RI at 40% discount needs roughly what coverage to break even against pure on-demand?
+A 1-yr RI at 40% discount needs roughly what utilization to break even against pure on-demand?
 
-A. 50%
-B. 71.4%
-C. 90%
+A. 40%
+B. 60%
+C. 71.4%
 D. 100%
 
 <details>
 <summary>Show answer</summary>
 
-**Correct: B.** 1 / (1 + 0.40) = 71.4%. Below this, the unused commitment costs more than the discount earned.
+**Correct: B.** Break-even utilization = 1 - discount = 1 - 0.40 = 60%. Use less than 60% of the committed hours and the unused commitment costs more than the discount earned. This is a utilization threshold, not a coverage one: under-coverage never loses money.
 </details>
 
 ---

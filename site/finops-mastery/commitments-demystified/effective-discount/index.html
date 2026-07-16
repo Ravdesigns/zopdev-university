@@ -465,19 +465,20 @@ SCENARIO D — Bad:
 <p>The publishing-vs-realized gap is what separates "looks like savings" from "actually saves money on the bill."</p>
 <h3 id="break-even-math">Break-even math</h3>
 <p>Every commitment has a break-even point: below it, you pay more than pure on-demand.</p>
-<pre><code>BREAK-EVEN COVERAGE FORMULA:
+<pre><code>BREAK-EVEN UTILIZATION FORMULA:
   For a commitment with discount d:
-  Required coverage &gt; 1 / (1 + d)
-  
+  Required utilization &gt; 1 - d
+  (utilization = committed hours used / committed hours purchased)
+
 EXAMPLES:
-  d = 40% → required coverage &gt; 71.4%
-  d = 30% → required coverage &gt; 76.9%
-  d = 20% → required coverage &gt; 83.3%
-  
-If your coverage is below the break-even, the commitment LOSES
+  d = 40% → required utilization &gt; 60%
+  d = 30% → required utilization &gt; 70%
+  d = 20% → required utilization &gt; 80%
+
+If your utilization is below the break-even, the commitment LOSES
 money vs pure on-demand. You committed for hours you didn&#39;t use,
 and you paid for them.</code></pre>
-<p>The break-even is sometimes counter-intuitive. A 40% discount needs only 71% coverage to break even; a 20% discount needs 83% to break even. Bigger discounts have looser break-even thresholds.</p>
+<p>Break-even is a <strong>utilization</strong> threshold, not a coverage one. Under-coverage never loses money: eligible hours the commitment does not cover simply run on-demand at rack rate. It is under-utilization that loses money. Bigger discounts have looser thresholds: a 40% discount only needs 60% utilization to break even; a 20% discount needs 80%.</p>
 <h3 id="realistic-targets-by-commitment-length">Realistic targets by commitment length</h3>
 <pre><code>COMMITMENT LENGTH    SUGGESTED TARGETS
 ──────────────────────────────────────────────────────────────────
@@ -636,10 +637,10 @@ IMPROVEMENT OPPORTUNITIES:
   □ Defer renewal if usage likely to change
 
 BREAK-EVEN check:
-  Required coverage: 1 / (1 + ____) = ____%
-  Current coverage: ____%
+  Required utilization: 1 - ____ (discount) = ____%
+  Current utilization: ____%
   Above break-even? Yes / No</code></pre>
-<p>If you're below break-even, the commitment is losing money — investigate.</p>
+<p>If your utilization is below break-even, the commitment is losing money vs on-demand. Investigate.</p>
 <hr>
 <h2 id="4-knowledge-check">4. Knowledge check</h2>
 <h3 id="q1">Q1</h3>
@@ -650,11 +651,11 @@ BREAK-EVEN check:
 <p><strong>Correct: B.</strong> 30.4%. The effective discount is the headline times coverage times utilization.</p>
 </details>
 <h3 id="q2">Q2</h3>
-<p>1-year RI at 40% discount. Break-even coverage:</p>
-<p>A. 50% B. 71.4% — calculation: 1 / (1 + 0.40) = 1/1.40 = 71.43%. Below 71.4% coverage, the RI loses money vs pure on-demand. The bigger the discount, the looser the break-even threshold; a 40% discount needs 71.4%, a 20% discount needs 83.3%. C. 100% D. Random</p>
+<p>1-year RI at 40% discount. Break-even utilization:</p>
+<p>A. 40% B. 60% — calculation: 1 - 0.40 = 0.60. Below 60% utilization (using less than 60% of the committed hours), the RI loses money vs pure on-demand. The bigger the discount, the looser the threshold; a 40% discount needs 60% utilization, a 20% discount needs 80%. C. 71.4% D. 100%</p>
 <details>
 <summary>Show answer</summary>
-<p><strong>Correct: B.</strong> Break-even formula: 1 / (1 + discount). Memorize this; it's the floor below which you're losing money.</p>
+<p><strong>Correct: B.</strong> Break-even utilization = 1 - discount. Memorize this; it's the floor below which you're losing money. It is a utilization threshold (used / purchased), not a coverage one: under-coverage never loses money.</p>
 </details>
 <h3 id="q3">Q3</h3>
 <p>The biggest improvement lever for effective discount:</p>

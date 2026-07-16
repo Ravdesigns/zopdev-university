@@ -28,11 +28,11 @@ This track assumes you have completed **Track 0 — Cloud Cost Foundations**, or
 
 | # | Module | Lessons | Time |
 |---|---|---|---|
-| M1.1 | [Connect a cloud account](M1.1_connect_account/00_README.md) | 4 | ~40 min |
+| M1.1 | [Connect a cloud account](M1.1_connect_account/00_README.md) | 4 | ~38 min |
 | M1.2 | [Discover your estate](M1.2_discover_estate/00_README.md) | 5 | ~50 min |
 | M1.3 | [Build your first schedule](M1.3_first_schedule/00_README.md) | 6 | ~60 min |
 | M1.4 | [Resource Groups](M1.4_resource_groups/00_README.md) | 4 | ~40 min |
-| M1.5 | [Overrides](M1.5_overrides/00_README.md) | 4 | ~40 min |
+| M1.5 | [Overrides](M1.5_overrides/00_README.md) | 4 | ~38 min |
 | M1.6 | [History, notifications, audit](M1.6_history_notifications_audit/00_README.md) | 5 | ~50 min |
 | **Total** | | **28** | **~4.5 hrs** |
 

@@ -62,13 +62,13 @@ ZopNight detects ML cost patterns:
 HIGH INFERENCE COST PER TOKEN:
   Pattern: high-cost model used for simple queries
   Detection: cost per token unusually high
-  Rule: RC-1601 (model selection)
+  Rule: RC-1603 (model selection)
   Action: route by complexity
   
 IDLE BEDROCK PROVISIONED THROUGHPUT:
   Pattern: capacity reserved but unused
   Detection: utilization vs reservation
-  Rule: RC-1605 (provisioned throughput)
+  Rule: RC-1601 (provisioned throughput idle)
   Action: reduce capacity or move to on-demand
   
 TRAINING JOBS ON ON-DEMAND:
@@ -84,7 +84,7 @@ GPU INSTANCES 24/7:
   Action: scheduling + autoterm
 ```
 
-The 10 Bedrock rules (RC-1601..1610) target these patterns.
+The 10 Bedrock rules (RC-1601..1610) target these patterns. They sit inside a broader ML rule family that extends to RC-1634 (about 33 rules in total, including the SageMaker set RC-1611..1628). See L2 for the authoritative per-rule list.
 
 ### Cost drivers per pattern
 
@@ -147,16 +147,12 @@ The first two — model selection + batching — usually capture 80%+ of recover
 ### The 10 Bedrock rules
 
 ```
-RC-1601  Bedrock — Model Selection Optimization
-RC-1602  Bedrock — Output Truncation Opportunity
-RC-1603  Bedrock — Context Window Optimization
-RC-1604  Bedrock — Streaming vs Batch Pattern
-RC-1605  Bedrock — Provisioned Throughput Sizing
-RC-1606  Bedrock — Knowledge Base Tier
-RC-1607  Foundation Model Training on On-Demand
-RC-1608  GPU Instance Idle (training)
-RC-1609  GPU Instance Right-Size (training)
-RC-1610  Bedrock — Failed Inference Retry Pattern
+Bedrock rules span RC-1601..1610 (e.g. RC-1601 provisioned-throughput
+idle, RC-1607 agent idle). The SageMaker rules run RC-1611..1628
+(idle endpoints, off-hours scheduling, rightsizing, compliance, e.g.
+RC-1628 HyperPod volume-not-CMK-encrypted), with a few more through
+RC-1634. The canonical rule names and IDs live in L2 and in the
+recommender rule catalog; treat that as the source of truth.
 ```
 
 Each addresses a specific cost pattern. Customers see them in recommendations.
@@ -273,7 +269,7 @@ A 15-minute exercise reveals the model-selection opportunity.
 A workload using Opus for all queries when most could use Haiku:
 
 A. Standard practice
-B. Significantly overspending. Opus is ~50-100x more expensive than Haiku per token. Route by complexity. Model selection is the biggest Bedrock cost lever — often 60-80% recoverable.
+B. Significantly overspending. Opus is ~18.75x more expensive than Haiku per token. Route by complexity. Model selection is the biggest Bedrock cost lever — often 60-80% recoverable.
 C. Random
 D. Required
 

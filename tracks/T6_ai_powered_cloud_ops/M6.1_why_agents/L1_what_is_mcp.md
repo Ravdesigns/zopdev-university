@@ -51,19 +51,15 @@ Before MCP, AI assistants were limited to what the engineer could paste. With MC
 The MCP server provides 43 read-only tools organized into 9 categories:
 
 ```
-TOOL CATEGORY                          TOOL COUNT
+TOOL FAMILIES (43 read-only tools total)
 ─────────────────────────────────────────────────────
-Resources (list, inspect, costs)        8 tools
-Schedules (list, history, audit)        6 tools
-Costs / billing (current, historical)   9 tools
-Recommendations (list, summary)         5 tools
-Teams / showback (by team, by tag)      4 tools
-Budgets (status, variance)              3 tools
-Audit logs (filter, export)             3 tools
-Cloud accounts (list, status)           3 tools
-Notifications (channels, history)       2 tools
+Resources        Costs / billing     Recommendations
+Schedules        Overrides           Teams / showback
+Budgets          Audit logs          Cloud accounts
+Notifications    Organisation        Billing sync
 ─────────────────────────────────────────────────────
-TOTAL: 43 read-only tools
+TOTAL: 43 read-only tools (exact per-family counts vary as
+tools are added; the recommender/MCP catalog is the source of truth)
 ```
 
 The full list is documented at [docs.zopnight.com/mcp](https://docs.zopnight.com/mcp). New tools land per release; the read-only constraint is permanent.

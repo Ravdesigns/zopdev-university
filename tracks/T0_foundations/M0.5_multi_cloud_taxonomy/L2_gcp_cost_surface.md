@@ -6,7 +6,7 @@
 
 ## Outcome
 
-By the end of this lesson, you will be able to **distinguish** GCP's three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-AZ traffic charge that catches teams migrating from AWS.
+By the end of this lesson, you will be able to **distinguish** GCP's three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-zone traffic charge that surprises teams on both AWS and GCP.
 
 ---
 
@@ -48,19 +48,19 @@ RANK  SERVICE                          TYPICAL %  NOTES
 
 **Committed Use Discount (CUD).** GCP's equivalent of AWS Reserved Instances or Azure Reservations, but with two flavors. *Resource-based CUD* commits to a specific machine family in a specific region — up to 57% off for 3-year. *Spend-based CUD* commits to a dollar amount per hour — up to 28% off, more flexible, applies across families.
 
-**Spot (formerly Preemptible).** Stateless workload pricing. 60–91% off rate card. Up to 24-hour runtime (eviction is guaranteed at the 24-hour mark, often sooner). Best fit: batch jobs that checkpoint, K8s nodes that drain gracefully.
+**Spot (the successor to Preemptible).** Stateless workload pricing. 60–91% off rate card. Spot VMs have no maximum runtime: the old 24-hour cap was Preemptible-only. GCP can evict a Spot VM at any time (roughly 30 seconds notice) when it needs the capacity back, but a Spot VM that is never reclaimed keeps running. Best fit: batch jobs that checkpoint, K8s nodes that drain gracefully.
 
-### The cross-AZ chatter trap (the migration gotcha)
+### The cross-zone chatter trap
 
-On AWS, traffic between availability zones within the same region is *free*. On GCP, it is *charged* at $0.01 per GB egress + $0.01 per GB ingress (the receiving side also pays). A K8s cluster spanning three zones with chatty service-to-service traffic can rack up significant network spend on GCP that would have been free on AWS.
+Traffic between availability zones within the same region is *charged* on both AWS and GCP: roughly $0.01 per GB in each direction (the receiving side also pays), so cross-zone chatter costs about $0.02 per GB round-trip. Only traffic that stays within a single zone is free. A K8s cluster spanning three zones with chatty service-to-service traffic can rack up significant network spend on either cloud. The trap is assuming cross-zone replication is free because same-zone traffic is.
 
 ```
-SCENARIO: 100 GB/day inter-zone traffic in a GKE cluster
-AWS equivalent (us-east-1):   $0
-GCP (us-central1):            ~$60/month  (100GB × 30 × $0.02)
+SCENARIO: 100 GB/day inter-zone traffic in a GKE/EKS cluster
+AWS (us-east-1):     ~$60/month  (100GB × 30 × $0.02, cross-AZ each way)
+GCP (us-central1):   ~$60/month  (100GB × 30 × $0.02)
 ```
 
-Multiply across many services in a high-traffic cluster and the line item becomes non-trivial. The mitigation is zone-pinning (run a workload's pods in a single zone, accept the reduced AZ-failure tolerance) or regional persistent disks (replicate at the storage layer instead of the network layer).
+The two clouds cost about the same here; cross-zone chatter is not an AWS-vs-GCP difference. Multiply across many services in a high-traffic cluster and the line item becomes non-trivial. The mitigation is zone-pinning (run a workload's pods in a single zone, accept the reduced AZ-failure tolerance) or regional persistent disks (replicate at the storage layer instead of the network layer).
 
 ### BigQuery's two pricing axes
 
@@ -94,17 +94,17 @@ SERVICE                          MONTHLY    % OF BILL    NOTES
 Compute Engine (GKE nodes)       $42,300    35%         Cross-zone GKE
 BigQuery                         $19,400    16%         8 TB/day scan
 Cloud Storage                    $11,200     9%         Data lake
-GKE control plane                $   720    <1%         3 clusters × $0.10/hr × 730
+GKE control plane                $   219    <1%         3 clusters × $0.10/hr × 730
 Network egress                   $ 9,800     8%         ← high — cross-zone GKE
 Cloud SQL                        $ 7,400     6%         
 Cloud Logging                    $ 5,200     4%         Above free tier
 Cloud Monitoring                 $ 3,100     3%         Custom metrics heavy
-Other long tail                  $20,880    18%         
+Other long tail                  $21,381    18%         
 ────────────────────────────────────────────────────────────────────────
 TOTAL                           $120,000   100%
 ```
 
-The 8% network line is the GCP gotcha. On AWS the same workload would have spent ~$0 on inter-AZ traffic. The mitigation: pin the GKE workloads to a single zone (accept reduced AZ-failure tolerance) or use regional persistent disks instead of cross-zone replication.
+The 8% network line is the cross-zone chatter cost. It is not a GCP-only surprise: AWS bills the same cross-AZ traffic at $0.01 per GB each direction, so this workload would cost about the same on AWS. The mitigation is the same on both clouds: pin the workloads to a single zone (accept reduced AZ-failure tolerance) or use regional persistent disks instead of cross-zone replication.
 
 (Asset: `assets/diagrams/M0.5_L2_gcp_breakdown.svg`.)
 
@@ -155,7 +155,7 @@ D. Spot was applied
 A team migrates a chatty K8s cluster from AWS to GCP. The network egress line on the bill triples. Most likely cause:
 
 A. GCP raised network prices
-B. The cluster runs across multiple zones. On AWS, cross-AZ traffic was free; on GCP, it is charged at $0.01 per GB each direction. The fix is zone-pinning or regional persistent disks.
+B. The cluster runs across multiple zones. Cross-zone traffic is charged at about $0.01 per GB each direction on both AWS and GCP (only same-zone traffic is free). The fix is zone-pinning or regional persistent disks.
 C. DNS misconfiguration
 D. The cluster is bigger on GCP
 
@@ -190,7 +190,7 @@ ZopNight's GCP integration handles:
 - **Metrics enrichment** via Cloud Monitoring for size + count on GCS and Artifact Registry
 - **Activity logs** via Cloud Logging for the "Recent Activity" tab in evidence panels
 
-GCP-specific rules in the [490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md) include sustained-use opportunity detection (workloads on the edge of the SUD bracket), CUD coverage gap detection (steady workloads without commitments), and cross-zone egress alerts (high inter-zone traffic flagged for zone-pinning).
+GCP-specific rules in the [450+ rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md) include sustained-use opportunity detection (workloads on the edge of the SUD bracket), CUD coverage gap detection (steady workloads without commitments), and cross-zone egress alerts (high inter-zone traffic flagged for zone-pinning).
 
 ---
 

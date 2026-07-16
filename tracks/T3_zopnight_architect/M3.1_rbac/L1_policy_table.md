@@ -66,18 +66,18 @@ SURFACE                          REQUIRES
 ─────────────────────────────────────────────────────
 Resources page                   resource:view
 Resource detail                  resource:view
-Start/stop action                resource:manage
+Start/stop action                resource:update
 Schedules page                   schedule:view
 Create schedule                  schedule:create
-Apply recommendation             recommendation:apply
-Dismiss recommendation           recommendation:dismiss
-Connect cloud account            cloud-account:connect
-Rotate cloud-account creds       cloud-account:rotate
+Apply recommendation             recommendation:update
+Dismiss recommendation           recommendation:update
+Connect cloud account            cloud-account:create
+Rotate cloud-account creds       cloud-account:update
 View audit log                   audit-log:view
 Export audit log                 audit-log:view + report:view
-Invite teammate                  user:invite
+Invite teammate                  user:create
 Create custom role               role:create
-Assign role to user              role:assign + assignment:create
+Assign role to user              role:update + assignment:create
 ```
 
 A user without the right policy gets a `403 Access Restricted` from the gateway. The backend never sees the request. This is important — defense in depth means even a backend bug cannot bypass authorization.
@@ -100,12 +100,12 @@ The policy model is default-deny. If a new endpoint is added without a policy ma
 
 ### How ZopNight uses the table
 
-The policy table lives in `policy_table.yaml` in the gateway repo. Every change is a PR with mandatory review by the security team. The build pipeline asserts that:
-1. Every endpoint declared in any service has a policy entry.
-2. Every policy entry references one of the 15 entities (no typos, no orphans).
-3. The Frontend's `usePermission()` helper matches the gateway's policy enforcement (catches drift early).
+The policy table is defined in code, not a YAML file: the gateway's Go `PolicyTable()` is the authoritative endpoint-to-policy map, and the frontend's `permissions.js` mirrors it for UI gating. There is no standalone `policy_table.yaml`. Every change is a PR with security review, and the model holds three invariants:
+1. Every mutating endpoint maps to a required policy.
+2. Every policy uses the uniform view/create/update/delete verbs on an entity.
+3. The frontend's `usePermission()` helper matches the gateway's enforcement (catches drift early).
 
-This three-way check (service → gateway → frontend) makes the policy table the single source of truth.
+This three-way check (service → gateway `PolicyTable()` → frontend `permissions.js`) keeps enforcement consistent. The set of entities is not a fixed 15: alongside the core resource types it also includes budget, dashboard, autoscaler-policy, event-readiness, unit-metric, and policy.
 
 ---
 
@@ -116,7 +116,7 @@ A team-platform engineer wants to start an EC2 instance from the Resources page.
 ```
 GET /v1/resources                    [gateway] → resource:view → 200
 GET /v1/resources/i-0abc             [gateway] → resource:view → 200
-POST /v1/resources/i-0abc/start      [gateway] → resource:manage → 403
+POST /v1/resources/i-0abc/start      [gateway] → resource:update → 403
                                                   ^^^ user role lacks manage
 ```
 
@@ -173,7 +173,7 @@ The "surprises" are usually where role design needs refinement. A FinOps Analyst
 A user clicks "Apply Recommendation" but sees Access Restricted. The most likely cause:
 
 A. A bug in the recommendation engine
-B. Their role lacks `recommendation:apply`. Either assign a more permissive role, or grant the specific policy in a custom role. Confirm in Settings → Users → role inspector.
+B. Their role lacks `recommendation:update`. Either assign a more permissive role, or grant the specific policy in a custom role. Confirm in Settings → Users → role inspector.
 C. Cloud provider rejected the action
 D. The recommendation expired
 
@@ -223,7 +223,7 @@ When designing a new role, start from a System role (Viewer / Editor / Admin) an
 
 ## Related lessons
 
-- [L2 — System roles: Viewer, Editor, Admin](L2_system_roles.md) *(next)*
+- [L2 — System roles: Viewer, Editor, Admin, SuperAdmin](L2_system_roles.md) *(next)*
 - [L3 — Custom roles](L3_custom_roles.md)
 - [L6 — Frontend gating with usePermission](L6_frontend_gating.md)
 

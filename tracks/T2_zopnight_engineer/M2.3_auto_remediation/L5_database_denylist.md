@@ -1,4 +1,4 @@
-# Why ZopNight never mutates customer DBs
+# Why ZopNight never auto-mutates customer databases
 
 § T2 · M2.3 · L5 of 6 · Engineer tier · 9 min
 
@@ -23,7 +23,7 @@ By the end of this lesson, you will be able to **defend** the database denylist 
 
 ## 1. Concept
 
-The database denylist is a hardcoded set of resource types and action types that ZopNight categorically refuses to auto-mutate. Even with auto-remediation explicitly enabled, the system will not execute mutating operations on these.
+Database protection is enforced two ways in the code. First, auto-remediation runs off an **allowlist**, and the pause/stop template on that allowlist explicitly **excludes** the managed-DB engines (`rds*`, `aurora*`, `cloudsql*`, `elasticache*`, `azure-sql`, `postgres*`, `mysql*`). Second, a central safety gate (`internal/safety`) **fail-closes** destructive operations on any stateful data resource, demoting them to advisory. The net effect: even with auto-remediation enabled, ZopNight never one-click executes a mutating operation on a customer database. Any database-touching recommendation is advisory, or at most guided (a human types to confirm).
 
 ```
 THE GUARANTEE:
@@ -181,23 +181,25 @@ Hardcoded = guarantee. Configurable = optimization. ZopNight chooses the guarant
 ### Documented at the source
 
 ```
-THE DENYLIST LIVES in:
-  recommender/internal/remediation/certified
-  
-  (The inverse — certified rules — also defined here)
+AUTO-REMEDIATION ELIGIBILITY IS AN ALLOWLIST, not a denylist:
+  backend/recommender/internal/remediation/contract/
+    autoremediation_allowlist.go
+  (~124 rules wired: ~28 one-click auto + ~96 guided type-to-confirm)
 
-EVERY RULE'S mutation eligibility:
-  Checked against the denylist
-  At recommendation card render time
-  The Apply button's presence is the answer
+DATABASE PROTECTION IS TWO-LAYER:
+  1. The pause/stop template's allowlist explicitly EXCLUDES the
+     managed-DB engines: rds*, aurora*, cloudsql*, elasticache*,
+     azure-sql, postgres*, mysql*. They can never be auto-paused/stopped.
+  2. A central safety gate (internal/safety) fail-closes: it demotes
+     destructive ops on any stateful data resource to advisory.
 
-ENFORCEMENT IS STRUCTURAL:
-  Apply button hidden in UI
-  API call to apply would be rejected
-  No bypass mechanism
+EVERY RULE'S auto-eligibility:
+  Not on the allowlist -> no one-click Apply (advisory only)
+  On the allowlist as "guided" -> requires a human type-to-confirm
+  DB-touching action -> advisory or guided, never silent auto-execute
 ```
 
-The denylist is in the code, not configuration. Auditable to source.
+Eligibility is in the code, not configuration. Auditable to source at the allowlist path above.
 
 ### A subtle point — DB scheduling
 
@@ -227,34 +229,36 @@ Customers often want to schedule-stop databases for cost savings. This works.
 ### Common security questions + answers
 
 ```
-Q: "Will ZopNight modify our customer database?"
-A: "No. The database denylist is hardcoded — RDS, Aurora, CloudSQL,
-    DynamoDB, etc. — and the actions modify/delete/scale are
-    categorically denied. Recommendations are displayed; Apply button
-    is hidden. The customer's DBA executes through normal channels."
+Q: "Will ZopNight auto-modify our customer database?"
+A: "No. Auto-remediation runs off an allowlist, and its pause/stop
+    template excludes the managed-DB engines (rds*, aurora*, cloudsql*,
+    elasticache*, azure-sql, postgres*, mysql*). A central safety gate
+    also fail-closes destructive ops on any stateful data resource. Any
+    DB-touching recommendation is advisory or guided (a human types to
+    confirm); nothing runs one-click. Your DBA executes real changes."
 
 Q: "What about scheduling? Can it start/stop a database?"
-A: "Yes — start/stop is allowed. Schedule-driven start/stop pauses
+A: "Yes, start/stop is allowed. Schedule-driven start/stop pauses
     billing without mutating the data. Data, schema, configuration
     preserved across the cycle."
 
-Q: "Can the customer override the denylist?"
-A: "No. The denylist is hardcoded in the application, not configurable.
-    Even admins can't bypass it. This is intentional safety architecture."
+Q: "Can the customer force a one-click DB write?"
+A: "No. DB engines are off the pause/stop allowlist and the safety gate
+    fail-closes destructive ops on stateful data, regardless of settings."
 
 Q: "What about DBs in a development account?"
 A: "Same protections apply. Account isn't the factor; resource type is.
-    Even dev databases get the denylist treatment."
+    Even dev databases get the same treatment."
 
 Q: "What if we need to bulk-modify many DBs?"
 A: "Use your normal DBA tools (Liquibase, Flyway, your custom scripts).
-    ZopNight's role is detection + recommendation; not execution for
-    databases."
+    ZopNight's role is detection + recommendation, not one-click
+    execution against databases."
 
 Q: "Is this documented for SOC 2 / ISO 27001?"
-A: "Yes — the denylist is part of the security architecture
-    documentation. Auditors verify the source code shows the hardcoded
-    list. Easy compliance evidence."
+A: "Yes. The allowlist (autoremediation_allowlist.go) and the fail-closed
+    safety gate (internal/safety) are in source; auditors can verify the
+    DB engines are excluded from the pause/stop path. Clear evidence."
 ```
 
 The questions are predictable; the answers are consistent.
@@ -264,19 +268,19 @@ The questions are predictable; the answers are consistent.
 ```
 CATEGORY                AUTO-REM ELIGIBILITY
 ─────────────────────────────────────────────────
-EC2 / VMs               YES (certified rules; reversible actions)
+EC2 / VMs               YES (allowlisted rules; reversible actions)
 Storage (EBS, S3)       YES (delete on orphans; reversible recovery)
 Lambda / Functions      YES (idle terminations)
 Load Balancers          YES (orphan deletes)
-Databases               NO (denylist; categorical)
-Caches (ElastiCache)    NO (denylist; data state)
-Data Warehouses         NO (denylist; analytical workloads)
+Databases               NO (excluded from pause/stop allowlist; advisory/guided only)
+Caches (ElastiCache)    NO (excluded; data state)
+Data Warehouses         NO (excluded; analytical workloads)
 Kubernetes              YES (scale-to-zero; pause CronJobs)
 Networking              CAUTIOUS (some yes, some no per rule)
 IAM                     NO (always manual)
 ```
 
-The denylist sits within a broader risk-based framework. Some categories are auto-rem eligible; others aren't.
+This database protection sits within a broader risk-based allowlist. Some categories are auto-remediation eligible; databases and other stateful data are excluded from the auto path.
 
 ---
 
@@ -287,33 +291,36 @@ A security review walked through:
 ```
 SECURITY ENGINEER: "Can ZopNight modify our customer database?"
 
-PLATFORM ENGINEER: "No. The database denylist is hardcoded — `rds*`,
-                    `aurora*`, `cloudsql*`, `elasticache*`, `azure-sql*`,
-                    `postgres*`, `mysql*`, `dynamodb*`, etc. — and the
-                    action types modify, delete, scale, change-tier are
-                    categorically denied. The system will show
-                    optimization recommendations for these resources,
-                    but the Apply Remediate button is hidden. The
-                    customer's DBA executes any changes through their
-                    normal channels."
+PLATFORM ENGINEER: "Not automatically. Auto-remediation runs off an
+                    allowlist, and the pause/stop template on that
+                    allowlist explicitly EXCLUDES the managed-DB engines
+                    (`rds*`, `aurora*`, `cloudsql*`, `elasticache*`,
+                    `azure-sql`, `postgres*`, `mysql*`). On top of that a
+                    central safety gate demotes any destructive op on a
+                    stateful data resource to advisory, fail-closed. So
+                    nothing one-click modifies or deletes your database.
+                    A database-touching recommendation is advisory, or at
+                    most guided (a human on your side types to confirm)."
 
 SECURITY: "What about scheduling? Can it start/stop a database?"
 
-PE: "Yes — start/stop is allowed because it pauses billing without
+PE: "Yes, start/stop is allowed because it pauses billing without
      mutating the data. Schedule-driven start/stop on RDS is common
      (saves cost on non-prod databases). The data, schema, and
      configuration are preserved across the schedule's cycle."
 
-SECURITY: "What if our org wants to override?"
+SECURITY: "What if our org wants to force a one-click DB write?"
 
-PE: "Not possible. The denylist is hardcoded in the source code, not
-     configurable. Even org admins can't bypass it. This is intentional
-     safety architecture."
+PE: "There is no such path. DB engines are off the pause/stop allowlist
+     and the safety gate fail-closes destructive ops on stateful data,
+     regardless of org settings. This is intentional safety architecture."
 
 SECURITY: "Where can I verify in the code?"
 
-PE: "It's at recommender/internal/remediation/certified — open-source
-     equivalent. We can show you in code review if needed."
+PE: "The allowlist is at
+     backend/recommender/internal/remediation/contract/
+     autoremediation_allowlist.go, and the fail-closed demotion is in
+     internal/safety. We can walk it in code review."
 
 SECURITY: "And for SOC 2 evidence?"
 

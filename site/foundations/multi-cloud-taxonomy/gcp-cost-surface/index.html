@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GCP cost surface — quirks and gotchas / Cloud Cost Foundations / ZopDev University</title>
-<meta name="description" content="By the end of this lesson, you will be able to **distinguish** GCP&#39;s three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-AZ traffic charge that catches teams migrating from AWS.">
+<meta name="description" content="By the end of this lesson, you will be able to **distinguish** GCP&#39;s three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-zone traffic charge that surprises teams on both AWS and GCP.">
 <link rel="canonical" href="https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/gcp-cost-surface/">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta name="author" content="ZopDev University editorial board">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="ZopDev University">
 <meta property="og:title" content="GCP cost surface — quirks and gotchas / Cloud Cost Foundations / ZopDev University">
-<meta property="og:description" content="By the end of this lesson, you will be able to **distinguish** GCP&#39;s three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-AZ traffic charge that catches teams migrating from AWS.">
+<meta property="og:description" content="By the end of this lesson, you will be able to **distinguish** GCP&#39;s three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-zone traffic charge that surprises teams on both AWS and GCP.">
 <meta property="og:url" content="https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/gcp-cost-surface/">
 <meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
 <meta property="og:locale" content="en_US">
@@ -22,14 +22,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@zopdev">
 <meta name="twitter:title" content="GCP cost surface — quirks and gotchas / Cloud Cost Foundations / ZopDev University">
-<meta name="twitter:description" content="By the end of this lesson, you will be able to **distinguish** GCP&#39;s three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-AZ traffic charge that catches teams migrating from AWS.">
+<meta name="twitter:description" content="By the end of this lesson, you will be able to **distinguish** GCP&#39;s three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-zone traffic charge that surprises teams on both AWS and GCP.">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "LearningResource",
   "name": "GCP cost surface — quirks and gotchas",
-  "description": "By the end of this lesson, you will be able to **distinguish** GCP's three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-AZ traffic charge that catches teams migrating from AWS.",
+  "description": "By the end of this lesson, you will be able to **distinguish** GCP's three pricing levers (sustained-use, CUD, Spot) **and identify** the cross-zone traffic charge that surprises teams on both AWS and GCP.",
   "url": "https://zop.dev/resources/university/foundations/multi-cloud-taxonomy/gcp-cost-surface/",
   "learningResourceType": "Lesson",
   "educationalLevel": "Operator",
@@ -403,7 +403,7 @@
         </div>
         <h1>GCP cost surface — quirks and gotchas</h1>
       </header>
-      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>distinguish</strong> GCP&#39;s three pricing levers (sustained-use, CUD, Spot) <strong>and identify</strong> the cross-AZ traffic charge that catches teams migrating from AWS.</p></div>
+      <div class="lesson-outcome"><div class="lesson-outcome-label">Outcome</div><p>By the end of this lesson, you will be able to <strong>distinguish</strong> GCP&#39;s three pricing levers (sustained-use, CUD, Spot) <strong>and identify</strong> the cross-zone traffic charge that surprises teams on both AWS and GCP.</p></div>
       <div class="lesson-metabox"><dl>
 <dt>Tier</dt>
 <dd>Operator</dd>
@@ -435,13 +435,13 @@
 <h3 id="the-three-gcp-specific-pricing-levers">The three GCP-specific pricing levers</h3>
 <p><strong>Sustained-use discount (SUD).</strong> Automatic. Any Compute Engine VM running >25% of the month gets a discount that ramps up to 30% off for VMs running 100% of the month. No purchase, no commitment, no opt-in. AWS and Azure have no equivalent. This is GCP's quiet structural advantage and is why "always-on" on GCP is meaningfully cheaper than AWS at the same rate-card price.</p>
 <p><strong>Committed Use Discount (CUD).</strong> GCP's equivalent of AWS Reserved Instances or Azure Reservations, but with two flavors. <em>Resource-based CUD</em> commits to a specific machine family in a specific region — up to 57% off for 3-year. <em>Spend-based CUD</em> commits to a dollar amount per hour — up to 28% off, more flexible, applies across families.</p>
-<p><strong>Spot (formerly Preemptible).</strong> Stateless workload pricing. 60–91% off rate card. Up to 24-hour runtime (eviction is guaranteed at the 24-hour mark, often sooner). Best fit: batch jobs that checkpoint, K8s nodes that drain gracefully.</p>
-<h3 id="the-cross-az-chatter-trap-the-migration-gotcha">The cross-AZ chatter trap (the migration gotcha)</h3>
-<p>On AWS, traffic between availability zones within the same region is <em>free</em>. On GCP, it is <em>charged</em> at $0.01 per GB egress + $0.01 per GB ingress (the receiving side also pays). A K8s cluster spanning three zones with chatty service-to-service traffic can rack up significant network spend on GCP that would have been free on AWS.</p>
-<pre><code>SCENARIO: 100 GB/day inter-zone traffic in a GKE cluster
-AWS equivalent (us-east-1):   $0
-GCP (us-central1):            ~$60/month  (100GB × 30 × $0.02)</code></pre>
-<p>Multiply across many services in a high-traffic cluster and the line item becomes non-trivial. The mitigation is zone-pinning (run a workload's pods in a single zone, accept the reduced AZ-failure tolerance) or regional persistent disks (replicate at the storage layer instead of the network layer).</p>
+<p><strong>Spot (the successor to Preemptible).</strong> Stateless workload pricing. 60–91% off rate card. Spot VMs have no maximum runtime: the old 24-hour cap was Preemptible-only. GCP can evict a Spot VM at any time (roughly 30 seconds notice) when it needs the capacity back, but a Spot VM that is never reclaimed keeps running. Best fit: batch jobs that checkpoint, K8s nodes that drain gracefully.</p>
+<h3 id="the-cross-zone-chatter-trap">The cross-zone chatter trap</h3>
+<p>Traffic between availability zones within the same region is <em>charged</em> on both AWS and GCP: roughly $0.01 per GB in each direction (the receiving side also pays), so cross-zone chatter costs about $0.02 per GB round-trip. Only traffic that stays within a single zone is free. A K8s cluster spanning three zones with chatty service-to-service traffic can rack up significant network spend on either cloud. The trap is assuming cross-zone replication is free because same-zone traffic is.</p>
+<pre><code>SCENARIO: 100 GB/day inter-zone traffic in a GKE/EKS cluster
+AWS (us-east-1):     ~$60/month  (100GB × 30 × $0.02, cross-AZ each way)
+GCP (us-central1):   ~$60/month  (100GB × 30 × $0.02)</code></pre>
+<p>The two clouds cost about the same here; cross-zone chatter is not an AWS-vs-GCP difference. Multiply across many services in a high-traffic cluster and the line item becomes non-trivial. The mitigation is zone-pinning (run a workload's pods in a single zone, accept the reduced AZ-failure tolerance) or regional persistent disks (replicate at the storage layer instead of the network layer).</p>
 <h3 id="bigquery-s-two-pricing-axes">BigQuery's two pricing axes</h3>
 <p>BigQuery is unique in having both <strong>storage</strong> and <strong>query</strong> as primary pricing axes:</p>
 <ul>
@@ -466,15 +466,15 @@ GCP (us-central1):            ~$60/month  (100GB × 30 × $0.02)</code></pre>
 Compute Engine (GKE nodes)       $42,300    35%         Cross-zone GKE
 BigQuery                         $19,400    16%         8 TB/day scan
 Cloud Storage                    $11,200     9%         Data lake
-GKE control plane                $   720    &lt;1%         3 clusters × $0.10/hr × 730
+GKE control plane                $   219    &lt;1%         3 clusters × $0.10/hr × 730
 Network egress                   $ 9,800     8%         ← high — cross-zone GKE
 Cloud SQL                        $ 7,400     6%         
 Cloud Logging                    $ 5,200     4%         Above free tier
 Cloud Monitoring                 $ 3,100     3%         Custom metrics heavy
-Other long tail                  $20,880    18%         
+Other long tail                  $21,381    18%         
 ────────────────────────────────────────────────────────────────────────
 TOTAL                           $120,000   100%</code></pre>
-<p>The 8% network line is the GCP gotcha. On AWS the same workload would have spent ~$0 on inter-AZ traffic. The mitigation: pin the GKE workloads to a single zone (accept reduced AZ-failure tolerance) or use regional persistent disks instead of cross-zone replication.</p>
+<p>The 8% network line is the cross-zone chatter cost. It is not a GCP-only surprise: AWS bills the same cross-AZ traffic at $0.01 per GB each direction, so this workload would cost about the same on AWS. The mitigation is the same on both clouds: pin the workloads to a single zone (accept reduced AZ-failure tolerance) or use regional persistent disks instead of cross-zone replication.</p>
 <p>(Asset: <code>assets/diagrams/M0.5_L2_gcp_breakdown.svg</code>.)</p>
 <hr>
 <h2 id="3-hands-on-6-min">3. Hands-on (6 min)</h2>
@@ -507,7 +507,7 @@ LIMIT 10
 </details>
 <h3 id="q2">Q2</h3>
 <p>A team migrates a chatty K8s cluster from AWS to GCP. The network egress line on the bill triples. Most likely cause:</p>
-<p>A. GCP raised network prices B. The cluster runs across multiple zones. On AWS, cross-AZ traffic was free; on GCP, it is charged at $0.01 per GB each direction. The fix is zone-pinning or regional persistent disks. C. DNS misconfiguration D. The cluster is bigger on GCP</p>
+<p>A. GCP raised network prices B. The cluster runs across multiple zones. Cross-zone traffic is charged at about $0.01 per GB each direction on both AWS and GCP (only same-zone traffic is free). The fix is zone-pinning or regional persistent disks. C. DNS misconfiguration D. The cluster is bigger on GCP</p>
 <details>
 <summary>Show answer</summary>
 <p><strong>Correct: B.</strong> This is the canonical GCP migration gotcha. The fix is workload zone-pinning or a different network architecture.</p>
@@ -528,7 +528,7 @@ LIMIT 10
 <li><strong>Metrics enrichment</strong> via Cloud Monitoring for size + count on GCS and Artifact Registry</li>
 <li><strong>Activity logs</strong> via Cloud Logging for the "Recent Activity" tab in evidence panels</li>
 </ul>
-<p>GCP-specific rules in the <a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">490-rule library</a> include sustained-use opportunity detection (workloads on the edge of the SUD bracket), CUD coverage gap detection (steady workloads without commitments), and cross-zone egress alerts (high inter-zone traffic flagged for zone-pinning).</p>
+<p>GCP-specific rules in the <a href="../../T2_zopnight_engineer/M2.1_rule_library/00_README.md">450+ rule library</a> include sustained-use opportunity detection (workloads on the edge of the SUD bracket), CUD coverage gap detection (steady workloads without commitments), and cross-zone egress alerts (high inter-zone traffic flagged for zone-pinning).</p>
 <hr>
 <h2 id="related-lessons">Related lessons</h2>
 <ul>

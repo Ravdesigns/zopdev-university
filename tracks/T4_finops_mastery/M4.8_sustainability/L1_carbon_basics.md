@@ -44,7 +44,7 @@ REGION                       INTENSITY (gCO2/kWh)    RELATIVE
 ──────────────────────────────────────────────────────────────────
 eu-north-1 (Sweden/hydro)     ~50                     0.5× baseline
 ca-central-1 (Quebec hydro)   ~50                     0.5×
-northwest-1 (Norway hydro)    ~30                     0.3×
+ca-central-1 (Canada hydro)  ~30                     0.3×
                               
 us-west-2 (Oregon)            ~120                    1.2× (some hydro)
 us-west-1 (California)        ~250                    2.5× (solar-heavy
@@ -65,12 +65,12 @@ A workload in Sweden generates ~14× less carbon per kWh than the same workload 
 SAME workload running in different regions:
 
   us-east-1 (Virginia, 350 gCO2/kWh):
-    100 m5.large × 730 hr/mo × 0.1 kW × 350g/kWh = 2,555 kg CO2/mo
+    100 m5.large × 730 hr/mo × 0.05 kW × 350g/kWh = 1,278 kg CO2/mo
     
   eu-north-1 (Sweden, 50 gCO2/kWh):
-    100 m5.large × 730 hr/mo × 0.1 kW × 50g/kWh = 365 kg CO2/mo
+    100 m5.large × 730 hr/mo × 0.05 kW × 50g/kWh = 183 kg CO2/mo
     
-  CARBON DIFFERENCE: 2,190 kg CO2/mo (86% reduction)
+  CARBON DIFFERENCE: 1,095 kg CO2/mo (86% reduction)
   COST DIFFERENCE:    minor (regional price variance, usually ±5%)
   
 A team can move workloads to cleaner regions and reduce carbon
@@ -132,7 +132,7 @@ The good news: most carbon levers also save cost. The exception: region migratio
 WORKLOAD: 100 m5.large instances 24/7 in us-east-1
 
 POWER DRAW (rough):
-  m5.large ~50W (per AWS published data)
+  m5.large ~50W (estimate; AWS does not publish per-instance wattage)
   100 instances × 50W = 5 kW continuous
   5 kW × 730 hr/mo = 3,650 kWh/mo
 

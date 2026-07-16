@@ -31,7 +31,7 @@ SAMPLE REGION INTENSITIES (gCO2/kWh, approximate):
 VERY CLEAN (mostly renewable):
   eu-north-1 (Sweden — hydro):              ~50
   ca-central-1 (Quebec — hydro):             ~50
-  norway-east (Norway — hydro):              ~30
+  europe-north1 (Finland, low-carbon):       ~30
   
 MEDIUM:
   us-west-2 (Oregon — mixed hydro/renew):   ~120

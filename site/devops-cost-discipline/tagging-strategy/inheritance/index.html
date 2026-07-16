@@ -427,14 +427,14 @@
 
 AWS:
   Org-level tags        → limited inheritance via Tag Policies
-  Account-level (SCP)   → applied to all resources in account
-  VPC / subnet tags     → some resource types inherit
-  Resource-level        → explicit, overrides defaults
+  Tag Policies (Orgs)   → govern allowed tag keys/values org-wide
+                          (SCPs are permission guardrails, not tag appliers)
+  Resource-level        → explicit; tags do not auto-inherit on AWS
   
 GCP:
-  Folder labels         → inherit to projects (most)
-  Project labels        → inherit to most resources
-  Resource labels       → explicit, overrides defaults
+  Labels do NOT inherit  → folder/project labels do not flow to resources
+  Resource Manager Tags  → DO inherit (folder → project → resource)
+  Cost-label consistency → comes from IaC default_labels, not inheritance
   
 Azure:
   Management group tags → inherit to subscriptions
@@ -548,9 +548,9 @@ EXAMPLE:
   Org-level tags propagate only to &quot;supported resources&quot; (check docs)
   
 GCP:
-  Labels inherit project → resource for most services
+  Labels do NOT inherit; set them via IaC default_labels per resource
   Some legacy services (e.g., BigQuery datasets) handle labels differently
-  Folder labels don&#39;t inherit to resources directly (only to projects)
+  GCP labels never inherit; only Resource Manager Tags do (folder-&gt;project-&gt;resource)
   
 AZURE:
   Resource group tag inheritance is NOT automatic for resources within

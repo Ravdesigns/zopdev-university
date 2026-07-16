@@ -181,7 +181,7 @@ TEAMS:
   
 CROSS-TEAM ROLES:
   finops-lead  (1 person)  Custom "Cross-team Viewer"
-                            + recommendation:apply on all
+                            + recommendation:update on all
   security      (2 people)  Custom "Compliance Auditor"
                             + audit-log:view on all
   org-admin     (2 people)  Admin (allResources=true)

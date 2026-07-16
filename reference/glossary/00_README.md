@@ -5,7 +5,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 ## A
 - **Adopt-or-replace** — Pattern where ZopNight detects existing cloud scaling and asks the user whether to adopt (observe) or replace (manage). See [T2.M2.5](../../tracks/T2_zopnight_engineer/M2.5_adopt_or_replace/00_README.md).
 - **AES-256-GCM** — Encryption used for credential storage. See [T1.M1.1.L1](../../tracks/T1_zopnight_operator/M1.1_connect_account/L1_vault_credentials.md).
-- **Amortized cost** — Azure-specific cost column that distributes reservation purchases across the term. See [T0.M0.4.L3](../../tracks/T0_foundations/M0.4_rack_rate_vs_billing/L3_amortized_azure.md).
+- **Amortized cost** — The cost of an upfront commitment (RI, Savings Plan, CUD) spread across the hours it covers, so each resource shows its true effective daily cost. Not Azure-specific: AWS exposes it via Cost Explorer Amortized / CUR EffectiveCost, GCP via the credit-applied BigQuery export, and FOCUS via EffectiveCost. See [T0.M0.4.L3](../../tracks/T0_foundations/M0.4_rack_rate_vs_billing/L3_amortized_azure.md).
 - **Anomaly detection** — Daily cron detecting cost deviations across 5 dimensions. See [T2.M2.10](../../tracks/T2_zopnight_engineer/M2.10_cost_anomaly/00_README.md).
 - **Approval gate** — Optional workflow step requiring human sign-off before remediation executes. See [T2.M2.3.L3](../../tracks/T2_zopnight_engineer/M2.3_auto_remediation/L3_approval_gate.md).
 - **ASG** — AWS Auto Scaling Group, a target type for autoscaling policies.
@@ -40,6 +40,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 - **Egress** — Cloud network traffic leaving the cloud or crossing zones.
 - **Engineer tier** — Second cert tier; deep product knowledge.
 - **Event Readiness** — Pre-scale infrastructure for known traffic events.
+- **ExpressRoute** — Azure's dedicated private network connection between on-premises and Azure that bypasses the public internet, with its own pricing model. Inter-zone bandwidth within a region is charged about $0.01/GB each direction on Azure, the same as AWS and GCP (not free).
 
 ## F
 - **FinOps** — Cloud Financial Operations. Industry framework from FinOps Foundation.
@@ -62,6 +63,7 @@ A-Z of FinOps and ZopNight terms. ~120 terms.
 
 ## L-M
 - **MCP** — Model Context Protocol. Open standard for AI agent integrations.
+- **Model selection** — Choosing the cheapest model that still meets the quality bar for a task, and routing simpler prompts to cheaper models. Price gaps between tiers are large but finite: Claude Opus vs Haiku is roughly 18.75x on token price, not 50-100x.
 - **MetricsAware rule** — Rule that consumes cloud monitoring data.
 - **Multi-AZ** — RDS feature replicating across availability zones for reliability.
 
@@ -222,7 +224,7 @@ Definitions grounded in the lesson that introduces each term. First-pass, drafte
 - **Dependency warning** — The alert ZopNight raises at schedule-attachment time when a resource, such as a Databricks cluster, has dependent jobs scheduled to run during the selected off-hours, so the operator can resolve the conflict before it happens.
 - **Dimensional cascade** — Investigating a cost anomaly by moving from the broadest dimension to the narrowest (org-level, cloud-account, resource-group, resource) to find the specific resource driving the spike.
 - **Dimensional redundancy** — The pattern where a cost shift between teams nets to no org-level change, so ZopNight suppresses the offsetting team-level anomalies as noise while still firing org-level and resource-level alerts.
-- **Double-lever scheduling** — The property that scheduling cuts compute hours, which reduces cost and carbon emissions proportionally at the same time, so a given schedule percentage delivers that same percentage reduction on both.
+- **Double-lever scheduling** — The property that scheduling cuts compute hours, which reduces both cost and carbon emissions at the same time; the two savings percentages differ, though, because grid carbon intensity varies by region and time of day independently of price, so a given schedule rarely delivers an identical percentage cut on cost and carbon.
 - **Drafting vs executing** — The distinction between using an AI agent to draft artifacts like memos, tickets, and incident comms (where agents win) versus taking action, which the read-only agent does not do.
 - **Drift detection cadence** — The 6-hour discovery cron cadence at which ZopNight catches tag drift within the day, paired with a weekly review to keep drift from accumulating and hold tag coverage at 95%+.
 - **Drift resolution** — Reconciling detected tag drift between the cloud's tags and ZopNight's expected values via one of three paths: trust cloud, trust ZopNight, or re-evaluate.
@@ -319,7 +321,7 @@ Definitions grounded in the lesson that introduces each term. First-pass, drafte
 - **Notification routing** — The practice of subscribing each notification channel to a chosen subset of event types and severities, so the right alerts reach the right channel and alert fatigue is avoided.
 - **Notification suppression** — The lever for tuning notification volume down without losing signal, using rules such as suppressing routine auto-remediation events by resource so that only events warranting attention are delivered.
 - **Numerator change log** — A dated record documenting any change to a unit-economics cost numerator definition, including the old and new scope and the recomputation of prior periods, so that cost-per-unit trends stay comparable across quarters.
-- **OAuth 2.0** — An SSO authentication method ZopNight supports through Google OAuth and GitHub OAuth, letting users sign in via an existing Google Workspace or GitHub identity, typically paired with a domain allowlist for safety.
+- **OAuth 2.0** — An authorization framework (it grants access to resources), not an authentication protocol; the authentication layer built on top of it is OIDC. ZopNight supports OAuth-based sign-in through Google and GitHub, letting users log in via an existing Google Workspace or GitHub identity, typically paired with a domain allowlist for safety.
 - **Off-hours recovery** — The spend reclaimed by shutting non-production resources down outside working hours on a schedule, while keeping an on-demand or on-call wake-up path so the environment can be brought back when actually needed.
 - **On-demand vs provisioned** — The choice between paying per-request on-demand pricing (scales with traffic, can spike) versus reserving provisioned capacity billed per hour (predictable, but over-pays during quiet periods), a trade-off ZopNight helps right-size and schedule for services like DynamoDB and Bedrock.
 - **Open recommendation** — A recommendation that has been surfaced but not yet acted on, representing reclaimable spend that ZopNight sums into "reclaimable" savings figures and highlights in views such as the Cost Flow savings overlay.
@@ -394,7 +396,7 @@ Definitions grounded in the lesson that introduces each term. First-pass, drafte
 - **Reorg-proof tag** — A tag value that abstracts away from org structure, such as team=marketing-acquisition for the function rather than a dated or person-named value, so it survives reorganizations without becoming orphaned.
 - **Replica count math** — The reliability exponential where one pod gives about 99.9 percent uptime, two independent pods reach about 99.9999 percent for roughly 2x cost, and a third pod adds diminishing returns.
 - **Request body capture** — Recording the full JSON request payload of a POST, PUT, or PATCH call in the audit log for forensic reconstruction, with sensitive fields redacted before the body is persisted.
-- **Reserved Instance** — A cloud commitment for a specific instance family and type bought on a 1 to 3 year term, typically 30 to 40 percent below on-demand, suited to very stable workloads whose instance type will not change.
+- **Reserved Instance** — A cloud commitment for a specific instance family and type bought on a 1 to 3 year term, saving roughly 30 to 40 percent below on-demand at the low end (1-year, no-upfront) and up to about 60 to 72 percent for 3-year, all-upfront terms, suited to very stable workloads whose instance type will not change.
 - **Resource drill-down** — Navigating the Kubernetes hierarchy in ZopNight from cluster to namespace to workload type to a specific workload, typically three clicks from the estate-wide view to a single Deployment or CronJob.
 - **Resource limit** — The maximum CPU or memory a Kubernetes pod may consume, above which it is CPU-throttled or OOM-killed, and which should sit near p99 actual usage plus a 30 to 50 percent buffer to absorb spikes.
 - **Resource request** — The minimum CPU or memory reserved for a pod when it is scheduled, guaranteed to the pod and setting how many pods fit per node, making it the primary lever for Kubernetes cost efficiency.
@@ -442,7 +444,7 @@ Definitions grounded in the lesson that introduces each term. First-pass, drafte
 - **SIEM webhook** — A notification route that mirrors the full audit log to a SIEM for compliance evidence collection, used by regulated organizations that need a complete record of remediation activity.
 - **Signal weight** — The confidence value assigned to each individual auto-tagger signal (naming patterns, existing tags, configuration, resource group, account context), combined in composite scoring so agreeing signals yield high confidence and conflicting ones yield low, in a rule-based deterministic way.
 - **Size-scaling pattern** — A Databricks SQL warehouse schedule that runs a larger size during business hours and scales down to a smaller size overnight for occasional queries, best for prod with diurnal traffic variation.
-- **Skeleton crew** — The scale-to-one weekend pattern that keeps a single replica running instead of a full fleet or a full shutdown, reducing cost while preserving quorum, sharding, and health-check behavior.
+- **Skeleton crew** — The off-hours pattern of scaling a service down to a single replica (not zero) to keep it warm and reachable at minimal cost. A single replica does NOT preserve quorum: quorum systems (etcd, ZooKeeper, HA databases) need a majority of an odd-numbered set, so skeleton crew suits stateless or non-quorum workloads, not quorum-dependent ones.
 - **Skill changelog** — The dated list of version entries kept in a shared skill's metadata that records what changed in each release, including breaking changes, so users can see how the skill has evolved.
 - **Skill (Claude Code)** — A markdown file that Claude Code loads as a named command, letting a team invoke an embedded prompt by name so the same instructions run consistently every time, shifting prompts from text snippets to versioned software.
 - **Skill deprecation** — The graceful retirement of a shared skill that has become obsolete (for example after an MCP tool is renamed or an output format changes), done deliberately rather than by silent breakage.
@@ -507,7 +509,7 @@ Definitions grounded in the lesson that introduces each term. First-pass, drafte
 - **Warehouse sizing** — Selecting the right Databricks SQL Warehouse size (2X-Small to 4X-Large, roughly 1 to 256 nodes) based on concurrency and workload, which drives both cost factor and query concurrency capacity.
 - **Wasteful overrun** — A budget overrun driven by waste (forgotten resources, runaway processes, unauthorized spend) rather than legitimate growth, which warrants enforcement such as killing resources or fixing configs rather than raising the budget.
 - **Weekend Scale-Down preset** — A preset schedule that stops resources for the weekend (midnight Saturday to Monday 8 AM) while running weekdays, yielding about 33.3 percent theoretical savings and suiting teams that occasionally work late but never weekends.
-- **Well-architected framework** — The AWS Well-Architected Framework, referenced in the curriculum as the canonical multi-account target state (management, security, shared services, audit, and per-team accounts, roughly 12 to 20 for a mid-size org) that a maturing org converges toward.
+- **Well-architected framework** — The AWS Well-Architected Framework, a review methodology built on six pillars: operational excellence, security, reliability, performance efficiency, cost optimization, and sustainability. It is not a multi-account account layout; that multi-account target state (management, security, shared services, audit, per-team accounts) is AWS Organizations / Landing Zone / Control Tower guidance, a separate thing.
 - **Workload schedulability** — Whether a Kubernetes workload can be scaled to zero or suspended for cost, where Deployments, StatefulSets, and CronJobs are schedulable but DaemonSets, ReplicaSets, Jobs, and system workloads are not.
 - **Yellow state** — The early-warning traffic-light budget signal (75 to 100 percent of budget or off-pace projection) where spend is approaching budget but the outcome is undecided, requiring investigation to tell a continuing trend from a passing spike.
 - **Z-score method** — A statistical anomaly detection method measuring how many standard deviations a cost value sits from the mean (z = (X - mean) / stddev), with severity tiers at z of 2 (warning), 3 (critical), and 4 (emergency), effective in volatile workloads where percent deviation fails.

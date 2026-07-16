@@ -23,7 +23,7 @@ By the end of this lesson, you will be able to **decide** when a custom role is 
 
 ## 1. Concept
 
-A **custom role** is a role that the customer's Admin assembles from the 15-entity policy table. It exists alongside the three system roles (Viewer, Editor, Admin) and is invoked when the system roles do not cleanly fit a job function. The system roles cover roughly 80% of role assignments; custom roles cover the remaining 20%.
+A **custom role** is a role that the customer's Admin assembles from the policy table. It exists alongside the four system roles (Viewer, Editor, Admin, SuperAdmin) and is invoked when the system roles do not cleanly fit a job function. The system roles cover roughly 80% of role assignments; custom roles cover the remaining 20%.
 
 The mechanics are simple: pick policy entities, pick actions for each, save the role, assign to users. The discipline is harder: most custom-role decisions look obvious at the time and obvious-in-retrospect a year later, but the middle six months are where roles accumulate that nobody can explain.
 
@@ -53,11 +53,11 @@ The rule of thumb: a custom role is justified when no system role's policy set i
   Policies:
     resource:view
     schedule:view, schedule:create, schedule:update
-    recommendation:view, recommendation:apply, recommendation:dismiss
+    recommendation:view, recommendation:update, recommendation:update
     report:view
     team:view
     audit-log:view
-  Excludes: cloud-account:connect, role:*, user:* (admin functions)
+  Excludes: cloud-account:create, role:*, user:* (admin functions)
   
   Use: full operational power on cost surface, no RBAC management
 ```
@@ -89,7 +89,7 @@ The rule of thumb: a custom role is justified when no system role's policy set i
 ```
 "Cost-spike Responder" role
   Policies (Editor minus most):
-    resource:view, resource:manage (start/stop)
+    resource:view, resource:update (start/stop)
     schedule:view, schedule:create (emergency-stop schedules)
     override:view, override:create
     audit-log:view
@@ -167,7 +167,7 @@ Customer telemetry (anonymized) suggests the most common custom-role patterns:
 PATTERN                                       FREQUENCY
 ─────────────────────────────────────────────────────────
 "Editor minus role:* / user:*"                 32%
-"Viewer plus audit-log:view + report:export"   24%
+"Viewer plus audit-log:view + report:view"   24%
 "FinOps Analyst" variant                       18%
 "DBA / DataOps" variant                        9%
 "Junior / read-only" variant                   7%
@@ -195,12 +195,12 @@ CUSTOM ROLE DESIGN:
   Policies:
     resource:view
     recommendation:view
-    recommendation:apply
-    recommendation:dismiss
+    recommendation:update
+    recommendation:update
     audit-log:view
     schedule:view  (so they can see when DBs are scheduled)
   Excludes:
-    resource:manage  (cannot start/stop directly)
+    resource:update  (cannot start/stop directly)
     schedule:create / update / delete (cannot schedule DBs)
 
 ASSIGN to 3 DBAs. Save.
@@ -245,7 +245,7 @@ If you cannot fill in the JTBD and Description, the role is not yet justified.
 A FinOps Analyst needs all the Editor permissions but cannot manage cloud-account credentials. The best approach:
 
 A. Use Editor and trust the user not to rotate credentials
-B. Build a custom role with all Editor policies EXCEPT `cloud-account:connect`, `cloud-account:rotate`, and `cloud-account:revoke`. Save with a clear description.
+B. Build a custom role with all Editor policies EXCEPT `cloud-account:create`, `cloud-account:update`, and `cloud-account:delete`. Save with a clear description.
 C. Promote to Admin temporarily
 D. Use Viewer and grant exceptions per task
 

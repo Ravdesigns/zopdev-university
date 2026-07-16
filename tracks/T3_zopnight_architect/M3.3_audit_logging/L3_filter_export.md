@@ -153,7 +153,7 @@ Format:            JSON (preserves body structure)
 Filter:            Last hour (delta sync)
 Destination:       Splunk HEC / Datadog / Sumo / S3
 Retention:         Determined by SIEM (often years)
-Authentication:    PAT scoped to audit-log:export
+Authentication:    PAT scoped to audit-log:view
 ```
 
 ZopNight provides reference integrations for the common SIEMs in [docs.zopnight.com/integrations/siem](https://docs.zopnight.com/integrations/siem). The reference scripts handle pagination, deduplication on `trace_id`, and graceful retry on transient errors.

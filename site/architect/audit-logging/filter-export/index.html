@@ -511,7 +511,7 @@ Format:            JSON (preserves body structure)
 Filter:            Last hour (delta sync)
 Destination:       Splunk HEC / Datadog / Sumo / S3
 Retention:         Determined by SIEM (often years)
-Authentication:    PAT scoped to audit-log:export</code></pre>
+Authentication:    PAT scoped to audit-log:view</code></pre>
 <p>ZopNight provides reference integrations for the common SIEMs in <a href="https://docs.zopnight.com/integrations/siem" target="_blank" rel="noopener">docs.zopnight.com/integrations/siem</a>. The reference scripts handle pagination, deduplication on <code>trace_id</code>, and graceful retry on transient errors.</p>
 <h3 id="how-zopnight-uses-query-patterns">How ZopNight uses query patterns</h3>
 <p>For compliance evidence collection (SOC 2, ISO 27001), ZopNight provides pre-formatted reports built on these query patterns:</p>

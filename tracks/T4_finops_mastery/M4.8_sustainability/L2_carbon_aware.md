@@ -73,10 +73,10 @@ PATTERN A — Daily batch time-shift
   Same compute hours; different timing
   Lower carbon footprint
   
-  Example: 50 GPU instances × 4 hours
-  At 2 AM (350 gCO2/kWh): 100 kg CO2
-  At 11 AM (250 gCO2/kWh during solar peak): 71 kg CO2
-  Savings: 29% (29 kg per batch run; thousands of kg annually)
+  Example: 50 GPU instances × 4 hours (~250W/GPU = 12.5 kW = 50 kWh)
+  At 2 AM (350 gCO2/kWh): 17.5 kg CO2
+  At 11 AM (250 gCO2/kWh during solar peak): 12.5 kg CO2
+  Savings: ~29% (5 kg per run: 17.5 - 12.5; ~1,800 kg annually)
 
 PATTERN B — Geographic shift for batch
   Route batch jobs to lower-carbon regions
@@ -218,13 +218,21 @@ WORKLOAD: nightly ML training pipeline
   
 CURRENT carbon footprint (us-east-1, 350 g/kWh average):
   GPU power: ~250W per GPU × 50 GPUs = 12.5 kW
+    (250W is a mid-range assumption; A100/H100 training GPUs draw
+     400-700W, so scale the kWh and kg proportionally)
   4 hours × 12.5 kW = 50 kWh
   At 2 AM: 350 g/kWh × 50 kWh = 17.5 kg CO2 per run
   Daily: 17.5 kg
   Annual: ~6.4 tons CO2/year
 
-OPTIMIZATION: shift to 11 AM (solar peak in us-east-1)
-  Carbon intensity: ~250 g/kWh (solar adds clean generation)
+OPTIMIZATION: shift to 11 AM (midday, cleaner on solar-heavy grids)
+  Carbon intensity: ~250 g/kWh (illustrative)
+  (CAVEAT: us-east-1 sits on the PJM grid, which is gas- and
+   nuclear-heavy with limited solar, so its real midday dip is
+   small. A ~100 g/kWh swing like this is representative of a
+   genuinely solar-heavy grid such as us-west-1 (California), not
+   us-east-1. Time-shifting pays off most on solar- or wind-heavy
+   grids; on us-east-1 the intraday profile is closer to flat.)
   Same 50 kWh × 250 g/kWh = 12.5 kg CO2 per run
   Daily: 12.5 kg (saved 5 kg/day)
   Annual: 4.6 tons CO2/year

@@ -437,19 +437,15 @@ The engineer never leaves the conversation.</code></pre>
 <p>Before MCP, AI assistants were limited to what the engineer could paste. With MCP, the agent's knowledge boundary shifts — it can query real systems, get current data, and answer with specifics rather than generalities. For cloud cost in particular, this changes the workflow: engineers ask their AI assistant questions about real infrastructure rather than navigating the dashboard.</p>
 <h3 id="what-zopnight-s-mcp-server-exposes">What ZopNight's MCP server exposes</h3>
 <p>The MCP server provides 43 read-only tools organized into 9 categories:</p>
-<pre><code>TOOL CATEGORY                          TOOL COUNT
+<pre><code>TOOL FAMILIES (43 read-only tools total)
 ─────────────────────────────────────────────────────
-Resources (list, inspect, costs)        8 tools
-Schedules (list, history, audit)        6 tools
-Costs / billing (current, historical)   9 tools
-Recommendations (list, summary)         5 tools
-Teams / showback (by team, by tag)      4 tools
-Budgets (status, variance)              3 tools
-Audit logs (filter, export)             3 tools
-Cloud accounts (list, status)           3 tools
-Notifications (channels, history)       2 tools
+Resources        Costs / billing     Recommendations
+Schedules        Overrides           Teams / showback
+Budgets          Audit logs          Cloud accounts
+Notifications    Organisation        Billing sync
 ─────────────────────────────────────────────────────
-TOTAL: 43 read-only tools</code></pre>
+TOTAL: 43 read-only tools (exact per-family counts vary as
+tools are added; the recommender/MCP catalog is the source of truth)</code></pre>
 <p>The full list is documented at <a href="https://docs.zopnight.com/mcp" target="_blank" rel="noopener">docs.zopnight.com/mcp</a>. New tools land per release; the read-only constraint is permanent.</p>
 <h3 id="the-contract">The contract</h3>
 <p>ZopNight's MCP server is <strong>read-only</strong>. No mutations are possible through MCP. Any attempted write returns "operation not permitted." This is hardcoded into the protocol implementation — it is NOT a permission setting that customers can flip.</p>

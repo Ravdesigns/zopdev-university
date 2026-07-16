@@ -96,7 +96,7 @@ REALITY:
     Could fail entirely
     
 INDUSTRY DATA:
-  30-50% of "tested" backup systems fail under real conditions
+  backup systems that are never restore-tested frequently fail under real conditions
   Untested rate is presumably worse
   
 THE FIX:
@@ -481,7 +481,7 @@ D. Optimal pattern
 Untested backups for 2 years:
 
 A. Compliance-compliant
-B. Theatre — backups exist on paper. Untested = unknown reliability. Industry data: 30-50% of "tested" backup systems fail under real conditions; untested likely worse. Annual restore test is essential. The backup is only as good as your last successful restore.
+B. Theatre — backups exist on paper. Untested = unknown reliability. In practice, backup systems that are never restore-tested frequently fail under real conditions. Annual restore test is essential. The backup is only as good as your last successful restore.
 C. Random
 D. Trustworthy if documented
 

@@ -164,7 +164,7 @@ A canonical one-slide unit economics report:
 ```
 SLIDE: Unit Economics — Q1 2026
 ─────────────────────────────────────────────────────────
-HEADLINE: Cost-per-paying-user improved 9% Q-o-Q
+HEADLINE: Cost-per-paying-user improved ~10% Q-o-Q
 $13.20 → $11.83
 
 DRIVERS:
@@ -242,7 +242,7 @@ SLIDE: Unit Economics — Q1 2026
 [ HEADLINE BIG NUMBER ]
 COST PER PAYING USER:
   Q4 2025: $13.20
-  Q1 2026: $11.83  ↓ 9%
+  Q1 2026: $11.83  ↓ ~10%
 
 [ DRIVERS (top 3) ]
   Q1 cost optimization sprint:        -$1.80 / paying user
@@ -258,7 +258,7 @@ COST PER PAYING USER:
   Approve Q2 optimization budget ($25K) to sustain trajectory
 
 [ CFO RESPONSE ]
-  "Cost-per-paying-user improved 9% Q-o-Q. Forecast continues down.
+  "Cost-per-paying-user improved ~10% Q-o-Q. Forecast continues down.
   The $25K optimization spend pays back in <2 months. Approved."
 
 ELAPSED: 5-minute slot; question + approval included.

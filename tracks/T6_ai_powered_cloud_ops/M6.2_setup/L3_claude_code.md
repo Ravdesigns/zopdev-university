@@ -66,7 +66,7 @@ GLOBAL config: ~/.claude/mcp.json
   "mcpServers": {
     "zopnight": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-server"],
+      "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
       "env": {
         "ZN_PAT": "${env:ZN_PAT}",
         "ZN_ORG": "${env:ZN_ORG}"
@@ -117,7 +117,7 @@ EDIT in repo root:
     "mcpServers": {
       "zopnight-prod": {
         "command": "npx",
-        "args": ["-y", "@zopnight/mcp-server"],
+        "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
         "env": {
           "ZN_PAT": "${env:ZN_PAT_PROD}",
           "ZN_ORG": "org_prod"
@@ -215,7 +215,7 @@ and file writes deserve case-by-case approval.
 
 ```
 PROBLEM: "MCP server fails to start"
-  Check: npx -y @zopnight/mcp-server --version
+  Check: npx -y mcp-remote https://<your-zopnight-mcp-endpoint>/mcp --version
   Fix:   re-install npm package; check Node version (18+)
 
 PROBLEM: "PAT unauthorized"
@@ -225,7 +225,7 @@ PROBLEM: "PAT unauthorized"
 
 PROBLEM: "Tool timeout"
   Cause: org has many resources; default page size is too small
-  Fix:   args: ["-y", "@zopnight/mcp-server", "--timeout=60000"]
+  Fix:   args: ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp", "--timeout=60000"]
   Or:    scope queries with filters (by team, date range)
 
 PROBLEM: "Skill not found"

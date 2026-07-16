@@ -528,19 +528,14 @@ USE BOTH:
   Anomaly for &quot;is something wrong?&quot;
   Catch different scenarios</code></pre>
 <p>The two systems are complementary. Most teams use both.</p>
-<h3 id="severity-bands-per-dimension">Severity bands per dimension</h3>
-<pre><code>DIMENSION         WARNING       CRITICAL      EXTREME
-─────────────────────────────────────────────────────
-org-level         +50%          +100%         +200%
-cloud-account     +75%          +150%         +300%
-resource-group    +100%         +200%         +500%
-resource          +200%         +500%         +1000%
-team              +75%          +150%         +300%
-
-WARNING:    note; don&#39;t page
-CRITICAL:   investigate within hours
-EXTREME:    page on-call; immediate response</code></pre>
-<p>The thresholds are tuned per dimension because expected variance differs (resources have more natural variance than teams).</p>
+<h3 id="severity-bands-one-global-set-not-per-dimension">Severity bands (one global set, not per-dimension)</h3>
+<p>The severity bands are the same for every dimension. There is a single global set of thresholds on percent deviation:</p>
+<pre><code>SEVERITY     PERCENT DEVIATION    RESPONSE
+──────────────────────────────────────────────────────
+warning       30-100%             note; don&#39;t page
+critical      100-500%            investigate within hours
+emergency     &gt; 500%              page on-call; immediate response</code></pre>
+<p>A z-score path runs in parallel (emergency at z >= 5); the higher severity of the two wins. The bands are not tuned per dimension.</p>
 <h3 id="when-dimensions-don-t-help">When dimensions don't help</h3>
 <pre><code>NEW WORKLOADS:
   Insufficient history; anomalies fire too easily

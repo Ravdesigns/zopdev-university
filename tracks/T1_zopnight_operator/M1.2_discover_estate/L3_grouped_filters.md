@@ -91,7 +91,7 @@ The 380+ resource types fall into 9 categories. The Grouped Type dropdown organi
 [ ] Messaging                               9 types
 ```
 
-**Category-level checkbox** ticks every type in the category. **Counts** show how many types are in each category.
+**Category-level checkbox** ticks every type in the category. **Counts** show how many types are in each category. These per-category counts reflect the common, schedulable types surfaced in the dropdown; they are representative, not the full 380+ discovered set, so they do not sum to 380+.
 
 Same component is reused on the Recommendations page for filtering rules by resource type — so muscle memory transfers.
 
@@ -248,7 +248,7 @@ For complex programmatic queries (across many dimensions, scriptable), use the M
 ## Related lessons
 
 - [L4 — Manual start/stop with confirmation](L4_manual_start_stop.md) *(next)*
-- [T2.M2.1 — The 490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
+- [T2.M2.1 — The 450+ rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
 
 ## Glossary terms touched
 

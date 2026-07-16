@@ -39,12 +39,12 @@ SECTIONS:
 A canonical annual report:
 
 ```
-ANNUAL CARBON FOOTPRINT — 2026
+ANNUAL CARBON FOOTPRINT — 2025
 
-TOTAL: 580 tons CO2 equivalent (-15% vs 2025)
+TOTAL: 580 tons CO2 equivalent (-15% vs 2024)
 
 INTENSITY METRICS:
-  Per MAU:       48 kg CO2/MAU (down from 67 kg in 2025; -28%)
+  Per MAU:       48 kg CO2/MAU (down from 67 kg in 2024; -28%)
   Per order:     0.045 kg CO2/order
   Per $1M rev:   12 tons CO2 per $1M revenue (down from 15)
 
@@ -233,19 +233,18 @@ A canonical 5-minute presentation:
 
 ```
 SLIDE 1: Trend headline
-  "2026 cloud carbon: 580 tons CO2 (-15% vs 2025)"
+  "2025 cloud carbon: 580 tons CO2 (-15% vs 2024)"
   
 SLIDE 2: Per-MAU intensity (the efficiency story)
   "2024: 67 kg/MAU
-   2025: 56 kg/MAU
-   2026: 48 kg/MAU
-   Trajectory: -25% in 2 years"
+   2025: 48 kg/MAU
+   Trajectory: -28% year-over-year"
   
 SLIDE 3: Drivers of improvement (what worked)
   "Schedule rollout: -45 tons
-   Region migration: -35 tons
+   Region migration: -25 tons
    Graviton migration: -15 tons
-   Combined: -95 tons in 2025-2026"
+   Combined: -85 tons in 2025"
   
 SLIDE 4: 2026 plan (commitment + ask)
   "Target: 435 tons (-25%)

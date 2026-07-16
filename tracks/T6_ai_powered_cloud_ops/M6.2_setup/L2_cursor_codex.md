@@ -41,7 +41,7 @@ PREREQUISITES:
 3. Configure:
      Name:    zopnight
      Command: npx
-     Args:    -y @zopnight/mcp-server
+     Args:    -y mcp-remote https://<your-zopnight-mcp-endpoint>/mcp
      Env:     ZN_PAT=<your-PAT>, ZN_ORG=<your-org-id>
 4. Save
 5. Restart Cursor (Cmd+Q / File→Quit, then relaunch)
@@ -54,7 +54,7 @@ PREREQUISITES:
 ```
 1. Open Codex → Settings → Extensions → MCP
 2. Add server:
-     zopnight: npx -y @zopnight/mcp-server
+     zopnight: npx -y mcp-remote https://<your-zopnight-mcp-endpoint>/mcp
      Env: ZN_PAT=<your-PAT>, ZN_ORG=<your-org-id>
 3. Restart Codex
 4. Test in Codex chat
@@ -72,7 +72,7 @@ For consistency across team members, use a versioned config file:
   "mcpServers": {
     "zopnight": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-server"],
+      "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
       "env": {
         "ZN_PAT": "${env:ZN_PAT}",
         "ZN_ORG": "${env:ZN_ORG}"
@@ -132,7 +132,7 @@ If all three pass, you're connected. If any fails, see common setup failures bel
 ```
 PROBLEM: "MCP server not found"
   CAUSE: npm package not installed; npx couldn't fetch
-  FIX:   npx -y @zopnight/mcp-server installs on every invocation;
+  FIX:   npx -y mcp-remote https://<your-zopnight-mcp-endpoint>/mcp installs on every invocation;
          verify network and Node 18+
 
 PROBLEM: "Unauthorized"
@@ -148,7 +148,7 @@ PROBLEM: "No tools available"
 PROBLEM: "Tool calls timeout"
   CAUSE: Org has many resources for default page size
   FIX:   Increase MCP server timeout in config:
-         args: ["-y", "@zopnight/mcp-server", "--timeout=60000"]
+         args: ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp", "--timeout=60000"]
          
 PROBLEM: "Permission denied" (file system)
   CAUSE: Config file location not writable
@@ -179,12 +179,12 @@ Engineers working across multiple ZopNight orgs (e.g., one per customer in MSP /
   "mcpServers": {
     "zopnight-customer-a": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-server"],
+      "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
       "env": { "ZN_PAT": "${env:ZN_PAT_A}", "ZN_ORG": "org_a" }
     },
     "zopnight-customer-b": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-server"],
+      "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
       "env": { "ZN_PAT": "${env:ZN_PAT_B}", "ZN_ORG": "org_b" }
     }
   }
@@ -207,7 +207,7 @@ CONTENT:
   "mcpServers": {
     "zopnight": {
       "command": "npx",
-      "args": ["-y", "@zopnight/mcp-server"],
+      "args": ["-y", "mcp-remote", "https://<your-zopnight-mcp-endpoint>/mcp"],
       "env": { "ZN_PAT": "${env:ZN_PAT}", "ZN_ORG": "${env:ZN_ORG}" }
     }
   }

@@ -26,11 +26,11 @@ By the end of this lesson, you will be able to **recognize** how ZopNight's fron
 The ZopNight frontend uses a single hook — `usePermission()` — to decide whether to render an action. The hook reads the policy set encoded in the user's session token, checks against a required `(entity, action)` pair, and returns a boolean. UI components condition their render on the boolean.
 
 ```javascript
-const canApply = usePermission('recommendation:apply')
+const canApply = usePermission('recommendation:update')
 
 return canApply
   ? <ApplyRemediateButton />
-  : <AccessRestrictedHint required="recommendation:apply" />
+  : <AccessRestrictedHint required="recommendation:update" />
 ```
 
 The hook is the convention. Every gated UI element uses it. The result is uniform behavior across the product — every page, every button, every settings section gates with the same primitive.
@@ -86,7 +86,7 @@ ACCESS RESTRICTED
 Your role does not include the permission needed for
 this action.
 
-  Required:   recommendation:apply
+  Required:   recommendation:update
   Your role:  Viewer (no apply permission)
   Your scope: platform team only
   

@@ -112,7 +112,9 @@ CAST AI (K8s only)     Y        N      Y     ← act-only, narrow scope
 Spot.io (K8s + VM)     Y        N      Y     ← act-only, narrow scope
 ```
 
-The CDCR claim is mathematically defensible: a tool that closes the loop saves more, faster, with less human friction, than a tool that surfaces the same data without acting.
+This table uses ZopNight's own definition of "act": general-purpose, cross-cloud, closed-loop remediation. It is a point-in-time view, and the boundaries are ours, not an industry standard: several of these tools do have remediation surfaces, just narrower or differently scoped (the CAST AI and Spot.io rows are examples of act-only but narrow-scope tools). Treat the table as ZopNight's framing of the category, not a neutral scorecard, and check the current parity research before quoting it to a customer.
+
+The underlying CDCR claim still holds: a tool that closes the loop saves more, faster, with less human friction, than one that surfaces the same data without acting.
 
 ### Five things CDCR makes possible
 

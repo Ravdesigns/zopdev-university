@@ -1,4 +1,4 @@
-# M2.1 — The 490-rule library, explained
+# M2.1 — The 450+ rule library, explained
 
 § T2 · M2.1 · Engineer tier · 5 lessons · ~45 min
 
@@ -6,7 +6,7 @@
 
 ## Module outcome
 
-Navigate the 490 recommendation rules. Categorize a finding into the 8 rule categories. Read severity and act accordingly. Understand how the recommender's pricing model produces savings estimates.
+Navigate the 450+ recommendation rules. Categorize a finding into the 8 rule categories. Read severity and act accordingly. Understand how the recommender's pricing model produces savings estimates.
 
 ---
 

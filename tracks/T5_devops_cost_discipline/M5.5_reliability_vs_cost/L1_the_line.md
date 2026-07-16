@@ -30,12 +30,12 @@ RELIABILITY LADDER (typical):
 
 LEVEL              SLO              COST INCREASE     USE CASE
 ─────────────────────────────────────────────────────────────────
-Single-region       99%               baseline          Internal tools, dev
+Single-region       99.9%             baseline          Internal tools, dev
 Multi-AZ            99.95%             +20-50%           Standard production
 Multi-region        99.99%             +100-300%         Critical production
 Active-active       99.999%            +500%+            Extreme business impact
 
-99% → 99.95%: roughly +30%
+99.9% → 99.95%: roughly +30%
 99.95% → 99.99%: roughly +100%
 99.99% → 99.999%: roughly +500%
 

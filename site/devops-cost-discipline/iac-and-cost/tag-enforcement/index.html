@@ -473,7 +473,7 @@ resource &quot;aws_instance&quot; &quot;example&quot; {
   }
   
   lifecycle {
-    precondition {
+    postcondition {
       condition = (
         contains(keys(self.tags), &quot;environment&quot;) &amp;&amp;
         contains(keys(self.tags), &quot;team&quot;) &amp;&amp;
@@ -484,7 +484,7 @@ resource &quot;aws_instance&quot; &quot;example&quot; {
     }
   }
 }</code></pre>
-<p>Three layers compound: defaults set the floor; validation catches typos; preconditions catch missing tags at apply time.</p>
+<p>Three layers compound: defaults set the floor; validation catches typos; postconditions catch missing tags at apply time (self is only valid in postconditions).</p>
 <h3 id="default-tags-inheritance-concrete-behavior">Default tags inheritance — concrete behavior</h3>
 <pre><code class="lang-hcl"># In root module
 provider &quot;aws&quot; {

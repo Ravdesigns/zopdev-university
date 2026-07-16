@@ -250,7 +250,7 @@ A production workload analysis showing the math:
 
 ```
 PROD WORKLOAD: 80 instances 24/7 baseline (no scheduling, no commits)
-COST: $80 × 730 hr × $0.10 = $5,840/mo per 80 = $584/instance/mo
+COST: 1 instance × 730 hr × $0.80/hr = $584/instance/mo
 
 APPROACH A — Commit all 80 instances:
   RIs at 40% discount on all 80

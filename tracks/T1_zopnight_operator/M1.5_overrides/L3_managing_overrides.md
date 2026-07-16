@@ -281,7 +281,7 @@ Override management:
 - **[Group detail](https://app.zopnight.com/resource-groups)** → override details inline
 - **[Audit Log](https://app.zopnight.com/audit-logs)** — full history of override events
 
-For the org-wide guardrail (Max Override Duration), continue to L4.
+For the per-resource guardrail (Max Override Duration), continue to L4.
 
 ---
 

@@ -47,8 +47,8 @@ PERCENT DEVIATION:
   percent deviation: (X - Y) / Y × 100
 
 SEVERITY MAPPING:
-  30-150% deviation:    warning
-  150-500% deviation:   critical
+  30-100% deviation:    warning
+  100-500% deviation:   critical
   > 500% deviation:     emergency
 
 CHARACTERISTICS:
@@ -71,7 +71,11 @@ Z-SCORE:
 SEVERITY MAPPING:
   z >= 2  (95th percentile event):    warning
   z >= 3  (99.7th percentile event):  critical
-  z >= 4  (extreme outlier):           emergency
+  z >= 5  (extreme outlier):           emergency
+
+  NOTE: the z-score path needs at least 14 data points to compute
+  (minDataPointsZScore = 14). A short 7-day series does not qualify;
+  the percent-deviation path (4-point minimum) carries those cases.
 
 CHARACTERISTICS:
   Sensitive to volatility

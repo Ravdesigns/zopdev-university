@@ -449,7 +449,7 @@ AUTH (one-time, opens browser):
   &quot;mcpServers&quot;: {
     &quot;zopnight&quot;: {
       &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
+      &quot;args&quot;: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;https://&lt;your-zopnight-mcp-endpoint&gt;/mcp&quot;],
       &quot;env&quot;: {
         &quot;ZN_PAT&quot;: &quot;${env:ZN_PAT}&quot;,
         &quot;ZN_ORG&quot;: &quot;${env:ZN_ORG}&quot;
@@ -487,7 +487,7 @@ export ZN_ORG=&quot;org_acme123&quot;</code></pre>
     &quot;mcpServers&quot;: {
       &quot;zopnight-prod&quot;: {
         &quot;command&quot;: &quot;npx&quot;,
-        &quot;args&quot;: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;],
+        &quot;args&quot;: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;https://&lt;your-zopnight-mcp-endpoint&gt;/mcp&quot;],
         &quot;env&quot;: {
           &quot;ZN_PAT&quot;: &quot;${env:ZN_PAT_PROD}&quot;,
           &quot;ZN_ORG&quot;: &quot;org_prod&quot;
@@ -561,7 +561,7 @@ The MCP tool calls are safe (read-only), but shell commands
 and file writes deserve case-by-case approval.</code></pre>
 <h3 id="common-issues">Common issues</h3>
 <pre><code>PROBLEM: &quot;MCP server fails to start&quot;
-  Check: npx -y @zopnight/mcp-server --version
+  Check: npx -y mcp-remote https://&lt;your-zopnight-mcp-endpoint&gt;/mcp --version
   Fix:   re-install npm package; check Node version (18+)
 
 PROBLEM: &quot;PAT unauthorized&quot;
@@ -571,7 +571,7 @@ PROBLEM: &quot;PAT unauthorized&quot;
 
 PROBLEM: &quot;Tool timeout&quot;
   Cause: org has many resources; default page size is too small
-  Fix:   args: [&quot;-y&quot;, &quot;@zopnight/mcp-server&quot;, &quot;--timeout=60000&quot;]
+  Fix:   args: [&quot;-y&quot;, &quot;mcp-remote&quot;, &quot;https://&lt;your-zopnight-mcp-endpoint&gt;/mcp&quot;, &quot;--timeout=60000&quot;]
   Or:    scope queries with filters (by team, date range)
 
 PROBLEM: &quot;Skill not found&quot;

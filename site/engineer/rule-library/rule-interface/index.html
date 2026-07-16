@@ -425,7 +425,7 @@
 <p>Every rule in ZopNight implements one or more interfaces. Understanding them clarifies how the recommender works, why some rules need specific data, and what evidence appears in the UI.</p>
 <pre><code>INTERFACE             PURPOSE                        EXAMPLE RULES
 ─────────────────────────────────────────────────────────────────────
-Rule (base)           Core logic; always required    All 490 rules
+Rule (base)           Core logic; always required    All 450+ rules
 MetricsAware          Needs metrics (CPU, etc.)      RC-004, RC-006, RC-202
 PricingAware          Needs per-resource pricing      Most rules with $ savings</code></pre>
 <p>The interfaces are composable — a rule can be just Rule (state-based), or Rule + MetricsAware, or all three.</p>

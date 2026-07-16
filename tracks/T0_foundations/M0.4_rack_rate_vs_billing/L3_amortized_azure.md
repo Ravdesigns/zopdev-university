@@ -90,7 +90,7 @@ Every one of these is a real, repeating customer story.
 
 ### How AWS and GCP differ
 
-AWS does NOT have the same trap. The CUR exposes `lineItem/UnblendedCost`, which already includes amortized reservation cost per resource. AWS Cost Explorer defaults to "Unblended Costs" which is also the amortized view for reservations.
+AWS has the **same** trap, not an exemption. `lineItem/UnblendedCost` is the as-charged number, the AWS equivalent of Azure's ActualCost: an all-upfront or partial-upfront RI posts its fee as a lump sum on the purchase date, and the hours it covers then show **$0 unblended**. That is exactly the per-resource $0 problem Azure has. This is why AWS ships a **separate** amortized view: Cost Explorer's "Amortized costs" toggle, and the CUR's `lineItem/EffectiveCost` (or the `reservation/`/`savingsPlan/` amortized columns), which spread the upfront fee across the covered hours. For per-resource reporting on AWS, use the amortized/EffectiveCost view, not UnblendedCost.
 
 GCP also avoids the trap. CUD discounts are applied at the resource level on the BigQuery billing export. The `cost` column for a CUD-covered Compute Engine VM shows the post-discount amortized cost.
 
@@ -219,7 +219,7 @@ If either shows $0 or labels as ActualCost, escalate — the sync is misconfigur
 
 - [L4 — The two-source cost model](L4_two_source_model.md) *(next)*
 - [L2 — Billing cost and the discount stack](L2_billing_cost.md)
-- [T2.M2.1 — The 490-rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
+- [T2.M2.1 — The 450+ rule library](../../T2_zopnight_engineer/M2.1_rule_library/00_README.md)
 
 ## Glossary terms touched
 

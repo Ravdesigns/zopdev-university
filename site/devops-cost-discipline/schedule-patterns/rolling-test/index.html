@@ -502,7 +502,7 @@ ALWAYS-ON (baseline):
   Effective $/hr utilization: $200 / 16 / 1 = $12.5/hr active
   
 ROLLING (approach 2):
-  Tests run 50 hrs/week (10% of 168 + spin-up overhead)
+  Tests run 50 hrs/week (about 30% of 168 + spin-up overhead)
   Cost: $200 × (50/168) = $60/mo
   Plus: cold-start latency cost
         2 min × 50 test runs/wk × $50/hr = $84/wk engineer time
@@ -598,9 +598,9 @@ without starting first              Or: morning warm-up schedule</code></pre>
 
 BEFORE (always-on):
   Resource: EKS cluster with 6 m5.large nodes
-  Cost: $1,800/mo
+  Cost: $500/mo
   Utilization: ~12% (20 hrs/wk actual testing)
-  Annual: $21,600
+  Annual: $6,000
 
 ROLLING DECISION:
   Pattern: Hybrid (scheduled + API)
@@ -619,14 +619,14 @@ IMPLEMENTATION (1 day of engineering time):
 
 ACTUAL USAGE (after first month):
   Active hours per week: 35 (some weekend testing happens)
-  Cost: $1,800 × (35/168) + baseline 1-node 24/7 cost
-       = $375 + $300
-       = $675/mo
+  Cost: $500 × (35/168) + baseline 1-node 24/7 (1 node ~$67 + EKS control plane ~$73)
+       = $104 + $140
+       = $244/mo
        
-  Vs always-on $1,800/mo
+  Vs always-on $500/mo
   
-SAVINGS: $1,125/mo (~62%)
-ANNUAL SAVINGS: $13,500
+SAVINGS: $256/mo (~51%)
+ANNUAL SAVINGS: $3,072
 
 LATENCY IMPACT:
   Cold-start on ad-hoc tests: 3 minutes typical

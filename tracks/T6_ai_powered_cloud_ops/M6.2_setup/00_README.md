@@ -2,6 +2,8 @@
 
 § T6 · M6.2 · Engineer tier · 4 lessons · ~36 min
 
+> **Connection model.** ZopNight's MCP server is a **hosted** service behind the gateway, not a local npm package. You connect a client to its **remote endpoint** (URL shown in ZopNight, Settings → Integrations → MCP) using your PAT as a bearer header. Stdio-only clients connect through the generic `mcp-remote` bridge (`npx mcp-remote <endpoint>`); clients with native remote-MCP support point at the endpoint directly. L1 has the canonical config; the other lessons follow the same pattern per client.
+
 ## Lessons
 
 | # | Lesson | Time |

@@ -440,7 +440,7 @@
 <h3 id="what-focus-is-in-shape">What FOCUS is, in shape</h3>
 <p>FOCUS is a <strong>column specification</strong>. It defines:</p>
 <ul>
-<li>The set of required columns (about 30 core ones — <code>BilledCost</code>, <code>EffectiveCost</code>, <code>ServiceName</code>, <code>ResourceId</code>, <code>Region</code>, <code>ChargePeriodStart</code>, etc.)</li>
+<li>The set of columns (about 50 in FOCUS 1.0 — <code>BilledCost</code>, <code>EffectiveCost</code>, <code>ServiceName</code>, <code>ResourceId</code>, <code>RegionId</code>, <code>RegionName</code>, <code>ChargePeriodStart</code>, etc.)</li>
 <li>The data types and allowed values</li>
 <li>The semantics of each column (what counts as <code>BilledCost</code> vs <code>EffectiveCost</code>, for instance)</li>
 </ul>
@@ -460,7 +460,7 @@ EffectiveCost             The amortized cost (e.g., reservation distributed)
 ListCost                  What the cost would have been at public list price
 ServiceName               The cloud service (EC2, Compute Engine, Storage)
 ResourceId                Cloud-native identifier of the resource
-Region                    Cloud-native region code
+RegionId / RegionName     Cloud-native region id + display name
 ChargeCategory            &quot;Usage&quot; / &quot;Tax&quot; / &quot;Credit&quot; / &quot;Adjustment&quot;
 ChargePeriodStart / End   The time window the charge covers
 SkuId                     The pricing SKU
@@ -471,7 +471,7 @@ CommitmentDiscountStatus  &quot;Used&quot; / &quot;Unused&quot; / null</code></p
 <li><strong>Microsoft Azure</strong> ships FOCUS-aligned exports natively, opt-in.</li>
 <li><strong>Oracle Cloud</strong> publishes FOCUS-aligned exports.</li>
 <li><strong>Google Cloud</strong> offers FOCUS export from BigQuery billing data.</li>
-<li><strong>AWS</strong> has a published FOCUS converter and a roadmap for native export.</li>
+<li><strong>AWS</strong> ships a native FOCUS 1.0 export through Data Exports (generally available since 2024), so no converter is needed.</li>
 <li><strong>Apptio, IBM, Vantage, CloudHealth</strong> offer FOCUS-formatted output.</li>
 <li><strong>FinOps tools (including ZopNight)</strong> can ingest FOCUS or provider-native and emit FOCUS to a destination warehouse if requested.</li>
 </ul>

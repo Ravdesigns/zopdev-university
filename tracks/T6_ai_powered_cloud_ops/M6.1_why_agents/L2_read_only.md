@@ -40,7 +40,7 @@ READ-ONLY MEANS:
   ✗ delete_audit_log            (does not exist)
 ```
 
-The mutation tools are absent — not blocked, but never present. There is no permission to flip; there is no scope to grant. The agent's mutation capability is zero by construction.
+Write operations are explicitly detected and blocked, not merely omitted. The server inspects each tool call and returns a permission-denied error (CodePermissionDenied) for any write-named operation, so even a malformed or injected write request is rejected in code. There is no permission to flip and no scope to grant: the read-only guarantee is enforced by the server, not left to the absence of a tool.
 
 ### Why this matters — the threat model
 
@@ -91,7 +91,7 @@ This isn't theoretical paranoia — prompt-injection attacks have been demonstra
 Read-only is the foundational layer. ZopNight stacks four more on top:
 
 ```
-LAYER 1: MCP server has no mutation tools
+LAYER 1: MCP server rejects any write-named tool call (permission denied)
          (no path exists)
 
 LAYER 2: PAT scoped to read-only role
@@ -281,7 +281,7 @@ OF THOSE, WHICH HAVE APPROVAL FLOWS:
 
 CONTRAST: ZopNight MCP allows:
   Zero mutations. Read-only by design. No approval flow needed
-  because the mutation tools don't exist.
+  because write operations are rejected in code (permission denied).
 
 YOUR CISO'S LIKELY REACTION to read-only MCP:
   □ Positive (no scary mutations)
@@ -299,7 +299,7 @@ For most orgs, the read-only contract is a feature; it lets you say "yes" to AI 
 ZopNight's MCP server allows mutations if:
 
 A. PAT is admin-scoped
-B. Never. Mutations don't exist as tools — the path is absent, not blocked. Hardcoded into the protocol implementation; not configurable. This is the architectural foundation; M6.6 covers possible future evolution.
+B. Never. Write operations are detected and rejected in code (a permission-denied error on any write-named tool call), not merely omitted. Hardcoded into the server; not configurable. This is the architectural foundation; M6.6 covers possible future evolution.
 C. Random
 D. Customer opts in
 

@@ -518,7 +518,7 @@ LESSON: wait 60-90 days post-launch before committing.</code></pre>
     Commitment B: ____%
     Commitment C: ____%
   
-  Any below break-even (1 / (1 + d))?
+  Any below break-even utilization (1 - d)?
     Yes → losing money vs on-demand; remediate immediately</code></pre>
 <h3 id="detection-in-zopnight">Detection in ZopNight</h3>
 <p>ZopNight surfaces under-utilization in:</p>
@@ -578,9 +578,11 @@ WAITING for renewal to remediate            Some remediations work
 
 DISCOVERY:
   Reports → Purchase Type shows m5.large RIs at 35% utilization
-  Effective discount: 40% × 0.35 = 14%
-  Break-even check: 1 / (1 + 0.40) = 71.4% required coverage
-  Current: 35% → losing money vs on-demand
+  Break-even utilization for a 40% RI: 1 - 0.40 = 60%
+  Current: 35% &lt; 60% → the commitment LOSES money vs on-demand.
+  You pay the committed rate on 100% of the hours but use only 35%;
+  the overpayment on unused hours exceeds the discount earned. This
+  is a net loss, not a smaller gain.
   
 INVESTIGATION:
   Workload migrated to m6i.large in March (improved performance)

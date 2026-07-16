@@ -430,7 +430,7 @@ SCHEDULE             schedule:S1234 (business-hours-eu)   Cron in this schedule 
 MANUAL               manual:user@team.com                  Human action via UI or API
 OVERRIDE             override-applied: force-on...        Override took effect
                      override-expired                      Override timed out
-AUTO-REMEDIATION     auto-rem:RC-001 (Idle EC2)            Recommendation rule fired
+AUTO-REMEDIATION     auto-rem:RC-002 (Orphaned EBS)            Recommendation rule fired
 DRIFT                drift: cloud-side                    Cloud state changed outside ZopNight</code></pre>
 <p>Each value is rich enough to investigate without further lookup. The schedule ID + name lets you click through to the schedule. The user email identifies who acted. The rule ID identifies the recommendation.</p>
 <h3 id="reading-schedule-triggers">Reading SCHEDULE triggers</h3>
@@ -461,12 +461,13 @@ DRIFT                drift: cloud-side                    Cloud state changed ou
                                            (Override:O5678)</code></pre>
 <p>Two related entries: when an override took effect and when it expired. Notice the second entry says "unchanged" — override expiry doesn't transition state; it just allows the schedule to act on the next cron.</p>
 <h3 id="reading-auto-remediation-triggers">Reading AUTO-REMEDIATION triggers</h3>
-<pre><code>2026-05-18 03:14 ET   Running → Stopped   auto-rem:RC-001 (Idle EC2)
-                                           (Recommendation:R-9999)</code></pre>
+<pre><code>2026-05-18 03:14 ET   Available → Deleted   auto-rem:RC-002 (Orphaned EBS)
+                                            (Recommendation:R-9999)</code></pre>
 <ul>
-<li>Recommendation rule <code>RC-001</code> (Idle EC2) fired auto-remediation</li>
-<li>The transition stops the resource</li>
+<li>Recommendation rule <code>RC-002</code> (Orphaned EBS volume) fired auto-remediation</li>
+<li>The volume carried authoritative orphan evidence, so the delete ran</li>
 <li>Click through to the recommendation card to see the evidence</li>
+<li>(RC-001 Idle EC2 is advisory-only and never auto-remediates: it fires on already-stopped instances and recommends termination, so it is not an auto-rem example)</li>
 </ul>
 <p>Auto-remediation is a specific class of event — covered fully in <a href="../../T2_zopnight_engineer/M2.3_auto_remediation/00_README.md">T2.M2.3</a>. Visible to operators here for awareness.</p>
 <h3 id="reading-drift-triggers">Reading DRIFT triggers</h3>
