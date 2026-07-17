@@ -1,4 +1,4 @@
-# Track 1 — ZopNight Operator
+# Track 1 — ZopDev Certified: Operator
 
 § T1 · Operator tier · ZopNight blue · No prior ZopNight experience required · ~4.5 hours
 
@@ -56,7 +56,7 @@ This track assumes you have completed **Track 0 — Cloud Cost Foundations**, or
 
 ## What's next
 
-After this track you can take the **Operator certification exam** (free, 20 questions, 30 min, mixed coverage of T0 + T1). Or continue into [Track 2 — ZopNight Engineer](../T2_zopnight_engineer/00_README.md) for the rules / autoscaling / K8s depth.
+After this track you can take the **Operator certification exam** (free, 20 questions, 30 min, mixed coverage of T0 + T1). Or continue into [Track 2 — ZopDev Certified: Engineer](../T2_zopnight_engineer/00_README.md) for the rules / autoscaling / K8s depth.
 
 ---
 

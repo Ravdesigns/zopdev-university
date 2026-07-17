@@ -1,4 +1,4 @@
-# Track 2 — ZopNight Engineer
+# Track 2 — ZopDev Certified: Engineer
 
 § T2 · Engineer tier · ZopNight blue · 54 lessons across 11 modules · ~8 hours
 
@@ -37,7 +37,7 @@ Operator certification (T0 + T1) recommended. The track assumes familiarity with
 
 ## What's next
 
-After this track, take the **Engineer certification exam** (40 MCQs + 1 graded lab). Or continue to [Track 3 — ZopNight Architect](../T3_zopnight_architect/00_README.md).
+After this track, take the **Engineer certification exam** (40 MCQs + 1 graded lab). Or continue to [Track 3 — ZopDev Certified: Architect](../T3_zopnight_architect/00_README.md).
 
 ---
 

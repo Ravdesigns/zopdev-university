@@ -39,4 +39,4 @@ The CDCR loop: detect → classify → remediate (or alert) → verify → re-de
 
 ## What's next
 
-Complete Track 0 by taking the [Operator certification exam](../../../certifications/operator/00_README.md) (free, 20 questions, 30 min). Or continue straight to [Track 1 — ZopNight Operator](../../T1_zopnight_operator/00_README.md) to learn the product.
+Complete Track 0 by taking the [Operator certification exam](../../../certifications/operator/00_README.md) (free, 20 questions, 30 min). Or continue straight to [Track 1 — ZopDev Certified: Operator](../../T1_zopnight_operator/00_README.md) to learn the product.

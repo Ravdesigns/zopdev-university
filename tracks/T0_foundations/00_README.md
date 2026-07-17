@@ -56,7 +56,7 @@ You will not use ZopNight in this track. The product walkthroughs start in Track
 
 ## What's next
 
-After this track you can take the **Operator certification exam** (free, 20 questions, 30 min). Or you can go straight into [Track 1 — ZopNight Operator](../T1_zopnight_operator/) and learn the product.
+After this track you can take the **Operator certification exam** (free, 20 questions, 30 min). Or you can go straight into [Track 1 — ZopDev Certified: Operator](../T1_zopnight_operator/) and learn the product.
 
 If you're not sure where to start, take the [path picker](../../../README.md#paths) — it routes you to the right sequence based on your role.
 

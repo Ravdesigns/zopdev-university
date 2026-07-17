@@ -54,7 +54,7 @@ const TRACKS = [
   {
     id: 'T1', code: 'T1', slug: 'operator',
     dir: 'T1_zopnight_operator',
-    title: 'ZopNight Operator',
+    title: 'ZopDev Certified: Operator',
     short: 'Operator',
     eyebrow: 'Course / Operator',
     tier: 'Operator',
@@ -65,7 +65,7 @@ const TRACKS = [
   {
     id: 'T2', code: 'T2', slug: 'engineer',
     dir: 'T2_zopnight_engineer',
-    title: 'ZopNight Engineer',
+    title: 'ZopDev Certified: Engineer',
     short: 'Engineer',
     eyebrow: 'Course / Engineer',
     tier: 'Engineer',
@@ -76,7 +76,7 @@ const TRACKS = [
   {
     id: 'T3', code: 'T3', slug: 'architect',
     dir: 'T3_zopnight_architect',
-    title: 'ZopNight Architect',
+    title: 'ZopDev Certified: Architect',
     short: 'Architect',
     eyebrow: 'Course / Architect',
     tier: 'Architect',
@@ -914,12 +914,15 @@ function universityNav(opts = {}) {
           <span class="uni-caret" aria-hidden="true"></span>
         </button>
         <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <div class="uni-dropdown-section" role="presentation">Credentials</div>
           <a href="${BASE}/certifications/#operator" role="menuitem">Operator</a>
           <a href="${BASE}/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="${BASE}/certifications/#architect" role="menuitem">Architect</a>
+          <div class="uni-dropdown-divider" role="separator"></div>
+          <div class="uni-dropdown-section" role="presentation">Prepare &amp; verify</div>
           <a href="${BASE}/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
           <a href="${BASE}/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
-          <a href="${BASE}/certifications/architect/prep/" role="menuitem">Architect prep</a>
+          <a href="${BASE}/certifications/architect/prep/" role="menuitem">Architect preparation</a>
           <a href="${BASE}/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="${BASE}/certifications/verify/" role="menuitem">Verify a credential</a>
           <a href="${BASE}/certifications/registry/" role="menuitem">Public registry</a>
@@ -1426,9 +1429,9 @@ ${JSON.stringify({
   "inLanguage": "en-US",
   "occupationalCategory": ["Platform Engineer", "FinOps Analyst", "Engineering Leader", "Cloud Architect"],
   "educationalCredentialAwarded": [
-    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Operator", "credentialCategory": "certification"},
-    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Engineer", "credentialCategory": "certification"},
-    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Architect", "credentialCategory": "certification"}
+    {"@type": "EducationalOccupationalCredential", "name": "ZopDev Certified: Operator", "credentialCategory": "certification"},
+    {"@type": "EducationalOccupationalCredential", "name": "ZopDev Certified: Engineer", "credentialCategory": "certification"},
+    {"@type": "EducationalOccupationalCredential", "name": "ZopDev Certified: Architect", "credentialCategory": "certification"}
   ],
   "numberOfCredits": 237,
   "timeToComplete": "P45H",
@@ -1686,21 +1689,21 @@ function renderLanding(tracks) {
       <a href="${BASE}/certifications/#operator" class="lp-cert-card">
         <div class="lp-cert-seal-wrap">${certSeal('operator', { size: 'large' })}</div>
         <div class="lp-cert-tier">Tier I</div>
-        <h3 class="lp-cert-name">ZopNight Operator</h3>
+        <h3 class="lp-cert-name">ZopDev Certified: Operator</h3>
         <p class="lp-cert-blurb">Run ZopNight in production. Connect, schedule, route, audit.</p>
         <div class="lp-cert-stats"><span>30-min exam</span><span>80% to pass</span></div>
       </a>
       <a href="${BASE}/certifications/#engineer" class="lp-cert-card">
         <div class="lp-cert-seal-wrap">${certSeal('engineer', { size: 'large' })}</div>
         <div class="lp-cert-tier">Tier II</div>
-        <h3 class="lp-cert-name">ZopNight Engineer</h3>
+        <h3 class="lp-cert-name">ZopDev Certified: Engineer</h3>
         <p class="lp-cert-blurb">Shape the cost surface. Rules, K8s scheduling, ML inference.</p>
         <div class="lp-cert-stats"><span>45-min exam</span><span>80% to pass</span></div>
       </a>
       <a href="${BASE}/certifications/#architect" class="lp-cert-card">
         <div class="lp-cert-seal-wrap">${certSeal('architect', { size: 'large' })}</div>
         <div class="lp-cert-tier">Tier III</div>
-        <h3 class="lp-cert-name">ZopNight Architect</h3>
+        <h3 class="lp-cert-name">ZopDev Certified: Architect</h3>
         <p class="lp-cert-blurb">Own the practice. RBAC, audit, FinOps framework, AI ops.</p>
         <div class="lp-cert-stats"><span>60-min exam</span><span>75% to pass</span></div>
       </a>
@@ -2299,102 +2302,52 @@ function tierMarkSVG(tier) {
   return '';
 }
 
-function tierBadgeGraphic(tier) {
-  // Enhanced central graphics per tier. Each one is a rich composition rather
-  // than just a Roman numeral: tier-specific architecture in cream over the
-  // drenched tier-color fill. viewBox 0 0 240 240.
-  if (tier === 'operator') {
-    // I: one serif Roman column. Cream cap-rules above and below give the
-    // foundation column weight; flanking compass ticks frame it as a single
-    // calibrated unit; two marker dots float above as targeting points.
-    return `<svg class="badge-graphic" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
-      <circle class="bg-marker" cx="105" cy="22" r="2.5"/>
-      <circle class="bg-marker" cx="135" cy="22" r="2.5"/>
-      <line class="bg-tick" x1="14" y1="120" x2="48" y2="120"/>
-      <line class="bg-tick" x1="192" y1="120" x2="226" y2="120"/>
-      <rect class="bg-rule" x="80" y="48" width="80" height="6"/>
-      <rect class="bg-block" x="104" y="54" width="32" height="132"/>
-      <rect class="bg-rule" x="80" y="186" width="80" height="6"/>
-    </svg>`;
-  }
-  if (tier === 'engineer') {
-    // II: two serif Roman columns. Cap-rules above and below each bar give
-    // proper Roman-numeral weight. A 4x4 sparse dot grid backdrop suggests
-    // the systems lattice. NO bridge — the eye reads "II" cleanly.
-    return `<svg class="badge-graphic" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
-      <g class="bg-dots">
-        <circle cx="32"  cy="32"  r="2"/>
-        <circle cx="208" cy="32"  r="2"/>
-        <circle cx="32"  cy="208" r="2"/>
-        <circle cx="208" cy="208" r="2"/>
-        <circle cx="32"  cy="120" r="2"/>
-        <circle cx="208" cy="120" r="2"/>
-        <circle cx="120" cy="32"  r="2"/>
-        <circle cx="120" cy="208" r="2"/>
-      </g>
-      <line class="bg-tick" x1="14" y1="120" x2="40" y2="120"/>
-      <line class="bg-tick" x1="200" y1="120" x2="226" y2="120"/>
-      <rect class="bg-rule" x="60"  y="48" width="56" height="6"/>
-      <rect class="bg-rule" x="124" y="48" width="56" height="6"/>
-      <rect class="bg-block" x="76"  y="54" width="24" height="132"/>
-      <rect class="bg-block" x="140" y="54" width="24" height="132"/>
-      <rect class="bg-rule" x="60"  y="186" width="56" height="6"/>
-      <rect class="bg-rule" x="124" y="186" width="56" height="6"/>
-    </svg>`;
-  }
-  if (tier === 'architect') {
-    // III: three serif Roman columns inside a cream surveyor frame. Each
-    // column gets cap-rules. The frame is breached by 4 axis ticks at the
-    // compass points, with corner anchors and a faint crosshair behind.
-    return `<svg class="badge-graphic" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
-      <rect class="bg-frame" x="32" y="32" width="176" height="176"/>
-      <line class="bg-tick" x1="2" y1="120" x2="32" y2="120"/>
-      <line class="bg-tick" x1="208" y1="120" x2="238" y2="120"/>
-      <line class="bg-tick" x1="120" y1="2" x2="120" y2="32"/>
-      <line class="bg-tick" x1="120" y1="208" x2="120" y2="238"/>
-      <line class="bg-crosshair" x1="96" y1="120" x2="144" y2="120"/>
-      <line class="bg-crosshair" x1="120" y1="96" x2="120" y2="144"/>
-      <rect class="bg-rule" x="46"  y="60" width="40" height="5"/>
-      <rect class="bg-rule" x="100" y="60" width="40" height="5"/>
-      <rect class="bg-rule" x="154" y="60" width="40" height="5"/>
-      <rect class="bg-block" x="56"  y="65" width="20" height="110"/>
-      <rect class="bg-block" x="110" y="65" width="20" height="110"/>
-      <rect class="bg-block" x="164" y="65" width="20" height="110"/>
-      <rect class="bg-rule" x="46"  y="175" width="40" height="5"/>
-      <rect class="bg-rule" x="100" y="175" width="40" height="5"/>
-      <rect class="bg-rule" x="154" y="175" width="40" height="5"/>
-      <rect class="bg-corner" x="28"  y="28"  width="8" height="8"/>
-      <rect class="bg-corner" x="204" y="28"  width="8" height="8"/>
-      <rect class="bg-corner" x="28"  y="204" width="8" height="8"/>
-      <rect class="bg-corner" x="204" y="204" width="8" height="8"/>
-    </svg>`;
-  }
-  return '';
+// Shield credential badge (V2). Real ZopDev mark (three-square blue/orange/
+// green). Orange reserved for the Architect pinnacle. Self-contained inline SVG
+// that scales to its container; the same artwork is written to
+// /assets/badges/<tier>.svg for download.
+function certBadgeSVG(tier) {
+  const T = {
+    operator:  { name: 'Operator',  num: 'I',   blurb: 'Operate the platform',     accent: '#7FB236' }, // green
+    engineer:  { name: 'Engineer',  num: 'II',  blurb: 'Build cost-aware systems',  accent: '#2A4494' }, // blue
+    architect: { name: 'Architect', num: 'III', blurb: 'Design the practice',       accent: '#F58549' }, // orange (pinnacle)
+  };
+  const d = T[tier] || T.operator;
+  const PAPER = '#FAF7EC', BLUE = '#2A4494', ORANGE = '#F58549', GREEN = '#7FB236', INK = '#0A0A0A';
+  const FH = "'Space Grotesk','Helvetica Neue',Arial,sans-serif";
+  const FM = "'JetBrains Mono','SF Mono',Menlo,monospace";
+  const W = 340, H = 440, sx = 40, sw = W - 80, cx = W / 2;
+  const shieldPath = `M${sx},70 L${sx + sw},70 L${sx + sw},300 Q${sx + sw},360 ${cx},400 Q${sx},360 ${sx},300 Z`;
+  const nameSize = d.name.length > 8 ? 34 : 40;
+  // Real ZopDev mark: three squares — blue TL, orange TR, green BR — shown in a
+  // cream chip so the true colors read on any tier-colored band (Stripe-style
+  // logo panel on a colored card).
+  const m = 11, g = 2.5, chipW = 2 * m + g + 20, chipH = 2 * m + g + 20;
+  const chipX = cx - chipW / 2, chipY = 70 + (48 - chipH) / 2;
+  const mx = chipX + 10, my = chipY + 10;
+  const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" fill="${PAPER}"/>` +
+    `<g transform="translate(${mx},${my})">` +
+    `<rect x="0" y="0" width="${m}" height="${m}" fill="${BLUE}"/>` +
+    `<rect x="${m + g}" y="0" width="${m}" height="${m}" fill="${ORANGE}"/>` +
+    `<rect x="${m + g}" y="${m + g}" width="${m}" height="${m}" fill="${GREEN}"/></g>`;
+  return `<svg class="cert-badge-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="ZopDev Certified: ${d.name} badge" xmlns="http://www.w3.org/2000/svg">
+  <path d="${shieldPath}" fill="${PAPER}" stroke="${d.accent}" stroke-width="2.5"/>
+  <path d="M${sx},70 L${sx + sw},70 L${sx + sw},118 L${sx},118 Z" fill="${d.accent}"/>
+  ${chip}
+  <text x="${cx}" y="150" text-anchor="middle" font-family="${FH}" font-size="16" font-weight="700" fill="${INK}">zopdev <tspan font-family="${FM}" font-size="10" font-weight="400" letter-spacing="1.5" fill="${INK}" fill-opacity="0.55">UNIVERSITY</tspan></text>
+  <text x="${cx}" y="206" text-anchor="middle" font-family="${FH}" font-size="${nameSize}" font-weight="700" fill="${INK}">${d.name}</text>
+  <text x="${cx}" y="234" text-anchor="middle" font-family="${FM}" font-size="11" letter-spacing="1" fill="${INK}" fill-opacity="0.55">CERTIFIED · TIER ${d.num}</text>
+  <line x1="${cx - 40}" y1="256" x2="${cx + 40}" y2="256" stroke="${d.accent}" stroke-width="3"/>
+  <text x="${cx}" y="296" text-anchor="middle" font-family="${FH}" font-size="13" fill="${INK}" fill-opacity="0.6">${d.blurb}</text>
+  <text x="${cx}" y="356" text-anchor="middle" font-family="${FH}" font-size="34" font-weight="700" fill="${d.accent}" fill-opacity="0.16">${d.num}</text>
+</svg>`;
 }
 
 function certSeal(tier, opts = {}) {
   const { size = 'medium' } = opts;
-  const TIERS = {
-    operator: { label: 'Operator',  num: 'I',   accent: 'seal-accent-green' },
-    engineer: { label: 'Engineer',  num: 'II',  accent: 'seal-accent-blue' },
-    architect:{ label: 'Architect', num: 'III', accent: 'seal-accent-orange' },
-  };
-  const d = TIERS[tier] || TIERS.operator;
-  return `<article class="cert-seal cert-seal-${size} ${d.accent} cert-seal-${tier}" aria-label="ZopDev University ${d.label} badge">
-  <span class="seal-vignette" aria-hidden="true"></span>
-  <span class="seal-frame" aria-hidden="true"></span>
-  <svg class="seal-mini-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-    <rect width="32" height="32" fill="#F0EBDB"/>
-    <circle cx="16" cy="16" r="8" fill="currentColor"/>
-  </svg>
-  <div class="seal-graphic">${tierBadgeGraphic(tier)}</div>
-  <div class="seal-label-row">
-    <span class="seal-label-rule" aria-hidden="true"></span>
-    <h3 class="seal-label">${d.label}</h3>
-    <span class="seal-label-rule" aria-hidden="true"></span>
-  </div>
-  <span class="seal-tier-num" aria-hidden="true">${d.num}</span>
-</article>`;
+  const labels = { operator: 'Operator', engineer: 'Engineer', architect: 'Architect' };
+  const label = labels[tier] || 'Operator';
+  return `<div class="cert-badge cert-badge-${size}" role="img" aria-label="ZopDev Certified: ${label} badge">${certBadgeSVG(tier)}</div>`;
 }
 
 // Generate a deterministic verifiable credential ID for sample cert
@@ -2411,10 +2364,10 @@ function sampleCredentialId(tier) {
 function sampleCredentialData(tier) {
   return ({
     operator: {
-      tier, tierLabel: 'Operator', tierTitle: 'ZopNight Operator',
-      title: 'Tier I / ZopNight Operator',
+      tier, tierLabel: 'Operator', tierTitle: 'ZopDev Certified: Operator',
+      title: 'Tier I / ZopDev Certified: Operator',
       blurb: 'has demonstrated the ability to operate ZopNight in production: connect clouds, discover resources, build schedules, route notifications, and audit every action.',
-      coverage: 'Cloud Cost Foundations (T0) + ZopNight Operator (T1)',
+      coverage: 'Cloud Cost Foundations (T0) + ZopDev Certified: Operator (T1)',
       examLength: '30 minutes',
       questions: '20 questions',
       passScore: '80%',
@@ -2424,10 +2377,10 @@ function sampleCredentialData(tier) {
       issuer: 'ZopDev University Editorial Board',
     },
     engineer: {
-      tier, tierLabel: 'Engineer', tierTitle: 'ZopNight Engineer',
-      title: 'Tier II / ZopNight Engineer',
+      tier, tierLabel: 'Engineer', tierTitle: 'ZopDev Certified: Engineer',
+      title: 'Tier II / ZopDev Certified: Engineer',
       blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 450+ rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
-      coverage: 'ZopNight Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
+      coverage: 'ZopDev Certified: Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
       examLength: '60 minutes',
       questions: '40 questions',
       passScore: '75%',
@@ -2437,10 +2390,10 @@ function sampleCredentialData(tier) {
       issuer: 'ZopDev University Editorial Board',
     },
     architect: {
-      tier, tierLabel: 'Architect', tierTitle: 'ZopNight Architect',
-      title: 'Tier III / ZopNight Architect',
+      tier, tierLabel: 'Architect', tierTitle: 'ZopDev Certified: Architect',
+      title: 'Tier III / ZopDev Certified: Architect',
       blurb: 'has demonstrated the ability to own the cost-discipline practice for a multi-cloud organization: multi-org RBAC, audit log architecture, SOC 2 / ISO 27001 posture, FinOps Foundation framework, forecasting, commitments, and AI-powered ops via MCP.',
-      coverage: 'ZopNight Architect (T3) + FinOps Mastery (T4) + AI-Powered Cloud Ops (T6)',
+      coverage: 'ZopDev Certified: Architect (T3) + FinOps Mastery (T4) + AI-Powered Cloud Ops (T6)',
       examLength: '60 minutes',
       questions: '40 questions',
       passScore: '75%',
@@ -2495,7 +2448,7 @@ function credentialArtwork(tier, data) {
       <div class="credential-name-rule"></div>
       <div class="credential-blurb">${escapeHTML(data.blurb)}</div>
       <div class="credential-award-row">
-        <div class="credential-award">has been awarded the title of</div>
+        <div class="credential-award">has earned the credential</div>
         <div class="credential-title">${escapeHTML(data.tierTitle)}</div>
       </div>
     </div>
@@ -3068,7 +3021,7 @@ const EXAM_BLUEPRINTS = {
     minutes: 60,
     note: 'This practice covers the 40-question multiple-choice portion. The real Engineer exam also includes a graded, hands-on sandbox lab.',
     blueprint: [
-      { topic: 'T2', label: 'ZopNight Engineer (Track 2)',      count: 20 },
+      { topic: 'T2', label: 'ZopDev Certified: Engineer (Track 2)',      count: 20 },
       { topic: 'T4', label: 'FinOps Mastery (Track 4)',         count: 11 },
       { topic: 'T5', label: 'DevOps Cost Discipline (Track 5)', count: 6 },
       { topic: 'T6', label: 'AI-Powered Cloud Ops (Track 6)',   count: 3 },
@@ -3412,13 +3365,13 @@ function renderArchitectPrep() {
     <a href="/resources/">Resources</a><span class="sep">›</span>
     <a href="${BASE}/">University</a><span class="sep">›</span>
     <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
-    <span class="current">Architect prep</span>
+    <span class="current">Architect preparation</span>
   </div>
 </section>
 
 <section class="track-hero">
   <div class="container">
-    <div class="track-hero-meta">Certification prep / Application-based</div>
+    <div class="track-hero-meta">Certification preparation / Application-based</div>
     <h1>How to prepare for the Architect credential.</h1>
     ${outcome ? `<p class="track-hero-lead">${escapeHTML(stripMarkdown(outcome))}</p>` : ''}
     <p class="track-hero-lead exam-note">The Architect credential is not a multiple-choice exam. It is an application, a one-week take-home design exercise, and a 45-minute review interview with the editorial board. This page is the preparation guide, drawn from the certification brief.</p>
@@ -3445,7 +3398,7 @@ function renderArchitectPrep() {
 </section>`;
 
   return pageHTML({
-    title: 'Architect certification prep / ZopDev University',
+    title: 'Architect certification preparation / ZopDev University',
     description: 'How to prepare for the ZopDev University Architect credential: the application, the take-home design exercise, and the review interview.',
     canonical: 'https://zop.dev/resources/university/certifications/architect/prep/',
     uniNav: 'certifications',
@@ -3507,13 +3460,14 @@ function renderCertifications(tracks) {
     <div class="sec-head">
       <div class="sec-meta">Tier I / Operator</div>
       <div>
-        <h2>ZopNight Operator</h2>
+        <h2>ZopDev Certified: Operator</h2>
         <p class="sub">For whoever runs ZopNight day to day.</p>
       </div>
     </div>
     <article class="cert-card cert-card-with-seal cert-card-operator">
       <aside class="cert-card-seal">
         ${certSeal('operator', { size: 'medium' })}
+        <a class="cert-badge-dl" href="${BASE}/assets/badges/operator.svg" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier I</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -3579,13 +3533,14 @@ function renderCertifications(tracks) {
     <div class="sec-head">
       <div class="sec-meta">Tier II / Engineer</div>
       <div>
-        <h2>ZopNight Engineer</h2>
+        <h2>ZopDev Certified: Engineer</h2>
         <p class="sub">For engineers building cost-aware systems.</p>
       </div>
     </div>
     <article class="cert-card cert-card-with-seal cert-card-engineer">
       <aside class="cert-card-seal">
         ${certSeal('engineer', { size: 'medium' })}
+        <a class="cert-badge-dl" href="${BASE}/assets/badges/engineer.svg" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier II</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -3652,13 +3607,14 @@ function renderCertifications(tracks) {
     <div class="sec-head">
       <div class="sec-meta">Tier III / Architect</div>
       <div>
-        <h2>ZopNight Architect</h2>
+        <h2>ZopDev Certified: Architect</h2>
         <p class="sub">For platform leads owning the cost-discipline practice.</p>
       </div>
     </div>
     <article class="cert-card cert-card-with-seal cert-card-architect">
       <aside class="cert-card-seal">
         ${certSeal('architect', { size: 'medium' })}
+        <a class="cert-badge-dl" href="${BASE}/assets/badges/architect.svg" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier III</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -3798,7 +3754,7 @@ for (const tier of ['operator', 'engineer']) {
   pageCount++;
 }
 
-// Architect prep guide (this tier is application-based, no MCQ exam)
+// Architect preparation guide (this tier is application-based, no MCQ exam)
 writeFile(path.join(SITE_DIR, 'certifications', 'architect', 'prep', 'index.html'), renderArchitectPrep());
 pageCount++;
 
@@ -4438,6 +4394,14 @@ const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/>
 </svg>`;
 writeFile(path.join(SITE_DIR, 'assets', 'favicon.svg'), favicon);
+
+// Downloadable credential badges — same artwork as the inline shields
+// (certBadgeSVG is the single source), written with an XML prolog so they are
+// valid standalone .svg files.
+for (const tier of ['operator', 'engineer', 'architect']) {
+  writeFile(path.join(SITE_DIR, 'assets', 'badges', `${tier}.svg`),
+    `<?xml version="1.0" encoding="UTF-8"?>\n${certBadgeSVG(tier).replace('<svg ', '<svg width="340" height="440" ')}`);
+}
 
 // =============================================================
 // VERCEL CONFIG

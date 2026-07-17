@@ -231,7 +231,7 @@ You have completed Track 0 — Cloud Cost Foundations.
 
 **Operator certification.** Take the [Operator certification exam](../../../certifications/operator/00_README.md) (free, 20 questions, 30 min, open-book). Pass to earn the **ZopDev Operator** digital badge, shareable to LinkedIn.
 
-**Or go deeper.** Continue to [Track 1 — ZopNight Operator](../../T1_zopnight_operator/00_README.md) to learn the product, or jump to a [role-based path](../../../paths/00_README.md) curated for your role.
+**Or go deeper.** Continue to [Track 1 — ZopDev Certified: Operator](../../T1_zopnight_operator/00_README.md) to learn the product, or jump to a [role-based path](../../../paths/00_README.md) curated for your role.
 
 ---
 

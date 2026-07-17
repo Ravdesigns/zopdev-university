@@ -15,7 +15,7 @@ PHASE 1 — FOUNDATION (4 hours)
 3. T0.M0.5 — Multi-cloud taxonomy (all 4)
 
 PHASE 2 — PRODUCT (4 hours)
-4. T1 — ZopNight Operator (all 28 lessons)
+4. T1 — ZopDev Certified: Operator (all 28 lessons)
 
 CHECKPOINT: take Operator certification.
 
