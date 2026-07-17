@@ -96,17 +96,17 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css?v=a83b9c5390">
+<link rel="stylesheet" href="/assets/styles.css?v=06cb57ff0b">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
-  // Site is dark-mode-only â lock the theme attribute before paint.
+  // Site is dark-mode-only — lock the theme attribute before paint.
   document.documentElement.setAttribute('data-theme', 'dark');
 </script>
 </head>
 <body class="">
 <a href="#main" class="skip-link">Skip to content</a>
 
-<!-- Brand-mark symbol defs Â· canonical from zop.dev homepage. Defined once
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
      per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
      in nav, footer, or content resolves correctly. -->
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
@@ -145,7 +145,7 @@
 </svg>
 
 
-<!-- OG marketing-site nav Â· mirror of /Users/zopdev/zopdev-site/index.html -->
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
 <nav class="nav" aria-label="Primary navigation">
   <div class="container nav-inner">
     <a href="/" class="logo-lockup sm" aria-label="ZopDev">
@@ -192,7 +192,7 @@
         </div>
       </div>
       <a class="sign" href="/signin/">Sign In</a>
-      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">â</span></a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
     </div>
     <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
   </div>
@@ -208,7 +208,7 @@
   </div>
   <div class="nav-drawer-cta">
     <a href="/signin/" class="sign">Sign in</a>
-    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">â</span></a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
   </div>
 </div>
 <script>
@@ -323,7 +323,7 @@
   });
 })();
 
-/* Inline search Â· loads lessons.json once, live-filters into a small panel. */
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
 (function(){
   var input = document.querySelector('.uni-search-input');
   var panel = document.getElementById('uni-search-panel');
@@ -381,11 +381,11 @@
 
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">âº</span>
-    <a href="/resources/">Resources</a><span class="sep">âº</span>
-    <a href="/">University</a><span class="sep">âº</span>
-    <a href="/operator/">Operator</a><span class="sep">âº</span>
-    <a href="/operator/discover-estate/">Discover Estate</a><span class="sep">âº</span>
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <a href="/operator/">Operator</a><span class="sep">›</span>
+    <a href="/operator/discover-estate/">Discover Estate</a><span class="sep">›</span>
     <span class="current">Grouped account + grouped type filters</span>
   </div>
 </section>
@@ -397,7 +397,7 @@
       <nav>
 <a href="/operator/discover-estate/what-gets-discovered/" class="">
   <span class="num">L1</span>
-  <span>What gets discovered (380+ types) and â¦</span>
+  <span>What gets discovered (380+ types) and …</span>
 </a>
 <a href="/operator/discover-estate/parent-child/" class="">
   <span class="num">L2</span>
@@ -413,14 +413,14 @@
 </a>
 <a href="/operator/discover-estate/stale-discovery/" class="">
   <span class="num">L5</span>
-  <span>When discovery is stale — the refresh â¦</span>
+  <span>When discovery is stale — the refresh …</span>
 </a></nav>
     </aside>
 
     <article class="lesson-content">
       <header class="lesson-header">
         <div class="lesson-id">
-          <span>T1 / M1.2 / L3</span>
+          <span>T1 / M1.2 / L3 of 5 / Operator tier / 10 min</span>
         </div>
         <h1>Grouped account + grouped type filters</h1>
       </header>
@@ -442,21 +442,22 @@
 <p>The Resources page exposes a small number of filter dropdowns, each carrying significant power. Two are worth understanding deeply: <strong>Grouped Account</strong> and <strong>Grouped Type</strong>. Together they handle most filter intents without a query language.</p>
 <h3 id="grouped-account-dropdown">Grouped Account dropdown</h3>
 <p>Multi-cloud estates have many cloud accounts. A naive "select an account" dropdown becomes unusable past 20–30 accounts. ZopNight uses a <strong>grouped, multi-select</strong> dropdown:</p>
-<pre><code>[Cloud Accounts ▾]                          1 selected
-─────────────────────────────────────────────────────
-[ ] AWS                                     12 accounts
-    [✓] prod-aws-us              941614...
-    [ ] prod-aws-eu              182947...
-    [ ] staging-aws-us           294018...
-    [ ] dev-aws-shared           ...
-    ...
-[ ] GCP                                     8 projects
-    [ ] my-gcp-prod              
-    [ ] my-gcp-staging           
-    ...
-[ ] Azure                                   5 subscriptions
-    [ ] prod-azure-eu            
-    ...</code></pre>
+<div class="uimock" role="img" aria-label="Cloud Accounts dropdown">
+  <div class="uimock-bar"><span>Cloud Accounts ▾</span><span class="uimock-sel">1 selected</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ AWS</span><span class="uimock-ct">12 accounts</span></div>
+  <div class="uimock-item on"><span class="uimock-cb">✓</span><span class="uimock-nm">prod-aws-us</span><span class="uimock-id">941614...</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">prod-aws-eu</span><span class="uimock-id">182947...</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">staging-aws-us</span><span class="uimock-id">294018...</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">dev-aws-shared</span><span class="uimock-id">...</span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ GCP</span><span class="uimock-ct">8 projects</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">my-gcp-prod</span><span class="uimock-id"></span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">my-gcp-staging</span><span class="uimock-id"></span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Azure</span><span class="uimock-ct">5 subscriptions</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">prod-azure-eu</span><span class="uimock-id"></span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+</div>
 <p>Three behaviors matter:</p>
 <p><strong>1. Multi-select.</strong> Tick any combination of accounts across any provider. Filters are applied as a union.</p>
 <p><strong>2. Provider-group selection.</strong> Tick the provider header (e.g., "AWS") to select all AWS accounts at once. The backend receives <code>provider=AWS</code> (more efficient than enumerating all accounts).</p>
@@ -464,33 +465,34 @@
 <p>The dropdown handles the multi-account scale that flat dropdowns cannot.</p>
 <h3 id="grouped-type-dropdown">Grouped Type dropdown</h3>
 <p>The 380+ resource types fall into 9 categories. The Grouped Type dropdown organizes the type filter around these categories:</p>
-<pre><code>[Resource Types ▾]                          3 selected
-─────────────────────────────────────────────────────
-[ ] Compute                                 23 types
-    [✓] EC2                      AWS
-    [✓] Compute Engine           GCP
-    [ ] Azure VMs                Azure
-    [ ] ASG                      AWS
-    ...
-[ ] Kubernetes                              12 types
-    [ ] EKS                      AWS
-    [ ] GKE                      GCP
-    [ ] AKS                      Azure
-    [ ] Deployment               (all clouds)
-    [ ] StatefulSet              (all clouds)
-    [ ] CronJob                  (all clouds)
-    ...
-[ ] Database                                18 types
-    [✓] RDS                      AWS
-    [ ] Cloud SQL                GCP
-    [ ] Azure SQL                Azure
-    ...
-[ ] Storage                                 14 types
-[ ] Networking                              28 types
-[ ] Serverless                              7 types
-[ ] Data &amp; Analytics                        16 types
-[ ] ML &amp; AI                                 11 types
-[ ] Messaging                               9 types</code></pre>
+<div class="uimock" role="img" aria-label="Resource Types dropdown">
+  <div class="uimock-bar"><span>Resource Types ▾</span><span class="uimock-sel">3 selected</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Compute</span><span class="uimock-ct">23 types</span></div>
+  <div class="uimock-item on"><span class="uimock-cb">✓</span><span class="uimock-nm">EC2</span><span class="uimock-id">AWS</span></div>
+  <div class="uimock-item on"><span class="uimock-cb">✓</span><span class="uimock-nm">Compute Engine</span><span class="uimock-id">GCP</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">Azure VMs</span><span class="uimock-id">Azure</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">ASG</span><span class="uimock-id">AWS</span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Kubernetes</span><span class="uimock-ct">12 types</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">EKS</span><span class="uimock-id">AWS</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">GKE</span><span class="uimock-id">GCP</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">AKS</span><span class="uimock-id">Azure</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">Deployment</span><span class="uimock-id">(all clouds)</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">StatefulSet</span><span class="uimock-id">(all clouds)</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">CronJob</span><span class="uimock-id">(all clouds)</span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Database</span><span class="uimock-ct">18 types</span></div>
+  <div class="uimock-item on"><span class="uimock-cb">✓</span><span class="uimock-nm">RDS</span><span class="uimock-id">AWS</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">Cloud SQL</span><span class="uimock-id">GCP</span></div>
+  <div class="uimock-item"><span class="uimock-cb">☐</span><span class="uimock-nm">Azure SQL</span><span class="uimock-id">Azure</span></div>
+  <div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">...</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Storage</span><span class="uimock-ct">14 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Networking</span><span class="uimock-ct">28 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Serverless</span><span class="uimock-ct">7 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Data &amp; Analytics</span><span class="uimock-ct">16 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ ML &amp; AI</span><span class="uimock-ct">11 types</span></div>
+  <div class="uimock-grp"><span class="uimock-gname">☐ Messaging</span><span class="uimock-ct">9 types</span></div>
+</div>
 <p><strong>Category-level checkbox</strong> ticks every type in the category. <strong>Counts</strong> show how many types are in each category. These per-category counts reflect the common, schedulable types surfaced in the dropdown; they are representative, not the full 380+ discovered set, so they do not sum to 380+.</p>
 <p>Same component is reused on the Recommendations page for filtering rules by resource type — so muscle memory transfers.</p>
 <h3 id="cascade-filter-behavior">Cascade filter behavior</h3>
@@ -599,7 +601,7 @@ EXERCISE 3: Untagged resources across all clouds
 <h2 id="glossary-terms-touched">Glossary terms touched</h2>
 <p><a href="/glossary/grouped-account-dropdown/">Grouped Account dropdown</a> · <a href="/glossary/grouped-type-dropdown/">Grouped Type dropdown</a> · <a href="/glossary/cascade-filter/">Cascade filter</a> · <a href="/glossary/9-type-categories/">9 type categories</a></p>
 <hr>
-<p>§ Authored by the ZopDev University editorial board · Last reviewed 2026-05-20 · Lesson ID: T1.M1.2.L3</p>
+<p class="lesson-attribution">Authored by the ZopDev University editorial board · Last reviewed 2026-05-20 · Lesson ID: T1.M1.2.L3</p>
 
 
       <div class="lesson-complete" data-lesson-id="operator/discover-estate/grouped-filters">
@@ -613,7 +615,7 @@ EXERCISE 3: Untagged resources across all clouds
 
       <nav class="lesson-nav" aria-label="Lesson navigation">
         <a href="/operator/discover-estate/parent-child/" class="lesson-nav-link">
-  <div class="nav-dir">â Previous</div>
+  <div class="nav-dir">← Previous</div>
   <div class="nav-title">Parent-child hierarchies</div>
 </a>
         <a href="/operator/discover-estate/manual-start-stop/" class="lesson-nav-link lesson-nav-next">
@@ -692,13 +694,13 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="container">
     <div class="final-grid">
       <div>
-        <div class="final-eyebrow">end Â· ready when you are</div>
+        <div class="final-eyebrow">end · ready when you are</div>
         <h2>Start with the bill.</h2>
         <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
-        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your rÃ©sumÃ© Monday.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
         <div class="final-cta">
-          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">â</span></a>
-          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">â</span></a>
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
         </div>
         <div class="final-stats final-stats--inline">
           <div><strong>5h</strong>median time to finish Foundations</div>
@@ -780,7 +782,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="foot-bottom foot-bottom-3">
-      <div class="foot-copy">Â© <span data-year>2026</span> ZopDev Â· <a href="/trust/">privacy</a> Â· <a href="/trust/">terms</a></div>
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
       <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
       <div class="foot-social">
         <a href="https://linkedin.com/company/zopdev">linkedin</a>
@@ -853,7 +855,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
     <div class="footer-bottom">
-      <div>Â© 2026 ZopDev / All rights reserved</div>
+      <div>© 2026 ZopDev / All rights reserved</div>
       <div class="footer-bottom-links">
         <a href="/terms/">Terms</a>
         <a href="/privacy/">Privacy</a>

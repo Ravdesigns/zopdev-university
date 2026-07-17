@@ -7500,3 +7500,9 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   color: var(--zop-blue); text-decoration: none; border-bottom: 1px solid currentColor;
 }
 .cert-badge-dl:hover { color: var(--zop-orange); }
+
+/* Homepage bento: credential shield atop each cert card */
+.cert .ct-badge { display: block; width: 100%; max-width: 132px; height: auto; margin: 0 auto 18px; }
+.cert .ct-head { justify-content: center; }
+
+.cert .ct-icon { display: none; }
