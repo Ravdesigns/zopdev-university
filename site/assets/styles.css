@@ -7488,3 +7488,15 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 }
 .uni-dropdown-menu .uni-dropdown-section:first-child { padding-top: 12px; }
 .uni-dropdown-divider { height: 1px; margin: 6px 0; background: var(--line); }
+
+/* Credential shield badges (V2) */
+.cert-badge { display: block; }
+.cert-badge-svg, .cert-badge svg { display: block; width: 100%; height: auto; }
+.cert-badge-large { max-width: 300px; }
+.cert-badge-medium { max-width: 240px; margin: 0 auto; }
+.cert-badge-dl {
+  display: inline-block; margin-top: 12px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+  color: var(--zop-blue); text-decoration: none; border-bottom: 1px solid currentColor;
+}
+.cert-badge-dl:hover { color: var(--zop-orange); }

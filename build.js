@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * ZopDev University — Static site generator
+ * ZopDev University â Static site generator
  * Reads all markdown lessons; generates static HTML under site/
  * Vercel-deployable. No framework.
  */
@@ -159,16 +159,16 @@ const stripMarkdown = (s) => String(s || '')
   .replace(/\s+/g, ' ')
   .trim();
 
-// Sanitize the authored "§ T0 · M0.1 · L1 of 5 · Operator tier · 9 min"
+// Sanitize the authored "Â§ T0 Â· M0.1 Â· L1 of 5 Â· Operator tier Â· 9 min"
 // signature line for display in the lesson-id header. The orange square
 // pseudo-element already does the section-marker duty per DESIGN.md, and
-// middle dots are banned in chrome per SKILL.md §4. Source markdown is
+// middle dots are banned in chrome per SKILL.md Â§4. Source markdown is
 // not modified; this is a display-only transform.
 function formatLessonSignature(sig) {
   if (!sig) return '';
   return String(sig)
-    .replace(/^§\s*/, '')                // drop the section sign + space
-    .replace(/\s*[·]\s*/g, ' / ');       // middle dot to slash
+    .replace(/^Â§\s*/, '')                // drop the section sign + space
+    .replace(/\s*[Â·]\s*/g, ' / ');       // middle dot to slash
 }
 
 // Minimal inline renderer for outcome/excerpt strings (bold + italic + code spans only).
@@ -192,9 +192,9 @@ const stripFrontmatter = (md) => {
   return md;
 };
 
-// Strip the lesson header block: H1 + § signature + outcome + metadata table.
+// Strip the lesson header block: H1 + Â§ signature + outcome + metadata table.
 // All of these are extracted and shown in dedicated template slots (lesson-id,
-// h1, outcome callout, metabox) — rendering them again in the body causes
+// h1, outcome callout, metabox) â rendering them again in the body causes
 // duplication.
 const stripLessonHeaderBlock = (md) => {
   const lines = md.split('\n');
@@ -221,7 +221,7 @@ const stripLessonHeaderBlock = (md) => {
     const t = lines[i].trim();
     if (t === '---') { startIdx = i + 1; break; }
     if (t === '') continue;
-    // hit some non-separator content → stop, keep current startIdx
+    // hit some non-separator content â stop, keep current startIdx
     break;
   }
   return lines.slice(startIdx).join('\n');
@@ -234,12 +234,12 @@ const stripLessonHeaderBlock = (md) => {
 function resolveMdLink(txt, url) {
   const glossaryM = url.match(/reference\/glossary\/([^)\/]+?)\.md$/i);
   if (glossaryM) return `<a href="${BASE}/glossary/${slugify(glossaryM[1])}/">${txt}</a>`;
-  // Escaped the repo (../../../../…): render as plain prose, no dead href.
+  // Escaped the repo (../../../../â¦): render as plain prose, no dead href.
   if (/^(?:\.\.\/){4,}/.test(url)) return txt;
-  // Sibling lesson (L1_six_principles.md → ../six-principles/).
+  // Sibling lesson (L1_six_principles.md â ../six-principles/).
   const sib = url.match(/(?:^|\/)L\d+_(.+?)\.md$/i);
   if (sib) return `<a href="../${slugify(sib[1])}/">${txt}</a>`;
-  // Any other unresolved .md target → plain prose (avoid a dead link).
+  // Any other unresolved .md target â plain prose (avoid a dead link).
   if (/\.md(?:#.*)?$/i.test(url)) return txt;
   const isExternal = /^https?:\/\//.test(url);
   const target = isExternal ? ' target="_blank" rel="noopener"' : '';
@@ -249,25 +249,25 @@ function resolveMdLink(txt, url) {
 // Render a lesson meta-box value: escape, tidy separators, then linkify
 // any markdown links via the shared resolver.
 function renderMetaVal(v) {
-  let t = escapeHTML(String(v)).replace(/\s*[·]\s*/g, ' / ');
+  let t = escapeHTML(String(v)).replace(/\s*[Â·]\s*/g, ' / ');
   return t.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, txt, url) => resolveMdLink(txt, url));
 }
 
 // Render an authored ASCII "grouped dropdown" mock as a styled UI-mock
 // component (the pattern from the lesson design prototype). The source .md is
-// left byte-for-byte intact — only the rendered HTML upgrades from a raw
+// left byte-for-byte intact â only the rendered HTML upgrades from a raw
 // <pre> to the dropdown chrome. Fires ONLY when the block's first non-empty
-// line is a "[Label ▾]" bar AND it carries at least two "[ ]"/"[✓]" rows, so
-// the many other ASCII diagrams that merely contain "▾" are never touched.
+// line is a "[Label â¾]" bar AND it carries at least two "[ ]"/"[â]" rows, so
+// the many other ASCII diagrams that merely contain "â¾" are never touched.
 // Returns an HTML string, or null to fall back to <pre>.
 function renderUiMock(rawLines) {
   const lines = rawLines.slice();
   while (lines.length && lines[0].trim() === '') lines.shift();
   while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
   if (!lines.length) return null;
-  const barM = lines[0].match(/^\s*\[(.+?)\s*▾\s*\]\s*(.*)$/);
+  const barM = lines[0].match(/^\s*\[(.+?)\s*â¾\s*\]\s*(.*)$/);
   if (!barM) return null;
-  const cbCount = lines.filter(l => /^\s*\[[ ✓xX]\]/.test(l)).length;
+  const cbCount = lines.filter(l => /^\s*\[[ âxX]\]/.test(l)).length;
   if (cbCount < 2) return null;
 
   const barLabel = escapeHTML(barM[1].trim());
@@ -276,28 +276,28 @@ function renderUiMock(rawLines) {
   for (let k = 1; k < lines.length; k++) {
     const raw = lines[k];
     if (raw.trim() === '') continue;
-    // Skip a pure rule/separator line (box-drawing or dashes) — the styled
+    // Skip a pure rule/separator line (box-drawing or dashes) â the styled
     // bar already carries its own divider.
-    if (/^[\s─—–\-_=]+$/.test(raw)) continue;
+    if (/^[\sâââ\-_=]+$/.test(raw)) continue;
     const indented = /^\s/.test(raw);
     const cbM = raw.match(/^(\s*)\[([^\]]*)\]\s*(.*)$/);
     if (cbM) {
-      const on = /[✓xX]/.test(cbM[2]);
+      const on = /[âxX]/.test(cbM[2]);
       const parts = cbM[3].split(/\s{2,}/);
       const nm = escapeHTML((parts.shift() || '').trim());
       const right = escapeHTML(parts.join(' ').trim());
       if (indented) {
-        rows.push(`<div class="uimock-item${on ? ' on' : ''}"><span class="uimock-cb">${on ? '✓' : '☐'}</span><span class="uimock-nm">${nm}</span><span class="uimock-id">${right}</span></div>`);
+        rows.push(`<div class="uimock-item${on ? ' on' : ''}"><span class="uimock-cb">${on ? 'â' : 'â'}</span><span class="uimock-nm">${nm}</span><span class="uimock-id">${right}</span></div>`);
       } else {
-        rows.push(`<div class="uimock-grp"><span class="uimock-gname">${on ? '✓ ' : '☐ '}${nm}</span><span class="uimock-ct">${right}</span></div>`);
+        rows.push(`<div class="uimock-grp"><span class="uimock-gname">${on ? 'â ' : 'â '}${nm}</span><span class="uimock-ct">${right}</span></div>`);
       }
     } else {
-      // continuation marker (e.g. "...") — muted, no checkbox
+      // continuation marker (e.g. "...") â muted, no checkbox
       rows.push(`<div class="uimock-item uimock-cont"><span class="uimock-cb"></span><span class="uimock-nm">${escapeHTML(raw.trim())}</span></div>`);
     }
   }
   return `<div class="uimock" role="img" aria-label="${barLabel} dropdown">
-  <div class="uimock-bar"><span>${barLabel} ▾</span><span class="uimock-sel">${barRight}</span></div>
+  <div class="uimock-bar"><span>${barLabel} â¾</span><span class="uimock-sel">${barRight}</span></div>
   ${rows.join('\n  ')}
 </div>\n`;
 }
@@ -310,11 +310,11 @@ function renderUiMock(rawLines) {
 //   C. option
 //   D. option
 //   <details><summary>Show answer</summary>
-//   **Correct: B.** explanation …
+//   **Correct: B.** explanation â¦
 //   </details>
 // Rendered as a clickable .check card (options grade green/red on click and
-// reveal the explanation) — the pattern from the lesson-design prototype —
-// instead of the run-on "A. … B. … C. …" paragraph + answer accordion.
+// reveal the explanation) â the pattern from the lesson-design prototype â
+// instead of the run-on "A. â¦ B. â¦ C. â¦" paragraph + answer accordion.
 // The source .md is untouched. Returns { html, next } or null (fall back to
 // the normal heading/paragraph rendering) when the block does not match.
 function tryParseMcq(lines, startIdx, renderInline) {
@@ -347,7 +347,7 @@ function tryParseMcq(lines, startIdx, renderInline) {
   }
   const joined = explainLines.join(' ').trim();
   const cm = joined.match(/Correct:\s*([A-D])\b/i);
-  if (!cm) return null; // no answer key parsed — leave the block as authored
+  if (!cm) return null; // no answer key parsed â leave the block as authored
   const correct = cm[1].toUpperCase();
   const optsHTML = opts.map(o =>
     `<button class="opt"${o.letter === correct ? ' data-correct="1"' : ''}><span class="letter">${o.letter}</span>${renderInline(o.text)}</button>`
@@ -361,12 +361,12 @@ function tryParseMcq(lines, startIdx, renderInline) {
   return { html, next: j };
 }
 
-// Minimal markdown → HTML renderer
+// Minimal markdown â HTML renderer
 let __dgmSeq = 0; // global sequence for namespacing inlined-diagram marker ids
 function renderMarkdown(md, srcPath) {
   md = stripFrontmatter(md);
-  // Strip the lesson "header block" — H1, § signature, hr, ## Outcome + outcome para,
-  // hr, metadata table, hr — all rendered separately in the lesson template.
+  // Strip the lesson "header block" â H1, Â§ signature, hr, ## Outcome + outcome para,
+  // hr, metadata table, hr â all rendered separately in the lesson template.
   // The body content begins at the first "## " heading that's NOT "## Outcome".
   md = stripLessonHeaderBlock(md);
   const lines = md.split('\n');
@@ -380,10 +380,10 @@ function renderMarkdown(md, srcPath) {
     if (buf.length === 0) return '';
     const text = buf.join(' ').trim();
     if (!text) return '';
-    // Footer attribution line ("§ Authored by … · Lesson ID: …"): drop the
-    // authoring § marker and render as a muted attribution block.
-    if (/^§/.test(text)) {
-      return `<p class="lesson-attribution">${renderInline(text.replace(/^§\s*/, ''))}</p>\n`;
+    // Footer attribution line ("Â§ Authored by â¦ Â· Lesson ID: â¦"): drop the
+    // authoring Â§ marker and render as a muted attribution block.
+    if (/^Â§/.test(text)) {
+      return `<p class="lesson-attribution">${renderInline(text.replace(/^Â§\s*/, ''))}</p>\n`;
     }
     return `<p>${renderInline(text)}</p>\n`;
   };
@@ -395,14 +395,14 @@ function renderMarkdown(md, srcPath) {
     text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     // Italic (not greedy; avoid lists)
     text = text.replace(/(?<![*\w])\*([^*\n]+)\*(?![*\w])/g, '<em>$1</em>');
-    // Links [text](url) — also rewrite lesson-body references to
+    // Links [text](url) â also rewrite lesson-body references to
     // reference/glossary/<slug>.md into the per-term page URL.
     text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, txt, url) => {
       // Glossary term: lessons author them as relative .md paths
       // (../../../reference/glossary/<slug>.md). Rewrite to the
       // generated per-term page so the link actually resolves. The per-term
       // page is keyed by the slug of the DISPLAY text (see buildGlossaryIndex),
-      // so slug the display text here — slugging the filename ("oauth.md")
+      // so slug the display text here â slugging the filename ("oauth.md")
       // instead produced /glossary/oauth/ while the page lived at
       // /glossary/oauth-2-0/, a 404. Guard against terms that never produced
       // a page (GLOSSARY_SLUGS) and fall back to plain prose.
@@ -423,8 +423,8 @@ function renderMarkdown(md, srcPath) {
       // Cross-lesson / cross-module reference authored as a relative .md path
       // (../M3.3_.../L1_foo.md, ../../T4_.../00_README.md). Resolve it against
       // the lesson-source index to the generated page URL. Anything that does
-      // not resolve — renamed modules, deleted lessons, cross-repo escapes
-      // like ../../../../USE-CASES.md, quiz stubs that were never authored — is
+      // not resolve â renamed modules, deleted lessons, cross-repo escapes
+      // like ../../../../USE-CASES.md, quiz stubs that were never authored â is
       // rendered as plain prose so the site never emits a dead internal href.
       // The lesson source is left byte-for-byte intact.
       const mdM = url.match(/\.md(#.*)?$/i);
@@ -470,8 +470,8 @@ function renderMarkdown(md, srcPath) {
 
     // Diagram callout. Editorial placeholders for a planned diagram, authored
     // in a few phrasings: "(Asset: `assets/diagrams/X.svg`.)",
-    // "(Asset: `X.svg` — caption.)", "(Asset to produce: <desc>. Path: `X.svg`.)"
-    // and "(SVG to be produced — see `X.svg` once issued.)". Match any
+    // "(Asset: `X.svg` â caption.)", "(Asset to produce: <desc>. Path: `X.svg`.)"
+    // and "(SVG to be produced â see `X.svg` once issued.)". Match any
     // standalone parenthesized callout that references an assets/diagrams SVG.
     // If the SVG exists it is inlined as a theme-aware <figure>; if not, the
     // placeholder is dropped entirely so it never leaks into published prose.
@@ -488,7 +488,7 @@ function renderMarkdown(md, srcPath) {
       // entirely; only an existing assets/diagrams SVG is inlined.
       const rel = dgmRef ? dgmRef[1] : null;
       if (!rel) { i++; continue; }
-      // Reject path traversal — only files strictly under assets/diagrams/ are
+      // Reject path traversal â only files strictly under assets/diagrams/ are
       // ever read and inlined (the SVG is emitted unescaped, so an escape could
       // inline arbitrary local content).
       if (!rel.includes('..')) {
@@ -499,16 +499,16 @@ function renderMarkdown(md, srcPath) {
           // page cannot collide on a duplicate id.
           const uid = 'd' + (__dgmSeq++);
           svg = svg.replace(/dgmArrow/g, 'dgmArrow_' + uid);
-          // Caption: "Asset to produce: <cap>. Path:" or trailing "— <cap>.".
+          // Caption: "Asset to produce: <cap>. Path:" or trailing "â <cap>.".
           let cap = '';
           const cm1 = dgmTrim.match(/Asset to produce:\s*(.+?)\.\s*Path:/i);
-          const cm2 = dgmTrim.match(/\.svg`?\s*[—–-]\s*([^)]*?)\.?\)$/);
+          const cm2 = dgmTrim.match(/\.svg`?\s*[ââ-]\s*([^)]*?)\.?\)$/);
           if (cm1) cap = cm1[1]; else if (cm2) cap = cm2[1];
           cap = cap.trim().replace(/\.$/, '');
           const capHTML = cap ? `<figcaption>${escapeHTML(cap.charAt(0).toUpperCase() + cap.slice(1))}</figcaption>` : '';
           out.push(`<figure class="lesson-diagram">${svg}${capHTML}</figure>\n`);
         } else {
-          console.warn(`⚠️  diagram referenced but missing: ${rel} (in ${srcPath ? path.relative(ROOT, srcPath) : 'unknown'})`);
+          console.warn(`â ï¸  diagram referenced but missing: ${rel} (in ${srcPath ? path.relative(ROOT, srcPath) : 'unknown'})`);
         }
       }
       i++; continue;
@@ -657,7 +657,7 @@ function parseKnowledgeCheck(lines) {
   const questions = [];
 
   // Locate the knowledge-check section ("## Knowledge check" or
-  // "## 4. Knowledge check" — the number varies by lesson).
+  // "## 4. Knowledge check" â the number varies by lesson).
   let start = -1;
   for (let i = 0; i < lines.length; i++) {
     if (/^##\s+(?:\d+\.\s*)?knowledge check\b/i.test(lines[i].trim())) { start = i; break; }
@@ -734,10 +734,10 @@ function parseLessonFile(filePath) {
     if (m) { title = m[1].trim(); break; }
   }
 
-  // Find the "§ ... · X min" line (lesson signature)
+  // Find the "Â§ ... Â· X min" line (lesson signature)
   let signature = '';
   for (const line of lines.slice(0, 10)) {
-    if (line.startsWith('§')) { signature = line.trim(); break; }
+    if (line.startsWith('Â§')) { signature = line.trim(); break; }
   }
 
   // Find metadata table
@@ -794,7 +794,7 @@ function collectTracks() {
       // Module code: M2.1 from M2.1_rule_library
       const modCode = md.match(/^(M\d+\.\d+)/)?.[1] || md;
       const modTitleSlug = md.replace(/^M\d+\.\d+_/, '');
-      // Title-case the slug, but honor acronyms (SSO, RBAC, …) and keep
+      // Title-case the slug, but honor acronyms (SSO, RBAC, â¦) and keep
       // small joiner words lowercase so module titles read correctly.
       const ACRONYMS = { sso: 'SSO', rbac: 'RBAC', pat: 'PAT', iac: 'IaC', cdcr: 'CDCR', ml: 'ML', vm: 'VM', mcp: 'MCP', k8s: 'K8s', finops: 'FinOps' };
       const JOINERS = new Set(['and', 'or', 'vs']);
@@ -805,7 +805,7 @@ function collectTracks() {
       }).join(' ');
 
       // Read module README for description (if present).
-      // Find the first real prose paragraph — skip headings, eyebrow lines,
+      // Find the first real prose paragraph â skip headings, eyebrow lines,
       // hr separators, table rows, and bullet markers. If the first prose
       // line happens to live under a "## Module outcome" heading, grab that.
       const readmePath = path.join(modDir, '00_README.md');
@@ -816,7 +816,7 @@ function collectTracks() {
           const t = l.trim();
           if (!t) return false;
           if (t.startsWith('#')) return false;          // headings
-          if (t.startsWith('§')) return false;          // eyebrow
+          if (t.startsWith('Â§')) return false;          // eyebrow
           if (/^[-=*_]{3,}\s*$/.test(t)) return false;  // hr separators (---, ***, ===)
           if (t.startsWith('|')) return false;          // table rows
           if (/^[-*+]\s/.test(t)) return false;         // bullet lists
@@ -870,7 +870,7 @@ function collectTracks() {
 }
 
 // =============================================================
-// SHARED PARTIALS — nav, footer
+// SHARED PARTIALS â nav, footer
 // =============================================================
 // =============================================================
 // SECONDARY UNIVERSITY NAV
@@ -973,7 +973,7 @@ function universityNav(opts = {}) {
   });
 })();
 
-/* Inline search · loads lessons.json once, live-filters into a small panel. */
+/* Inline search Â· loads lessons.json once, live-filters into a small panel. */
 (function(){
   var input = document.querySelector('.uni-search-input');
   var panel = document.getElementById('uni-search-panel');
@@ -1031,7 +1031,7 @@ function universityNav(opts = {}) {
 
 function nav(currentPath = '/resources/university/') {
   return `
-<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<!-- OG marketing-site nav Â· mirror of /Users/zopdev/zopdev-site/index.html -->
 <nav class="nav" aria-label="Primary navigation">
   <div class="container nav-inner">
     <a href="/" class="logo-lockup sm" aria-label="ZopDev">
@@ -1078,7 +1078,7 @@ function nav(currentPath = '/resources/university/') {
         </div>
       </div>
       <a class="sign" href="/signin/">Sign In</a>
-      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">â</span></a>
     </div>
     <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
   </div>
@@ -1094,7 +1094,7 @@ function nav(currentPath = '/resources/university/') {
   </div>
   <div class="nav-drawer-cta">
     <a href="/signin/" class="sign">Sign in</a>
-    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">â</span></a>
   </div>
 </div>
 <script>
@@ -1125,13 +1125,13 @@ function finalCTA() {
   <div class="container">
     <div class="final-grid">
       <div>
-        <div class="final-eyebrow">end · ready when you are</div>
+        <div class="final-eyebrow">end Â· ready when you are</div>
         <h2>Start with the bill.</h2>
         <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
-        <p>Open curriculum. No login. No paywall. ${237} lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <p>Open curriculum. No login. No paywall. ${237} lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your rÃ©sumÃ© Monday.</p>
         <div class="final-cta">
-          <a class="btn btn-primary" href="${BASE}/foundations/">Read Foundations <span class="arrow">→</span></a>
-          <a class="btn btn-secondary" href="${BASE}/certifications/">See the credentials <span class="arrow">→</span></a>
+          <a class="btn btn-primary" href="${BASE}/foundations/">Read Foundations <span class="arrow">â</span></a>
+          <a class="btn btn-secondary" href="${BASE}/certifications/">See the credentials <span class="arrow">â</span></a>
         </div>
         <div class="final-stats final-stats--inline">
           <div><strong>5h</strong>median time to finish Foundations</div>
@@ -1218,7 +1218,7 @@ ${finalCTA()}
     </div>
 
     <div class="foot-bottom foot-bottom-3">
-      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-copy">Â© <span data-year>2026</span> ZopDev Â· <a href="/trust/">privacy</a> Â· <a href="/trust/">terms</a></div>
       <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
       <div class="foot-social">
         <a href="https://linkedin.com/company/zopdev">linkedin</a>
@@ -1291,7 +1291,7 @@ ${finalCTA()}
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2026 ZopDev / All rights reserved</div>
+      <div>Â© 2026 ZopDev / All rights reserved</div>
       <div class="footer-bottom-links">
         <a href="/terms/">Terms</a>
         <a href="/privacy/">Privacy</a>
@@ -1317,11 +1317,11 @@ function pageHTML({
   hideUniNav = false,
   body,
 }) {
-  // Strip markdown before it reaches meta/OG/Twitter descriptions — lesson
+  // Strip markdown before it reaches meta/OG/Twitter descriptions â lesson
   // outcomes carry **bold** emphasis that would otherwise render as literal
   // asterisks in search snippets and social cards. Trim to a sane length.
   let ogDesc = stripMd(description || 'Cloud cost optimization curriculum. 237 lessons across 7 courses. Operator, Engineer, Architect certifications.');
-  if (ogDesc.length > 300) ogDesc = ogDesc.slice(0, 297).replace(/\s+\S*$/, '') + '…';
+  if (ogDesc.length > 300) ogDesc = ogDesc.slice(0, 297).replace(/\s+\S*$/, '') + 'â¦';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1358,14 +1358,14 @@ ${schema || ''}
 <link rel="stylesheet" href="${CSS_HREF}">
 <link rel="icon" type="image/svg+xml" href="${BASE}/assets/favicon.svg">
 <script>
-  // Site is dark-mode-only — lock the theme attribute before paint.
+  // Site is dark-mode-only â lock the theme attribute before paint.
   document.documentElement.setAttribute('data-theme', 'dark');
 </script>
 </head>
 <body class="${bodyClass}">
 <a href="#main" class="skip-link">Skip to content</a>
 
-<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+<!-- Brand-mark symbol defs Â· canonical from zop.dev homepage. Defined once
      per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
      in nav, footer, or content resolves correctly. -->
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
@@ -1558,26 +1558,26 @@ function renderLanding(tracks) {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
     <span class="current">University</span>
   </div>
 </section>
 
-<!-- HERO — pure typography, no side stats grid -->
+<!-- HERO â pure typography, no side stats grid -->
 <section class="lp-hero">
   <div class="container">
     <div class="lp-hero-eyebrow"><span class="eyebrow-square" aria-hidden="true"></span>ZopDev University</div>
     <h1 class="lp-hero-title">Cloud cost,<br>understood end&#x2011;to&#x2011;end.</h1>
     <p class="lp-hero-lead">A free, open curriculum from the team that builds <a href="/zopnight/">ZopNight</a>. ${totalLessons} lessons across ${tracks.length} courses. Read your first cloud bill in an afternoon. Earn a credential a hiring manager recognizes by the end of the quarter.</p>
     <div class="lp-hero-cta">
-      <a href="${BASE}/foundations/" class="btn btn-primary">Start with Foundations <span class="arrow">→</span></a>
+      <a href="${BASE}/foundations/" class="btn btn-primary">Start with Foundations <span class="arrow">â</span></a>
       <a href="${BASE}/certifications/" class="btn btn-secondary">Get certified</a>
     </div>
   </div>
 </section>
 
-<!-- PROOF STRIP — full-width band with the four big numbers -->
+<!-- PROOF STRIP â full-width band with the four big numbers -->
 <section class="lp-proof">
   <div class="container">
     <div class="lp-proof-grid">
@@ -1601,7 +1601,7 @@ function renderLanding(tracks) {
   </div>
 </section>
 
-<!-- WHO IT'S FOR — three personas, single confident row -->
+<!-- WHO IT'S FOR â three personas, single confident row -->
 <section class="lp-personas">
   <div class="container">
     <div class="lp-section-head">
@@ -1630,7 +1630,7 @@ function renderLanding(tracks) {
   </div>
 </section>
 
-<!-- CATALOG — single grid, Foundations as featured, then 6 cards -->
+<!-- CATALOG â single grid, Foundations as featured, then 6 cards -->
 <section class="lp-catalog">
   <div class="container">
     <div class="lp-section-head lp-section-head-row">
@@ -1638,7 +1638,7 @@ function renderLanding(tracks) {
         <div class="lp-section-eyebrow"><span class="eyebrow-square" aria-hidden="true"></span>Courses</div>
         <h2 class="lp-h2">Seven courses. Start anywhere.</h2>
       </div>
-      <p class="lp-section-sub">Linear if you want it, à la carte if you don't. Every lesson stands alone. Foundations is the prerequisite for the three credentials.</p>
+      <p class="lp-section-sub">Linear if you want it, Ã  la carte if you don't. Every lesson stands alone. Foundations is the prerequisite for the three credentials.</p>
     </div>
     <a href="${BASE}/${t0.slug}/" class="lp-foundations">
       <div class="lp-foundations-tag">Prerequisite</div>
@@ -1677,13 +1677,13 @@ function renderLanding(tracks) {
   </div>
 </section>
 
-<!-- CERTIFICATIONS — glorified, big seals as the visual hero -->
+<!-- CERTIFICATIONS â glorified, big seals as the visual hero -->
 <section class="lp-certs">
   <div class="container">
     <div class="lp-section-head">
       <div class="lp-section-eyebrow"><span class="eyebrow-square" aria-hidden="true"></span>Certifications</div>
       <h2 class="lp-h2">Three credentials. Publicly verifiable.</h2>
-      <p class="lp-section-sub">Each certification verifies a real on-the-job capability. Pass the proctored exam, get a <a href="${BASE}/certifications/verify/">credential a hiring manager can verify in two clicks</a> — paste an ID, see holder + tier + issue date. No login, no marketing wall.</p>
+      <p class="lp-section-sub">Each certification verifies a real on-the-job capability. Pass the proctored exam, get a <a href="${BASE}/certifications/verify/">credential a hiring manager can verify in two clicks</a> â paste an ID, see holder + tier + issue date. No login, no marketing wall.</p>
     </div>
     <div class="lp-cert-row">
       <a href="${BASE}/certifications/#operator" class="lp-cert-card">
@@ -1709,14 +1709,14 @@ function renderLanding(tracks) {
       </a>
     </div>
     <div class="lp-cert-cta">
-      <a href="${BASE}/certifications/" class="btn btn-primary">Browse certifications <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/" class="btn btn-primary">Browse certifications <span class="arrow">â</span></a>
       <a href="${BASE}/certifications/operator/sample/" class="btn-ghost">See a sample certificate</a>
       <a href="${BASE}/certifications/verify/" class="btn-ghost">Verify a credential</a>
     </div>
   </div>
 </section>
 
-<!-- AUTHORED-BY band — credibility -->
+<!-- AUTHORED-BY band â credibility -->
 <section class="lp-authored">
   <div class="container">
     <div class="lp-authored-grid">
@@ -1734,7 +1734,7 @@ function renderLanding(tracks) {
   </div>
 </section>
 
-<!-- Final CTA · the global OG .final section in pageHTML now serves this slot. -->`;
+<!-- Final CTA Â· the global OG .final section in pageHTML now serves this slot. -->`;
 
   return pageHTML({
     title: 'ZopDev University / The operating manual for cloud cost teams',
@@ -1750,7 +1750,7 @@ function renderTrack(track) {
 
   // Each module is an expandable accordion: the summary is the module row,
   // opening it reveals that module's lessons inline so a reader can jump
-  // straight to any lesson from the track page (track → lesson, one click)
+  // straight to any lesson from the track page (track â lesson, one click)
   // and scan the whole syllabus on one screen. Native <details>, no JS.
   // The first module opens by default so the pattern is self-evident.
   const moduleList = track.modules.map((m, idx) => {
@@ -1772,15 +1772,15 @@ function renderTrack(track) {
     <div class="m-row-meta">
       <span class="m-row-meta-num">${m.lessons.length}</span>
       <span class="m-row-meta-unit">lessons</span>
-      <span class="m-row-meta-sep" aria-hidden="true">·</span>
+      <span class="m-row-meta-sep" aria-hidden="true">Â·</span>
       <span class="m-row-meta-num">~${mins}</span>
       <span class="m-row-meta-unit">min</span>
     </div>
-    <span class="m-row-chevron" aria-hidden="true">›</span>
+    <span class="m-row-chevron" aria-hidden="true">âº</span>
   </summary>
   <div class="m-lessons">
 ${lessons}
-    <a class="ml-open" href="${BASE}/${track.slug}/${m.slug}/">Open module overview <span class="arrow">→</span></a>
+    <a class="ml-open" href="${BASE}/${track.slug}/${m.slug}/">Open module overview <span class="arrow">â</span></a>
   </div>
 </details>`;
   }).join('\n');
@@ -1788,9 +1788,9 @@ ${lessons}
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
     <span class="current">${escapeHTML(track.title)}</span>
   </div>
 </section>
@@ -1857,8 +1857,8 @@ ${lessons}
   });
 }
 
-// Render the "big picture" prose from a module's 00_README.md — chiefly its
-// concept diagram — as an overview section on the module page. The full README
+// Render the "big picture" prose from a module's 00_README.md â chiefly its
+// concept diagram â as an overview section on the module page. The full README
 // is not rendered: the header block, the "## Lessons" table (the page already
 // lists lessons as cards), the "## Module outcome" (it is the hero lead / desc),
 // the "## Module knowledge check" (internal chip mechanics) and the forward
@@ -1871,8 +1871,8 @@ function renderModuleOverview(track, mod) {
   // Allowlist, not denylist: module READMEs across tracks use wildly different
   // headings (T6's recipe library uses "## The 15 recipes", "## Recipe pattern"
   // with an internal reference table + authoring template). Keep ONLY sections
-  // this feature is designed to surface — reader-facing framing prose and the
-  // concept diagram — so anything an author didn't anticipate defaults to
+  // this feature is designed to surface â reader-facing framing prose and the
+  // concept diagram â so anything an author didn't anticipate defaults to
   // dropped rather than dumped onto the page.
   const ALLOW = /^##\s+(module diagram|diagram|the big picture|big picture|overview|the idea|mental model|why this module|how it fits)\b/i;
   // Split into sections keyed by their ## heading.
@@ -1889,7 +1889,7 @@ function renderModuleOverview(track, mod) {
     if (!allowed && !hasDiagram) continue;
     for (const l of s.body) {
       if (l.trim() === '---') continue;      // drop hr separators
-      if (/^§/.test(l.trim())) continue;      // never leak signature / provenance lines
+      if (/^Â§/.test(l.trim())) continue;      // never leak signature / provenance lines
       kept.push(l);
     }
   }
@@ -1926,16 +1926,16 @@ function renderModule(track, mod) {
     <span class="m-row-meta-num">~9</span>
     <span class="m-row-meta-unit">min</span>
   </div>
-  <span class="m-row-arrow" aria-hidden="true">→</span>
+  <span class="m-row-arrow" aria-hidden="true">â</span>
 </a>`).join('\n');
 
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/${track.slug}/">${escapeHTML(track.short)}</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/${track.slug}/">${escapeHTML(track.short)}</a><span class="sep">âº</span>
     <span class="current">${escapeHTML(mod.title)}</span>
   </div>
 </section>
@@ -1983,7 +1983,7 @@ function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
   const sidebarLessons = mod.lessons.map(l => `
 <a href="${BASE}/${track.slug}/${mod.slug}/${l.slug}/" class="${l.code === lesson.code ? 'current' : ''}">
   <span class="num">${l.code}</span>
-  <span>${escapeHTML(l.title.length > 40 ? l.title.slice(0, 38) + '…' : l.title)}</span>
+  <span>${escapeHTML(l.title.length > 40 ? l.title.slice(0, 38) + 'â¦' : l.title)}</span>
 </a>`).join('');
 
   // Metadata box. Values come from the authored frontmatter table; we
@@ -1996,7 +1996,7 @@ function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
   // Prev/next
   const prevHTML = prevLesson
     ? `<a href="${BASE}/${prevLesson.trackSlug}/${prevLesson.modSlug}/${prevLesson.lesson.slug}/" class="lesson-nav-link">
-  <div class="nav-dir">← Previous</div>
+  <div class="nav-dir">â Previous</div>
   <div class="nav-title">${escapeHTML(prevLesson.lesson.title)}</div>
 </a>`
     : `<div class="lesson-nav-link lesson-nav-empty">
@@ -2017,11 +2017,11 @@ function renderLesson(track, mod, lesson, prevLesson, nextLesson) {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/${track.slug}/">${escapeHTML(track.short)}</a><span class="sep">›</span>
-    <a href="${BASE}/${track.slug}/${mod.slug}/">${escapeHTML(mod.title)}</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/${track.slug}/">${escapeHTML(track.short)}</a><span class="sep">âº</span>
+    <a href="${BASE}/${track.slug}/${mod.slug}/">${escapeHTML(mod.title)}</a><span class="sep">âº</span>
     <span class="current">${escapeHTML(lesson.title)}</span>
   </div>
 </section>
@@ -2143,7 +2143,7 @@ function writeFile(filePath, content) {
   fs.writeFileSync(filePath, content, 'utf8');
 }
 
-console.log('🔨 Building ZopDev University...\n');
+console.log('ð¨ Building ZopDev University...\n');
 
 const tracks = collectTracks();
 let pageCount = 0;
@@ -2244,7 +2244,7 @@ for (const track of tracks) {
 // CERTIFICATE SEAL + ARTWORK
 // =============================================================
 // CSS-drawn cert seal used on cert badge previews + the full
-// printable certificate. No external image — every glyph is HTML
+// printable certificate. No external image â every glyph is HTML
 // so the deployable artifact is a single static page that
 // screenshots cleanly to PNG or prints to PDF.
 function tierMarkSVG(tier) {
@@ -2323,7 +2323,7 @@ function tierBadgeGraphic(tier) {
   if (tier === 'engineer') {
     // II: two serif Roman columns. Cap-rules above and below each bar give
     // proper Roman-numeral weight. A 4x4 sparse dot grid backdrop suggests
-    // the systems lattice. NO bridge — the eye reads "II" cleanly.
+    // the systems lattice. NO bridge â the eye reads "II" cleanly.
     return `<svg class="badge-graphic" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
       <g class="bg-dots">
         <circle cx="32"  cy="32"  r="2"/>
@@ -2375,29 +2375,46 @@ function tierBadgeGraphic(tier) {
   return '';
 }
 
+// Shield credential badge (V2). Real ZopDev mark (three-square blue/orange/
+// green). Orange reserved for the Architect pinnacle. Self-contained inline SVG
+// that scales to its container; the same artwork is written to
+// /assets/badges/<tier>.svg for download.
+function certBadgeSVG(tier) {
+  const T = {
+    operator:  { name: 'Operator',  num: 'I',   blurb: 'Operate the platform',     accent: '#2A4494' },
+    engineer:  { name: 'Engineer',  num: 'II',  blurb: 'Build cost-aware systems',  accent: '#2A4494' },
+    architect: { name: 'Architect', num: 'III', blurb: 'Design the practice',       accent: '#F58549' },
+  };
+  const d = T[tier] || T.operator;
+  const PAPER = '#FAF7EC', BLUE = '#2A4494', ORANGE = '#F58549', GREEN = '#7FB236', INK = '#0A0A0A';
+  const FH = "'Space Grotesk','Helvetica Neue',Arial,sans-serif";
+  const FM = "'JetBrains Mono','SF Mono',Menlo,monospace";
+  const W = 340, H = 440, sx = 40, sw = W - 80, cx = W / 2;
+  const shieldPath = `M${sx},70 L${sx + sw},70 L${sx + sw},300 Q${sx + sw},360 ${cx},400 Q${sx},360 ${sx},300 Z`;
+  const nameSize = d.name.length > 8 ? 34 : 40;
+  const u = 13.5;
+  const mark = `<g transform="translate(${cx - 15},82)">` +
+    `<rect x="0" y="0" width="${u}" height="${u}" fill="${PAPER}"/>` +
+    `<rect x="${u + 3}" y="0" width="${u}" height="${u}" fill="${ORANGE}"/>` +
+    `<rect x="${u + 3}" y="${u + 3}" width="${u}" height="${u}" fill="${GREEN}"/></g>`;
+  return `<svg class="cert-badge-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="ZopDev Certified: ${d.name} badge" xmlns="http://www.w3.org/2000/svg">
+  <path d="${shieldPath}" fill="${PAPER}" stroke="${BLUE}" stroke-width="2.5"/>
+  <path d="M${sx},70 L${sx + sw},70 L${sx + sw},118 L${sx},118 Z" fill="${BLUE}"/>
+  ${mark}
+  <text x="${cx}" y="160" text-anchor="middle" font-family="${FM}" font-size="10" letter-spacing="2" fill="${BLUE}">ZOPDEV UNIVERSITY</text>
+  <text x="${cx}" y="212" text-anchor="middle" font-family="${FH}" font-size="${nameSize}" font-weight="700" fill="${INK}">${d.name}</text>
+  <text x="${cx}" y="240" text-anchor="middle" font-family="${FM}" font-size="11" letter-spacing="1" fill="${INK}" fill-opacity="0.55">CERTIFIED Â· TIER ${d.num}</text>
+  <line x1="${cx - 40}" y1="262" x2="${cx + 40}" y2="262" stroke="${d.accent}" stroke-width="3"/>
+  <text x="${cx}" y="300" text-anchor="middle" font-family="${FH}" font-size="13" fill="${INK}" fill-opacity="0.6">${d.blurb}</text>
+  <text x="${cx}" y="356" text-anchor="middle" font-family="${FH}" font-size="34" font-weight="700" fill="${d.accent}" fill-opacity="0.16">${d.num}</text>
+</svg>`;
+}
+
 function certSeal(tier, opts = {}) {
   const { size = 'medium' } = opts;
-  const TIERS = {
-    operator: { label: 'Operator',  num: 'I',   accent: 'seal-accent-green' },
-    engineer: { label: 'Engineer',  num: 'II',  accent: 'seal-accent-blue' },
-    architect:{ label: 'Architect', num: 'III', accent: 'seal-accent-orange' },
-  };
-  const d = TIERS[tier] || TIERS.operator;
-  return `<article class="cert-seal cert-seal-${size} ${d.accent} cert-seal-${tier}" aria-label="ZopDev University ${d.label} badge">
-  <span class="seal-vignette" aria-hidden="true"></span>
-  <span class="seal-frame" aria-hidden="true"></span>
-  <svg class="seal-mini-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-    <rect width="32" height="32" fill="#F0EBDB"/>
-    <circle cx="16" cy="16" r="8" fill="currentColor"/>
-  </svg>
-  <div class="seal-graphic">${tierBadgeGraphic(tier)}</div>
-  <div class="seal-label-row">
-    <span class="seal-label-rule" aria-hidden="true"></span>
-    <h3 class="seal-label">${d.label}</h3>
-    <span class="seal-label-rule" aria-hidden="true"></span>
-  </div>
-  <span class="seal-tier-num" aria-hidden="true">${d.num}</span>
-</article>`;
+  const labels = { operator: 'Operator', engineer: 'Engineer', architect: 'Architect' };
+  const label = labels[tier] || 'Operator';
+  return `<div class="cert-badge cert-badge-${size}" role="img" aria-label="ZopDev Certified: ${label} badge">${certBadgeSVG(tier)}</div>`;
 }
 
 // Generate a deterministic verifiable credential ID for sample cert
@@ -2532,10 +2549,10 @@ function renderCertSample(tier) {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">âº</span>
     <span class="current">${escapeHTML(data.tierTitle)} sample</span>
   </div>
 </section>
@@ -2554,7 +2571,7 @@ function renderCertSample(tier) {
       ${credentialArtwork(tier, data)}
     </div>
     <div class="credential-actions">
-      <a href="${BASE}/certifications/verify/?id=${encodeURIComponent(id)}" class="btn btn-primary">Try the verify flow <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/verify/?id=${encodeURIComponent(id)}" class="btn btn-primary">Try the verify flow <span class="arrow">â</span></a>
       <button onclick="window.print()" class="btn btn-secondary" type="button">Print or save as PDF</button>
       <a href="${BASE}/${tier === 'operator' ? 'operator' : tier === 'engineer' ? 'engineer' : 'architect'}/" class="btn-ghost">Read the ${escapeHTML(data.tierLabel)} course</a>
     </div>
@@ -2585,7 +2602,7 @@ function renderCertSample(tier) {
       </li>
       <li class="anatomy-item">
         <div class="anatomy-num">04</div>
-        <div><h3>The verify URL</h3><p>Public, no login. Hits <code>zop.dev/resources/university/certifications/verify/</code> with the ID, returns the candidate's name, issue date, and the tier — nothing else. Privacy-respectful by design.</p></div>
+        <div><h3>The verify URL</h3><p>Public, no login. Hits <code>zop.dev/resources/university/certifications/verify/</code> with the ID, returns the candidate's name, issue date, and the tier â nothing else. Privacy-respectful by design.</p></div>
       </li>
       <li class="anatomy-item">
         <div class="anatomy-num">05</div>
@@ -2600,7 +2617,7 @@ function renderCertSample(tier) {
     <h2>Earn yours.</h2>
     <p>The ${escapeHTML(data.tierLabel)} certification requires ${escapeHTML(data.questions)} answered in ${escapeHTML(data.examLength)}, at ${escapeHTML(data.passScore)} pass score. Cover the curriculum first.</p>
     <div class="hero-cta">
-      <a href="${BASE}/${tier === 'operator' ? 'foundations' : tier}/" class="btn btn-primary">Start studying <span class="arrow">→</span></a>
+      <a href="${BASE}/${tier === 'operator' ? 'foundations' : tier}/" class="btn btn-primary">Start studying <span class="arrow">â</span></a>
       <a href="${BASE}/certifications/" class="btn btn-secondary">Compare all three</a>
     </div>
   </div>
@@ -2639,10 +2656,10 @@ function renderVerify() {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">âº</span>
     <span class="current">Verify a credential</span>
   </div>
 </section>
@@ -2651,7 +2668,7 @@ function renderVerify() {
   <div class="container">
     <div class="track-hero-meta">Public verification / No login</div>
     <h1>Verify a ZopDev University credential.</h1>
-    <p class="track-hero-lead">Paste the credential ID from a candidate's certificate. The ID is printed on the credential artwork itself and on the candidate's résumé. Verification is public, no account required.</p>
+    <p class="track-hero-lead">Paste the credential ID from a candidate's certificate. The ID is printed on the credential artwork itself and on the candidate's rÃ©sumÃ©. Verification is public, no account required.</p>
   </div>
 </section>
 
@@ -2662,7 +2679,7 @@ function renderVerify() {
         <label for="verify-id" class="verify-label">Credential ID</label>
         <div class="verify-row">
           <input type="text" id="verify-id" class="verify-input" placeholder="ZDU-OP-2026-A7F3-K9M2" autocomplete="off" spellcheck="false">
-          <button type="submit" class="btn btn-primary">Verify <span class="arrow">→</span></button>
+          <button type="submit" class="btn btn-primary">Verify <span class="arrow">â</span></button>
         </div>
         <div class="verify-help">Try one of the sample IDs:
           <button type="button" class="verify-sample-btn" data-id="${samples[0].id}">${samples[0].id}</button>
@@ -2677,12 +2694,12 @@ function renderVerify() {
           <span class="verify-status-text">Credential verified</span>
         </div>
         <div class="verify-table">
-          <div class="verify-row-r"><div class="verify-k">Credential ID</div><div class="verify-v verify-v-mono" id="r-id">—</div></div>
-          <div class="verify-row-r"><div class="verify-k">Holder</div><div class="verify-v" id="r-name">—</div></div>
-          <div class="verify-row-r"><div class="verify-k">Title</div><div class="verify-v" id="r-title">—</div></div>
-          <div class="verify-row-r"><div class="verify-k">Tier</div><div class="verify-v" id="r-tier">—</div></div>
-          <div class="verify-row-r"><div class="verify-k">Issued</div><div class="verify-v" id="r-date">—</div></div>
-          <div class="verify-row-r"><div class="verify-k">Coverage</div><div class="verify-v" id="r-coverage">—</div></div>
+          <div class="verify-row-r"><div class="verify-k">Credential ID</div><div class="verify-v verify-v-mono" id="r-id">â</div></div>
+          <div class="verify-row-r"><div class="verify-k">Holder</div><div class="verify-v" id="r-name">â</div></div>
+          <div class="verify-row-r"><div class="verify-k">Title</div><div class="verify-v" id="r-title">â</div></div>
+          <div class="verify-row-r"><div class="verify-k">Tier</div><div class="verify-v" id="r-tier">â</div></div>
+          <div class="verify-row-r"><div class="verify-k">Issued</div><div class="verify-v" id="r-date">â</div></div>
+          <div class="verify-row-r"><div class="verify-k">Coverage</div><div class="verify-v" id="r-coverage">â</div></div>
           <div class="verify-row-r"><div class="verify-k">Issuer</div><div class="verify-v">ZopDev University Editorial Board</div></div>
         </div>
         <div class="verify-blurb" id="r-blurb"></div>
@@ -2711,15 +2728,15 @@ function renderVerify() {
     <ol class="anatomy-list">
       <li class="anatomy-item">
         <div class="anatomy-num">01</div>
-        <div><h3>Paste the ID</h3><p>The credential ID is printed on the certificate artwork in the foot row, and on the holder's résumé. Format: <code>ZDU-XX-YYYY-XXXX-XXXX</code>.</p></div>
+        <div><h3>Paste the ID</h3><p>The credential ID is printed on the certificate artwork in the foot row, and on the holder's rÃ©sumÃ©. Format: <code>ZDU-XX-YYYY-XXXX-XXXX</code>.</p></div>
       </li>
       <li class="anatomy-item">
         <div class="anatomy-num">02</div>
-        <div><h3>Read the verification</h3><p>You see the holder's name, the tier (Operator / Engineer / Architect), the issue date, and the curriculum coverage. Nothing else — no email, no employer, no PII beyond name.</p></div>
+        <div><h3>Read the verification</h3><p>You see the holder's name, the tier (Operator / Engineer / Architect), the issue date, and the curriculum coverage. Nothing else â no email, no employer, no PII beyond name.</p></div>
       </li>
       <li class="anatomy-item">
         <div class="anatomy-num">03</div>
-        <div><h3>Cross-check the seal</h3><p>Compare the seal on the candidate's certificate with the canonical seal shown on <a href="${BASE}/certifications/">the certifications page</a>. ZopDev University seals never change — if the artwork doesn't match, the credential is forged.</p></div>
+        <div><h3>Cross-check the seal</h3><p>Compare the seal on the candidate's certificate with the canonical seal shown on <a href="${BASE}/certifications/">the certifications page</a>. ZopDev University seals never change â if the artwork doesn't match, the credential is forged.</p></div>
       </li>
     </ol>
   </div>
@@ -2730,7 +2747,7 @@ function renderVerify() {
     <h2>Verify any credential in under a minute.</h2>
     <p>Or browse the three certifications and the curriculum that backs each one.</p>
     <div class="hero-cta">
-      <a href="${BASE}/certifications/" class="btn btn-primary">See certifications <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/" class="btn btn-primary">See certifications <span class="arrow">â</span></a>
       <a href="${BASE}/certifications/operator/sample/" class="btn-ghost">View a sample certificate</a>
     </div>
   </div>
@@ -2793,12 +2810,12 @@ document.addEventListener('DOMContentLoaded', function(){
 // Parse a paths/*.md file into { title, outcome, bodyMd }. bodyMd is
 // everything from "## Sequence" onward, minus the trailing signature,
 // so the hero can own the title + outcome and the body renders the rest.
-// Strip the trailing "--- / § ... Last reviewed" signature from a slice of
+// Strip the trailing "--- / Â§ ... Last reviewed" signature from a slice of
 // markdown lines, including any blank lines and the "---" rule before it.
 // (A simple one-line-back check misses the blank line authors leave between
 // the rule and the signature, which then renders as a stray <hr>.)
 function stripTrailingSignatureBlock(lines) {
-  const sigIdx = lines.findIndex(l => l.trim().startsWith('§') && /Last reviewed/i.test(l));
+  const sigIdx = lines.findIndex(l => l.trim().startsWith('Â§') && /Last reviewed/i.test(l));
   if (sigIdx < 0) return lines;
   let cut = sigIdx;
   for (let i = sigIdx - 1; i >= 0; i--) {
@@ -2813,7 +2830,7 @@ function stripTrailingSignatureBlock(lines) {
 function parsePathFile(filePath) {
   let md;
   try { md = fs.readFileSync(filePath, 'utf8'); }
-  catch (e) { console.error(`✗ parsePathFile: cannot read ${filePath} — ${e.message}`); process.exit(1); }
+  catch (e) { console.error(`â parsePathFile: cannot read ${filePath} â ${e.message}`); process.exit(1); }
   const lines = md.split('\n');
 
   let title = '';
@@ -2831,7 +2848,7 @@ function parsePathFile(filePath) {
   }
 
   const si = lines.findIndex(l => /^##\s+Sequence/i.test(l.trim()));
-  if (si < 0) console.warn(`⚠️  parsePathFile: no "## Sequence" heading in ${filePath}; rendering full body`);
+  if (si < 0) console.warn(`â ï¸  parsePathFile: no "## Sequence" heading in ${filePath}; rendering full body`);
   let bodyLines = si >= 0 ? lines.slice(si) : lines;
   bodyLines = stripTrailingSignatureBlock(bodyLines);
   return { title, outcome, bodyMd: bodyLines.join('\n') };
@@ -2846,15 +2863,15 @@ function renderPathsIndex() {
         </div>
         <h3 class="path-card-title">${escapeHTML(p.title)}</h3>
         <p class="path-card-aud">${escapeHTML(p.audience)}</p>
-        <span class="path-card-foot">Open path <span class="arrow" aria-hidden="true">→</span></span>
+        <span class="path-card-foot">Open path <span class="arrow" aria-hidden="true">â</span></span>
       </a>`).join('');
 
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
     <span class="current">Paths</span>
   </div>
 </section>
@@ -2886,7 +2903,7 @@ function renderPathsIndex() {
     <h2>Not sure yet? Start with the bill.</h2>
     <p>Foundations is free and role-agnostic. Nine minutes to the first lesson.</p>
     <div class="hero-cta">
-      <a href="${BASE}/foundations/" class="btn btn-primary">Read Foundations <span class="arrow">→</span></a>
+      <a href="${BASE}/foundations/" class="btn btn-primary">Read Foundations <span class="arrow">â</span></a>
       <a href="${BASE}/certifications/" class="btn-ghost">See the certifications</a>
     </div>
   </div>
@@ -2909,10 +2926,10 @@ function renderPath(p) {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/paths/">Paths</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/paths/">Paths</a><span class="sep">âº</span>
     <span class="current">${escapeHTML(p.title)}</span>
   </div>
 </section>
@@ -2943,7 +2960,7 @@ function renderPath(p) {
     <h2>Start the path.</h2>
     <p>Follow the sequence in order, or jump to the certification when you are ready.</p>
     <div class="hero-cta">
-      <a href="${BASE}/" class="btn btn-primary">Browse all courses <span class="arrow">→</span></a>
+      <a href="${BASE}/" class="btn btn-primary">Browse all courses <span class="arrow">â</span></a>
       <a href="${BASE}/paths/" class="btn-ghost">All paths</a>
     </div>
   </div>
@@ -2983,10 +3000,10 @@ function renderRegistry() {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">âº</span>
     <span class="current">Registry</span>
   </div>
 </section>
@@ -3016,7 +3033,7 @@ function renderRegistry() {
     <h2>Have a credential ID to check?</h2>
     <p>Verify any ZopDev University credential in two clicks, no login.</p>
     <div class="hero-cta">
-      <a href="${BASE}/certifications/verify/" class="btn btn-primary">Verify a credential <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/verify/" class="btn btn-primary">Verify a credential <span class="arrow">â</span></a>
       <a href="${BASE}/certifications/" class="btn-ghost">See the certifications</a>
     </div>
   </div>
@@ -3059,7 +3076,7 @@ const EXAM_BLUEPRINTS = {
       if (/^M1\.3\b/.test(modCode) || /^M1\.4\b/.test(modCode)) return 'schedules';
       if (/^M1\.5\b/.test(modCode)) return 'overrides';
       if (/^M1\.6\b/.test(modCode)) return 'history';
-      console.warn(`⚠️  practice: module ${modCode} (${trackCode}) has no blueprint topic; bucketed as foundation`);
+      console.warn(`â ï¸  practice: module ${modCode} (${trackCode}) has no blueprint topic; bucketed as foundation`);
       return 'foundation';
     },
   },
@@ -3104,7 +3121,7 @@ function collectExamPool(tracks, tierKey) {
             correct: q.correct,
             explanation: q.explanation,
             lessonUrl: `${BASE}/${track.slug}/${mod.slug}/${lesson.slug}/`,
-            lessonLabel: `${track.code} · ${mod.code} · ${lesson.title}`,
+            lessonLabel: `${track.code} Â· ${mod.code} Â· ${lesson.title}`,
           });
         });
       }
@@ -3125,10 +3142,10 @@ function renderPractice(tierKey, tracks) {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">âº</span>
     <span class="current">${escapeHTML(cfg.tierTitle)} practice exam</span>
   </div>
 </section>
@@ -3178,7 +3195,7 @@ function renderPractice(tierKey, tracks) {
         <div id="exam-questions"></div>
         <noscript><p class="exam-submit-note">This practice exam needs JavaScript enabled.</p></noscript>
         <div class="exam-submit-row">
-          <button type="submit" class="btn btn-primary" id="exam-submit">Submit exam <span class="arrow">→</span></button>
+          <button type="submit" class="btn btn-primary" id="exam-submit">Submit exam <span class="arrow">â</span></button>
           <span class="exam-submit-note">Unanswered questions count as incorrect.</span>
         </div>
       </form>
@@ -3192,7 +3209,7 @@ function renderPractice(tierKey, tracks) {
     <h2>The practice run is free. So is the credential.</h2>
     <p>When you can pass this comfortably, take the proctored ${escapeHTML(cfg.tierTitle)} exam and earn a publicly verifiable badge.</p>
     <div class="hero-cta">
-      <a href="${BASE}/certifications/#${tierSlug}" class="btn btn-primary">See the certification <span class="arrow">→</span></a>
+      <a href="${BASE}/certifications/#${tierSlug}" class="btn btn-primary">See the certification <span class="arrow">â</span></a>
       <a href="${BASE}/${tierSlug}/" class="btn-ghost">Study the ${escapeHTML(cfg.tierTitle)} course</a>
     </div>
   </div>
@@ -3293,7 +3310,7 @@ function renderPractice(tierKey, tracks) {
     });
     qWrap.innerHTML = html;
     submitBtn.disabled = false;
-    submitBtn.innerHTML = 'Submit exam <span class="arrow">→</span>';
+    submitBtn.innerHTML = 'Submit exam <span class="arrow">â</span>';
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -3332,7 +3349,7 @@ function renderPractice(tierKey, tracks) {
       var ex = document.getElementById('exam-explain-'+i);
       var verdict = isRight ? 'Correct' : (val ? 'Not quite' : 'Unanswered');
       ex.className = 'exam-explain ' + (isRight ? 'is-right' : 'is-wrong');
-      ex.innerHTML = '<span class="exam-explain-label">'+verdict+' · answer '+q.correct+'</span>'
+      ex.innerHTML = '<span class="exam-explain-label">'+verdict+' Â· answer '+q.correct+'</span>'
         + (q.explanation ? '<p>'+fmt(q.explanation)+'</p>' : '')
         + '<a class="exam-explain-src" href="'+attr(q.lessonUrl)+'">Review: '+fmt(q.lessonLabel)+'</a>';
       ex.hidden = false;
@@ -3350,7 +3367,7 @@ function renderPractice(tierKey, tracks) {
     resultBox.innerHTML =
       '<div class="verify-status '+(passed?'':'verify-status-bad')+'">'
       + '<span class="'+(passed?'verify-check':'verify-x')+'" aria-hidden="true"></span>'
-      + '<span class="verify-status-text">'+(passed?'You passed the practice exam':'Not yet — keep studying')+'</span>'
+      + '<span class="verify-status-text">'+(passed?'You passed the practice exam':'Not yet â keep studying')+'</span>'
       + '</div>'
       + '<div class="verify-table">'
       + '<div class="verify-row-r"><div class="verify-k">Score</div><div class="verify-v verify-v-mono">'+correct+' / '+current.length+' ('+pct+'%)</div></div>'
@@ -3361,7 +3378,7 @@ function renderPractice(tierKey, tracks) {
           ? 'This is a self-scored practice run, not the official credential. When you are ready, take the proctored exam to earn a verifiable badge.'
           : 'Read the explanation under each question, revisit the linked lessons, then retake. The real exam passes at '+Math.round(PASS_RATIO*100)+'%.')+'</p>'
       + '<div class="exam-result-cta">'
-      + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">→</span></button>'
+      + '<button type="button" class="btn btn-primary" id="exam-retake">Retake with new questions <span class="arrow">â</span></button>'
       + '<a class="btn-ghost" href="'+CERT_URL+'">See the certification</a>'
       + '</div>';
     submitBtn.disabled = true;
@@ -3402,7 +3419,7 @@ function renderArchitectPrep() {
   }
 
   // Body: from the first "## " after Outcome, minus the trailing signature.
-  if (oi < 0) console.warn('⚠️  renderArchitectPrep: no "## Outcome" heading in architect/00_README.md; hero lead omitted');
+  if (oi < 0) console.warn('â ï¸  renderArchitectPrep: no "## Outcome" heading in architect/00_README.md; hero lead omitted');
   const startIdx = lines.findIndex((l, i) => i > oi && /^##\s+/.test(l.trim()) && !/^##\s+outcome/i.test(l.trim()));
   let bodyLines = startIdx >= 0 ? lines.slice(startIdx) : lines;
   bodyLines = stripTrailingSignatureBlock(bodyLines);
@@ -3411,10 +3428,10 @@ function renderArchitectPrep() {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/certifications/">Certifications</a><span class="sep">âº</span>
     <span class="current">Architect preparation</span>
   </div>
 </section>
@@ -3441,7 +3458,7 @@ function renderArchitectPrep() {
     <h2>Build toward it.</h2>
     <p>The Architect credential expects Engineer certification plus production experience at scale. Start with the Architect track and FinOps Mastery.</p>
     <div class="hero-cta">
-      <a href="${BASE}/architect/" class="btn btn-primary">Study the Architect track <span class="arrow">→</span></a>
+      <a href="${BASE}/architect/" class="btn btn-primary">Study the Architect track <span class="arrow">â</span></a>
       <a href="${BASE}/certifications/#architect" class="btn-ghost">See the certification</a>
     </div>
   </div>
@@ -3469,9 +3486,9 @@ function renderCertifications(tracks) {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
     <span class="current">Certifications</span>
   </div>
 </section>
@@ -3480,7 +3497,7 @@ function renderCertifications(tracks) {
   <div class="container">
     <div class="track-hero-meta">Certifications / 3 tiers</div>
     <h1>Three credentials. Three different jobs.</h1>
-    <p class="track-hero-lead">Each ZopDev University certification verifies a specific operational capability. Operator runs the tool. Engineer builds with it. Architect owns the practice. Pass the exam, list it on your résumé.</p>
+    <p class="track-hero-lead">Each ZopDev University certification verifies a specific operational capability. Operator runs the tool. Engineer builds with it. Architect owns the practice. Pass the exam, list it on your rÃ©sumÃ©.</p>
   </div>
 </section>
 
@@ -3517,6 +3534,7 @@ function renderCertifications(tracks) {
     <article class="cert-card cert-card-with-seal cert-card-operator">
       <aside class="cert-card-seal">
         ${certSeal('operator', { size: 'medium' })}
+        <a class="cert-badge-dl" href="${BASE}/assets/badges/operator.svg" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier I</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -3569,8 +3587,8 @@ function renderCertifications(tracks) {
         </div>
 
         <footer class="cert-card-cta">
-          <a href="${BASE}/operator/" class="btn btn-primary">Start Operator course <span class="arrow">→</span></a>
-          <a href="${BASE}/certifications/operator/sample/" class="btn-ghost">See sample certificate <span class="arrow">→</span></a>
+          <a href="${BASE}/operator/" class="btn btn-primary">Start Operator course <span class="arrow">â</span></a>
+          <a href="${BASE}/certifications/operator/sample/" class="btn-ghost">See sample certificate <span class="arrow">â</span></a>
         </footer>
       </div>
     </article>
@@ -3589,6 +3607,7 @@ function renderCertifications(tracks) {
     <article class="cert-card cert-card-with-seal cert-card-engineer">
       <aside class="cert-card-seal">
         ${certSeal('engineer', { size: 'medium' })}
+        <a class="cert-badge-dl" href="${BASE}/assets/badges/engineer.svg" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier II</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -3599,7 +3618,7 @@ function renderCertifications(tracks) {
         <header class="cert-card-header">
           <div class="cert-level">Engineer certification</div>
           <h3>You can shape the cost surface.</h3>
-          <p class="cert-card-lead">Not just running the tool — building the practice. Tagging at the IaC layer, scaling for events, handling cost incidents like real incidents.</p>
+          <p class="cert-card-lead">Not just running the tool â building the practice. Tagging at the IaC layer, scaling for events, handling cost incidents like real incidents.</p>
         </header>
 
         <dl class="cert-card-stats">
@@ -3642,8 +3661,8 @@ function renderCertifications(tracks) {
         </div>
 
         <footer class="cert-card-cta">
-          <a href="${BASE}/engineer/" class="btn btn-primary">Start Engineer course <span class="arrow">→</span></a>
-          <a href="${BASE}/certifications/engineer/sample/" class="btn-ghost">See sample certificate <span class="arrow">→</span></a>
+          <a href="${BASE}/engineer/" class="btn btn-primary">Start Engineer course <span class="arrow">â</span></a>
+          <a href="${BASE}/certifications/engineer/sample/" class="btn-ghost">See sample certificate <span class="arrow">â</span></a>
         </footer>
       </div>
     </article>
@@ -3662,6 +3681,7 @@ function renderCertifications(tracks) {
     <article class="cert-card cert-card-with-seal cert-card-architect">
       <aside class="cert-card-seal">
         ${certSeal('architect', { size: 'medium' })}
+        <a class="cert-badge-dl" href="${BASE}/assets/badges/architect.svg" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier III</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -3716,8 +3736,8 @@ function renderCertifications(tracks) {
         </div>
 
         <footer class="cert-card-cta">
-          <a href="${BASE}/architect/" class="btn btn-primary">Start Architect course <span class="arrow">→</span></a>
-          <a href="${BASE}/certifications/architect/sample/" class="btn-ghost">See sample certificate <span class="arrow">→</span></a>
+          <a href="${BASE}/architect/" class="btn btn-primary">Start Architect course <span class="arrow">â</span></a>
+          <a href="${BASE}/certifications/architect/sample/" class="btn-ghost">See sample certificate <span class="arrow">â</span></a>
         </footer>
       </div>
     </article>
@@ -3735,10 +3755,10 @@ function renderCertifications(tracks) {
     </div>
     <div class="verify-promo">
       <div class="verify-promo-copy">
-        <p>Each certificate ships with a <strong>credential ID</strong> in the format <code>ZDU-XX-YYYY-XXXX-XXXX</code>. The candidate puts the ID on their résumé. The verifier pastes the ID, sees three lines, knows it's authentic.</p>
+        <p>Each certificate ships with a <strong>credential ID</strong> in the format <code>ZDU-XX-YYYY-XXXX-XXXX</code>. The candidate puts the ID on their rÃ©sumÃ©. The verifier pastes the ID, sees three lines, knows it's authentic.</p>
       </div>
       <div class="verify-promo-actions">
-        <a href="${BASE}/certifications/verify/" class="btn btn-primary">Verify a credential <span class="arrow">→</span></a>
+        <a href="${BASE}/certifications/verify/" class="btn btn-primary">Verify a credential <span class="arrow">â</span></a>
         <a href="${BASE}/certifications/operator/sample/" class="btn-ghost">View a sample</a>
       </div>
     </div>
@@ -3750,7 +3770,7 @@ function renderCertifications(tracks) {
     <h2>The credential is the artifact.</h2>
     <p>What it stands for is the operating practice you'll bring to your team. Start where you are.</p>
     <div class="hero-cta">
-      <a href="${BASE}/" class="btn btn-primary">See all courses <span class="arrow">→</span></a>
+      <a href="${BASE}/" class="btn btn-primary">See all courses <span class="arrow">â</span></a>
     </div>
   </div>
 </section>`;
@@ -3767,7 +3787,7 @@ function renderCertifications(tracks) {
 writeFile(path.join(SITE_DIR, 'certifications', 'index.html'), renderCertifications(tracks));
 pageCount++;
 
-// Sample certificate pages — one per tier
+// Sample certificate pages â one per tier
 for (const tier of ['operator', 'engineer', 'architect']) {
   writeFile(
     path.join(SITE_DIR, 'certifications', tier, 'sample', 'index.html'),
@@ -3792,11 +3812,11 @@ for (const tier of ['operator', 'engineer']) {
   if (pool.length < need) {
     // Do NOT write a page the blueprint would misstate (it advertises
     // `need` questions and a scaled pass mark). Fail the build instead.
-    console.error(`✗ ${tier} practice pool has only ${pool.length}/${need} questions — skipping page write`);
+    console.error(`â ${tier} practice pool has only ${pool.length}/${need} questions â skipping page write`);
     process.exitCode = 1;
     continue;
   }
-  console.log(`✅ ${tier} practice pool: ${pool.length} questions`);
+  console.log(`â ${tier} practice pool: ${pool.length} questions`);
   writeFile(path.join(SITE_DIR, 'certifications', tier, 'practice', 'index.html'), renderPractice(tier, tracks));
   pageCount++;
 }
@@ -3819,7 +3839,7 @@ for (const p of PATHS) {
 // Build a map: term -> [{track, mod, lesson}, ...]
 // Extract the paragraph that mentions each term in the authored lesson
 // markdown body (as plain text, not a glossary link). The "Glossary
-// terms touched" footer list is just an index — real definition prose
+// terms touched" footer list is just an index â real definition prose
 // lives in the body, where the author writes about the term in
 // sentences.
 //
@@ -3829,7 +3849,7 @@ for (const p of PATHS) {
 //    lessons" sections (those are link lists, not definitions).
 // 3. Reject lines inside code fences.
 // 4. Among valid candidates, pick the one in the EARLIEST body section
-//    (usually "## 1. Concept" — where the author defines the term).
+//    (usually "## 1. Concept" â where the author defines the term).
 // 5. Walk back/forward to the paragraph boundary, strip code fences.
 function extractTermDefinitionFromLesson(rawMd, term) {
   const lines = rawMd.split('\n');
@@ -3867,7 +3887,7 @@ function extractTermDefinitionFromLesson(rawMd, term) {
     if (/^#{1,6}\s/.test(lines[i])) continue;
     // Skip table rows + ascii-art lines (start with | or look like code)
     if (lines[i].startsWith('|')) continue;
-    if (/^[\s│┌└├]/.test(lines[i]) && !/^[\s]+[A-Za-z]/.test(lines[i])) continue;
+    if (/^[\sââââ]/.test(lines[i]) && !/^[\s]+[A-Za-z]/.test(lines[i])) continue;
 
     // Walk back to paragraph start
     let start = i;
@@ -3909,10 +3929,10 @@ function extractTermDefinitionFromLesson(rawMd, term) {
 // Strip markdown formatting for display in compact contexts (cards).
 function stripMd(text) {
   return String(text)
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1')   // links → text
-    .replace(/`([^`]+)`/g, '$1')                  // code → text
-    .replace(/\*\*([^*]+)\*\*/g, '$1')            // bold → text
-    .replace(/\*([^*]+)\*/g, '$1')                // italic → text
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1')   // links â text
+    .replace(/`([^`]+)`/g, '$1')                  // code â text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')            // bold â text
+    .replace(/\*([^*]+)\*/g, '$1')                // italic â text
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -3927,7 +3947,7 @@ function parseAuthoredGlossary() {
   const map = new Map();
   if (!fs.existsSync(p)) return map;
   for (const line of fs.readFileSync(p, 'utf8').split('\n')) {
-    const m = line.match(/^-\s+\*\*(.+?)\*\*\s*[—–-]\s*(.+)$/);
+    const m = line.match(/^-\s+\*\*(.+?)\*\*\s*[ââ-]\s*(.+)$/);
     if (!m) continue;
     const term = m[1].trim();
     // Drop a trailing "See [ref](url)." pointer, then strip markdown.
@@ -3997,10 +4017,10 @@ function renderGlossaryTermPage(term, entry) {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
-    <a href="${BASE}/glossary/">Glossary</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
+    <a href="${BASE}/glossary/">Glossary</a><span class="sep">âº</span>
     <span class="current">${escapeHTML(term)}</span>
   </div>
 </section>
@@ -4012,7 +4032,7 @@ function renderGlossaryTermPage(term, entry) {
     ${definition ? `<p class="glossary-term-def">${escapeHTML(definition)}</p>` : `<p class="glossary-term-def glossary-term-def-empty">A vocabulary term used in ${refs.length} ${refs.length === 1 ? 'lesson' : 'lessons'} across the curriculum. Read it in context below.</p>`}
     <div class="glossary-term-foot">
       <span class="glossary-term-count">${refs.length} ${refs.length === 1 ? 'lesson reference' : 'lesson references'}</span>
-      <a href="${BASE}/glossary/" class="glossary-term-back">← Back to glossary</a>
+      <a href="${BASE}/glossary/" class="glossary-term-back">â Back to glossary</a>
     </div>
   </div>
 </section>
@@ -4040,7 +4060,7 @@ function renderGlossaryTermPage(term, entry) {
 function renderGlossary(termMap) {
   // Drop terms that start with a non-alphabetic character (backticks,
   // numbers, symbols). They're authored-code artifacts from lesson
-  // markdown — kept reachable via lesson body links and search, but
+  // markdown â kept reachable via lesson body links and search, but
   // not surfaced in the glossary index.
   const allTerms = [...termMap.keys()].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
   const terms = allTerms.filter(t => /^[A-Za-z]/.test(t));
@@ -4065,13 +4085,13 @@ function renderGlossary(termMap) {
     const items = byLetter.get(L).map(t => {
       const entry = termMap.get(t);
       const def = entry.definition || '';
-      const defShort = def.length > 180 ? def.slice(0, 180).replace(/[,. ]+$/, '') + '…' : def;
+      const defShort = def.length > 180 ? def.slice(0, 180).replace(/[,. ]+$/, '') + 'â¦' : def;
       const refCount = entry.refs.length;
       const searchKey = t.toLowerCase();
       return `<a href="${BASE}/glossary/${slugify(t)}/" class="gx-entry" data-term="${escapeHTML(searchKey)}">
   <span class="gx-entry-name">${escapeHTML(t)}</span>${defShort ? `
   <span class="gx-entry-def">${escapeHTML(defShort)}</span>` : ''}
-  <span class="gx-entry-count">${refCount}${refCount === 1 ? '' : '×'}</span>
+  <span class="gx-entry-count">${refCount}${refCount === 1 ? '' : 'Ã'}</span>
 </a>`;
     }).join('');
     return `<article class="gx-letter" id="letter-${L}" data-letter="${L}">
@@ -4089,9 +4109,9 @@ function renderGlossary(termMap) {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
     <span class="current">Glossary</span>
   </div>
 </section>
@@ -4124,7 +4144,7 @@ function renderGlossary(termMap) {
   <div class="container">
     ${sections}
     <div class="gx-empty" id="gx-empty" hidden>
-      <div class="gx-empty-mark">·</div>
+      <div class="gx-empty-mark">Â·</div>
       <p class="gx-empty-text">No term matches that filter.</p>
       <button class="btn btn-secondary" type="button" id="gx-empty-reset">Clear filter</button>
     </div>
@@ -4175,7 +4195,7 @@ function renderGlossary(termMap) {
   input.addEventListener('input', function(){ apply(input.value); });
   if (resetBtn) resetBtn.addEventListener('click', function(){ input.value = ''; apply(''); input.focus(); });
 
-  // Sticky letter bar — highlight current section
+  // Sticky letter bar â highlight current section
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function(items){
       items.forEach(function(it){
@@ -4218,9 +4238,9 @@ function renderSearchPage() {
   const body = `
 <section class="breadcrumb">
   <div class="container">
-    <a href="/">ZopDev</a><span class="sep">›</span>
-    <a href="/resources/">Resources</a><span class="sep">›</span>
-    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <a href="/">ZopDev</a><span class="sep">âº</span>
+    <a href="/resources/">Resources</a><span class="sep">âº</span>
+    <a href="${BASE}/">University</a><span class="sep">âº</span>
     <span class="current">Search</span>
   </div>
 </section>
@@ -4272,9 +4292,9 @@ function search(q) {
     const snippet = m.outcome.slice(0, 220) || m.body.slice(0, 220);
     return \`
 <a href="\${m.url}" class="search-result">
-  <div class="search-result-meta">\${m.track} · \${m.module}</div>
+  <div class="search-result-meta">\${m.track} Â· \${m.module}</div>
   <div class="search-result-title">\${m.title}</div>
-  <div class="search-result-snippet">\${snippet}\${snippet.length >= 220 ? '…' : ''}</div>
+  <div class="search-result-snippet">\${snippet}\${snippet.length >= 220 ? 'â¦' : ''}</div>
 </a>\`;
   }).join('');
 }
@@ -4310,17 +4330,17 @@ function render404() {
   const body = `
 <section class="section">
   <div class="container" style="text-align: center; padding: 80px 0;">
-    <div class="track-hero-meta" style="justify-content: center;">Error · 404</div>
+    <div class="track-hero-meta" style="justify-content: center;">Error Â· 404</div>
     <h1 style="font-size: clamp(48px, 8vw, 96px); font-weight: 600; letter-spacing: -0.04em; line-height: 1; margin: 32px 0; color: var(--ink);">Couldn't find that lesson.</h1>
     <p style="font-size: 18px; color: var(--g-600); max-width: 480px; margin: 0 auto 32px;">The link may have moved. Try searching, or jump back to the curriculum.</p>
     <div class="hero-cta" style="justify-content: center;">
-      <a href="${BASE}/" class="btn btn-primary">Back to University <span class="arrow">→</span></a>
+      <a href="${BASE}/" class="btn btn-primary">Back to University <span class="arrow">â</span></a>
       <a href="${BASE}/search/" class="btn btn-secondary">Search lessons</a>
     </div>
   </div>
 </section>`;
   return pageHTML({
-    title: '404 · ZopDev University',
+    title: '404 Â· ZopDev University',
     description: 'Page not found.',
     canonical: 'https://zop.dev/resources/university/404/',
     body,
@@ -4331,11 +4351,11 @@ writeFile(path.join(SITE_DIR, '404.html'), render404());
 pageCount++;
 
 // =============================================================
-// HOMEPAGE OVERRIDE — port the hand-authored bento+isometric homepage
+// HOMEPAGE OVERRIDE â port the hand-authored bento+isometric homepage
 // from preview/index.html over the build-generated site/index.html so
 // Vercel deploys it as `/`. Path rewrites:
-//   - assets/styles.css       → /assets/styles.css   (relative → absolute)
-//   - lesson-t3-m3-1-l1.html  → /architect/rbac/policy-table/  (real lesson path)
+//   - assets/styles.css       â /assets/styles.css   (relative â absolute)
+//   - lesson-t3-m3-1-l1.html  â /architect/rbac/policy-table/  (real lesson path)
 // =============================================================
 {
   const previewIndexPath = path.join(ROOT, 'preview', 'index.html');
@@ -4345,9 +4365,9 @@ pageCount++;
     html = html.replace(/src="assets\/foot-globe\.js"/g, `src="${JS_SRC}"`);
     html = html.replace(/href="lesson-t3-m3-1-l1\.html"/g, 'href="/architect/rbac/policy-table/"');
     writeFile(path.join(SITE_DIR, 'index.html'), html);
-    console.log('✅ Homepage replaced with preview/index.html (bento + isometric)');
+    console.log('â Homepage replaced with preview/index.html (bento + isometric)');
   } else {
-    console.warn('⚠️  preview/index.html not found — site/index.html is the build-generated landing');
+    console.warn('â ï¸  preview/index.html not found â site/index.html is the build-generated landing');
   }
 }
 
@@ -4403,7 +4423,7 @@ writeFile(path.join(SITE_DIR, 'sitemap.xml'), sitemap);
 const robots = `User-agent: *
 Allow: /
 
-# LLM crawlers — explicitly allowed
+# LLM crawlers â explicitly allowed
 User-agent: GPTBot
 Allow: /
 
@@ -4432,7 +4452,7 @@ writeFile(path.join(SITE_DIR, 'robots.txt'), robots);
 // =============================================================
 // FAVICON (inline SVG)
 // =============================================================
-// ZopDev University mark — white "eye" (two crescents + starburst pupil)
+// ZopDev University mark â white "eye" (two crescents + starburst pupil)
 // on the blue brand square.
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <rect width="100" height="100" rx="16" fill="#2A4494"/>
@@ -4441,6 +4461,14 @@ const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/>
 </svg>`;
 writeFile(path.join(SITE_DIR, 'assets', 'favicon.svg'), favicon);
+
+// Downloadable credential badges â same artwork as the inline shields
+// (certBadgeSVG is the single source), written with an XML prolog so they are
+// valid standalone .svg files.
+for (const tier of ['operator', 'engineer', 'architect']) {
+  writeFile(path.join(SITE_DIR, 'assets', 'badges', `${tier}.svg`),
+    `<?xml version="1.0" encoding="UTF-8"?>\n${certBadgeSVG(tier).replace('<svg ', '<svg width="340" height="440" ')}`);
+}
 
 // =============================================================
 // VERCEL CONFIG
@@ -4471,11 +4499,11 @@ writeFile(path.join(SITE_DIR, 'vercel.json'), JSON.stringify(vercelConfig, null,
 // =============================================================
 // DONE
 // =============================================================
-console.log(`✅ Generated ${pageCount} HTML pages`);
-console.log(`✅ Sitemap: ${urls.length} URLs`);
-console.log(`✅ Search index: ${allLessonsForSearch.length} lessons`);
-console.log(`✅ robots.txt, vercel.json, favicon written`);
-console.log(`\n📁 Output: ${SITE_DIR}`);
+console.log(`â Generated ${pageCount} HTML pages`);
+console.log(`â Sitemap: ${urls.length} URLs`);
+console.log(`â Search index: ${allLessonsForSearch.length} lessons`);
+console.log(`â robots.txt, vercel.json, favicon written`);
+console.log(`\nð Output: ${SITE_DIR}`);
 console.log(`\nDeploy:`);
 console.log(`  cd "${SITE_DIR}"`);
 console.log(`  vercel deploy --prod`);

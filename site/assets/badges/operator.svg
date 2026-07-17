@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="340" height="440" class="cert-badge-svg" viewBox="0 0 340 440" role="img" aria-label="ZopDev Certified: Operator badge" xmlns="http://www.w3.org/2000/svg">
+  <path d="M40,70 L300,70 L300,300 Q300,360 170,400 Q40,360 40,300 Z" fill="#FAF7EC" stroke="#2A4494" stroke-width="2.5"/>
+  <path d="M40,70 L300,70 L300,118 L40,118 Z" fill="#2A4494"/>
+  <g transform="translate(155,82)"><rect x="0" y="0" width="13.5" height="13.5" fill="#FAF7EC"/><rect x="16.5" y="0" width="13.5" height="13.5" fill="#F58549"/><rect x="16.5" y="16.5" width="13.5" height="13.5" fill="#7FB236"/></g>
+  <text x="170" y="160" text-anchor="middle" font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="10" letter-spacing="2" fill="#2A4494">ZOPDEV UNIVERSITY</text>
+  <text x="170" y="212" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="40" font-weight="700" fill="#0A0A0A">Operator</text>
+  <text x="170" y="240" text-anchor="middle" font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="11" letter-spacing="1" fill="#0A0A0A" fill-opacity="0.55">CERTIFIED Â· TIER I</text>
+  <line x1="130" y1="262" x2="210" y2="262" stroke="#2A4494" stroke-width="3"/>
+  <text x="170" y="300" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="13" fill="#0A0A0A" fill-opacity="0.6">Operate the platform</text>
+  <text x="170" y="356" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="34" font-weight="700" fill="#2A4494" fill-opacity="0.16">I</text>
+</svg>
