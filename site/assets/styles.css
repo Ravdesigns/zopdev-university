@@ -7274,7 +7274,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .dgm-bar-2{fill:var(--zop-blue);opacity:.45}
 .dgm-arrow{stroke:var(--ink);stroke-opacity:.55;fill:none}
 
-/* Certifications dropdown: grouped sections (Credentials | Prepare & verify) */
+/* Grouped dropdown sections (Certifications + Prepare & verify menus) */
 .uni-dropdown-section {
   padding: 10px 18px 4px;
   font-family: var(--mono);

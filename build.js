@@ -3095,7 +3095,7 @@ function renderPractice(tierKey, tracks) {
 
 <section class="track-hero">
   <div class="container">
-    <div class="track-hero-meta">Exam preparation / self-scored, no login</div>
+    <div class="track-hero-meta">Exam preparation / Self-scored, no login</div>
     <h1>Prepare for the ${TL} credential.</h1>
     <p class="track-hero-lead">${cfg.total} questions drawn from the lessons that back the ${escapeHTML(cfg.tierTitle)} certification, weighted to match the real exam blueprint. Score instantly, read the explanation on every question, retake as many times as you like. This is a study aid, not the proctored credential exam.</p>
     ${cfg.note ? `<p class="track-hero-lead exam-note">${escapeHTML(cfg.note)}</p>` : ''}
