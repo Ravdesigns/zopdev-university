@@ -333,11 +333,11 @@ You have now completed all five lessons of M1.6 and all 28 lessons of Track 1. T
 
 ## Track complete — what's next
 
-You have completed Track 1 — ZopNight Operator. Combined with Track 0, you have the working knowledge to use ZopNight day-to-day.
+You have completed Track 1 — ZopDev Certified: Operator. Combined with Track 0, you have the working knowledge to use ZopNight day-to-day.
 
 **Take the Operator certification exam.** Free, 20 questions, mixed T0 + T1 coverage, ~30 min, 80% pass. Available at [/certifications/operator](../../../certifications/operator/00_README.md). Pass to earn the **ZopDev Operator** digital badge.
 
-**Or go deeper.** Continue to [Track 2 — ZopNight Engineer](../../T2_zopnight_engineer/00_README.md) for recommendations engine, autoscaling, K8s scheduling, and AI-powered cloud ops via MCP. Or pick a [role-based path](../../../paths/00_README.md) curated for your role.
+**Or go deeper.** Continue to [Track 2 — ZopDev Certified: Engineer](../../T2_zopnight_engineer/00_README.md) for recommendations engine, autoscaling, K8s scheduling, and AI-powered cloud ops via MCP. Or pick a [role-based path](../../../paths/00_README.md) curated for your role.
 
 ---
 

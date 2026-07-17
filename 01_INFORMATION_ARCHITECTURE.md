@@ -224,7 +224,7 @@ Lesson counts in `()` next to each module title. Time per lesson: 5–12 min. JT
 
 ---
 
-### Track 1 — ZopNight Operator · *Operator tier · 28 lessons · ZopNight blue*
+### Track 1 — ZopDev Certified: Operator · *Operator tier · 28 lessons · ZopNight blue*
 
 **Track outcome:** *Connect a cloud account, discover the estate, build and run schedules, manage groups and overrides, and trace every action through history and notifications.*
 **Cover diagram:** Weekly 24-hour grid (the canonical schedule visualization).
@@ -284,7 +284,7 @@ Lesson counts in `()` next to each module title. Time per lesson: 5–12 min. JT
 
 ---
 
-### Track 2 — ZopNight Engineer · *Engineer tier · 49 lessons · ZopNight blue*
+### Track 2 — ZopDev Certified: Engineer · *Engineer tier · 49 lessons · ZopNight blue*
 
 **Track outcome:** *Operate the recommendations engine, configure VM autoscaling, schedule K8s and Databricks workloads, run Event Readiness, respond to cost anomalies, and trust auto-remediation where it's certified.*
 **Cover diagram:** Rule taxonomy radial (8 categories × 450+ rules).
@@ -381,7 +381,7 @@ Lesson counts in `()` next to each module title. Time per lesson: 5–12 min. JT
 
 ---
 
-### Track 3 — ZopNight Architect · *Architect tier · 38 lessons · ZopNight blue*
+### Track 3 — ZopDev Certified: Architect · *Architect tier · 38 lessons · ZopNight blue*
 
 **Track outcome:** *Design the org-wide governance posture — RBAC, SSO, audit, multi-account, showback dimensions, budgets, dashboards as a governance surface.*
 **Cover diagram:** RBAC policy entity map (15 entities × 3 roles).
@@ -683,7 +683,7 @@ Each path page (T-3 template) has the same shape: persona portrait card → outc
 |---|---|---|
 | 1 | T0.M0.1 What's in a cloud bill | Foundations |
 | 2 | T0.M0.6 (all 4) CDCR introduced | Foundations |
-| 3 | T1 (all 28) ZopNight Operator | Operator track |
+| 3 | T1 (all 28) ZopDev Certified: Operator | Operator track |
 | **Checkpoint** | Operator cert exam | — |
 | 4 | T2.M2.1–2.3 Rules + evidence + auto-remediation | Engineer |
 | 5 | T2.M2.4 VM autoscaling | Engineer |

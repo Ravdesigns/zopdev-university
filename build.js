@@ -54,7 +54,7 @@ const TRACKS = [
   {
     id: 'T1', code: 'T1', slug: 'operator',
     dir: 'T1_zopnight_operator',
-    title: 'ZopNight Operator',
+    title: 'ZopDev Certified: Operator',
     short: 'Operator',
     eyebrow: 'Course / Operator',
     tier: 'Operator',
@@ -65,7 +65,7 @@ const TRACKS = [
   {
     id: 'T2', code: 'T2', slug: 'engineer',
     dir: 'T2_zopnight_engineer',
-    title: 'ZopNight Engineer',
+    title: 'ZopDev Certified: Engineer',
     short: 'Engineer',
     eyebrow: 'Course / Engineer',
     tier: 'Engineer',
@@ -76,7 +76,7 @@ const TRACKS = [
   {
     id: 'T3', code: 'T3', slug: 'architect',
     dir: 'T3_zopnight_architect',
-    title: 'ZopNight Architect',
+    title: 'ZopDev Certified: Architect',
     short: 'Architect',
     eyebrow: 'Course / Architect',
     tier: 'Architect',
@@ -914,12 +914,15 @@ function universityNav(opts = {}) {
           <span class="uni-caret" aria-hidden="true"></span>
         </button>
         <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <div class="uni-dropdown-section" role="presentation">Credentials</div>
           <a href="${BASE}/certifications/#operator" role="menuitem">Operator</a>
           <a href="${BASE}/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="${BASE}/certifications/#architect" role="menuitem">Architect</a>
+          <div class="uni-dropdown-divider" role="separator"></div>
+          <div class="uni-dropdown-section" role="presentation">Prepare &amp; verify</div>
           <a href="${BASE}/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
           <a href="${BASE}/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
-          <a href="${BASE}/certifications/architect/prep/" role="menuitem">Architect prep</a>
+          <a href="${BASE}/certifications/architect/prep/" role="menuitem">Architect preparation</a>
           <a href="${BASE}/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="${BASE}/certifications/verify/" role="menuitem">Verify a credential</a>
           <a href="${BASE}/certifications/registry/" role="menuitem">Public registry</a>
@@ -1426,9 +1429,9 @@ ${JSON.stringify({
   "inLanguage": "en-US",
   "occupationalCategory": ["Platform Engineer", "FinOps Analyst", "Engineering Leader", "Cloud Architect"],
   "educationalCredentialAwarded": [
-    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Operator", "credentialCategory": "certification"},
-    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Engineer", "credentialCategory": "certification"},
-    {"@type": "EducationalOccupationalCredential", "name": "ZopNight Architect", "credentialCategory": "certification"}
+    {"@type": "EducationalOccupationalCredential", "name": "ZopDev Certified: Operator", "credentialCategory": "certification"},
+    {"@type": "EducationalOccupationalCredential", "name": "ZopDev Certified: Engineer", "credentialCategory": "certification"},
+    {"@type": "EducationalOccupationalCredential", "name": "ZopDev Certified: Architect", "credentialCategory": "certification"}
   ],
   "numberOfCredits": 237,
   "timeToComplete": "P45H",
@@ -1686,21 +1689,21 @@ function renderLanding(tracks) {
       <a href="${BASE}/certifications/#operator" class="lp-cert-card">
         <div class="lp-cert-seal-wrap">${certSeal('operator', { size: 'large' })}</div>
         <div class="lp-cert-tier">Tier I</div>
-        <h3 class="lp-cert-name">ZopNight Operator</h3>
+        <h3 class="lp-cert-name">ZopDev Certified: Operator</h3>
         <p class="lp-cert-blurb">Run ZopNight in production. Connect, schedule, route, audit.</p>
         <div class="lp-cert-stats"><span>30-min exam</span><span>80% to pass</span></div>
       </a>
       <a href="${BASE}/certifications/#engineer" class="lp-cert-card">
         <div class="lp-cert-seal-wrap">${certSeal('engineer', { size: 'large' })}</div>
         <div class="lp-cert-tier">Tier II</div>
-        <h3 class="lp-cert-name">ZopNight Engineer</h3>
+        <h3 class="lp-cert-name">ZopDev Certified: Engineer</h3>
         <p class="lp-cert-blurb">Shape the cost surface. Rules, K8s scheduling, ML inference.</p>
         <div class="lp-cert-stats"><span>45-min exam</span><span>80% to pass</span></div>
       </a>
       <a href="${BASE}/certifications/#architect" class="lp-cert-card">
         <div class="lp-cert-seal-wrap">${certSeal('architect', { size: 'large' })}</div>
         <div class="lp-cert-tier">Tier III</div>
-        <h3 class="lp-cert-name">ZopNight Architect</h3>
+        <h3 class="lp-cert-name">ZopDev Certified: Architect</h3>
         <p class="lp-cert-blurb">Own the practice. RBAC, audit, FinOps framework, AI ops.</p>
         <div class="lp-cert-stats"><span>60-min exam</span><span>75% to pass</span></div>
       </a>
@@ -2411,10 +2414,10 @@ function sampleCredentialId(tier) {
 function sampleCredentialData(tier) {
   return ({
     operator: {
-      tier, tierLabel: 'Operator', tierTitle: 'ZopNight Operator',
-      title: 'Tier I / ZopNight Operator',
+      tier, tierLabel: 'Operator', tierTitle: 'ZopDev Certified: Operator',
+      title: 'Tier I / ZopDev Certified: Operator',
       blurb: 'has demonstrated the ability to operate ZopNight in production: connect clouds, discover resources, build schedules, route notifications, and audit every action.',
-      coverage: 'Cloud Cost Foundations (T0) + ZopNight Operator (T1)',
+      coverage: 'Cloud Cost Foundations (T0) + ZopDev Certified: Operator (T1)',
       examLength: '30 minutes',
       questions: '20 questions',
       passScore: '80%',
@@ -2424,10 +2427,10 @@ function sampleCredentialData(tier) {
       issuer: 'ZopDev University Editorial Board',
     },
     engineer: {
-      tier, tierLabel: 'Engineer', tierTitle: 'ZopNight Engineer',
-      title: 'Tier II / ZopNight Engineer',
+      tier, tierLabel: 'Engineer', tierTitle: 'ZopDev Certified: Engineer',
+      title: 'Tier II / ZopDev Certified: Engineer',
       blurb: 'has demonstrated the ability to build cost-aware systems on ZopNight: read the 450+ rule library, configure auto-remediation, schedule K8s and Databricks workloads, pre-scale for events, and optimize Bedrock inference.',
-      coverage: 'ZopNight Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
+      coverage: 'ZopDev Certified: Engineer (T2) + FinOps Mastery (T4) + DevOps Cost Discipline (T5) + AI-Powered Cloud Ops (T6)',
       examLength: '60 minutes',
       questions: '40 questions',
       passScore: '75%',
@@ -2437,10 +2440,10 @@ function sampleCredentialData(tier) {
       issuer: 'ZopDev University Editorial Board',
     },
     architect: {
-      tier, tierLabel: 'Architect', tierTitle: 'ZopNight Architect',
-      title: 'Tier III / ZopNight Architect',
+      tier, tierLabel: 'Architect', tierTitle: 'ZopDev Certified: Architect',
+      title: 'Tier III / ZopDev Certified: Architect',
       blurb: 'has demonstrated the ability to own the cost-discipline practice for a multi-cloud organization: multi-org RBAC, audit log architecture, SOC 2 / ISO 27001 posture, FinOps Foundation framework, forecasting, commitments, and AI-powered ops via MCP.',
-      coverage: 'ZopNight Architect (T3) + FinOps Mastery (T4) + AI-Powered Cloud Ops (T6)',
+      coverage: 'ZopDev Certified: Architect (T3) + FinOps Mastery (T4) + AI-Powered Cloud Ops (T6)',
       examLength: '60 minutes',
       questions: '40 questions',
       passScore: '75%',
@@ -2495,7 +2498,7 @@ function credentialArtwork(tier, data) {
       <div class="credential-name-rule"></div>
       <div class="credential-blurb">${escapeHTML(data.blurb)}</div>
       <div class="credential-award-row">
-        <div class="credential-award">has been awarded the title of</div>
+        <div class="credential-award">has earned the credential</div>
         <div class="credential-title">${escapeHTML(data.tierTitle)}</div>
       </div>
     </div>
@@ -3068,7 +3071,7 @@ const EXAM_BLUEPRINTS = {
     minutes: 60,
     note: 'This practice covers the 40-question multiple-choice portion. The real Engineer exam also includes a graded, hands-on sandbox lab.',
     blueprint: [
-      { topic: 'T2', label: 'ZopNight Engineer (Track 2)',      count: 20 },
+      { topic: 'T2', label: 'ZopDev Certified: Engineer (Track 2)',      count: 20 },
       { topic: 'T4', label: 'FinOps Mastery (Track 4)',         count: 11 },
       { topic: 'T5', label: 'DevOps Cost Discipline (Track 5)', count: 6 },
       { topic: 'T6', label: 'AI-Powered Cloud Ops (Track 6)',   count: 3 },
@@ -3412,13 +3415,13 @@ function renderArchitectPrep() {
     <a href="/resources/">Resources</a><span class="sep">›</span>
     <a href="${BASE}/">University</a><span class="sep">›</span>
     <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
-    <span class="current">Architect prep</span>
+    <span class="current">Architect preparation</span>
   </div>
 </section>
 
 <section class="track-hero">
   <div class="container">
-    <div class="track-hero-meta">Certification prep / Application-based</div>
+    <div class="track-hero-meta">Certification preparation / Application-based</div>
     <h1>How to prepare for the Architect credential.</h1>
     ${outcome ? `<p class="track-hero-lead">${escapeHTML(stripMarkdown(outcome))}</p>` : ''}
     <p class="track-hero-lead exam-note">The Architect credential is not a multiple-choice exam. It is an application, a one-week take-home design exercise, and a 45-minute review interview with the editorial board. This page is the preparation guide, drawn from the certification brief.</p>
@@ -3445,7 +3448,7 @@ function renderArchitectPrep() {
 </section>`;
 
   return pageHTML({
-    title: 'Architect certification prep / ZopDev University',
+    title: 'Architect certification preparation / ZopDev University',
     description: 'How to prepare for the ZopDev University Architect credential: the application, the take-home design exercise, and the review interview.',
     canonical: 'https://zop.dev/resources/university/certifications/architect/prep/',
     uniNav: 'certifications',
@@ -3507,7 +3510,7 @@ function renderCertifications(tracks) {
     <div class="sec-head">
       <div class="sec-meta">Tier I / Operator</div>
       <div>
-        <h2>ZopNight Operator</h2>
+        <h2>ZopDev Certified: Operator</h2>
         <p class="sub">For whoever runs ZopNight day to day.</p>
       </div>
     </div>
@@ -3579,7 +3582,7 @@ function renderCertifications(tracks) {
     <div class="sec-head">
       <div class="sec-meta">Tier II / Engineer</div>
       <div>
-        <h2>ZopNight Engineer</h2>
+        <h2>ZopDev Certified: Engineer</h2>
         <p class="sub">For engineers building cost-aware systems.</p>
       </div>
     </div>
@@ -3652,7 +3655,7 @@ function renderCertifications(tracks) {
     <div class="sec-head">
       <div class="sec-meta">Tier III / Architect</div>
       <div>
-        <h2>ZopNight Architect</h2>
+        <h2>ZopDev Certified: Architect</h2>
         <p class="sub">For platform leads owning the cost-discipline practice.</p>
       </div>
     </div>

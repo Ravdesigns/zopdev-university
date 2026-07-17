@@ -110,7 +110,7 @@ The core scheduling loop. Maps 1:1 to FEATURES Priority 1–2.
 - M1.5 — Overrides (force-on / force-off, reason, expiry)
 - M1.6 — History, notifications, and audit trail
 
-#### Track 2 — ZopNight Engineer *(L200, product)*
+#### Track 2 — ZopDev Certified: Engineer *(L200, product)*
 Maps to FEATURES Priority 3–4 + Priority 7 + Priority 8.
 - M2.1 — The 450+-rule library, explained
 - M2.2 — Reading evidence: cloud monitoring + activity-log signals
@@ -123,7 +123,7 @@ Maps to FEATURES Priority 3–4 + Priority 7 + Priority 8.
 - M2.9 — Event Readiness — pre-scale for traffic events
 - M2.10 — Cost anomaly detection, root cause, and response
 
-#### Track 3 — ZopNight Architect / Admin *(L300, product)*
+#### Track 3 — ZopDev Certified: Architect / Admin *(L300, product)*
 Maps to FEATURES Priority 5–6 + Priority 9.
 - M3.1 — RBAC: 3 system roles + custom + team-scoped (15 policy entities)
 - M3.2 — SAML, Google OAuth, GitHub OAuth — picking the right SSO

@@ -22,7 +22,7 @@ Demonstrate the ability to operate ZopNight day-to-day: connect cloud accounts, 
 ```
 QUESTION DISTRIBUTION:
   T0 (Foundations):              7-9 questions
-  T1 (ZopNight Operator):        11-13 questions
+  T1 (ZopDev Certified: Operator):        11-13 questions
   
 TOPIC EMPHASIS:
   Schedules + groups: 4-5 questions

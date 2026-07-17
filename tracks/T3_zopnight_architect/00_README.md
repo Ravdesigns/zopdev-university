@@ -1,4 +1,4 @@
-# Track 3 — ZopNight Architect
+# Track 3 — ZopDev Certified: Architect
 
 § T3 · Architect tier · ZopNight blue · 38 lessons · 8 modules · ~6 hours
 

@@ -366,7 +366,7 @@ Complete M2.11 → 10-question module quiz unlocks the **ML-Cost-Aware** chip.
 
 ## Track 2 complete
 
-You have now completed all 54 lessons of T2 — ZopNight Engineer track. Take the **Engineer cert exam** at /certifications/engineer.
+You have now completed all 54 lessons of T2 — ZopDev Certified: Engineer track. Take the **Engineer cert exam** at /certifications/engineer.
 
 You should now be able to:
 - Read + apply the 450+ rule library (M2.1)

@@ -26,7 +26,7 @@ Both must pass to issue cert.
 
 ```
 QUESTION DISTRIBUTION (40 MCQs):
-  T2 (ZopNight Engineer):    18-22 questions
+  T2 (ZopDev Certified: Engineer):    18-22 questions
   T4 (FinOps Domain Mastery): 10-12 questions
   T5 (DevOps Cost Discipline): 6-8 questions
   T6 (AI-Powered Cloud Ops):  4-6 questions

@@ -14,7 +14,7 @@ By the end of this lesson, you will be able to **explain** how rules consume dat
 |---|---|
 | **Tier** | Engineer |
 | **JTBD** | "Understand the recommender's data flow well enough to debug findings, reason about evidence, and predict what new data would enable." |
-| **Personas** | Platform Engineer · FinOps Lead · ZopNight Architect |
+| **Personas** | Platform Engineer · FinOps Lead · ZopDev Certified: Architect |
 | **Prerequisites** | M2.1.L1 · M2.1.L2 |
 | **Time** | 10 minutes |
 | **Bloom verb** | Explain (Understand), Identify (Apply), Reason (Analyze) |

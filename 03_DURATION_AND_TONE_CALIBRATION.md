@@ -53,9 +53,9 @@ Measured directly (where the data was reachable) and pulled from training knowle
 | Track | Modules | Lessons | Avg lesson length | Total time | In band? |
 |---|---|---|---|---|---|
 | T0 Foundations | 6 | 27 | 9 min | 4.5 hrs | ✅ |
-| T1 ZopNight Operator | 6 | 28 | 9 min | 4.5 hrs | ✅ |
-| T2 ZopNight Engineer | 11 (with new M2.11 Bedrock) | 54 | 9 min | 8 hrs | ✅ |
-| T3 ZopNight Architect | 8 | 38 | 9 min | 6 hrs | ✅ |
+| T1 ZopDev Certified: Operator | 6 | 28 | 9 min | 4.5 hrs | ✅ |
+| T2 ZopDev Certified: Engineer | 11 (with new M2.11 Bedrock) | 54 | 9 min | 8 hrs | ✅ |
+| T3 ZopDev Certified: Architect | 8 | 38 | 9 min | 6 hrs | ✅ |
 | T4 FinOps Mastery | 8 (with new M4.8 Sustainability) | 37 | 9 min | 5.5 hrs | ✅ |
 | T5 DevOps Cost Discipline | 7 | 33 | 9 min | 5 hrs | ✅ |
 | T6 AI-Powered Cloud Ops | 6 | 34 | 8 min (recipes shorter) | 4.5 hrs | ✅ |

@@ -40,4 +40,4 @@ A single resource's 30-day state-history timeline, with each transition annotate
 
 ## What's next
 
-After this module, take the **Operator certification exam** (free, 20 questions, mixed T0 + T1, ~30 min). Or continue to [Track 2 — ZopNight Engineer](../../T2_zopnight_engineer/00_README.md) for recommendations, autoscaling, K8s depth.
+After this module, take the **Operator certification exam** (free, 20 questions, mixed T0 + T1, ~30 min). Or continue to [Track 2 — ZopDev Certified: Engineer](../../T2_zopnight_engineer/00_README.md) for recommendations, autoscaling, K8s depth.

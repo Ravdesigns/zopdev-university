@@ -7475,3 +7475,16 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .dgm-bar{fill:var(--zop-blue)}
 .dgm-bar-2{fill:var(--zop-blue);opacity:.45}
 .dgm-arrow{stroke:var(--ink);stroke-opacity:.55;fill:none}
+
+/* Certifications dropdown: grouped sections (Credentials | Prepare & verify) */
+.uni-dropdown-section {
+  padding: 10px 18px 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.5;
+}
+.uni-dropdown-menu .uni-dropdown-section:first-child { padding-top: 12px; }
+.uni-dropdown-divider { height: 1px; margin: 6px 0; background: var(--line); }
