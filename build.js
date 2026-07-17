@@ -2302,79 +2302,6 @@ function tierMarkSVG(tier) {
   return '';
 }
 
-function tierBadgeGraphic(tier) {
-  // Enhanced central graphics per tier. Each one is a rich composition rather
-  // than just a Roman numeral: tier-specific architecture in cream over the
-  // drenched tier-color fill. viewBox 0 0 240 240.
-  if (tier === 'operator') {
-    // I: one serif Roman column. Cream cap-rules above and below give the
-    // foundation column weight; flanking compass ticks frame it as a single
-    // calibrated unit; two marker dots float above as targeting points.
-    return `<svg class="badge-graphic" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
-      <circle class="bg-marker" cx="105" cy="22" r="2.5"/>
-      <circle class="bg-marker" cx="135" cy="22" r="2.5"/>
-      <line class="bg-tick" x1="14" y1="120" x2="48" y2="120"/>
-      <line class="bg-tick" x1="192" y1="120" x2="226" y2="120"/>
-      <rect class="bg-rule" x="80" y="48" width="80" height="6"/>
-      <rect class="bg-block" x="104" y="54" width="32" height="132"/>
-      <rect class="bg-rule" x="80" y="186" width="80" height="6"/>
-    </svg>`;
-  }
-  if (tier === 'engineer') {
-    // II: two serif Roman columns. Cap-rules above and below each bar give
-    // proper Roman-numeral weight. A 4x4 sparse dot grid backdrop suggests
-    // the systems lattice. NO bridge — the eye reads "II" cleanly.
-    return `<svg class="badge-graphic" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
-      <g class="bg-dots">
-        <circle cx="32"  cy="32"  r="2"/>
-        <circle cx="208" cy="32"  r="2"/>
-        <circle cx="32"  cy="208" r="2"/>
-        <circle cx="208" cy="208" r="2"/>
-        <circle cx="32"  cy="120" r="2"/>
-        <circle cx="208" cy="120" r="2"/>
-        <circle cx="120" cy="32"  r="2"/>
-        <circle cx="120" cy="208" r="2"/>
-      </g>
-      <line class="bg-tick" x1="14" y1="120" x2="40" y2="120"/>
-      <line class="bg-tick" x1="200" y1="120" x2="226" y2="120"/>
-      <rect class="bg-rule" x="60"  y="48" width="56" height="6"/>
-      <rect class="bg-rule" x="124" y="48" width="56" height="6"/>
-      <rect class="bg-block" x="76"  y="54" width="24" height="132"/>
-      <rect class="bg-block" x="140" y="54" width="24" height="132"/>
-      <rect class="bg-rule" x="60"  y="186" width="56" height="6"/>
-      <rect class="bg-rule" x="124" y="186" width="56" height="6"/>
-    </svg>`;
-  }
-  if (tier === 'architect') {
-    // III: three serif Roman columns inside a cream surveyor frame. Each
-    // column gets cap-rules. The frame is breached by 4 axis ticks at the
-    // compass points, with corner anchors and a faint crosshair behind.
-    return `<svg class="badge-graphic" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
-      <rect class="bg-frame" x="32" y="32" width="176" height="176"/>
-      <line class="bg-tick" x1="2" y1="120" x2="32" y2="120"/>
-      <line class="bg-tick" x1="208" y1="120" x2="238" y2="120"/>
-      <line class="bg-tick" x1="120" y1="2" x2="120" y2="32"/>
-      <line class="bg-tick" x1="120" y1="208" x2="120" y2="238"/>
-      <line class="bg-crosshair" x1="96" y1="120" x2="144" y2="120"/>
-      <line class="bg-crosshair" x1="120" y1="96" x2="120" y2="144"/>
-      <rect class="bg-rule" x="46"  y="60" width="40" height="5"/>
-      <rect class="bg-rule" x="100" y="60" width="40" height="5"/>
-      <rect class="bg-rule" x="154" y="60" width="40" height="5"/>
-      <rect class="bg-block" x="56"  y="65" width="20" height="110"/>
-      <rect class="bg-block" x="110" y="65" width="20" height="110"/>
-      <rect class="bg-block" x="164" y="65" width="20" height="110"/>
-      <rect class="bg-rule" x="46"  y="175" width="40" height="5"/>
-      <rect class="bg-rule" x="100" y="175" width="40" height="5"/>
-      <rect class="bg-rule" x="154" y="175" width="40" height="5"/>
-      <rect class="bg-corner" x="28"  y="28"  width="8" height="8"/>
-      <rect class="bg-corner" x="204" y="28"  width="8" height="8"/>
-      <rect class="bg-corner" x="28"  y="204" width="8" height="8"/>
-      <rect class="bg-corner" x="204" y="204" width="8" height="8"/>
-    </svg>`;
-  }
-  return '';
-}
-
 // Shield credential badge (V2). Real ZopDev mark (three-square blue/orange/
 // green). Orange reserved for the Architect pinnacle. Self-contained inline SVG
 // that scales to its container; the same artwork is written to
@@ -3827,7 +3754,7 @@ for (const tier of ['operator', 'engineer']) {
   pageCount++;
 }
 
-// Architect prep guide (this tier is application-based, no MCQ exam)
+// Architect preparation guide (this tier is application-based, no MCQ exam)
 writeFile(path.join(SITE_DIR, 'certifications', 'architect', 'prep', 'index.html'), renderArchitectPrep());
 pageCount++;
 
