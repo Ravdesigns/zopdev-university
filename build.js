@@ -906,7 +906,6 @@ function universityNav(opts = {}) {
           <a href="${BASE}/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
         </div>
       </div>
-      <a href="${BASE}/paths/" class="uni-link ${cls('paths')}">Paths</a>
       <div class="uni-dropdown" data-uni-dropdown>
         <button class="uni-link uni-dropdown-toggle ${cls('certifications')}" type="button"
                 aria-expanded="false" aria-controls="uni-certs-menu">
@@ -914,15 +913,25 @@ function universityNav(opts = {}) {
           <span class="uni-caret" aria-hidden="true"></span>
         </button>
         <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
-          <div class="uni-dropdown-section" role="presentation">Credentials</div>
           <a href="${BASE}/certifications/#operator" role="menuitem">Operator</a>
           <a href="${BASE}/certifications/#engineer" role="menuitem">Engineer</a>
           <a href="${BASE}/certifications/#architect" role="menuitem">Architect</a>
-          <div class="uni-dropdown-divider" role="separator"></div>
-          <div class="uni-dropdown-section" role="presentation">Prepare &amp; verify</div>
-          <a href="${BASE}/certifications/operator/practice/" role="menuitem">Operator practice exam</a>
-          <a href="${BASE}/certifications/engineer/practice/" role="menuitem">Engineer practice exam</a>
+        </div>
+      </div>
+      <a href="${BASE}/paths/" class="uni-link ${cls('paths')}">Paths</a>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle ${cls('prepare')}" type="button"
+                aria-expanded="false" aria-controls="uni-prepare-menu">
+          Prepare &amp; verify
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-prepare-menu" role="menu">
+          <div class="uni-dropdown-section" role="presentation">Preparation</div>
+          <a href="${BASE}/certifications/operator/practice/" role="menuitem">Operator preparation</a>
+          <a href="${BASE}/certifications/engineer/practice/" role="menuitem">Engineer preparation</a>
           <a href="${BASE}/certifications/architect/prep/" role="menuitem">Architect preparation</a>
+          <div class="uni-dropdown-divider" role="separator"></div>
+          <div class="uni-dropdown-section" role="presentation">Verify &amp; records</div>
           <a href="${BASE}/certifications/operator/sample/" role="menuitem">Sample certificate</a>
           <a href="${BASE}/certifications/verify/" role="menuitem">Verify a credential</a>
           <a href="${BASE}/certifications/registry/" role="menuitem">Public registry</a>
@@ -2561,7 +2570,7 @@ function renderCertSample(tier) {
     description: `What a verified ZopDev University ${data.tierLabel} credential looks like, with anatomy and the public verification URL.`,
     canonical: `https://zop.dev/resources/university/certifications/${tier}/sample/`,
     bodyClass: 'has-credential',
-    uniNav: 'certifications',
+    uniNav: 'prepare',
     body,
   });
 }
@@ -2732,7 +2741,7 @@ document.addEventListener('DOMContentLoaded', function(){
     title: 'Verify a credential / ZopDev University',
     description: 'Public verification for ZopDev University credentials. Paste a credential ID, see the holder name, tier, and issue date. No login.',
     canonical: 'https://zop.dev/resources/university/certifications/verify/',
-    uniNav: 'certifications',
+    uniNav: 'prepare',
     body,
   });
 }
@@ -2976,7 +2985,7 @@ function renderRegistry() {
     title: 'Credential registry / ZopDev University',
     description: 'Public, opt-in registry of ZopDev University credential holders. Each entry links to the public verifier.',
     canonical: 'https://zop.dev/resources/university/certifications/registry/',
-    uniNav: 'certifications',
+    uniNav: 'prepare',
     body,
   });
 }
@@ -3067,6 +3076,7 @@ function renderPractice(tierKey, tracks) {
   const cfg = EXAM_BLUEPRINTS[tierKey];
   const pool = collectExamPool(tracks, tierKey);
   const tierSlug = tierKey;
+  const TL = tierKey.charAt(0).toUpperCase() + tierKey.slice(1);
 
   const blueprintRows = cfg.blueprint
     .map(b => `<tr><td>${escapeHTML(b.label)}</td><td class="exam-bp-count">${b.count}</td></tr>`)
@@ -3079,14 +3089,14 @@ function renderPractice(tierKey, tracks) {
     <a href="/resources/">Resources</a><span class="sep">›</span>
     <a href="${BASE}/">University</a><span class="sep">›</span>
     <a href="${BASE}/certifications/">Certifications</a><span class="sep">›</span>
-    <span class="current">${escapeHTML(cfg.tierTitle)} practice exam</span>
+    <span class="current">${TL} preparation</span>
   </div>
 </section>
 
 <section class="track-hero">
   <div class="container">
-    <div class="track-hero-meta">Practice exam / Self-scored, no login</div>
-    <h1>${escapeHTML(cfg.tierTitle)} practice exam.</h1>
+    <div class="track-hero-meta">Exam preparation / self-scored, no login</div>
+    <h1>Prepare for the ${TL} credential.</h1>
     <p class="track-hero-lead">${cfg.total} questions drawn from the lessons that back the ${escapeHTML(cfg.tierTitle)} certification, weighted to match the real exam blueprint. Score instantly, read the explanation on every question, retake as many times as you like. This is a study aid, not the proctored credential exam.</p>
     ${cfg.note ? `<p class="track-hero-lead exam-note">${escapeHTML(cfg.note)}</p>` : ''}
   </div>
@@ -3325,10 +3335,10 @@ function renderPractice(tierKey, tracks) {
 </script>`;
 
   return pageHTML({
-    title: `${cfg.tierTitle} practice exam / ZopDev University`,
+    title: `${TL} exam preparation / ZopDev University`,
     description: `Free, self-scored ${cfg.tierTitle} practice exam. ${cfg.total} questions weighted to the real exam blueprint, instant scoring, an explanation on every question. No login.`,
     canonical: `https://zop.dev/resources/university/certifications/${tierSlug}/practice/`,
-    uniNav: 'certifications',
+    uniNav: 'prepare',
     body,
   });
 }
@@ -3401,7 +3411,7 @@ function renderArchitectPrep() {
     title: 'Architect certification preparation / ZopDev University',
     description: 'How to prepare for the ZopDev University Architect credential: the application, the take-home design exercise, and the review interview.',
     canonical: 'https://zop.dev/resources/university/certifications/architect/prep/',
-    uniNav: 'certifications',
+    uniNav: 'prepare',
     body,
   });
 }
