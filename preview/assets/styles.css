@@ -1139,28 +1139,40 @@ body.drawer-open { overflow: hidden; }
 }
 .lesson-outcome strong { font-weight: 600; }
 
-/* Metadata box at top of lesson */
+/* Metadata box at top of lesson — bordered spec-sheet rows (prototype style):
+   each row is a mono label cell (tinted, right divider) + a value cell, with
+   full-width dividers between rows. */
 .lesson-metabox {
-  background: var(--g-50);
   border: 1px solid var(--line);
-  padding: 20px 24px;
+  background: var(--paper);
   margin: 32px 0;
 }
 .lesson-metabox dl {
   display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 8px 24px;
+  grid-template-columns: 160px 1fr;
+  margin: 0;
   font-size: 14px;
 }
 .lesson-metabox dt {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
   color: var(--g-600);
-  padding-top: 2px;
+  padding: 11px 15px;
+  background: var(--g-50);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
-.lesson-metabox dd { color: var(--g-700); }
+.lesson-metabox dd {
+  margin: 0;
+  padding: 11px 15px;
+  color: var(--g-700);
+  border-bottom: 1px solid var(--line);
+  line-height: 1.5;
+}
+.lesson-metabox dt:last-of-type,
+.lesson-metabox dd:last-of-type { border-bottom: 0; }
 
 /* Knowledge check details/summary */
 .lesson-content details {
@@ -2532,208 +2544,6 @@ body.drawer-open { overflow: hidden; }
    border, no corner-dot cliché. Hierarchy: tier-name (huge weight 700) →
    color-rule (tier accent, only place color carries) → scope/exam meta rows →
    credential ID footer. */
-/* Cert badge — enhanced graphic credential.
-   Drenched tier-color surface with: radial vignette for depth, thin inner
-   cream frame (medal-style), tiny ZopNight brand chip top, rich cream
-   geometric mark center (tier-specific composition), tier label flanked by
-   short cream rules at the bottom, and a small tier-numeral corner detail. */
-.cert-seal {
-  --seal-edge: 280px;
-  --seal-accent: var(--zop-orange);
-  --seal-accent-deep: rgba(0, 0, 0, 0.18);
-  --seal-cream: #F0EBDB;
-  --seal-cream-mid: rgba(240, 235, 219, 0.45);
-  --seal-cream-soft: rgba(240, 235, 219, 0.18);
-
-  position: relative;
-  width: var(--seal-edge);
-  aspect-ratio: 1 / 1;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 26px 22px 22px;
-  background: var(--seal-accent);
-  color: var(--seal-cream);
-  font-family: var(--font);
-  overflow: hidden;
-  text-decoration: none;
-}
-.cert-seal.seal-accent-orange { --seal-accent: #B85A24; }   /* deepened orange — readable cream-on-orange */
-.cert-seal.seal-accent-blue   { --seal-accent: #2A4494; }
-.cert-seal.seal-accent-green  { --seal-accent: #3f6320; }
-
-.cert-seal-small  { --seal-edge: 96px;  padding: 8px; }
-.cert-seal-medium { --seal-edge: 220px; padding: 22px 18px 18px; }
-.cert-seal-large  { --seal-edge: 280px; padding: 28px 22px 22px; }
-.cert-seal-xlarge { --seal-edge: 360px; padding: 38px 30px 30px; }
-
-/* Hide legacy seal nodes if they appear inside the new article. */
-.cert-seal .seal-corner,
-.cert-seal .seal-ring,
-.cert-seal .seal-inner,
-.cert-seal .seal-mark,
-.cert-seal .seal-zop,
-.cert-seal .seal-uni,
-.cert-seal .seal-divider,
-.cert-seal .seal-tier-badge,
-.cert-seal .seal-tier-label,
-.cert-seal .seal-year,
-.cert-seal .seal-head,
-.cert-seal .seal-body,
-.cert-seal .seal-foot,
-.cert-seal .seal-rule,
-.cert-seal .seal-meta,
-.cert-seal .seal-hairline { display: none !important; }
-
-/* Radial vignette — darker edges, brighter center. Gives the badge depth
-   like a real medal under raking light. */
-.cert-seal .seal-vignette {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at center, transparent 0%, transparent 55%, var(--seal-accent-deep) 100%),
-    radial-gradient(circle at 30% 22%, rgba(240, 235, 219, 0.08) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Inner cream hairline frame — medal-style inset border */
-.cert-seal .seal-frame {
-  position: absolute; inset: 12px;
-  border: 1px solid var(--seal-cream-mid);
-  pointer-events: none;
-  z-index: 1;
-}
-.cert-seal-small .seal-frame { inset: 5px; }
-.cert-seal-medium .seal-frame { inset: 10px; }
-.cert-seal-xlarge .seal-frame { inset: 16px; }
-
-/* Tiny ZopNight brand mark at top-center, cream square + tier-color moon */
-.cert-seal .seal-mini-mark {
-  position: relative; z-index: 2;
-  width: 16px; height: 16px;
-  display: block; flex-shrink: 0;
-  color: var(--seal-accent);
-  margin: 4px 0 6px;
-}
-.cert-seal-small .seal-mini-mark { width: 8px; height: 8px; display: none; }
-.cert-seal-medium .seal-mini-mark { width: 14px; height: 14px; }
-.cert-seal-xlarge .seal-mini-mark { width: 20px; height: 20px; margin: 6px 0 8px; }
-
-/* Central graphic */
-.cert-seal .seal-graphic {
-  flex: 1;
-  width: 100%;
-  display: flex; align-items: center; justify-content: center;
-  padding: 4px 0;
-  position: relative; z-index: 2;
-}
-.cert-seal .badge-graphic {
-  width: 100%; height: 100%;
-  max-width: 180px; max-height: 180px;
-  display: block;
-  color: var(--seal-cream);
-}
-.cert-seal-xlarge .badge-graphic { max-width: 220px; max-height: 220px; }
-.cert-seal-medium .badge-graphic { max-width: 140px; max-height: 140px; }
-.cert-seal-small .badge-graphic { max-width: 72px; max-height: 72px; }
-
-/* SVG token styling for the per-tier marks */
-.cert-seal .bg-block {
-  fill: var(--seal-cream);
-}
-.cert-seal .bg-rule {
-  fill: var(--seal-cream);
-}
-.cert-seal .bg-bridge {
-  fill: var(--seal-cream);
-}
-.cert-seal .bg-tick {
-  stroke: rgba(240, 235, 219, 0.7);
-  stroke-width: 3;
-  stroke-linecap: square;
-}
-.cert-seal .bg-crosshair {
-  stroke: rgba(240, 235, 219, 0.2);
-  stroke-width: 1.5;
-  stroke-linecap: square;
-}
-.cert-seal .bg-marker {
-  fill: rgba(240, 235, 219, 0.7);
-}
-.cert-seal .bg-dots circle {
-  fill: rgba(240, 235, 219, 0.32);
-}
-.cert-seal .bg-frame {
-  fill: none;
-  stroke: rgba(240, 235, 219, 0.6);
-  stroke-width: 1.5;
-}
-.cert-seal .bg-corner {
-  fill: var(--seal-cream);
-}
-
-/* Label row — tier name flanked by short cream rules */
-.cert-seal .seal-label-row {
-  position: relative; z-index: 2;
-  display: flex; align-items: center; justify-content: center;
-  gap: 10px;
-  width: 100%;
-  margin-top: 8px;
-}
-.cert-seal .seal-label-rule {
-  flex: 0 1 28px;
-  height: 1px;
-  background: var(--seal-cream-mid);
-}
-.cert-seal-medium .seal-label-rule { flex-basis: 18px; }
-.cert-seal-xlarge .seal-label-rule { flex-basis: 36px; }
-
-.cert-seal .seal-label {
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.26em;
-  color: var(--seal-cream);
-  margin: 0;
-  line-height: 1;
-  white-space: nowrap;
-}
-.cert-seal-xlarge .seal-label { font-size: 16px; letter-spacing: 0.28em; }
-.cert-seal-medium .seal-label { font-size: 11px; letter-spacing: 0.22em; }
-.cert-seal-small .seal-label { font-size: 7px; letter-spacing: 0.14em; }
-
-/* Small tier numeral footer detail — bottom-right corner inside the frame */
-.cert-seal .seal-tier-num {
-  position: absolute;
-  right: 18px; bottom: 14px;
-  z-index: 3;
-  font-family: var(--font);
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--seal-cream-mid);
-  letter-spacing: 0.06em;
-  text-transform: none !important;
-}
-.cert-seal-small .seal-tier-num { display: none; }
-.cert-seal-medium .seal-tier-num { right: 14px; bottom: 10px; font-size: 9px; }
-.cert-seal-xlarge .seal-tier-num { right: 24px; bottom: 18px; font-size: 12px; }
-
-/* Small variant collapses to just the graphic — no frame, brand chip, label */
-.cert-seal-small .seal-vignette,
-.cert-seal-small .seal-mini-mark,
-.cert-seal-small .seal-label-row { display: none; }
-.cert-seal-small .seal-graphic { padding: 0; }
-.cert-seal-small .badge-graphic { max-width: 100%; max-height: 100%; }
-
-/* =========================================================
-   CERTIFICATIONS PAGE — editorial credential card
-   Two-column grid: badge rail (left) + content rail (right).
-   Content is divided into header / stats grid / scope list / path /
-   actions, each separated by hairlines — reads like a credential
-   spec sheet, not a marketing card. */
 .cert-card-with-seal {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -7475,3 +7285,34 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .dgm-bar{fill:var(--zop-blue)}
 .dgm-bar-2{fill:var(--zop-blue);opacity:.45}
 .dgm-arrow{stroke:var(--ink);stroke-opacity:.55;fill:none}
+
+/* Grouped dropdown sections (Certifications + Prepare & verify menus) */
+.uni-dropdown-section {
+  padding: 10px 18px 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.5;
+}
+.uni-dropdown-menu .uni-dropdown-section:first-child { padding-top: 12px; }
+.uni-dropdown-divider { height: 1px; margin: 6px 0; background: var(--line); }
+
+/* Credential shield badges (V2) */
+.cert-badge { display: block; }
+.cert-badge-svg, .cert-badge svg { display: block; width: 100%; height: auto; }
+.cert-badge-large { max-width: 300px; }
+.cert-badge-medium { max-width: 240px; margin: 0 auto; }
+.cert-badge-dl {
+  display: inline-block; margin-top: 12px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+  color: var(--zop-blue); text-decoration: none; border-bottom: 1px solid currentColor;
+}
+.cert-badge-dl:hover { color: var(--zop-orange); }
+
+/* Homepage bento: credential shield atop each cert card */
+.cert .ct-badge { display: block; width: 100%; max-width: 132px; height: auto; margin: 0 auto 18px; }
+.cert .ct-head { justify-content: center; }
+
+.cert .ct-icon { display: none; }
