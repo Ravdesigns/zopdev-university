@@ -7335,7 +7335,8 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  flex-wrap: wrap;
+  gap: 12px 24px;
   padding-bottom: 18px;
   border-bottom: 1px solid var(--line);
 }
@@ -7430,4 +7431,5 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
   .zdc-body { grid-template-columns: 1fr; gap: 24px; }
   .zdc-seal { width: 150px; margin: 0 auto; }
   .zdc-foot { grid-template-columns: 1fr; gap: 16px; }
+  .zdc-id { text-align: left; }
 }

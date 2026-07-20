@@ -3422,7 +3422,7 @@ function renderCertifications(tracks) {
 <section class="track-hero">
   <div class="container">
     <a class="certs-hero-logo" href="/" aria-label="ZopDev">
-      <svg viewBox="27 105 3817 1365" role="img" aria-label="ZopDev"><use href="#logo-zopdev"/></svg>
+      <svg viewBox="27 105 3817 1365" aria-hidden="true"><use href="#logo-zopdev"/></svg>
     </a>
     <div class="track-hero-meta">Certifications / 3 tiers</div>
     <h1>Three credentials. Three different jobs.</h1>
