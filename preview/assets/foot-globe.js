@@ -157,13 +157,17 @@
     ctx.globalAlpha = 1;
   }
 
+  var rafId = null, running = false;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function frame(){
     var tNow = performance.now() * 0.001;
     ctx.clearRect(0, 0, W, H);
     renderDots();
     drawTransientArcs(tNow);
-    requestAnimationFrame(frame);
+    if(running) rafId = requestAnimationFrame(frame);
   }
+  function start(){ if(running || reduceMotion) return; running = true; rafId = requestAnimationFrame(frame); }
+  function stop(){ running = false; if(rafId) cancelAnimationFrame(rafId); rafId = null; }
 
   var ghostEl = null;
   var ghostX = 0, ghostY = 0;
@@ -233,5 +237,15 @@
 
   resize();
   window.addEventListener('resize', resize);
-  requestAnimationFrame(frame);
+  // Respect reduced-motion (draw one static frame, no loop) and only animate
+  // while the footer is actually on screen — no background CPU/battery drain.
+  if(reduceMotion){
+    ctx.clearRect(0, 0, W, H); renderDots();
+  } else if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ en.isIntersecting ? start() : stop(); });
+    }, { threshold: 0 }).observe(container);
+  } else {
+    start();
+  }
 })();

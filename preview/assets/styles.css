@@ -955,7 +955,7 @@ body.drawer-open { overflow: hidden; }
 .lesson-sidebar nav a:hover,
 .lesson-sidebar nav a.current {
   color: var(--ink);
-  border-left-color: var(--zop-orange);
+  border-color: var(--zop-orange);
   background: var(--g-50);
 }
 .lesson-sidebar nav a .num {
@@ -1078,7 +1078,6 @@ body.drawer-open { overflow: hidden; }
   line-height: 1.55;
   background: var(--g-50);
   border: 1px solid var(--line);
-  border-left: 3px solid var(--zop-orange);
   padding: 20px;
   margin: 24px 0;
   overflow-x: auto;
@@ -1096,7 +1095,7 @@ body.drawer-open { overflow: hidden; }
 .lesson-content blockquote {
   margin: 24px 0;
   padding: 16px 24px;
-  border-left: 4px solid var(--zop-orange);
+  border: 1px solid var(--line);
   background: var(--g-50);
   color: var(--g-700);
   font-style: italic;
@@ -1134,8 +1133,8 @@ body.drawer-open { overflow: hidden; }
 
 /* Outcome callout — sits between H1 and metabox, calls out what the reader will learn. */
 .lesson-outcome {
-  border-left: 3px solid var(--zop-orange);
-  background: linear-gradient(90deg, rgba(245, 133, 73, 0.06), transparent 60%);
+  border: 1px solid var(--line);
+  background: rgba(245, 133, 73, 0.05);
   padding: 18px 22px;
   margin: 28px 0 8px;
 }
@@ -1254,7 +1253,7 @@ body.drawer-open { overflow: hidden; }
 .check .opt:disabled { cursor: default; }
 .check .explain {
   display: none; margin-top: 12px; padding: 13px 15px;
-  border-left: 3px solid var(--zop-orange); background: var(--g-100);
+  border: 1px solid var(--line); background: var(--g-100);
   font-size: 15px; line-height: 1.6; color: var(--g-700);
 }
 .check .explain.show { display: block; }
@@ -1547,7 +1546,7 @@ body.drawer-open { overflow: hidden; }
   display: flex;
   flex-direction: column;
   border: 1px solid var(--line);
-  border-left: 3px solid var(--zop-orange);
+  border: 1px solid var(--line);
   padding: 18px 22px 16px;
   background: var(--paper);
   text-decoration: none;
@@ -1557,7 +1556,7 @@ body.drawer-open { overflow: hidden; }
 }
 .glossary-item:hover {
   border-color: var(--ink);
-  border-left-color: var(--zop-orange);
+  border-color: var(--zop-orange);
   transform: translateY(-4px);
   box-shadow: 0 8px 0 -4px var(--ink);
   color: inherit;
@@ -1627,7 +1626,7 @@ body.drawer-open { overflow: hidden; }
   color: var(--g-700);
   margin: 0 0 32px;
   max-width: 820px;
-  border-left: 3px solid var(--zop-orange);
+  border: 1px solid var(--line);
   padding-left: 20px;
 }
 .glossary-term-def-empty { color: var(--g-500); font-style: italic; }
@@ -2167,7 +2166,7 @@ body.drawer-open { overflow: hidden; }
 }
 .uni-dropdown-menu a:hover {
   background: var(--g-50);
-  border-left-color: var(--zop-orange);
+  border-color: var(--zop-orange);
 }
 @media (max-width: 720px) {
   .uni-nav { top: 64px; }
@@ -2960,7 +2959,7 @@ body.drawer-open { overflow: hidden; }
 .credential-engineer .credential-strip { --strip-accent: var(--zop-blue); }
 .credential-architect .credential-strip { --strip-accent: var(--zop-green-deep); }
 .credential-strip-cell {
-  border-left: 4px solid var(--strip-accent);
+  border: 1px solid var(--line);
   padding: 6px 0 6px 18px;
 }
 .credential-strip-num {
@@ -3107,7 +3106,7 @@ body.drawer-open { overflow: hidden; }
   .nav, .uni-nav, .footer, .breadcrumb, .track-hero,
   .credential-actions, .cta-strip, .sec-head, .anatomy-list { display: none !important; }
   .credential-stage { padding: 0; background: none; border: 0; margin: 0; box-shadow: none; }
-  .credential-artwork { width: 100%; box-shadow: none; page-break-inside: avoid; }
+  .credential-artwork, .zdc { width: 100%; box-shadow: none; page-break-inside: avoid; }
   body { background: #fff; }
 }
 @media (max-width: 768px) {
@@ -3390,7 +3389,7 @@ body.drawer-open { overflow: hidden; }
 .lp-proof-cell {
   --proof-accent: var(--zop-orange);
   padding: 4px 0 4px 24px;
-  border-left: 3px solid var(--proof-accent);
+  border: 1px solid var(--line);
 }
 .lp-proof-cell-operator  { --proof-accent: var(--zop-orange); }
 .lp-proof-cell-engineer  { --proof-accent: var(--zop-blue); }
@@ -3818,7 +3817,7 @@ body.drawer-open { overflow: hidden; }
   border: 1px solid var(--line);
   /* Proof-cell visual idiom: thick orange left bar reading as a
      ribbon mark, same accent as the proof-strip cells. */
-  border-left: 4px solid var(--zop-orange);
+  border: 1px solid var(--line);
   padding: 40px 32px 36px;
   text-decoration: none;
   color: inherit;
@@ -3833,17 +3832,17 @@ body.drawer-open { overflow: hidden; }
               border-color var(--dur-med) var(--ease-out);
 }
 /* Per-tier accent on the left ribbon */
-.lp-cert-card:nth-child(2) { border-left-color: var(--zop-blue); }
-.lp-cert-card:nth-child(3) { border-left-color: var(--zop-green-deep); }
+.lp-cert-card:nth-child(2) { border-color: var(--zop-blue); }
+.lp-cert-card:nth-child(3) { border-color: var(--zop-green); }
 .lp-cert-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 0 -4px var(--ink);
   border-color: var(--ink);
-  border-left-color: var(--zop-orange);
+  border-color: var(--zop-orange);
   color: inherit;
 }
-.lp-cert-card:nth-child(2):hover { border-left-color: var(--zop-blue); }
-.lp-cert-card:nth-child(3):hover { border-left-color: var(--zop-green-deep); }
+.lp-cert-card:nth-child(2):hover { border-color: var(--zop-blue); }
+.lp-cert-card:nth-child(3):hover { border-color: var(--zop-green); }
 .lp-cert-seal-wrap { margin-bottom: 24px; }
 .lp-cert-tier {
   font-family: var(--mono);
@@ -4598,7 +4597,7 @@ summary.m-row:hover .m-row-chevron { color: var(--zop-orange); }
   color: var(--g-500);
 }
 .outcome-card {
-  border-left: 4px solid var(--zop-orange) !important;
+  border: 1px solid var(--line) !important;
   background: var(--g-50) !important;
 }
 
@@ -6459,7 +6458,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .sample-body pre {
   background: var(--g-50);
   border: 1px solid var(--line);
-  border-left: 4px solid var(--zop-blue);
+  border: 1px solid var(--line);
   padding: 14px 18px;
   margin: 14px 0;
   font-family: var(--mono); font-size: 12px;
@@ -6639,7 +6638,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 }
 .lesson-body pre {
   background: var(--g-50); border: 1px solid var(--line);
-  border-left: 4px solid var(--zop-blue);
+  border: 1px solid var(--line);
   padding: 20px 24px; margin: 24px 0;
   overflow-x: auto;
   font-family: var(--mono); font-size: 13px; line-height: 1.55;
@@ -6669,7 +6668,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .lesson-body details[open] summary { margin-bottom: 12px; }
 
 .outcome-card {
-  background: var(--g-50); border-left: 4px solid var(--zop-blue);
+  background: var(--g-50); border: 1px solid var(--line);
   padding: 24px 28px; margin: 32px 0;
 }
 .outcome-card .label {
@@ -7120,8 +7119,8 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .exam-opt.incorrect .exam-opt-key { border-color: var(--zop-orange); color: var(--zop-orange); }
 
 /* Explanation (mirrors the lesson-outcome left-border idiom) */
-.exam-explain { margin-top: 16px; padding: 16px 18px; border-left: 3px solid var(--zop-green); background: var(--g-50); }
-.exam-explain.is-wrong { border-left-color: var(--zop-orange); }
+.exam-explain { margin-top: 16px; padding: 16px 18px; border: 1px solid var(--line); background: var(--g-50); }
+.exam-explain.is-wrong { border-color: var(--zop-orange); }
 .exam-explain-label { display: block; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g-600); margin-bottom: 6px; }
 .exam-explain p { font-family: var(--font-body); font-size: 14px; line-height: 1.55; color: var(--ink); margin: 0 0 10px; }
 .exam-explain-src { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink); text-decoration: underline; text-decoration-color: var(--zop-orange); text-underline-offset: 3px; }
@@ -7299,7 +7298,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .dgm-label{font-family:var(--mono);font-size:11px;fill:var(--ink)}
 .dgm-label-sm{font-family:var(--mono);font-size:9.5px;fill:var(--ink);opacity:.7}
 .dgm-title{font-family:var(--font);font-weight:600;font-size:13px;fill:var(--ink)}
-.dgm-num{font-family:var(--font);font-weight:700;font-size:13px;fill:var(--zop-blue)}
+.dgm-num{font-family:var(--font);font-weight:700;font-size:13px;fill:var(--ink)}
 .dgm-bar{fill:var(--zop-blue)}
 .dgm-bar-2{fill:var(--zop-blue);opacity:.45}
 .dgm-arrow{stroke:var(--ink);stroke-opacity:.55;fill:none}
@@ -7334,3 +7333,162 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .cert .ct-head { justify-content: center; }
 
 .cert .ct-icon { display: none; }
+
+/* =========================================================
+   AUDIT FIXES (impeccable) — appended so they win the cascade
+   ========================================================= */
+
+/* P3: tokenize the quick-check "wrong" red */
+:root { --zop-red: #c65a3a; }
+.check .opt.wrong { border-color: var(--zop-red); }
+
+/* P1: blue (#2A4494) is ~2.1:1 on the dark canvas. Emphasis in headings and
+   the landing display type reads as cream; the bold weight carries emphasis. */
+h1 em, h2 em, h3 em,
+.lp-hero-title em, .lp-h2 em, .hero h1 em, .hero h1 .blue { color: var(--ink) !important; }
+
+/* P3: never let a long unbreakable token in inline code push the column wide */
+.lesson-content code, .lesson-content a { overflow-wrap: anywhere; }
+
+/* P1: kill horizontal overflow on mobile.
+   The marketing nav collapses to its (already-built) hamburger + drawer;
+   the University sub-nav wraps and its search takes a full row. */
+@media (min-width: 901px) {
+  .nav-mobile-toggle, .nav-drawer { display: none !important; }
+}
+@media (max-width: 900px) {
+  .nav-links, .nav-cta { display: none !important; }
+  .nav-mobile-toggle { display: inline-block !important; }
+}
+@media (max-width: 720px) {
+  .uni-nav-inner { flex-wrap: wrap; row-gap: 10px; }
+  .uni-nav-links { flex-wrap: wrap; }
+  .uni-search { min-width: 0; flex: 1 1 100%; order: 3; }
+/* =================================================================
+   CREDENTIAL v2 — redesigned sample certificate (.zdc) + certs logo
+   Seal is the tier shield; header carries the zopdev wordmark; the
+   credential title is stated once. Tier accent per tier.
+   ================================================================= */
+.certs-hero-logo { display: inline-block; margin-bottom: 20px; }
+.certs-hero-logo svg { width: 168px; height: auto; color: var(--ink); display: block; }
+
+.zdc {
+  --zdc-accent: #7FB236;
+  width: 960px;
+  max-width: 100%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 14px;
+}
+.zdc-operator  { --zdc-accent: #7FB236; }
+.zdc-engineer  { --zdc-accent: #2A4494; }
+.zdc-architect { --zdc-accent: #F58549; }
+.zdc-frame {
+  border: 1px solid var(--zdc-accent);
+  padding: 38px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.zdc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.zdc-brand { display: inline-flex; align-items: baseline; gap: 12px; }
+.zdc-logo { width: 132px; height: auto; color: var(--ink); position: relative; top: 6px; }
+.zdc-uni {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--zop-orange);
+}
+.zdc-id { text-align: right; display: flex; flex-direction: column; gap: 3px; }
+.zdc-id-k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--g-600);
+}
+.zdc-id-v { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.zdc-body {
+  display: grid;
+  grid-template-columns: 196px 1fr;
+  gap: 38px;
+  align-items: center;
+}
+.zdc-seal { width: 196px; }
+.zdc-seal svg { width: 100%; height: auto; }
+.zdc-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--g-600);
+}
+.zdc-name {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: clamp(34px, 4.4vw, 52px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-top: 0.28em;
+  color: var(--ink);
+}
+.zdc-rule { display: flex; align-items: center; gap: 12px; margin: 16px 0 18px; max-width: 340px; }
+.zdc-rule span { height: 2px; flex: 1; background: var(--zdc-accent); }
+.zdc-rule b { color: var(--zdc-accent); font-size: 14px; }
+.zdc-blurb {
+  margin: 0;
+  color: var(--g-600);
+  font-size: 15.5px;
+  line-height: 1.6;
+  max-width: 52ch;
+}
+.zdc-award { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.zdc-title {
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: clamp(22px, 2.6vw, 30px);
+  letter-spacing: -0.01em;
+  margin-top: 4px;
+  color: var(--ink);
+}
+.zdc-tier {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--g-600);
+  margin-top: 6px;
+}
+.zdc-foot {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.zdc-fc { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.zdc-fk {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--g-600);
+}
+.zdc-fv { font-size: 14px; color: var(--ink); }
+.zdc-mono { font-family: var(--mono); font-size: 12px; word-break: break-word; }
+@media (max-width: 820px) {
+  .zdc-frame { padding: 28px 22px; }
+  .zdc-body { grid-template-columns: 1fr; gap: 24px; }
+  .zdc-seal { width: 150px; margin: 0 auto; }
+  .zdc-foot { grid-template-columns: 1fr; gap: 16px; }
+  .zdc-id { text-align: left; }
+}
