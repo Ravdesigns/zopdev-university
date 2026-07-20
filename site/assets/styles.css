@@ -6660,7 +6660,7 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .lesson-body summary {
   cursor: pointer; font-family: var(--mono); font-size: 11px;
   text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--zop-blue); font-weight: 500;
+  color: var(--zop-orange); font-weight: 500;
 }
 .lesson-body details[open] summary { margin-bottom: 12px; }
 
