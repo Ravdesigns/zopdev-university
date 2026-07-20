@@ -2328,17 +2328,19 @@ function certBadgeSVG(tier) {
   const W = 340, H = 440, sx = 40, sw = W - 80, cx = W / 2;
   const shieldPath = `M${sx},70 L${sx + sw},70 L${sx + sw},300 Q${sx + sw},360 ${cx},400 Q${sx},360 ${sx},300 Z`;
   const nameSize = d.name.length > 8 ? 34 : 40;
-  // Real ZopDev mark: three squares — blue TL, orange TR, green BR — shown in a
-  // cream chip so the true colors read on any tier-colored band (Stripe-style
-  // logo panel on a colored card).
-  const m = 11, g = 2.5, chipW = 2 * m + g + 20, chipH = 2 * m + g + 20;
+  // ZopDev University mark: the "eye" (two crescents + starburst pupil on a
+  // blue rounded square) — the canonical University emblem used in the site
+  // header lockup and favicon. Shown on a cream chip so the blue square reads
+  // on any tier-colored band (including the blue Engineer band).
+  const emblem = 30, pad = 5, chipW = emblem + 2 * pad, chipH = chipW;
   const chipX = cx - chipW / 2, chipY = 70 + (48 - chipH) / 2;
-  const mx = chipX + 10, my = chipY + 10;
-  const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" fill="${PAPER}"/>` +
-    `<g transform="translate(${mx},${my})">` +
-    `<rect x="0" y="0" width="${m}" height="${m}" fill="${BLUE}"/>` +
-    `<rect x="${m + g}" y="0" width="${m}" height="${m}" fill="${ORANGE}"/>` +
-    `<rect x="${m + g}" y="${m + g}" width="${m}" height="${m}" fill="${GREEN}"/></g>`;
+  const ex = chipX + pad, ey = chipY + pad, es = emblem / 100;
+  const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" rx="7" fill="${PAPER}"/>` +
+    `<g transform="translate(${ex},${ey}) scale(${es})">` +
+    `<rect width="100" height="100" rx="16" fill="${BLUE}"/>` +
+    `<path d="M 38 27 Q -12 50 38 73 Q 16 50 38 27 Z" fill="#FFFFFF"/>` +
+    `<path d="M 62 27 Q 112 50 62 73 Q 84 50 62 27 Z" fill="#FFFFFF"/>` +
+    `<polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/></g>`;
   return `<svg class="cert-badge-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="ZopDev Certified: ${d.name} badge" xmlns="http://www.w3.org/2000/svg">
   <path d="${shieldPath}" fill="${PAPER}" stroke="${d.accent}" stroke-width="2.5"/>
   <path d="M${sx},70 L${sx + sw},70 L${sx + sw},118 L${sx},118 Z" fill="${d.accent}"/>
