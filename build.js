@@ -34,6 +34,12 @@ const CSS_VER = assetVer('assets/styles.css');
 const JS_VER = assetVer('assets/foot-globe.js');
 const CSS_HREF = `${BASE}/assets/styles.css${CSS_VER ? '?v=' + CSS_VER : ''}`;
 const JS_SRC = `${BASE}/assets/foot-globe.js${JS_VER ? '?v=' + JS_VER : ''}`;
+// Cache-bust the generated tier badges too (same immutable cache, stable
+// filename). Hash their content so a mark change reaches returning visitors.
+const BADGE_VER = crypto.createHash('sha256')
+  .update(certBadgeSVG('operator') + certBadgeSVG('engineer') + certBadgeSVG('architect'))
+  .digest('hex').slice(0, 10);
+const badgeHref = (tier) => `${BASE}/assets/badges/${tier}.svg?v=${BADGE_VER}`;
 const u = (p) => BASE + p;
 
 // =============================================================
@@ -2341,10 +2347,12 @@ function certBadgeSVG(tier) {
   const chipW = emblem + 2 * pad, chipH = chipW;
   const chipX = cx - chipW / 2, chipY = 70 + (48 - chipH) / 2;
   const mx = chipX + pad, my = chipY + pad;
+  // Tiles overlap by 0.5 into their neighbours (which draw on top) so there is
+  // never a hairline seam or gap between them at any render size.
   const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" rx="6" fill="${PAPER}"/>` +
     `<g transform="translate(${mx},${my})">` +
-    `<rect x="0" y="0" width="${t}" height="${t}" fill="${BLUE}"/>` +
-    `<rect x="${t}" y="0" width="${t}" height="${t}" fill="${ORANGE}"/>` +
+    `<rect x="0" y="0" width="${t + 0.5}" height="${t + 0.5}" fill="${BLUE}"/>` +
+    `<rect x="${t}" y="0" width="${t}" height="${t + 0.5}" fill="${ORANGE}"/>` +
     `<rect x="${t}" y="${t}" width="${t}" height="${t}" fill="${GREEN}"/></g>`;
   return `<svg class="cert-badge-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="ZopDev Certified: ${d.name} badge" xmlns="http://www.w3.org/2000/svg">
   <path d="${shieldPath}" fill="${PAPER}" stroke="${d.accent}" stroke-width="2.5"/>
@@ -3472,7 +3480,7 @@ function renderCertifications(tracks) {
     <article class="cert-card cert-card-with-seal cert-card-operator">
       <aside class="cert-card-seal">
         ${certSeal('operator', { size: 'medium' })}
-        <a class="cert-badge-dl" href="${BASE}/assets/badges/operator.svg" download>Download badge (SVG) ↓</a>
+        <a class="cert-badge-dl" href="${badgeHref('operator')}" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier I</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -3545,7 +3553,7 @@ function renderCertifications(tracks) {
     <article class="cert-card cert-card-with-seal cert-card-engineer">
       <aside class="cert-card-seal">
         ${certSeal('engineer', { size: 'medium' })}
-        <a class="cert-badge-dl" href="${BASE}/assets/badges/engineer.svg" download>Download badge (SVG) ↓</a>
+        <a class="cert-badge-dl" href="${badgeHref('engineer')}" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier II</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -3619,7 +3627,7 @@ function renderCertifications(tracks) {
     <article class="cert-card cert-card-with-seal cert-card-architect">
       <aside class="cert-card-seal">
         ${certSeal('architect', { size: 'medium' })}
-        <a class="cert-badge-dl" href="${BASE}/assets/badges/architect.svg" download>Download badge (SVG) ↓</a>
+        <a class="cert-badge-dl" href="${badgeHref('architect')}" download>Download badge (SVG) ↓</a>
         <div class="cert-card-seal-meta">
           <span class="cert-card-seal-tier">Tier III</span>
           <span class="cert-card-seal-rule" aria-hidden="true"></span>
@@ -4301,6 +4309,7 @@ pageCount++;
     let html = fs.readFileSync(previewIndexPath, 'utf8');
     html = html.replace(/href="assets\/styles\.css"/g, `href="${CSS_HREF}"`);
     html = html.replace(/src="assets\/foot-globe\.js"/g, `src="${JS_SRC}"`);
+    html = html.replace(/src="\/assets\/badges\/(operator|engineer|architect)\.svg"/g, (_, t) => `src="${badgeHref(t)}"`);
     html = html.replace(/href="lesson-t3-m3-1-l1\.html"/g, 'href="/architect/rbac/policy-table/"');
     writeFile(path.join(SITE_DIR, 'index.html'), html);
     console.log('✅ Homepage replaced with preview/index.html (bento + isometric)');
