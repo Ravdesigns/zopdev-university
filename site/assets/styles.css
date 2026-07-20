@@ -7361,6 +7361,7 @@ h1 em, h2 em, h3 em,
   .uni-nav-inner { flex-wrap: wrap; row-gap: 10px; }
   .uni-nav-links { flex-wrap: wrap; }
   .uni-search { min-width: 0; flex: 1 1 100%; order: 3; }
+}
 /* =================================================================
    CREDENTIAL v2 — redesigned sample certificate (.zdc) + certs logo
    Seal is the tier shield; header carries the zopdev wordmark; the
