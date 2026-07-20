@@ -2333,15 +2333,18 @@ function certBadgeSVG(tier) {
   const W = 340, H = 440, sx = 40, sw = W - 80, cx = W / 2;
   const shieldPath = `M${sx},70 L${sx + sw},70 L${sx + sw},300 Q${sx + sw},360 ${cx},400 Q${sx},360 ${sx},300 Z`;
   const nameSize = d.name.length > 8 ? 34 : 40;
-  // Real ZopDev mark: three squares — blue TL, orange TR, green BR — in a white
-  // rounded chip so the true colors read on any tier-colored band. The chip sits
-  // flat on the band (no bulge).
-  const unit = 13, g = 3, span = 2 * unit + g, pad = 10, chipSz = span + pad * 2;
-  const cy = 94, mkx = cx - span / 2, mky = cy - span / 2;
-  const chip = `<rect x="${cx - chipSz / 2}" y="${cy - chipSz / 2}" width="${chipSz}" height="${chipSz}" rx="9" fill="#FFFFFF"/>` +
-    `<rect x="${mkx}" y="${mky}" width="${unit}" height="${unit}" fill="${BLUE}"/>` +
-    `<rect x="${mkx + unit + g}" y="${mky}" width="${unit}" height="${unit}" fill="${ORANGE}"/>` +
-    `<rect x="${mkx + unit + g}" y="${mky + unit + g}" width="${unit}" height="${unit}" fill="${GREEN}"/>`;
+  // ZopDev brand mark: the three-square mark from the main nav header
+  // (#mark-zopdev) — blue top-left, orange top-right, green bottom-right,
+  // bottom-left empty. Shown on a cream chip so it reads on any tier band.
+  const sq = 13, gap = 3, emblem = 2 * sq + gap, pad = 6;
+  const chipW = emblem + 2 * pad, chipH = chipW;
+  const chipX = cx - chipW / 2, chipY = 70 + (48 - chipH) / 2;
+  const mx = chipX + pad, my = chipY + pad;
+  const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" rx="6" fill="${PAPER}"/>` +
+    `<g transform="translate(${mx},${my})">` +
+    `<rect x="0" y="0" width="${sq}" height="${sq}" fill="${BLUE}"/>` +
+    `<rect x="${sq + gap}" y="0" width="${sq}" height="${sq}" fill="${ORANGE}"/>` +
+    `<rect x="${sq + gap}" y="${sq + gap}" width="${sq}" height="${sq}" fill="${GREEN}"/></g>`;
   return `<svg class="cert-badge-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="ZopDev Certified: ${d.name} badge" xmlns="http://www.w3.org/2000/svg">
   <path d="${shieldPath}" fill="${PAPER}" stroke="${d.accent}" stroke-width="2.5"/>
   <path d="M${sx},70 L${sx + sw},70 L${sx + sw},118 L${sx},118 Z" fill="${d.accent}"/>
