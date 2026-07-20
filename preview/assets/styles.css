@@ -710,22 +710,38 @@ body.drawer-open { overflow: hidden; }
   max-width: 640px;
   margin-bottom: 32px;
 }
+/* Track/module summary — connected bordered stat cells (mirrors the homepage
+   KPI proof strip): a mono label over a prominent value, hairline dividers. */
 .track-meta-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 36px;
+}
+.track-meta-row .item {
   display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--g-600);
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
+  flex-direction: column;
+  gap: 7px;
+  background: var(--paper);
+  padding: 18px 22px;
+  font-family: var(--font);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--ink);
+  text-transform: none;
 }
 .track-meta-row .item strong {
-  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
   font-weight: 500;
-  margin-right: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--g-500);
+  margin: 0;
 }
 
 /* Module list on track page */
@@ -7152,10 +7168,12 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .lesson-complete-hint { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--g-600); }
 
 /* Track: completion bar in the hero */
-.track-progress { display: flex; align-items: center; gap: 16px; margin-top: 24px; max-width: 520px; }
-.track-progress-bar { flex: 1; height: 8px; background: var(--g-50); border: 1px solid var(--line); overflow: hidden; }
-.track-progress-fill { height: 100%; background: var(--zop-green); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-med, 250ms) var(--ease-out, ease); }
-.track-progress-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--g-600); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.track-progress { margin-top: 20px; }
+.track-progress-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 10px; }
+.track-progress-title { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.11em; color: var(--g-500); }
+.track-progress-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--g-600); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.track-progress-bar { height: 10px; background: var(--g-50); border: 1px solid var(--line); overflow: hidden; }
+.track-progress-fill { height: 100%; background: var(--zop-green); transform: scaleX(0); transform-origin: left; transition: transform 600ms var(--ease-out, ease); }
 
 /* ============================================================= */
 /* CREDENTIAL REGISTRY — /certifications/registry/                */

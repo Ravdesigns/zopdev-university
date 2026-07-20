@@ -1817,8 +1817,11 @@ ${lessons}
       <div class="item"><strong>Time</strong>${escapeHTML(track.time)}</div>
     </div>
     <div class="track-progress" data-track="${track.slug}" data-total="${totalLessons}" hidden>
+      <div class="track-progress-head">
+        <span class="track-progress-title">Your progress</span>
+        <span class="track-progress-label"></span>
+      </div>
       <div class="track-progress-bar"><div class="track-progress-fill"></div></div>
-      <span class="track-progress-label"></span>
     </div>
   </div>
 </section>
@@ -1851,8 +1854,9 @@ ${lessons}
   if(done>total) done=total;
   var fill=el.querySelector('.track-progress-fill');
   var label=el.querySelector('.track-progress-label');
+  var pct=total?Math.round(done/total*100):0;
   if(fill) fill.style.transform='scaleX('+(total?done/total:0)+')';
-  if(label) label.textContent=done+' of '+total+' lessons complete';
+  if(label) label.textContent=done+' / '+total+' lessons · '+pct+'%';
   el.hidden=false;
 })();
 </script>`;

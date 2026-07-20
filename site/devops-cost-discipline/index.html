@@ -83,7 +83,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css?v=04d913bab8">
+<link rel="stylesheet" href="/assets/styles.css?v=965affa146">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -397,8 +397,11 @@
       <div class="item"><strong>Time</strong>6 hours</div>
     </div>
     <div class="track-progress" data-track="devops-cost-discipline" data-total="33" hidden>
+      <div class="track-progress-head">
+        <span class="track-progress-title">Your progress</span>
+        <span class="track-progress-label"></span>
+      </div>
       <div class="track-progress-bar"><div class="track-progress-fill"></div></div>
-      <span class="track-progress-label"></span>
     </div>
   </div>
 </section>
@@ -735,8 +738,9 @@
   if(done>total) done=total;
   var fill=el.querySelector('.track-progress-fill');
   var label=el.querySelector('.track-progress-label');
+  var pct=total?Math.round(done/total*100):0;
   if(fill) fill.style.transform='scaleX('+(total?done/total:0)+')';
-  if(label) label.textContent=done+' of '+total+' lessons complete';
+  if(label) label.textContent=done+' / '+total+' lessons · '+pct+'%';
   el.hidden=false;
 })();
 </script>
