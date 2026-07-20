@@ -1390,9 +1390,10 @@ ${schema || ''}
     </symbol>
     <symbol id="mark-zopuni" viewBox="0 0 100 100">
       <rect width="100" height="100" rx="16" fill="#2A4494"/>
-      <path d="M 38 27 Q -12 50 38 73 Q 16 50 38 27 Z" fill="#FFFFFF"/>
-      <path d="M 62 27 Q 112 50 62 73 Q 84 50 62 27 Z" fill="#FFFFFF"/>
-      <polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/>
+      <path d="M50 30 L82 44 L50 58 L18 44 Z" fill="#FFFFFF"/>
+      <path d="M33 50 L33 62 Q33 71 50 71 Q67 71 67 62 L67 50 L50 57 Z" fill="#FFFFFF"/>
+      <path d="M50 44 L82 44 L82 63" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="82" cy="66" r="4" fill="#FFFFFF"/>
     </symbol>
     <symbol id="mark-zopday" viewBox="0 0 32 32">
       <rect width="32" height="32" fill="#F58549"/>
@@ -1817,8 +1818,11 @@ ${lessons}
       <div class="item"><strong>Time</strong>${escapeHTML(track.time)}</div>
     </div>
     <div class="track-progress" data-track="${track.slug}" data-total="${totalLessons}" hidden>
+      <div class="track-progress-head">
+        <span class="track-progress-title">Your progress</span>
+        <span class="track-progress-label"></span>
+      </div>
       <div class="track-progress-bar"><div class="track-progress-fill"></div></div>
-      <span class="track-progress-label"></span>
     </div>
   </div>
 </section>
@@ -1851,8 +1855,9 @@ ${lessons}
   if(done>total) done=total;
   var fill=el.querySelector('.track-progress-fill');
   var label=el.querySelector('.track-progress-label');
+  var pct=total?Math.round(done/total*100):0;
   if(fill) fill.style.transform='scaleX('+(total?done/total:0)+')';
-  if(label) label.textContent=done+' of '+total+' lessons complete';
+  if(label) label.textContent=done+' / '+total+' lessons · '+pct+'%';
   el.hidden=false;
 })();
 </script>`;
@@ -4385,9 +4390,10 @@ writeFile(path.join(SITE_DIR, 'robots.txt'), robots);
 // on the blue brand square.
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <rect width="100" height="100" rx="16" fill="#2A4494"/>
-  <path d="M 38 27 Q -12 50 38 73 Q 16 50 38 27 Z" fill="#FFFFFF"/>
-  <path d="M 62 27 Q 112 50 62 73 Q 84 50 62 27 Z" fill="#FFFFFF"/>
-  <polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/>
+  <path d="M50 30 L82 44 L50 58 L18 44 Z" fill="#FFFFFF"/>
+  <path d="M33 50 L33 62 Q33 71 50 71 Q67 71 67 62 L67 50 L50 57 Z" fill="#FFFFFF"/>
+  <path d="M50 44 L82 44 L82 63" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="82" cy="66" r="4" fill="#FFFFFF"/>
 </svg>`;
 writeFile(path.join(SITE_DIR, 'assets', 'favicon.svg'), favicon);
 

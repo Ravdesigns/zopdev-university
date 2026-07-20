@@ -1,0 +1,30 @@
+<svg viewBox="0 0 660 300" role="img" aria-label="Cascade filter funnel: 12,400 resources narrowed to 11 running GCP databases in EU regions across four filter clicks" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="660" height="300" class="dgm-paper"/>
+<text x="0" y="24" class="dgm-title" text-anchor="start">Cascade funnel — four clicks, no query</text>
+
+<!-- Step 1: no filters -->
+<text x="0" y="76" class="dgm-label" text-anchor="start">no filters</text>
+<rect x="210" y="60" width="360" height="30" class="dgm-blue"/>
+<text x="580" y="80" class="dgm-title" text-anchor="start">12,400</text>
+
+<!-- Step 2: + Account = GCP -->
+<text x="0" y="122" class="dgm-label" text-anchor="start">+ Account = GCP</text>
+<rect x="210" y="106" width="220" height="30" class="dgm-blue"/>
+<text x="440" y="126" class="dgm-title" text-anchor="start">3,200</text>
+
+<!-- Step 3: + Type = Database -->
+<text x="0" y="168" class="dgm-label" text-anchor="start">+ Type = Database</text>
+<rect x="210" y="152" width="120" height="30" class="dgm-orange"/>
+<text x="340" y="172" class="dgm-title" text-anchor="start">47</text>
+
+<!-- Step 4: + Region = EU (x3) -->
+<text x="0" y="214" class="dgm-label" text-anchor="start">+ Region = EU (&#215;3)</text>
+<rect x="210" y="198" width="72" height="30" class="dgm-orange"/>
+<text x="292" y="218" class="dgm-title" text-anchor="start">12</text>
+
+<!-- Step 5: + Status = Running (final) -->
+<text x="0" y="260" class="dgm-label" text-anchor="start">+ Status = Running</text>
+<rect x="210" y="244" width="56" height="30" class="dgm-orange"/>
+<rect x="210" y="244" width="56" height="30" class="dgm-orange-s"/>
+<text x="276" y="264" class="dgm-title" text-anchor="start">11</text>
+</svg>
