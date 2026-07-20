@@ -2333,20 +2333,18 @@ function certBadgeSVG(tier) {
   const W = 340, H = 440, sx = 40, sw = W - 80, cx = W / 2;
   const shieldPath = `M${sx},70 L${sx + sw},70 L${sx + sw},300 Q${sx + sw},360 ${cx},400 Q${sx},360 ${sx},300 Z`;
   const nameSize = d.name.length > 8 ? 34 : 40;
-  // ZopDev University mark: the "eye" (two crescents + starburst pupil on a
-  // blue rounded square) — the canonical University emblem used in the site
-  // header lockup and favicon. Shown on a cream chip so the blue square reads
-  // on any tier-colored band (including the blue Engineer band).
-  const emblem = 30, pad = 5, chipW = emblem + 2 * pad, chipH = chipW;
+  // ZopDev brand mark: the three-square mark from the main nav header
+  // (#mark-zopdev) — blue top-left, orange top-right, green bottom-right,
+  // bottom-left empty. Shown on a cream chip so it reads on any tier band.
+  const sq = 13, gap = 3, emblem = 2 * sq + gap, pad = 6;
+  const chipW = emblem + 2 * pad, chipH = chipW;
   const chipX = cx - chipW / 2, chipY = 70 + (48 - chipH) / 2;
-  const ex = chipX + pad, ey = chipY + pad, es = emblem / 100;
-  const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" rx="7" fill="${PAPER}"/>` +
-    `<g transform="translate(${ex},${ey}) scale(${es})">` +
-    `<rect width="100" height="100" rx="16" fill="${BLUE}"/>` +
-    `<path d="M50 30 L82 44 L50 58 L18 44 Z" fill="#FFFFFF"/>` +
-    `<path d="M33 50 L33 62 Q33 71 50 71 Q67 71 67 62 L67 50 L50 57 Z" fill="#FFFFFF"/>` +
-    `<path d="M50 44 L82 44 L82 63" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>` +
-    `<circle cx="82" cy="66" r="4" fill="#FFFFFF"/></g>`;
+  const mx = chipX + pad, my = chipY + pad;
+  const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" rx="6" fill="${PAPER}"/>` +
+    `<g transform="translate(${mx},${my})">` +
+    `<rect x="0" y="0" width="${sq}" height="${sq}" fill="${BLUE}"/>` +
+    `<rect x="${sq + gap}" y="0" width="${sq}" height="${sq}" fill="${ORANGE}"/>` +
+    `<rect x="${sq + gap}" y="${sq + gap}" width="${sq}" height="${sq}" fill="${GREEN}"/></g>`;
   return `<svg class="cert-badge-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="ZopDev Certified: ${d.name} badge" xmlns="http://www.w3.org/2000/svg">
   <path d="${shieldPath}" fill="${PAPER}" stroke="${d.accent}" stroke-width="2.5"/>
   <path d="M${sx},70 L${sx + sw},70 L${sx + sw},118 L${sx},118 Z" fill="${d.accent}"/>
