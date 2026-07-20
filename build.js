@@ -2328,17 +2328,15 @@ function certBadgeSVG(tier) {
   const W = 340, H = 440, sx = 40, sw = W - 80, cx = W / 2;
   const shieldPath = `M${sx},70 L${sx + sw},70 L${sx + sw},300 Q${sx + sw},360 ${cx},400 Q${sx},360 ${sx},300 Z`;
   const nameSize = d.name.length > 8 ? 34 : 40;
-  // Real ZopDev mark: three squares — blue TL, orange TR, green BR — shown in a
-  // cream chip so the true colors read on any tier-colored band (Stripe-style
-  // logo panel on a colored card).
-  const m = 11, g = 2.5, chipW = 2 * m + g + 20, chipH = 2 * m + g + 20;
-  const chipX = cx - chipW / 2, chipY = 70 + (48 - chipH) / 2;
-  const mx = chipX + 10, my = chipY + 10;
-  const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" fill="${PAPER}"/>` +
-    `<g transform="translate(${mx},${my})">` +
-    `<rect x="0" y="0" width="${m}" height="${m}" fill="${BLUE}"/>` +
-    `<rect x="${m + g}" y="0" width="${m}" height="${m}" fill="${ORANGE}"/>` +
-    `<rect x="${m + g}" y="${m + g}" width="${m}" height="${m}" fill="${GREEN}"/></g>`;
+  // Real ZopDev mark: three squares — blue TL, orange TR, green BR — in a white
+  // rounded chip so the true colors read on any tier-colored band. The chip sits
+  // flat on the band (no bulge).
+  const unit = 13, g = 3, span = 2 * unit + g, pad = 10, chipSz = span + pad * 2;
+  const cy = 94, mkx = cx - span / 2, mky = cy - span / 2;
+  const chip = `<rect x="${cx - chipSz / 2}" y="${cy - chipSz / 2}" width="${chipSz}" height="${chipSz}" rx="9" fill="#FFFFFF"/>` +
+    `<rect x="${mkx}" y="${mky}" width="${unit}" height="${unit}" fill="${BLUE}"/>` +
+    `<rect x="${mkx + unit + g}" y="${mky}" width="${unit}" height="${unit}" fill="${ORANGE}"/>` +
+    `<rect x="${mkx + unit + g}" y="${mky + unit + g}" width="${unit}" height="${unit}" fill="${GREEN}"/>`;
   return `<svg class="cert-badge-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="ZopDev Certified: ${d.name} badge" xmlns="http://www.w3.org/2000/svg">
   <path d="${shieldPath}" fill="${PAPER}" stroke="${d.accent}" stroke-width="2.5"/>
   <path d="M${sx},70 L${sx + sw},70 L${sx + sw},118 L${sx},118 Z" fill="${d.accent}"/>
@@ -2383,7 +2381,7 @@ function sampleCredentialData(tier) {
       name: 'Alex Russo',
       role: 'Platform Engineer, Linarc Health',
       date: 'March 14, 2026',
-      issuer: 'ZopDev University Editorial Board',
+      issuer: 'ZopDev University',
     },
     engineer: {
       tier, tierLabel: 'Engineer', tierTitle: 'ZopDev Certified: Engineer',
@@ -2396,7 +2394,7 @@ function sampleCredentialData(tier) {
       name: 'Priya Menon',
       role: 'Senior Platform Engineer, Flexflow',
       date: 'April 22, 2026',
-      issuer: 'ZopDev University Editorial Board',
+      issuer: 'ZopDev University',
     },
     architect: {
       tier, tierLabel: 'Architect', tierTitle: 'ZopDev Certified: Architect',
@@ -2409,7 +2407,7 @@ function sampleCredentialData(tier) {
       name: 'Talvinder Singh',
       role: 'Head of Platform, McAfee',
       date: 'May 7, 2026',
-      issuer: 'ZopDev University Editorial Board',
+      issuer: 'ZopDev University',
     },
   })[tier];
 }
@@ -2418,67 +2416,52 @@ function sampleCredentialData(tier) {
 // so the print stylesheet can hide chrome and snap to a single page.
 function credentialArtwork(tier, data) {
   const id = sampleCredentialId(tier);
-  const issueYear = (data.date.match(/(\d{4})/) || [, '2026'])[1];
   const tierNum = { operator: 'I', engineer: 'II', architect: 'III' }[tier] || '';
-  const tierLabelCaps = { operator: 'OPERATOR', engineer: 'ENGINEER', architect: 'ARCHITECT' }[tier];
-  return `<div class="credential-artwork credential-${tier}">
-  <div class="credential-frame">
-    <!-- Header band: issuer wordmark left, coverage right -->
-    <div class="credential-band-top">
-      <div class="credential-issuer-mark">
-        <span class="cred-mark-square"></span>
-        <span class="cred-mark-circle"></span>
-        <span class="cred-mark-name">ZopDev <em>University</em></span>
-      </div>
-      <div class="credential-coverage">${escapeHTML(data.coverage)}</div>
-    </div>
-
-    <!-- Hero strip band: vertical accent bar + big Roman numeral + tier label
-         Replaces the centered seal with the proof-cell style. -->
-    <div class="credential-strip">
-      <div class="credential-strip-cell">
-        <div class="credential-strip-num">${tierNum}</div>
-        <div class="credential-strip-lbl">${tierLabelCaps}</div>
-      </div>
-      <div class="credential-strip-cell">
-        <div class="credential-strip-num credential-strip-num-text">${escapeHTML(data.tierTitle.replace(/^ZopNight /, ''))}</div>
-        <div class="credential-strip-lbl">Title</div>
-      </div>
-      <div class="credential-strip-cell">
-        <div class="credential-strip-num credential-strip-num-text">EST. ${issueYear}</div>
-        <div class="credential-strip-lbl">Issued</div>
+  // The seal is the tier shield (same artwork as the downloadable badge). The
+  // header carries the canonical zopdev wordmark; the title is stated once.
+  return `<div class="zdc zdc-${tier}">
+  <div class="zdc-frame">
+    <!-- Header: zopdev wordmark + University, credential ID -->
+    <div class="zdc-head">
+      <span class="zdc-brand">
+        <svg class="zdc-logo" viewBox="27 105 3817 1365" role="img" aria-label="ZopDev"><use href="#logo-zopdev"/></svg>
+        <span class="zdc-uni">University</span>
+      </span>
+      <div class="zdc-id">
+        <span class="zdc-id-k">Credential ID</span>
+        <span class="zdc-id-v">${escapeHTML(id)}</span>
       </div>
     </div>
 
-    <!-- Recipient band: name + blurb directly below the strip -->
-    <div class="credential-recipient">
-      <div class="credential-presents">This is to certify that</div>
-      <div class="credential-name">${escapeHTML(data.name)}</div>
-      <div class="credential-name-rule"></div>
-      <div class="credential-blurb">${escapeHTML(data.blurb)}</div>
-      <div class="credential-award-row">
-        <div class="credential-award">has earned the credential</div>
-        <div class="credential-title">${escapeHTML(data.tierTitle)}</div>
+    <!-- Body: seal + recipient -->
+    <div class="zdc-body">
+      <div class="zdc-seal">${certBadgeSVG(tier)}</div>
+      <div class="zdc-copy">
+        <div class="zdc-eyebrow">This is to certify that</div>
+        <div class="zdc-name">${escapeHTML(data.name)}</div>
+        <div class="zdc-rule"><span></span><b>&#10022;</b><span></span></div>
+        <p class="zdc-blurb">${escapeHTML(data.blurb)}</p>
+        <div class="zdc-award">
+          <span class="zdc-eyebrow">has earned the credential</span>
+          <div class="zdc-title">${escapeHTML(data.tierTitle)}</div>
+          <div class="zdc-tier">Tier ${tierNum}</div>
+        </div>
       </div>
     </div>
 
-    <!-- Foot band: 4-col metadata strip -->
-    <div class="credential-foot">
-      <div class="credential-foot-col">
-        <div class="foot-key">Issued</div>
-        <div class="foot-val">${escapeHTML(data.date)}</div>
+    <!-- Foot: 3-col metadata strip -->
+    <div class="zdc-foot">
+      <div class="zdc-fc">
+        <span class="zdc-fk">Issued</span>
+        <span class="zdc-fv">${escapeHTML(data.date)}</span>
       </div>
-      <div class="credential-foot-col">
-        <div class="foot-key">Credential ID</div>
-        <div class="foot-val foot-val-mono">${escapeHTML(id)}</div>
+      <div class="zdc-fc">
+        <span class="zdc-fk">Verify at</span>
+        <span class="zdc-fv zdc-mono">zop.dev/resources/university/certifications/verify/</span>
       </div>
-      <div class="credential-foot-col">
-        <div class="foot-key">Verify at</div>
-        <div class="foot-val foot-val-mono">zop.dev/resources/university/certifications/verify/</div>
-      </div>
-      <div class="credential-foot-col">
-        <div class="foot-key">Issuer</div>
-        <div class="foot-val">${escapeHTML(data.issuer)}</div>
+      <div class="zdc-fc">
+        <span class="zdc-fk">Issuer</span>
+        <span class="zdc-fv">${escapeHTML(data.issuer)}</span>
       </div>
     </div>
   </div>
@@ -3438,6 +3421,9 @@ function renderCertifications(tracks) {
 
 <section class="track-hero">
   <div class="container">
+    <a class="certs-hero-logo" href="/" aria-label="ZopDev">
+      <svg viewBox="27 105 3817 1365" role="img" aria-label="ZopDev"><use href="#logo-zopdev"/></svg>
+    </a>
     <div class="track-hero-meta">Certifications / 3 tiers</div>
     <h1>Three credentials. Three different jobs.</h1>
     <p class="track-hero-lead">Each ZopDev University certification verifies a specific operational capability. Operator runs the tool. Engineer builds with it. Architect owns the practice. Pass the exam, list it on your résumé.</p>

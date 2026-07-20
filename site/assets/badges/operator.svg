@@ -2,7 +2,7 @@
 <svg width="340" height="440" class="cert-badge-svg" viewBox="0 0 340 440" role="img" aria-label="ZopDev Certified: Operator badge" xmlns="http://www.w3.org/2000/svg">
   <path d="M40,70 L300,70 L300,300 Q300,360 170,400 Q40,360 40,300 Z" fill="#FAF7EC" stroke="#7FB236" stroke-width="2.5"/>
   <path d="M40,70 L300,70 L300,118 L40,118 Z" fill="#7FB236"/>
-  <rect x="147.75" y="71.75" width="44.5" height="44.5" fill="#FAF7EC"/><g transform="translate(157.75,81.75)"><rect x="0" y="0" width="11" height="11" fill="#2A4494"/><rect x="13.5" y="0" width="11" height="11" fill="#F58549"/><rect x="13.5" y="13.5" width="11" height="11" fill="#7FB236"/></g>
+  <rect x="145.5" y="69.5" width="49" height="49" rx="9" fill="#FFFFFF"/><rect x="155.5" y="79.5" width="13" height="13" fill="#2A4494"/><rect x="171.5" y="79.5" width="13" height="13" fill="#F58549"/><rect x="171.5" y="95.5" width="13" height="13" fill="#7FB236"/>
   <text x="170" y="150" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="16" font-weight="700" fill="#0A0A0A">zopdev <tspan font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="10" font-weight="400" letter-spacing="1.5" fill="#0A0A0A" fill-opacity="0.55">UNIVERSITY</tspan></text>
   <text x="170" y="206" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="40" font-weight="700" fill="#0A0A0A">Operator</text>
   <text x="170" y="234" text-anchor="middle" font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="11" letter-spacing="1" fill="#0A0A0A" fill-opacity="0.55">CERTIFIED · TIER I</text>
