@@ -1390,9 +1390,10 @@ ${schema || ''}
     </symbol>
     <symbol id="mark-zopuni" viewBox="0 0 100 100">
       <rect width="100" height="100" rx="16" fill="#2A4494"/>
-      <path d="M 38 27 Q -12 50 38 73 Q 16 50 38 27 Z" fill="#FFFFFF"/>
-      <path d="M 62 27 Q 112 50 62 73 Q 84 50 62 27 Z" fill="#FFFFFF"/>
-      <polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/>
+      <path d="M50 30 L82 44 L50 58 L18 44 Z" fill="#FFFFFF"/>
+      <path d="M33 50 L33 62 Q33 71 50 71 Q67 71 67 62 L67 50 L50 57 Z" fill="#FFFFFF"/>
+      <path d="M50 44 L82 44 L82 63" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="82" cy="66" r="4" fill="#FFFFFF"/>
     </symbol>
     <symbol id="mark-zopday" viewBox="0 0 32 32">
       <rect width="32" height="32" fill="#F58549"/>
@@ -2342,9 +2343,10 @@ function certBadgeSVG(tier) {
   const chip = `<rect x="${chipX}" y="${chipY}" width="${chipW}" height="${chipH}" rx="7" fill="${PAPER}"/>` +
     `<g transform="translate(${ex},${ey}) scale(${es})">` +
     `<rect width="100" height="100" rx="16" fill="${BLUE}"/>` +
-    `<path d="M 38 27 Q -12 50 38 73 Q 16 50 38 27 Z" fill="#FFFFFF"/>` +
-    `<path d="M 62 27 Q 112 50 62 73 Q 84 50 62 27 Z" fill="#FFFFFF"/>` +
-    `<polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/></g>`;
+    `<path d="M50 30 L82 44 L50 58 L18 44 Z" fill="#FFFFFF"/>` +
+    `<path d="M33 50 L33 62 Q33 71 50 71 Q67 71 67 62 L67 50 L50 57 Z" fill="#FFFFFF"/>` +
+    `<path d="M50 44 L82 44 L82 63" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>` +
+    `<circle cx="82" cy="66" r="4" fill="#FFFFFF"/></g>`;
   return `<svg class="cert-badge-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="ZopDev Certified: ${d.name} badge" xmlns="http://www.w3.org/2000/svg">
   <path d="${shieldPath}" fill="${PAPER}" stroke="${d.accent}" stroke-width="2.5"/>
   <path d="M${sx},70 L${sx + sw},70 L${sx + sw},118 L${sx},118 Z" fill="${d.accent}"/>
@@ -4405,9 +4407,10 @@ writeFile(path.join(SITE_DIR, 'robots.txt'), robots);
 // on the blue brand square.
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <rect width="100" height="100" rx="16" fill="#2A4494"/>
-  <path d="M 38 27 Q -12 50 38 73 Q 16 50 38 27 Z" fill="#FFFFFF"/>
-  <path d="M 62 27 Q 112 50 62 73 Q 84 50 62 27 Z" fill="#FFFFFF"/>
-  <polygon points="50,30 52.47,42.39 61.76,33.82 56.47,45.3 69.02,43.82 58,50 69.02,56.18 56.47,54.7 61.76,66.18 52.47,57.61 50,70 47.53,57.61 38.24,66.18 43.53,54.7 30.98,56.18 42,50 30.98,43.82 43.53,45.3 38.24,33.82 47.53,42.39" fill="#FFFFFF"/>
+  <path d="M50 30 L82 44 L50 58 L18 44 Z" fill="#FFFFFF"/>
+  <path d="M33 50 L33 62 Q33 71 50 71 Q67 71 67 62 L67 50 L50 57 Z" fill="#FFFFFF"/>
+  <path d="M50 44 L82 44 L82 63" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="82" cy="66" r="4" fill="#FFFFFF"/>
 </svg>`;
 writeFile(path.join(SITE_DIR, 'assets', 'favicon.svg'), favicon);
 
