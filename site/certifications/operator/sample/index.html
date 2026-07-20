@@ -31,7 +31,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/assets/styles.css?v=965affa146">
+<link rel="stylesheet" href="/assets/styles.css?v=93b414081b">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <script>
   // Site is dark-mode-only — lock the theme attribute before paint.
@@ -345,64 +345,59 @@
 <section class="section">
   <div class="container">
     <div class="credential-stage">
-      <div class="credential-artwork credential-operator">
-  <div class="credential-frame">
-    <!-- Header band: issuer wordmark left, coverage right -->
-    <div class="credential-band-top">
-      <div class="credential-issuer-mark">
-        <span class="cred-mark-square"></span>
-        <span class="cred-mark-circle"></span>
-        <span class="cred-mark-name">ZopDev <em>University</em></span>
-      </div>
-      <div class="credential-coverage">Cloud Cost Foundations (T0) + ZopDev Certified: Operator (T1)</div>
-    </div>
-
-    <!-- Hero strip band: vertical accent bar + big Roman numeral + tier label
-         Replaces the centered seal with the proof-cell style. -->
-    <div class="credential-strip">
-      <div class="credential-strip-cell">
-        <div class="credential-strip-num">I</div>
-        <div class="credential-strip-lbl">OPERATOR</div>
-      </div>
-      <div class="credential-strip-cell">
-        <div class="credential-strip-num credential-strip-num-text">ZopDev Certified: Operator</div>
-        <div class="credential-strip-lbl">Title</div>
-      </div>
-      <div class="credential-strip-cell">
-        <div class="credential-strip-num credential-strip-num-text">EST. 2026</div>
-        <div class="credential-strip-lbl">Issued</div>
+      <div class="zdc zdc-operator">
+  <div class="zdc-frame">
+    <!-- Header: zopdev wordmark + University, credential ID -->
+    <div class="zdc-head">
+      <span class="zdc-brand">
+        <svg class="zdc-logo" viewBox="27 105 3817 1365" role="img" aria-label="ZopDev"><use href="#logo-zopdev"/></svg>
+        <span class="zdc-uni">University</span>
+      </span>
+      <div class="zdc-id">
+        <span class="zdc-id-k">Credential ID</span>
+        <span class="zdc-id-v">ZDU-OP-2026-A7F3-K9M2</span>
       </div>
     </div>
 
-    <!-- Recipient band: name + blurb directly below the strip -->
-    <div class="credential-recipient">
-      <div class="credential-presents">This is to certify that</div>
-      <div class="credential-name">Alex Russo</div>
-      <div class="credential-name-rule"></div>
-      <div class="credential-blurb">has demonstrated the ability to operate ZopNight in production: connect clouds, discover resources, build schedules, route notifications, and audit every action.</div>
-      <div class="credential-award-row">
-        <div class="credential-award">has earned the credential</div>
-        <div class="credential-title">ZopDev Certified: Operator</div>
+    <!-- Body: seal + recipient -->
+    <div class="zdc-body">
+      <div class="zdc-seal"><svg class="cert-badge-svg" viewBox="0 0 340 440" role="img" aria-label="ZopDev Certified: Operator badge" xmlns="http://www.w3.org/2000/svg">
+  <path d="M40,70 L300,70 L300,300 Q300,360 170,400 Q40,360 40,300 Z" fill="#FAF7EC" stroke="#7FB236" stroke-width="2.5"/>
+  <path d="M40,70 L300,70 L300,118 L40,118 Z" fill="#7FB236"/>
+  <rect x="149.5" y="73.5" width="41" height="41" rx="6" fill="#FAF7EC"/><g transform="translate(155.5,79.5)"><rect x="0" y="0" width="13" height="13" fill="#2A4494"/><rect x="16" y="0" width="13" height="13" fill="#F58549"/><rect x="16" y="16" width="13" height="13" fill="#7FB236"/></g>
+  <text x="170" y="150" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="16" font-weight="700" fill="#0A0A0A">zopdev <tspan font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="10" font-weight="400" letter-spacing="1.5" fill="#0A0A0A" fill-opacity="0.55">UNIVERSITY</tspan></text>
+  <text x="170" y="206" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="40" font-weight="700" fill="#0A0A0A">Operator</text>
+  <text x="170" y="234" text-anchor="middle" font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="11" letter-spacing="1" fill="#0A0A0A" fill-opacity="0.55">CERTIFIED · TIER I</text>
+  <line x1="130" y1="256" x2="210" y2="256" stroke="#7FB236" stroke-width="3"/>
+  <text x="170" y="296" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="13" fill="#0A0A0A" fill-opacity="0.6">Operate the platform</text>
+  <text x="170" y="356" text-anchor="middle" font-family="'Space Grotesk','Helvetica Neue',Arial,sans-serif" font-size="34" font-weight="700" fill="#7FB236" fill-opacity="0.16">I</text>
+</svg></div>
+      <div class="zdc-copy">
+        <div class="zdc-eyebrow">This is to certify that</div>
+        <div class="zdc-name">Alex Russo</div>
+        <div class="zdc-rule"><span></span><b>&#10022;</b><span></span></div>
+        <p class="zdc-blurb">has demonstrated the ability to operate ZopNight in production: connect clouds, discover resources, build schedules, route notifications, and audit every action.</p>
+        <div class="zdc-award">
+          <span class="zdc-eyebrow">has earned the credential</span>
+          <div class="zdc-title">ZopDev Certified: Operator</div>
+          <div class="zdc-tier">Tier I</div>
+        </div>
       </div>
     </div>
 
-    <!-- Foot band: 4-col metadata strip -->
-    <div class="credential-foot">
-      <div class="credential-foot-col">
-        <div class="foot-key">Issued</div>
-        <div class="foot-val">March 14, 2026</div>
+    <!-- Foot: 3-col metadata strip -->
+    <div class="zdc-foot">
+      <div class="zdc-fc">
+        <span class="zdc-fk">Issued</span>
+        <span class="zdc-fv">March 14, 2026</span>
       </div>
-      <div class="credential-foot-col">
-        <div class="foot-key">Credential ID</div>
-        <div class="foot-val foot-val-mono">ZDU-OP-2026-A7F3-K9M2</div>
+      <div class="zdc-fc">
+        <span class="zdc-fk">Verify at</span>
+        <span class="zdc-fv zdc-mono">zop.dev/resources/university/certifications/verify/</span>
       </div>
-      <div class="credential-foot-col">
-        <div class="foot-key">Verify at</div>
-        <div class="foot-val foot-val-mono">zop.dev/resources/university/certifications/verify/</div>
-      </div>
-      <div class="credential-foot-col">
-        <div class="foot-key">Issuer</div>
-        <div class="foot-val">ZopDev University Editorial Board</div>
+      <div class="zdc-fc">
+        <span class="zdc-fk">Issuer</span>
+        <span class="zdc-fv">ZopDev University</span>
       </div>
     </div>
   </div>

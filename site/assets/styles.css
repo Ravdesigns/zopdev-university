@@ -3107,7 +3107,7 @@ body.drawer-open { overflow: hidden; }
   .nav, .uni-nav, .footer, .breadcrumb, .track-hero,
   .credential-actions, .cta-strip, .sec-head, .anatomy-list { display: none !important; }
   .credential-stage { padding: 0; background: none; border: 0; margin: 0; box-shadow: none; }
-  .credential-artwork { width: 100%; box-shadow: none; page-break-inside: avoid; }
+  .credential-artwork, .zdc { width: 100%; box-shadow: none; page-break-inside: avoid; }
   body { background: #fff; }
 }
 @media (max-width: 768px) {
@@ -7334,3 +7334,132 @@ html[data-theme="dark"] .theme-toggle .tt-moon { display: none; }
 .cert .ct-head { justify-content: center; }
 
 .cert .ct-icon { display: none; }
+
+/* =================================================================
+   CREDENTIAL v2 — redesigned sample certificate (.zdc) + certs logo
+   Seal is the tier shield; header carries the zopdev wordmark; the
+   credential title is stated once. Tier accent per tier.
+   ================================================================= */
+.certs-hero-logo { display: inline-block; margin-bottom: 20px; }
+.certs-hero-logo svg { width: 168px; height: auto; color: var(--ink); display: block; }
+
+.zdc {
+  --zdc-accent: #7FB236;
+  width: 960px;
+  max-width: 100%;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 14px;
+}
+.zdc-operator  { --zdc-accent: #7FB236; }
+.zdc-engineer  { --zdc-accent: #2A4494; }
+.zdc-architect { --zdc-accent: #F58549; }
+.zdc-frame {
+  border: 1px solid var(--zdc-accent);
+  padding: 38px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.zdc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.zdc-brand { display: inline-flex; align-items: baseline; gap: 12px; }
+.zdc-logo { width: 132px; height: auto; color: var(--ink); position: relative; top: 6px; }
+.zdc-uni {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--zop-orange);
+}
+.zdc-id { text-align: right; display: flex; flex-direction: column; gap: 3px; }
+.zdc-id-k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--g-600);
+}
+.zdc-id-v { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.zdc-body {
+  display: grid;
+  grid-template-columns: 196px 1fr;
+  gap: 38px;
+  align-items: center;
+}
+.zdc-seal { width: 196px; }
+.zdc-seal svg { width: 100%; height: auto; }
+.zdc-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--g-600);
+}
+.zdc-name {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: clamp(34px, 4.4vw, 52px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-top: 0.28em;
+  color: var(--ink);
+}
+.zdc-rule { display: flex; align-items: center; gap: 12px; margin: 16px 0 18px; max-width: 340px; }
+.zdc-rule span { height: 2px; flex: 1; background: var(--zdc-accent); }
+.zdc-rule b { color: var(--zdc-accent); font-size: 14px; }
+.zdc-blurb {
+  margin: 0;
+  color: var(--g-600);
+  font-size: 15.5px;
+  line-height: 1.6;
+  max-width: 52ch;
+}
+.zdc-award { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.zdc-title {
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: clamp(22px, 2.6vw, 30px);
+  letter-spacing: -0.01em;
+  margin-top: 4px;
+  color: var(--ink);
+}
+.zdc-tier {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--g-600);
+  margin-top: 6px;
+}
+.zdc-foot {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.zdc-fc { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.zdc-fk {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--g-600);
+}
+.zdc-fv { font-size: 14px; color: var(--ink); }
+.zdc-mono { font-family: var(--mono); font-size: 12px; word-break: break-word; }
+@media (max-width: 820px) {
+  .zdc-frame { padding: 28px 22px; }
+  .zdc-body { grid-template-columns: 1fr; gap: 24px; }
+  .zdc-seal { width: 150px; margin: 0 auto; }
+  .zdc-foot { grid-template-columns: 1fr; gap: 16px; }
+  .zdc-id { text-align: left; }
+}
