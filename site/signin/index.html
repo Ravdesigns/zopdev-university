@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in / ZopDev University</title>
+<meta name="description" content="Sign in to ZopDev University to save progress, register for proctored certification exams, and manage your credentials.">
+<link rel="canonical" href="https://zop.dev/resources/university/signin/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="ZopDev University editorial board">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ZopDev University">
+<meta property="og:title" content="Sign in / ZopDev University">
+<meta property="og:description" content="Sign in to ZopDev University to save progress, register for proctored certification exams, and manage your credentials.">
+<meta property="og:url" content="https://zop.dev/resources/university/signin/">
+<meta property="og:image" content="https://zop.dev/resources/university/og/default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@zopdev">
+<meta name="twitter:title" content="Sign in / ZopDev University">
+<meta name="twitter:description" content="Sign in to ZopDev University to save progress, register for proctored certification exams, and manage your credentials.">
+<meta name="twitter:image" content="https://zop.dev/resources/university/og/default.png">
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css?v=02bab0e688">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Site is dark-mode-only — lock the theme attribute before paint.
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+</head>
+<body class="">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Brand-mark symbol defs · canonical from zop.dev homepage. Defined once
+     per page so any <use href="#mark-zopnight"> / <use href="#logo-zopdev">
+     in nav, footer, or content resolves correctly. -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mark-zopnight" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopdev" viewBox="0 0 100 100">
+      <rect x="0"  y="0"  width="50" height="50" fill="#2A4494"/>
+      <rect x="50" y="0"  width="50" height="50" fill="#F58549"/>
+      <rect x="50" y="50" width="50" height="50" fill="#7FB236"/>
+    </symbol>
+    <symbol id="mark-zopuni" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#2A4494"/>
+      <path d="M50 30 L82 44 L50 58 L18 44 Z" fill="#FFFFFF"/>
+      <path d="M33 50 L33 62 Q33 71 50 71 Q67 71 67 62 L67 50 L50 57 Z" fill="#FFFFFF"/>
+      <path d="M50 44 L82 44 L82 63" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="82" cy="66" r="4" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopday" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#F58549"/>
+      <circle cx="16" cy="16" r="8" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="mark-zopcloud" viewBox="0 0 32 32">
+      <rect width="32" height="32" fill="#2A4494"/>
+      <rect x="12" y="8"  width="8"  height="6"  fill="#FFFFFF"/>
+      <rect x="6"  y="14" width="20" height="10" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="logo-zopdev" viewBox="27 105 3817 1365">
+      <path d="M27.00054931640625 1250.0V1145.7156982421875L279.14434814453125 861.7127685546875H30.28631591796875V754.0H427.42791748046875V858.2843017578125L171.85565185546875 1142.2872314453125H432.42791748046875V1250.0Z M732.8571166992188 1262.0Q658.2857666015625 1262.0 598.2858581542969 1229.1428833007812Q538.2859497070312 1196.2857666015625 503.214599609375 1137.3572082519531Q468.14324951171875 1078.4286499023438 468.14324951171875 1001.9838279868072Q468.14324951171875 924.5713500976562 503.2860412597656 866.1427917480469Q538.4288330078125 807.7142333984375 598.9287414550781 774.8571166992188Q659.4286499023438 742.0 733.1310610014816 742.0Q807.8571166992188 742.0 867.7855834960938 774.8571166992188Q927.7140502929688 807.7142333984375 962.785400390625 866.1427917480469Q997.8567504882812 924.5713500976562 997.8567504882812 1001.9838279868072Q997.8567504882812 1078.4286499023438 962.7139587402344 1137.3572082519531Q927.5711669921875 1196.2857666015625 867.5712585449219 1229.1428833007812Q807.5713500976562 1262.0 732.8571166992188 1262.0ZM732.7415504026949 1149.7158813476562Q769.0003662109375 1149.7158813476562 798.8578491210938 1133.2156982421875Q828.71533203125 1116.7155151367188 846.4298400878906 1083.898556271115Q864.1443481445312 1051.081597405511 864.1443481445312 1002.4092539194468Q864.1443481445312 952.9994506835938 846.0727233886719 920.1419677734375Q828.0010986328125 887.2844848632812 798.5721740722656 870.7843017578125Q769.1432495117188 854.2841186523438 733.5714416503906 854.2841186523438Q697.9996337890625 854.2841186523438 667.9998198774524 870.9115803654033Q638.0000059658423 887.5390420784628 619.9278289106555 920.0549672062236Q601.8556518554688 952.5708923339844 601.8556518554688 1002.0837783239838Q601.8556518554688 1050.857666015625 619.5701599121094 1083.7865905761719Q637.28466796875 1116.7155151367188 667.2536891980118 1133.2156982421875Q697.2227104272736 1149.7158813476562 732.7415504026949 1149.7158813476562Z M1042.5720825195312 1470.0V754.0H1172.5702514648438V824.5718994140625Q1196.5702514648438 791.714599609375 1236.2133178710938 766.8572998046875Q1275.8563842773438 742.0 1338.142333984375 742.0Q1407.9996337890625 742.0 1462.9996337890625 776.0Q1517.9996337890625 810.0 1549.7853088378906 869.0Q1581.5709838867188 928.0 1581.5709838867188 1003.0Q1581.5709838867188 1077.1428833007812 1549.7853088378906 1136.0714416503906Q1517.9996337890625 1195.0 1462.9996337890625 1228.5Q1407.9996337890625 1262.0 1337.9994506835938 1262.0Q1281.8563842773438 1262.0 1240.2133178710938 1241.0712585449219Q1198.5702514648438 1220.1425170898438 1172.5702514648438 1182.57080078125V1470.0ZM1309.2859497070312 1148.7158813476562Q1350.2863159179688 1148.7158813476562 1382.1437072753906 1129.7156982421875Q1414.0010986328125 1110.7155151367188 1431.8583984375 1077.7865905761719Q1449.7156982421875 1044.857666015625 1449.7156982421875 1002.8571166992188Q1449.7156982421875 959.9994506835938 1431.8583984375 926.5705261230469Q1414.0010986328125 893.1416015625 1382.1437072753906 874.2128601074219Q1350.2863159179688 855.2841186523438 1309.2859497070312 855.2841186523438Q1268.428466796875 855.2841186523438 1236.9281921386719 874.2128601074219Q1205.4279174804688 893.1416015625 1187.5706176757812 926.1419677734375Q1169.7133178710938 959.142333984375 1169.7133178710938 1002.0Q1169.7133178710938 1044.857666015625 1187.5706176757812 1077.7865905761719Q1205.4279174804688 1110.7155151367188 1236.9281921386719 1129.7156982421875Q1268.428466796875 1148.7158813476562 1309.2859497070312 1148.7158813476562Z M1848.7147827148438 1262.0Q1778.8574829101562 1262.0 1723.4289245605469 1228.0Q1668.0003662109375 1194.0 1636.2146911621094 1134.5714416503906Q1604.4290161132812 1075.1428833007812 1604.4290161132812 1001.0Q1604.4290161132812 926.0 1636.2146911621094 867.5Q1668.0003662109375 809.0 1723.5003662109375 775.5Q1779.0003662109375 742.0 1848.857666015625 742.0Q1905.000732421875 742.0 1946.7152404785156 762.9287414550781Q1988.4297485351562 783.8574829101562 2013.4297485351562 821.42919921875V530.0H2143.4279174804688V1250.0H2013.4297485351562V1179.4281005859375Q1990.286865234375 1212.1425170898438 1950.7152404785156 1237.0712585449219Q1911.1436157226562 1262.0 1848.7147827148438 1262.0ZM1876.7140502929688 1148.7158813476562Q1917.7144165039062 1148.7158813476562 1949.1432495117188 1129.7156982421875Q1980.5720825195312 1110.7155151367188 1998.4293823242188 1077.3580322265625Q2016.2866821289062 1044.0005493164062 2016.2866821289062 1002.0Q2016.2866821289062 959.142333984375 1998.4293823242188 926.1419677734375Q1980.5720825195312 893.1416015625 1949.1432495117188 874.2128601074219Q1917.7144165039062 855.2841186523438 1876.7140502929688 855.2841186523438Q1836.7136840820312 855.2841186523438 1804.7848510742188 874.2128601074219Q1772.8560180664062 893.1416015625 1754.9987182617188 925.7134094238281Q1737.1414184570312 958.2852172851562 1737.1414184570312 1001.1428833007812Q1737.1414184570312 1044.0005493164062 1754.9987182617188 1077.3580322265625Q1772.8560180664062 1110.7155151367188 1804.7848510742188 1129.7156982421875Q1836.7136840820312 1148.7158813476562 1876.7140502929688 1148.7158813476562Z M2446.1427001953125 1262.0Q2370.1428833007812 1262.0 2311.8572998046875 1229.5Q2253.5717163085938 1197.0 2220.8574829101562 1139.3571166992188Q2188.1432495117188 1081.7142333984375 2188.1432495117188 1006.1427001953125Q2188.1432495117188 928.85693359375 2220.3574829101562 869.1427001953125Q2252.5717163085938 809.428466796875 2311.0001831054688 775.7142333984375Q2369.4286499023438 742.0 2446.428466796875 742.0Q2520.1427001953125 742.0 2576.285400390625 774.0714416503906Q2632.4281005859375 806.1428833007812 2663.7136840820312 861.1427917480469Q2694.999267578125 916.1427001953125 2694.999267578125 985.5709838867188Q2694.999267578125 995.5709838867188 2694.999267578125 1007.8566589355469Q2694.999267578125 1020.142333984375 2693.1421508789062 1033.2852172851562H2281.5706176757812V952.7144165039062H2563.5726318359375Q2560.5726318359375 904.57080078125 2527.857940673828 875.9989929199219Q2495.1432495117188 847.4271850585938 2446.85693359375 847.4271850585938Q2411.2852172851562 847.4271850585938 2381.284942626953 863.1416015625Q2351.28466796875 878.8560180664062 2333.7130432128906 910.4990844726562Q2316.1414184570312 942.1421508789062 2316.1414184570312 990.5709838867188V1019.2852172851562Q2316.1414184570312 1061.4288330078125 2332.998809814453 1092.2149658203125Q2349.856201171875 1123.0010986328125 2379.07080078125 1139.3583984375Q2408.285400390625 1155.7156982421875 2445.2855834960938 1155.7156982421875Q2483.2861328125 1155.7156982421875 2509.2864990234375 1138.7154235839844Q2535.286865234375 1121.7151489257812 2548.7155151367188 1093.714599609375H2680.999267578125Q2667.2850341796875 1141.2859497070312 2634.428009033203 1179.4287414550781Q2601.5709838867188 1217.571533203125 2553.7139587402344 1239.7857666015625Q2505.85693359375 1262.0 2446.1427001953125 1262.0Z M2899.5726318359375 1250.0 2717.2866821289062 754.0H2853.7133178710938L2979.0 1127.14453125L3103.4295654296875 754.0H3238.856201171875L3056.5702514648438 1250.0Z" fill="currentColor"/>
+      <rect x="2994.0" y="105.0" width="425.0" height="425.0" fill="#2A4494"/>
+      <rect x="3419.0" y="105.0" width="425.0" height="425.0" fill="#F58549"/>
+      <rect x="3419.0" y="530.0" width="425.0" height="425.0" fill="#7FB236"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<!-- OG marketing-site nav · mirror of /Users/zopdev/zopdev-site/index.html -->
+<nav class="nav" aria-label="Primary navigation">
+  <div class="container nav-inner">
+    <a href="/" class="logo-lockup sm" aria-label="ZopDev">
+      <svg viewBox="27 105 3817 1365"><use href="#logo-zopdev"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="/product/">Product <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/resources/" class="nav-active">Resources <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/company/">Company <span class="nav-caret" aria-hidden="true"></span></a>
+      <a href="/community/">Community</a>
+    </div>
+    <div class="nav-cta">
+      <div class="nav-pg-wrap">
+        <a class="chip-playground" href="/playground/" aria-haspopup="menu" aria-expanded="false">
+          <span>Playground</span>
+          <span class="nav-caret nav-pg-caret" aria-hidden="true"></span>
+        </a>
+        <div class="nav-pg-menu" role="menu" aria-label="Playground options">
+          <a class="nav-pg-card nav-pg-card--night" href="/playground/#zopnight" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopnight"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopNight playground</span>
+                <span class="nav-pg-desc">Cost loop &middot; idle, schedules, anomalies</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+          <a class="nav-pg-card nav-pg-card--day" href="/playground/#zopday" role="menuitem">
+            <span class="nav-pg-card-head">
+              <span class="nav-pg-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#mark-zopday"/></svg>
+              </span>
+              <span class="nav-pg-body">
+                <span class="nav-pg-name">ZopDay playground</span>
+                <span class="nav-pg-desc">Deploy loop &middot; clusters, datastores, push</span>
+              </span>
+              <span class="nav-pg-arrow" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a class="btn btn-accent" href="/book-demo/"><span>Book a Demo</span> <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+  </div>
+</nav>
+<div id="nav-drawer" class="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-links">
+    <a href="/product/">Product</a>
+    <a href="/resources/">Resources</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/company/">Company</a>
+    <a href="/community/">Community</a>
+    <a href="/playground/">Playground</a>
+  </div>
+  <div class="nav-drawer-cta">
+    <a href="/book-demo/" class="btn btn-accent">Book a demo <span class="arrow">→</span></a>
+  </div>
+</div>
+<script>
+(function(){
+  var t = document.querySelector('.nav-mobile-toggle');
+  var d = document.getElementById('nav-drawer');
+  if (!t || !d) return;
+  t.addEventListener('click', function(){
+    var open = t.getAttribute('aria-expanded') === 'true';
+    t.setAttribute('aria-expanded', String(!open));
+    d.setAttribute('aria-hidden', String(open));
+    document.body.classList.toggle('drawer-open', !open);
+  });
+  d.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') {
+      t.setAttribute('aria-expanded', 'false');
+      d.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+    }
+  });
+})();
+</script>
+
+<nav class="uni-nav" aria-label="University navigation">
+  <div class="container uni-nav-inner">
+    <a href="/" class="uni-brand" aria-label="ZopDev University home">
+      <svg class="uni-brand-mark" viewBox="0 0 100 100" aria-hidden="true"><use href="#mark-zopuni"/></svg>
+      <span class="uni-brand-zop">ZopDev</span>
+      <span class="uni-brand-uni">University</span>
+    </a>
+    <div class="uni-nav-links">
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle active" type="button"
+                aria-expanded="false" aria-controls="uni-courses-menu">
+          Courses
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-courses-menu" role="menu">
+          <a href="/foundations/" role="menuitem">Foundations</a>
+          <a href="/operator/" role="menuitem">Operator</a>
+          <a href="/engineer/" role="menuitem">Engineer</a>
+          <a href="/architect/" role="menuitem">Architect</a>
+          <a href="/finops-mastery/" role="menuitem">FinOps Mastery</a>
+          <a href="/devops-cost-discipline/" role="menuitem">DevOps Cost</a>
+          <a href="/ai-powered-cloud-ops/" role="menuitem">AI Ops</a>
+        </div>
+      </div>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-certs-menu">
+          Certifications
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-certs-menu" role="menu">
+          <a href="/certifications/#operator" role="menuitem">Operator</a>
+          <a href="/certifications/#engineer" role="menuitem">Engineer</a>
+          <a href="/certifications/#architect" role="menuitem">Architect</a>
+        </div>
+      </div>
+      <a href="/paths/" class="uni-link ">Paths</a>
+      <div class="uni-dropdown" data-uni-dropdown>
+        <button class="uni-link uni-dropdown-toggle " type="button"
+                aria-expanded="false" aria-controls="uni-prepare-menu">
+          Prepare &amp; verify
+          <span class="uni-caret" aria-hidden="true"></span>
+        </button>
+        <div class="uni-dropdown-menu" id="uni-prepare-menu" role="menu">
+          <div class="uni-dropdown-section" role="presentation">Preparation</div>
+          <a href="/certifications/operator/practice/" role="menuitem">Operator preparation</a>
+          <a href="/certifications/engineer/practice/" role="menuitem">Engineer preparation</a>
+          <a href="/certifications/architect/prep/" role="menuitem">Architect preparation</a>
+          <div class="uni-dropdown-divider" role="separator"></div>
+          <div class="uni-dropdown-section" role="presentation">Verify &amp; records</div>
+          <a href="/certifications/operator/sample/" role="menuitem">Sample certificate</a>
+          <a href="/certifications/verify/" role="menuitem">Verify a credential</a>
+          <a href="/certifications/registry/" role="menuitem">Public registry</a>
+        </div>
+      </div>
+      <a href="/glossary/" class="uni-link ">Glossary</a>
+      <form class="uni-search" role="search" action="/search/" method="get">
+        <svg class="uni-search-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="7" cy="7" r="4.5"/>
+          <path d="M10.5 10.5 L14 14"/>
+        </svg>
+        <input class="uni-search-input" type="search" name="q" placeholder="Search 237 lessons" autocomplete="off" spellcheck="false" aria-label="Search lessons" />
+        <kbd class="uni-search-key" aria-hidden="true">/</kbd>
+        <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
+      </form>
+      <a href="/signin/" class="uni-signin ">Sign in</a>
+    </div>
+  </div>
+</nav>
+<script>
+(function(){
+  var dds = document.querySelectorAll('[data-uni-dropdown]');
+  if (!dds.length) return;
+  function closeAll(){
+    dds.forEach(function(d){
+      d.querySelector('.uni-dropdown-toggle').setAttribute('aria-expanded','false');
+      d.classList.remove('open');
+    });
+  }
+  dds.forEach(function(dd){
+    var btn = dd.querySelector('.uni-dropdown-toggle');
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        dd.classList.add('open');
+      }
+    });
+  });
+  document.addEventListener('click', function(e){
+    var inside = false;
+    dds.forEach(function(d){ if (d.contains(e.target)) inside = true; });
+    if (!inside) closeAll();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeAll();
+  });
+})();
+
+/* Inline search · loads lessons.json once, live-filters into a small panel. */
+(function(){
+  var input = document.querySelector('.uni-search-input');
+  var panel = document.getElementById('uni-search-panel');
+  if (!input || !panel) return;
+  var idx = null;
+  function load(){
+    if (idx) return Promise.resolve(idx);
+    return fetch('/assets/lessons.json').then(function(r){ return r.json(); }).then(function(j){ idx = j; return j; }).catch(function(){ idx = []; return []; });
+  }
+  function close(){ panel.hidden = true; panel.innerHTML = ''; }
+  function render(matches, q){
+    if (!matches.length) {
+      panel.innerHTML = '<div class="uni-search-empty">No lessons match <strong>' + escapeText(q) + '</strong></div>';
+      panel.hidden = false;
+      return;
+    }
+    panel.innerHTML = matches.slice(0, 8).map(function(m){
+      return '<a class="uni-search-hit" href="' + m.url + '">' +
+        '<span class="uni-search-hit-code">' + escapeText(m.code || '') + '</span>' +
+        '<span class="uni-search-hit-title">' + highlight(m.title, q) + '</span>' +
+        (m.track ? '<span class="uni-search-hit-meta">' + escapeText(m.track) + '</span>' : '') +
+        '</a>';
+    }).join('');
+    panel.hidden = false;
+  }
+  function escapeText(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function highlight(s, q){
+    var safe = escapeText(s);
+    if (!q) return safe;
+    var rx = new RegExp('(' + q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&') + ')', 'ig');
+    return safe.replace(rx, '<mark>$1</mark>');
+  }
+  function match(q, items){
+    var ql = q.toLowerCase();
+    return items.filter(function(i){
+      return (i.title && i.title.toLowerCase().indexOf(ql) !== -1) || (i.body && i.body.toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+  input.addEventListener('focus', function(){ load(); });
+  input.addEventListener('input', function(){
+    var q = input.value.trim();
+    if (q.length < 2) { close(); return; }
+    load().then(function(items){ render(match(q, items), q); });
+  });
+  input.addEventListener('blur', function(){ setTimeout(close, 180); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === '/' && document.activeElement !== input && !/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'')) {
+      e.preventDefault(); input.focus();
+    }
+    if (e.key === 'Escape') { input.blur(); close(); }
+  });
+})();
+</script>
+<main id="main">
+
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="/">University</a><span class="sep">›</span>
+    <span class="current">Sign in</span>
+  </div>
+</section>
+
+<section class="section signin-section">
+  <div class="container">
+    <div class="signin-shell">
+      <div class="signin-main">
+        <div class="track-hero-meta">Account</div>
+        <h1 class="signin-title">Sign in to ZopDev University.</h1>
+        <p class="signin-lead">The curriculum is free and open, no account needed. Sign in to save your progress across devices, register for a proctored certification exam, and view or share the credentials you earn.</p>
+
+        <!-- TODO(backend): wire this form + the SSO buttons to the auth service.
+             Currently inert by design — this is the sign-in entry point. -->
+        <form class="signin-form" id="signin-form" onsubmit="event.preventDefault(); var n=document.getElementById('signin-note'); if(n) n.hidden=false;">
+          <label for="signin-email" class="signin-label">Work email</label>
+          <input type="email" id="signin-email" class="signin-input" placeholder="you@company.com" autocomplete="email" required>
+          <button type="submit" class="btn btn-primary signin-submit">Continue with email <span class="arrow">→</span></button>
+
+          <div class="signin-or"><span>or</span></div>
+
+          <div class="signin-sso">
+            <button type="button" class="signin-sso-btn" data-provider="google">Continue with Google</button>
+            <button type="button" class="signin-sso-btn" data-provider="github">Continue with GitHub</button>
+            <button type="button" class="signin-sso-btn" data-provider="saml">Company SSO (SAML)</button>
+          </div>
+
+          <p class="signin-note" id="signin-note" hidden>Accounts aren't live yet. This is the sign-in design; the flow will connect to ZopDev auth shortly.</p>
+          <p class="signin-alt">New to ZopDev University? <a href="/signin/">Create an account</a></p>
+        </form>
+      </div>
+
+      <aside class="signin-aside">
+        <h2 class="signin-aside-h">What an account unlocks</h2>
+        <ul class="signin-unlocks">
+          <li><span class="signin-unlock-k">Progress</span> Pick up where you left off on any device. Your completed lessons sync to your account instead of a single browser.</li>
+          <li><span class="signin-unlock-k">Proctored exams</span> Register and sit the real Operator, Engineer, and Architect certification exams. Practice exams stay free and need no account.</li>
+          <li><span class="signin-unlock-k">Your credentials</span> View, download, and share every credential you earn, each with a public verification link.</li>
+        </ul>
+        <div class="signin-verify-note">
+          Just checking someone else's credential? That's public, no account needed.
+          <a href="/certifications/verify/">Verify a credential →</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+
+<section class="final">
+  <div class="container">
+    <div class="final-grid">
+      <div>
+        <div class="final-eyebrow">end · ready when you are</div>
+        <h2>Start with the bill.</h2>
+        <p class="final-tag">Foundations takes about five hours. The first lesson is nine minutes.</p>
+        <p>Open curriculum. No login. No paywall. 237 lessons across 7 courses, three publicly verifiable credentials. Read it on the train, take the exam on a Saturday, list the credential on your résumé Monday.</p>
+        <div class="final-cta">
+          <a class="btn btn-primary" href="/foundations/">Read Foundations <span class="arrow">→</span></a>
+          <a class="btn btn-secondary" href="/certifications/">See the credentials <span class="arrow">→</span></a>
+        </div>
+        <div class="final-stats final-stats--inline">
+          <div><strong>5h</strong>median time to finish Foundations</div>
+          <div><strong>0</strong>logins, paywalls, or marketing forms</div>
+          <div><strong>open</strong>curriculum, public credential verifier</div>
+        </div>
+      </div>
+      <div class="final-aside" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="foot-grid foot-grid--equal">
+      <div class="foot-col"><h3>product</h3><ul>
+        <li><a href="/zopnight/">ZopNight</a></li>
+        <li><a href="/zopday/">ZopDay</a></li>
+        <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+        <li><a href="/zopcloud/">ZopCloud</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>resources</h3><ul>
+        <li><a href="/">University</a></li>
+        <li><a href="/resources/blog/">Blog</a></li>
+        <li><a href="/resources/ebooks/">Ebooks</a></li>
+        <li><a href="/resources/customers/">Case studies</a></li>
+        <li><a href="/resources/changelog/">Changelog</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>university</h3><ul>
+        <li><a href="/foundations/">Foundations</a></li>
+        <li><a href="/operator/">Operator</a></li>
+        <li><a href="/engineer/">Engineer</a></li>
+        <li><a href="/architect/">Architect</a></li>
+        <li><a href="/certifications/">Certifications</a></li>
+        <li><a href="/certifications/verify/">Verify credential</a></li>
+        <li><a href="/glossary/">Glossary</a></li>
+      </ul></div>
+      <div class="foot-col"><h3>company</h3><ul>
+        <li><a href="/company/about/">About</a></li>
+        <li><a href="/company/careers/">Careers</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/community/">Community</a></li>
+      </ul></div>
+    </div>
+
+    <div class="foot-globe">
+      <div class="foot-globe-left">
+        <a href="/" class="foot-globe-mark" aria-label="ZopDev">
+          <svg class="foot-globe-logo" viewBox="27 105 3817 1365" aria-hidden="true">
+            <use href="#logo-zopdev"/>
+          </svg>
+        </a>
+        <div class="foot-globe-badges" aria-label="Compliance certifications">
+          <span class="foot-globe-badge" aria-label="SOC 2 Type II">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M32 8 a24 24 0 0 1 24 24 v6 a24 24 0 0 1 -24 24 a24 24 0 0 1 -24 -24 v-6 a24 24 0 0 1 24 -24 z" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <path d="M22 32 l8 8 l14 -16" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="square" stroke-linejoin="miter"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>SOC 2</strong> Type II</span>
+          </span>
+          <span class="foot-globe-badge" aria-label="ISO 27001:2022">
+            <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="11" y="11" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/>
+              <text x="32" y="29" font-family="Space Grotesk, monospace" font-size="9" fill="currentColor" text-anchor="middle" letter-spacing="2">ISO</text>
+              <text x="32" y="42" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="currentColor" text-anchor="middle">27001</text>
+              <line x1="14" y1="50" x2="50" y2="50" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span class="foot-globe-badge-label"><strong>ISO 27001</strong> 2022</span>
+          </span>
+        </div>
+      </div>
+      <div class="foot-globe-right">
+        <div class="foot-regions-v2" id="foot-regions-v2">
+          <canvas id="foot-regions-map"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-bottom foot-bottom-3">
+      <div class="foot-copy">© <span data-year>2026</span> ZopDev · <a href="/trust/">privacy</a> · <a href="/trust/">terms</a></div>
+      <div class="foot-mid">made with <svg viewBox="0 0 7 6" aria-hidden="true"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="5" y="0" width="1" height="1"/><rect x="0" y="1" width="7" height="1"/><rect x="0" y="2" width="7" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="2" y="4" width="3" height="1"/><rect x="3" y="5" width="1" height="1"/></svg> by <a href="https://zop.dev" target="_blank" rel="noopener">zop.dev</a></div>
+      <div class="foot-social">
+        <a href="https://linkedin.com/company/zopdev">linkedin</a>
+        <a href="https://twitter.com/zopdev">twitter</a>
+        <a href="https://github.com/zopdev">github</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ABSORB the old footer markup below so it remains valid HTML. We render
+     the canonical OG markup above, then close with a hidden placeholder so
+     legacy classes still parse without showing anything. -->
+<div style="display:none">
+  <div class="footer-brand-col" aria-hidden="true">
+    <a href="/" class="logo-lockup md footer-brand-lockup">
+      <svg viewBox="27 105 3817 1365"><use href="#logo-zopdev"/></svg>
+    </a>
+    <p class="footer-tag"></p>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/zopnight/">ZopNight</a></li>
+          <li><a href="/zopday/">ZopDay</a></li>
+          <li><a href="/kubernetes-view/">Kubernetes View</a></li>
+          <li><a href="/zopcloud/">ZopCloud</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/">University</a></li>
+          <li><a href="/resources/blog/">Blog</a></li>
+          <li><a href="/resources/ebooks/">Ebooks</a></li>
+          <li><a href="/resources/case-studies/">Case studies</a></li>
+          <li><a href="/resources/docs/">Documentation</a></li>
+          <li><a href="/resources/changelog/">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>University</h4>
+        <ul>
+          <li><a href="/foundations/">Foundations</a></li>
+          <li><a href="/operator/">Operator</a></li>
+          <li><a href="/engineer/">Engineer</a></li>
+          <li><a href="/architect/">Architect</a></li>
+          <li><a href="/certifications/">Certifications</a></li>
+          <li><a href="/certifications/verify/">Verify a credential</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/search/">Search</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/about/">About</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/trust/">Trust</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/community/">Slack</a></li>
+          <li><a href="https://twitter.com/zopdev" target="_blank" rel="noopener">Twitter</a></li>
+          <li><a href="https://github.com/zopdev" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://linkedin.com/company/zopdev" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 ZopDev / All rights reserved</div>
+      <div class="footer-bottom-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/security/">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</div>
+<script defer src="/assets/foot-globe.js?v=ebe0eed81f"></script>
+</body>
+</html>

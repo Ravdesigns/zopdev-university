@@ -953,6 +953,7 @@ function universityNav(opts = {}) {
         <kbd class="uni-search-key" aria-hidden="true">/</kbd>
         <div class="uni-search-panel" id="uni-search-panel" role="listbox" hidden></div>
       </form>
+      <a href="${BASE}/signin/" class="uni-signin ${cls('signin')}">Sign in</a>
     </div>
   </div>
 </nav>
@@ -2573,6 +2574,73 @@ function renderCertSample(tier) {
   });
 }
 
+// Sign-in / account entry point. The DESIGN of the auth flow — the form and
+// SSO buttons are inert placeholders; a backend team wires them to the real
+// auth service (see TODO markers). Accounts gate: cross-device progress,
+// proctored exam registration, and viewing/sharing earned credentials.
+function renderSignin() {
+  const body = `
+<section class="breadcrumb">
+  <div class="container">
+    <a href="/">ZopDev</a><span class="sep">›</span>
+    <a href="/resources/">Resources</a><span class="sep">›</span>
+    <a href="${BASE}/">University</a><span class="sep">›</span>
+    <span class="current">Sign in</span>
+  </div>
+</section>
+
+<section class="section signin-section">
+  <div class="container">
+    <div class="signin-shell">
+      <div class="signin-main">
+        <div class="track-hero-meta">Account</div>
+        <h1 class="signin-title">Sign in to ZopDev University.</h1>
+        <p class="signin-lead">The curriculum is free and open, no account needed. Sign in to save your progress across devices, register for a proctored certification exam, and view or share the credentials you earn.</p>
+
+        <!-- TODO(backend): wire this form + the SSO buttons to the auth service.
+             Currently inert by design — this is the sign-in entry point. -->
+        <form class="signin-form" id="signin-form" onsubmit="event.preventDefault(); var n=document.getElementById('signin-note'); if(n) n.hidden=false;">
+          <label for="signin-email" class="signin-label">Work email</label>
+          <input type="email" id="signin-email" class="signin-input" placeholder="you@company.com" autocomplete="email" required>
+          <button type="submit" class="btn btn-primary signin-submit">Continue with email <span class="arrow">→</span></button>
+
+          <div class="signin-or"><span>or</span></div>
+
+          <div class="signin-sso">
+            <button type="button" class="signin-sso-btn" data-provider="google">Continue with Google</button>
+            <button type="button" class="signin-sso-btn" data-provider="github">Continue with GitHub</button>
+            <button type="button" class="signin-sso-btn" data-provider="saml">Company SSO (SAML)</button>
+          </div>
+
+          <p class="signin-note" id="signin-note" hidden>Accounts aren't live yet. This is the sign-in design; the flow will connect to ZopDev auth shortly.</p>
+          <p class="signin-alt">New to ZopDev University? <a href="${BASE}/signin/">Create an account</a></p>
+        </form>
+      </div>
+
+      <aside class="signin-aside">
+        <h2 class="signin-aside-h">What an account unlocks</h2>
+        <ul class="signin-unlocks">
+          <li><span class="signin-unlock-k">Progress</span> Pick up where you left off on any device. Your completed lessons sync to your account instead of a single browser.</li>
+          <li><span class="signin-unlock-k">Proctored exams</span> Register and sit the real Operator, Engineer, and Architect certification exams. Practice exams stay free and need no account.</li>
+          <li><span class="signin-unlock-k">Your credentials</span> View, download, and share every credential you earn, each with a public verification link.</li>
+        </ul>
+        <div class="signin-verify-note">
+          Just checking someone else's credential? That's public, no account needed.
+          <a href="${BASE}/certifications/verify/">Verify a credential →</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>`;
+
+  return pageHTML({
+    title: 'Sign in / ZopDev University',
+    description: 'Sign in to ZopDev University to save progress, register for proctored certification exams, and manage your credentials.',
+    canonical: 'https://zop.dev/resources/university/signin/',
+    body,
+  });
+}
+
 function renderVerify() {
   const samples = ['operator', 'engineer', 'architect'].map(tier => {
     const d = sampleCredentialData(tier);
@@ -3097,6 +3165,10 @@ function renderPractice(tierKey, tracks) {
     <h1>Prepare for the ${TL} credential.</h1>
     <p class="track-hero-lead">${cfg.total} questions drawn from the lessons that back the ${escapeHTML(cfg.tierTitle)} certification, weighted to match the real exam blueprint. Score instantly, read the explanation on every question, retake as many times as you like. This is a study aid, not the proctored credential exam.</p>
     ${cfg.note ? `<p class="track-hero-lead exam-note">${escapeHTML(cfg.note)}</p>` : ''}
+    <div class="exam-cta-row">
+      <a href="${BASE}/signin/" class="btn btn-primary">Register for the proctored exam <span class="arrow">→</span></a>
+      <span class="exam-cta-hint">The practice below is free and needs no account.</span>
+    </div>
   </div>
 </section>
 
@@ -3746,6 +3818,9 @@ pageCount++;
 
 // Public credential registry (opt-in)
 writeFile(path.join(SITE_DIR, 'certifications', 'registry', 'index.html'), renderRegistry());
+pageCount++;
+
+writeFile(path.join(SITE_DIR, 'signin', 'index.html'), renderSignin());
 pageCount++;
 
 // Practice exam pages (client-side, self-scored). Operator only for now;
