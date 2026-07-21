@@ -2440,11 +2440,12 @@ body.drawer-open { overflow: hidden; }
 }
 .anatomy-item {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 80px minmax(0, 1fr);
   gap: 24px;
   padding: 24px 0;
   border-bottom: 1px solid var(--line);
 }
+.anatomy-item > * { min-width: 0; }
 .anatomy-num {
   font-family: var(--mono);
   font-size: 28px;
@@ -2468,6 +2469,7 @@ body.drawer-open { overflow: hidden; }
   color: var(--g-700);
   margin: 0;
   max-width: 680px;
+  overflow-wrap: anywhere;
 }
 .anatomy-item p a {
   color: var(--ink);
@@ -5264,13 +5266,6 @@ html[data-theme="dark"] .nav { background: rgba(15, 15, 18, 0.85); }
   content: ''; position: absolute; left: 0; right: 0; bottom: -19px;
   height: 2px; background: var(--ink);
 }
-.nav-cta .sign {
-  font-family: var(--font); font-weight: 500;
-  font-size: 14px; color: var(--g-700);
-  padding: 0 4px; line-height: 1;
-  text-decoration: none;
-}
-.nav-cta .sign:hover { color: var(--ink); }
 .nav-cta .btn-accent { padding: 9px 16px; font-size: 13px; height: 36px; }
 
 /* Playground chip — mirrors OG marketing site .chip-playground */
@@ -5665,7 +5660,7 @@ a:hover { color: var(--zop-orange); }
 /* ============================================================
    NAV — canonical zop.dev homepage chrome
    Backdrop-blurred sticky bar, full ZopDev wordmark, sentence-case links,
-   nav-item dropdown indicators (.nav-caret), .sign + .btn-accent CTA.
+   nav-item dropdown indicators (.nav-caret), .btn-accent CTA.
    ============================================================ */
 .nav {
   position: sticky; top: 0; z-index: 1200;
@@ -5746,12 +5741,6 @@ html[data-theme="dark"] .nav {
 .nav-cta {
   display: flex; align-items: center; gap: 12px;
 }
-.nav-cta .sign {
-  font-family: var(--font); font-weight: 500;
-  font-size: 14px; color: var(--g-700);
-  padding: 0 4px; line-height: 1;
-}
-.nav-cta .sign:hover { color: var(--ink); }
 .nav-cta .btn-accent {
   padding: 9px 16px; font-size: 13px; height: 36px;
 }
@@ -7361,6 +7350,7 @@ h1 em, h2 em, h3 em,
   .uni-nav-inner { flex-wrap: wrap; row-gap: 10px; }
   .uni-nav-links { flex-wrap: wrap; }
   .uni-search { min-width: 0; flex: 1 1 100%; order: 3; }
+}
 /* =================================================================
    CREDENTIAL v2 — redesigned sample certificate (.zdc) + certs logo
    Seal is the tier shield; header carries the zopdev wordmark; the

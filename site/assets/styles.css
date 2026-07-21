@@ -2440,11 +2440,12 @@ body.drawer-open { overflow: hidden; }
 }
 .anatomy-item {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 80px minmax(0, 1fr);
   gap: 24px;
   padding: 24px 0;
   border-bottom: 1px solid var(--line);
 }
+.anatomy-item > * { min-width: 0; }
 .anatomy-num {
   font-family: var(--mono);
   font-size: 28px;
@@ -2468,6 +2469,7 @@ body.drawer-open { overflow: hidden; }
   color: var(--g-700);
   margin: 0;
   max-width: 680px;
+  overflow-wrap: anywhere;
 }
 .anatomy-item p a {
   color: var(--ink);
