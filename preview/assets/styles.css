@@ -3388,7 +3388,6 @@ body.drawer-open { overflow: hidden; }
 .lp-proof-cell {
   --proof-accent: var(--zop-orange);
   padding: 4px 0 4px 24px;
-  border: 1px solid var(--line);
 }
 .lp-proof-cell-operator  { --proof-accent: var(--zop-orange); }
 .lp-proof-cell-engineer  { --proof-accent: var(--zop-blue); }
